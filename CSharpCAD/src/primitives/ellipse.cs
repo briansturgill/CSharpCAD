@@ -45,10 +45,10 @@ public static partial class CSCAD
                                   (2 * minradius * minradius));
         if (rotation < minangle) throw new ArgumentException("startAngle and endAngle do not define a significant rotation");
 
-        segments = (int)Math.Floor(segments * (rotation / (Math.PI * 2)));
+        segments = Floorish(segments * (rotation / (Math.PI * 2)));
 
         var centerv = new Vec2(center.x, center.y);
-        var step = rotation / segments; // radians per segment
+        var step = rotation / (double)segments; // radians per segment
 
         var points = new List<Vec2>(segments);
         segments = (rotation < Math.PI * 2) ? segments + 1 : segments;

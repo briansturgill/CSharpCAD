@@ -38,8 +38,8 @@ public static partial class CSCAD
         if (Math.Abs(totalRotation) < (Math.PI * 2))
         {
             // adjust the segments to achieve the total rotation requested
-            var anglePerSegment = (Math.PI * 2) / segments;
-            segments = (int)Math.Floor(Math.Abs(totalRotation) / anglePerSegment);
+            var anglePerSegment = (Math.PI * 2) / (double)segments;
+            segments = Floorish(Math.Abs(totalRotation) / anglePerSegment);
             if (Math.Abs(totalRotation) > (segments * anglePerSegment)) segments++;
         }
 
@@ -114,7 +114,7 @@ public static partial class CSCAD
             }
         }
 
-        var rotationPerSlice = totalRotation / segments;
+        var rotationPerSlice = totalRotation / (double)segments;
         var isCapped = Math.Abs(totalRotation) < (Math.PI * 2);
         var baseSlice = new Slice(geometry.ToSides());
         baseSlice = baseSlice.Reverse();

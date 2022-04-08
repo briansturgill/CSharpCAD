@@ -51,7 +51,7 @@ public static partial class CSCAD
                                   (2 * minradius * minradius));
         if (rotation < minangle) throw new ArgumentException("Options startAngle and endAngle do not define a significant rotation.");
 
-        var slices = Math.Floor(segments * (rotation / (Math.PI * 2)));
+        var slices = Floorish(segments * (rotation / (Math.PI * 2)));
 
         var start = new Vec3(0, 0, -(height / 2));
         var end = new Vec3(0, 0, height / 2);
@@ -90,8 +90,8 @@ public static partial class CSCAD
         var polygons = new List<List<Vec3>>();
         for (var i = 0; i < slices; i++)
         {
-            var t0 = i / slices;
-            var t1 = (i + 1) / slices;
+            var t0 = i / (double)slices;
+            var t1 = (i + 1) / (double)slices;
 
             if (endRadius.x == startRadius.x && endRadius.y == startRadius.y)
             {

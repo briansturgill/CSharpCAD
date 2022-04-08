@@ -58,7 +58,7 @@ public class TestExtrudeFromSlices
             return ((Slice)baseSlice).Transform(Mat4.FromXRotation(angle * index));
         }
         var geometry3 = ExtrudeFromSlices(new Opts {
-          {"numberOfSlices", (int)Math.Floor(Math.PI * 2 / angle)},
+          {"numberOfSlices", Floorish(Math.PI * 2 / angle)},
           {"capStart", false},
           {"capEnd", false},
           {"close", true}

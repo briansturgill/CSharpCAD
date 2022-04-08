@@ -54,7 +54,7 @@ public static partial class CSCAD
         start = start.Add(zvector);
         end = end.Subtract(zvector);
 
-        var qsegments = Math.Floor(0.25 * segments);
+        var qsegments = Floorish(0.25 * segments);
 
         List<Vec3> fromPoints(List<Vec3> points)
         {
@@ -86,7 +86,7 @@ public static partial class CSCAD
                 double prevcospitch = 0.0, prevsinpitch = 0.0;
                 for (var slice2 = 0; slice2 <= qsegments; slice2++)
                 {
-                    var pitch = 0.5 * Math.PI * slice2 / qsegments;
+                    var pitch = 0.5 * Math.PI * slice2 / (double)qsegments;
                     var cospitch = cos(pitch);
                     var sinpitch = sin(pitch);
                     if (slice2 > 0)
