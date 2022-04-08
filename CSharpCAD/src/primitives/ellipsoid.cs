@@ -29,7 +29,7 @@ public static partial class CSCAD
         var yvector = axes_y.Normalize().Scale(radius.y);
         var zvector = axes_z.Normalize().Scale(radius.z);
 
-        var qsegments = Math.Round(segments / 4.0);
+        var qsegments = Floorish(segments / 4.0);
         var prevcylinderpoint = new Vec3();
         var polygons = new List<List<Vec3>>();
         for (var slice1 = 0; slice1 <= segments; slice1++)
@@ -42,7 +42,7 @@ public static partial class CSCAD
                 double prevsinpitch = 0.0;
                 for (var slice2 = 0; slice2 <= qsegments; slice2++)
                 {
-                    var pitch = 0.5 * Math.PI * slice2 / qsegments;
+                    var pitch = 0.5 * Math.PI * slice2 / (double)qsegments;
                     var cospitch = cos(pitch);
                     var sinpitch = sin(pitch);
                     if (slice2 > 0)
