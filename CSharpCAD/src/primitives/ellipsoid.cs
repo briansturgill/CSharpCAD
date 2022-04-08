@@ -29,7 +29,7 @@ public static partial class CSCAD
         var yvector = axes_y.Normalize().Scale(radius.y);
         var zvector = axes_z.Normalize().Scale(radius.z);
 
-        var qsegments = Floorish(segments / 4.0);
+        var qsegments = segments / 4.0;
         var prevcylinderpoint = new Vec3();
         var polygons = new List<List<Vec3>>();
         for (var slice1 = 0; slice1 <= segments; slice1++)
