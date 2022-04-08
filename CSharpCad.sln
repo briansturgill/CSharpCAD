@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpCAD", "CSharpCAD\CSharpCAD.csproj", "{83EE57E8-AD30-44A1-AB70-FA330181D672}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpCADTests", "CSharpCADTests\CSharpCADTests.csproj", "{D5A48651-8AF6-477A-BAD7-EBBBACE221BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cscad", "cscad\cscad.csproj", "{20D4F06C-2466-4D70-88EE-BB01C46E31AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{83EE57E8-AD30-44A1-AB70-FA330181D672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83EE57E8-AD30-44A1-AB70-FA330181D672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83EE57E8-AD30-44A1-AB70-FA330181D672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83EE57E8-AD30-44A1-AB70-FA330181D672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5A48651-8AF6-477A-BAD7-EBBBACE221BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5A48651-8AF6-477A-BAD7-EBBBACE221BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5A48651-8AF6-477A-BAD7-EBBBACE221BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5A48651-8AF6-477A-BAD7-EBBBACE221BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20D4F06C-2466-4D70-88EE-BB01C46E31AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20D4F06C-2466-4D70-88EE-BB01C46E31AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20D4F06C-2466-4D70-88EE-BB01C46E31AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20D4F06C-2466-4D70-88EE-BB01C46E31AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

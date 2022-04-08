@@ -1,0 +1,382 @@
+namespace CSharpCAD;
+
+/// <summary>Represents a convex 3D polygon.</summary>
+/// <remarks>The vertices used to initialize a polygon must be coplanar and form a convex shape.
+public class Poly3 : Geometry, IEquatable<Poly3>
+{
+    /// <summary>Sides made of tuples of (Vec2, Vec2)</summary>
+    private Vec3[] vertices;
+    public Vec3[] Vertices { get => vertices; }
+    public Color? Color;
+    private CSharpCAD.Plane? _plane; // Cached Plane
+    public override bool Is2D => false;
+    public override bool Is3D => false; // Poly3 really only qualifies for Colorization
+
+    /// <summary>Creates a new 3D polygon with initial values.</summary>
+    public Poly3(List<Vec3> points, Color? Color = null)
+    {
+        this.vertices = points.ToArray();
+        this.Color = null;
+        this._plane = null;
+    }
+
+    /// <summary>Internal constructor. Public for testing use only.</summary>
+    internal Poly3(Vec3[] vertices, Color? Color = null)
+    {
+        this.vertices = vertices;
+        this.Color = Color;
+        this._plane = null;
+    }
+
+    /// <summary>Check if this polygon is equal to the given polygon.</summary>
+    public bool Equals(Poly3? gp)
+    {
+        if (gp is null)
+        {
+            return false;
+        }
+        if (this.vertices.Length != gp.vertices.Length)
+        {
+            return false;
+        }
+        for (var i = 0; i < vertices.Length; i++)
+        {
+            if (this.vertices[i] != gp.vertices[i])
+            {
+                return false;
+            }
+        }
+        return this.Color == gp.Color;
+    }
+
+    /// <summary>Check if this vector is equal to the given vector.</summary>
+    public static bool operator ==(Poly3 a, Poly3 b)
+    {
+        return a.Equals(b);
+    }
+
+    /// <summary>Check if this vector is not equal to the given vector.</summary>
+    public static bool operator !=(Poly3 a, Poly3 b) => !(a == b);
+
+    /// <summary>Standard C# override.</summary>
+    public override bool Equals(object? obj)
+    {
+        if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+        {
+            return false;
+        }
+        else
+        {
+            Poly3 v = (Poly3)obj;
+            return Equals(v);
+        }
+    }
+
+    /// <summary>Standard C# override.</summary>
+    public override int GetHashCode()
+    {
+        return vertices.GetHashCode() ^ Color.GetHashCode();
+    }
+
+    /// <summary>Standard C# override.</summary>
+	public override string ToString()
+    {
+        var s = new StringBuilder();
+        s.Append("Poly3(\n");
+        foreach (var vertex in this.vertices)
+        {
+            s.Append($"{vertex}\n");
+        }
+        s.Append($"{this.Color}");
+        return s.ToString();
+    }
+
+    /// <summary>Used mostly for testing.</summary>
+    public bool IsNearlyEqual(Poly3 gp)
+    {
+        if (this.vertices.Length != gp.vertices.Length)
+        {
+            return false;
+        }
+        for (var i = 0; i < vertices.Length; i++)
+        {
+            if (!this.vertices[i].IsNearlyEqual(gp.vertices[i]))
+            {
+                return false;
+            }
+        }
+        return this.Color == gp.Color;
+    }
+
+    /// <summary>Create a deep clone of this polygon.</summary>
+    public Poly3 Clone()
+    {
+        var vcopy = new Vec3[this.vertices.Length];
+        Array.Copy(vertices, vcopy, vertices.Length);
+        return new Poly3(vcopy, this.Color);
+    }
+
+
+    /// <summary>Invert this polygon to face the opposite direction.</summary>
+    public Poly3 Invert()
+    {
+        var vertices = new Vec3[this.vertices.Length];
+        var len = vertices.Length;
+        for (int i = 0; i < len; i++)
+        {
+            vertices[len - i - 1] = this.vertices[i];
+        }
+
+        return new Poly3(vertices, this.Color);
+    }
+
+    /// <summary>Check whether this polygon is convex.</summary>
+    public bool IsConvex() => AreVerticesConvex(this.vertices);
+
+    /// <summary>Check whether a set of vertices are convex.</summary>
+    public static bool AreVerticesConvex(Vec3[] vertices)
+    {
+        var numvertices = vertices.Length;
+        if (numvertices > 2)
+        {
+            // note: plane ~= normal point
+            var normal = CSharpCAD.Plane.FromPoints(vertices).normal;
+            var prevprevpos = vertices[numvertices - 2];
+            var prevpos = vertices[numvertices - 1];
+            for (var i = 0; i < numvertices; i++)
+            {
+                var pos = vertices[i];
+                if (!Poly3.IsConvexPoint(prevprevpos, prevpos, pos, normal))
+                {
+                    return false;
+                }
+                prevprevpos = prevpos;
+                prevpos = pos;
+            }
+        }
+        return true;
+    }
+
+    // calculate whether three points form a convex corner
+    //  prevpoint, point, nextpoint: the 3 coordinates (Vector3D instances)
+    //  normal: the normal vector of the plane
+    public static bool IsConvexPoint(Vec3 prevpoint, Vec3 point, Vec3 nextpoint, Vec3 normal)
+    {
+        var crossproduct = point.Subtract(prevpoint).Cross(nextpoint.Subtract(point));
+        var crossdotnormal = crossproduct.Dot(normal);
+        return crossdotnormal >= 0;
+    }
+
+    /// <summary>Measure the area of this polygon.</summary>
+    /// <remarks>@see 2000 softSurfer http://geomalgorithms.com</remarks>
+    public double Area()
+    {
+        var n = this.vertices.Length;
+        if (n < 3)
+        {
+            return 0; // degenerate polygon
+        }
+        var vertices = this.vertices;
+
+        // calculate a normal vector
+        var normal = Plane().normal;
+
+        // determine direction of projection
+        var ax = Math.Abs(normal.x);
+        var ay = Math.Abs(normal.y);
+        var az = Math.Abs(normal.z);
+
+        if (ax + ay + az == 0)
+        {
+            // normal does not exist
+            return 0;
+        }
+
+        var coord = 3; // ignore Z coordinates
+        if ((ax > ay) && (ax > az))
+        {
+            coord = 1; // ignore X coordinates
+        }
+        else
+        if (ay > az)
+        {
+            coord = 2; // ignore Y coordinates
+        }
+
+        var area = 0.0;
+        var h = 0;
+        var i = 1;
+        var j = 2;
+        switch (coord)
+        {
+            case 1: // ignore X coordinates
+                    // compute area of 2D projection
+                for (i = 1; i < n; i++)
+                {
+                    h = i - 1;
+                    j = (i + 1) % n;
+                    area += (vertices[i].y * (vertices[j].z - vertices[h].z));
+                }
+                area += (vertices[0].y * (vertices[1].z - vertices[n - 1].z));
+                // scale to get area
+                area /= (2 * normal.x);
+                break;
+
+            case 2: // ignore Y coordinates
+                    // compute area of 2D projection
+                for (i = 1; i < n; i++)
+                {
+                    h = i - 1;
+                    j = (i + 1) % n;
+                    area += (vertices[i].z * (vertices[j].x - vertices[h].x));
+                }
+                area += (vertices[0].z * (vertices[1].x - vertices[n - 1].x));
+                // scale to get area
+                area /= (2 * normal.y);
+                break;
+
+            case 3: // ignore Z coordinates
+            default:
+                // compute area of 2D projection
+                for (i = 1; i < n; i++)
+                {
+                    h = i - 1;
+                    j = (i + 1) % n;
+                    area += (vertices[i].x * (vertices[j].y - vertices[h].y));
+                }
+                area += (vertices[0].x * (vertices[1].y - vertices[n - 1].y));
+                // scale to get area
+                area /= (2 * normal.z);
+                break;
+        }
+        return area;
+    }
+
+    /// <summary>Measure the bounding box of this polygon.
+    /// <returns>Tuple of (min, max)</returns>
+    public (Vec3, Vec3) BoundingBox()
+    {
+        var vertices = this.vertices;
+        var numvertices = vertices.Length;
+        var min = numvertices == 0 ? new Vec3() : vertices[0];
+        var max = min;
+        for (var i = 1; i < numvertices; i++)
+        {
+            min = min.Min(vertices[i]);
+            max = max.Max(vertices[i]);
+        }
+        return (min, max);
+    }
+
+    /// <summary>Measure the bounding sphere of the given polygon.</summary>
+    /// <returns>Tuple of (center, radius)</returns>
+    public (Vec3, double) BoundingSphere()
+    {
+        var (box_0, box_1) = this.BoundingBox();
+        var center = box_0;
+        center = box_0.Add(box_1);
+        center = center.Scale(0.5);
+        var radius = center.Distance(box_1);
+        return (center, radius);
+    }
+
+    /**
+     * <summar>Measure the signed volume of the given polygon, which must be convex.</summary>
+     * <remarks>
+     * The volume is that formed by the tetrahedon connected to the axis [0,0,0],
+     * and will be positive or negative based on the rotation of the vertices.
+     * @see http://chenlab.ece.cornell.edu/Publication/Cha/icip01_Cha.pdf
+     * </remarks>
+     */
+    public double SignedVolume()
+    {
+        var signedVolume = 0.0;
+        var vertices = this.vertices;
+        // calculate based on triangluar polygons
+        for (var i = 0; i < vertices.Length - 2; i++)
+        {
+            var cross = vertices[i + 1].Cross(vertices[i + 2]);
+            signedVolume += vertices[0].Dot(cross);
+        }
+        signedVolume /= 6;
+        return signedVolume;
+    }
+
+    public Plane Plane()
+    {
+        if (_plane is null)
+        {
+            _plane = CSharpCAD.Plane.FromPoints(this.vertices);
+        }
+        return _plane;
+    }
+
+    /// <summary>Return the given polygon as a list of points.</summary>
+    public List<Vec3> ToPoints() => this.vertices.ToList();
+
+    /// <summary>Transform the given polygon using the given matrix.</summary>
+    public Poly3 Transform(Mat4 matrix)
+    {
+        var vertices = new Vec3[this.vertices.Length];
+        for (var i = 0; i < vertices.Length; i++)
+        {
+            vertices[i] = this.vertices[i].Transform(matrix);
+        }
+        if (matrix.IsMirroring())
+        {
+            // reverse the order to preserve the orientation
+            vertices = vertices.Reverse().ToArray();
+        }
+        return new Poly3(vertices, this.Color);
+    }
+
+    /**
+     * <summary>Determine if this object is a valid polygon.</summary>
+     * <remarks>
+     * Checks for valid data structure, convex polygons, and duplicate points.
+     *
+     * **If the geometry is not valid, an exception will be thrown with details of the geometry error.**
+     * </remarks>
+     */
+    public void Validate()
+    {
+        // check for empty polygon
+        if (this.vertices.Length < 3)
+        {
+            throw new ValidationException($"Poly3 has less than three vertices {this.vertices.Length}.");
+        }
+        // check area
+        if (this.Area() <= 0)
+        {
+            throw new ValidationException("Poly3 area must be greater than zero.");
+        }
+
+        // check for duplicate points
+        for (var i = 0; i < this.vertices.Length; i++)
+        {
+            var v0 = this.vertices[i];
+            var v1 = this.vertices[(i + 1) % this.vertices.Length];
+            if (v1 == v0)
+            {
+                throw new ValidationException($"Poly3 has duplicate vertex {this.vertices[i]}");
+            }
+        }
+
+        // check convexity
+        if (!this.IsConvex())
+        {
+            throw new ValidationException("Poly3 must be convex");
+        }
+
+        // check for infinity, nan
+        foreach (var vertex in this.vertices)
+        {
+            {
+                if (!double.IsFinite(vertex.x) || !double.IsFinite(vertex.y) || !double.IsFinite(vertex.z))
+                {
+                    throw new ValidationException($"Poly3 has invalid vertex {vertex}");
+                }
+            }
+        }
+    }
+}

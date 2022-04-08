@@ -1,0 +1,10 @@
+Need to remove usages of new Exception... make them specialized.
+Need to do Hulls! Make sure to get new code!
+
+JSCAD is working with these three viewers...
+There is some progress in the prototype of jscad that is able to run 3 different 3D engines:
+
+    regl
+    Three.js
+    Babylon.js
+
