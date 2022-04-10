@@ -15,7 +15,7 @@ public class TriangleTests
     [Test]
     public void TestTriangleDefaults()
     {
-        var geometry = Triangle(new Opts());
+        var geometry = Triangle();
         Assert.DoesNotThrow(() => geometry.Validate());
         var obs = geometry.ToPoints();
         var exp = new Vec2[] {
@@ -32,7 +32,7 @@ public class TriangleTests
     public void TestTriangleOptions()
     {
         // test SSS
-        var geometry = Triangle(new Opts { { "type", "SSS" }, { "values", (7, 8, 6) } });
+        var geometry = Triangle(type: "SSS", values: (7, 8, 6));
         Assert.DoesNotThrow(() => geometry.Validate());
         var obs = geometry.ToPoints();
         var exp = new Vec2[] {
@@ -45,7 +45,7 @@ public class TriangleTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // test AAA
-        geometry = Triangle(new Opts { { "type", "AAA" }, { "values", (Math.PI / 2, Math.PI / 4, Math.PI / 4) } });
+        geometry = Triangle(type: "AAA", values: (Math.PI / 2, Math.PI / 4, Math.PI / 4));
         Assert.DoesNotThrow(() => geometry.Validate());
         obs = geometry.ToPoints();
         exp = new Vec2[] {
@@ -58,7 +58,7 @@ public class TriangleTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // test AAS
-        geometry = Triangle(new Opts { { "type", "AAS" }, { "values", (Helpers.DegToRad(62), Helpers.DegToRad(35), 7) } });
+        geometry = Triangle(type: "AAS", values: (Helpers.DegToRad(62), Helpers.DegToRad(35), 7));
         Assert.DoesNotThrow(() => geometry.Validate());
         obs = geometry.ToPoints();
         exp = new Vec2[] {
@@ -71,7 +71,7 @@ public class TriangleTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // test ASA
-        geometry = Triangle(new Opts { { "type", "ASA" }, { "values", (Helpers.DegToRad(76), 9, Helpers.DegToRad(34)) } });
+        geometry = Triangle(type: "ASA", values: (Helpers.DegToRad(76), 9, Helpers.DegToRad(34)));
         Assert.DoesNotThrow(() => geometry.Validate());
         obs = geometry.ToPoints();
         exp = new Vec2[] {
@@ -84,7 +84,7 @@ public class TriangleTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // test SAS
-        geometry = Triangle(new Opts { { "type", "SAS" }, { "values", (5, Helpers.DegToRad(49), 7) } });
+        geometry = Triangle(type: "SAS", values: (5, Helpers.DegToRad(49), 7));
         Assert.DoesNotThrow(() => geometry.Validate());
         obs = geometry.ToPoints();
         exp = new Vec2[] {
@@ -97,7 +97,7 @@ public class TriangleTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // test SSA
-        geometry = Triangle(new Opts { { "type", "SSA" }, { "values", (8, 13, Helpers.DegToRad(31)) } });
+        geometry = Triangle(type: "SSA", values: (8, 13, Helpers.DegToRad(31)));
         Assert.DoesNotThrow(() => geometry.Validate());
         obs = geometry.ToPoints();
         exp = new Vec2[] {

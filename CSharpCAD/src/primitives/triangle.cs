@@ -133,32 +133,31 @@ public static partial class CSCAD
      * @example
      * var myshape = triangle({type: "AAS", values: [degToRad(62), degToRad(35), 7]})
      */
-    public static Geom2 Triangle(Opts opts)
+    public static Geom2 Triangle(string type = "SSS", Vec3? values = null)
     {
-        var type = opts.GetString("type", "SSS");
-        var values = opts.GetVec3("values", (1, 1, 1));
+        var _values = values ?? new Vec3(1, 1, 1);
 
         type = type.ToUpper();
         if (!((type[0] == 'A' || type[0] == 'S') &&
               (type[1] == 'A' || type[1] == 'S') &&
               (type[2] == 'A' || type[2] == 'S'))) throw new ArgumentException("Triangle type must contain three letters: A or S");
 
-        if (values.x < 0 || values.y < 0 || values.z < 0) throw new ArgumentException("Triangle values must be greater than zero.");
+        if (_values.x < 0 || _values.y < 0 || _values.z < 0) throw new ArgumentException("Triangle values must be greater than zero.");
 
         switch (type)
         {
             case "AAA":
-                return solveAAA(values);
+                return solveAAA(_values);
             case "AAS":
-                return solveAAS(values);
+                return solveAAS(_values);
             case "ASA":
-                return solveASA(values);
+                return solveASA(_values);
             case "SAS":
-                return solveSAS(values);
+                return solveSAS(_values);
             case "SSA":
-                return solveSSA(values);
+                return solveSSA(_values);
             case "SSS":
-                return solveSSS(values);
+                return solveSSS(_values);
             default:
                 throw new ArgumentException("Invalid triangle type");
         }

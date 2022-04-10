@@ -44,14 +44,10 @@ public static partial class CSCAD
      * var star1 = star({vertices: 8, outerRadius: 10}) // star with 8/2 density
      * var star2 = star({vertices: 12, outerRadius: 40, innerRadius: 20}) // star with given radius
      */
-    public static Geom2 Star(Opts opts)
+    public static Geom2 Star(double vertices = 5, double outerRadius = 1, double innerRadius = 0,
+        double density = 2, double startAngle = 0, Vec2? center = null)
     {
-        var center = opts.GetVec2("center", (0, 0));
-        var vertices = opts.GetDouble("vertices", 5);
-        var outerRadius = opts.GetDouble("outerRadius", 1);
-        var innerRadius = opts.GetDouble("innerRadius", 0);
-        var density = opts.GetDouble("density", 2);
-        var startAngle = opts.GetDouble("startAngle", 0);
+        var _center = center ?? new Vec2(0, 0);
 
         if (vertices < 2) throw new ArgumentException("Option vertices must be two or more.");
         if (outerRadius < 0) throw new ArgumentException("Option outerRadius must be greater than zero.");
@@ -70,7 +66,7 @@ public static partial class CSCAD
             innerRadius = outerRadius * getRadiusRatio(vertices, density);
         }
 
-        var centerv = center;
+        var centerv = _center;
 
         var outerPoints = getPoints(vertices, outerRadius, startAngle, centerv);
         var innerPoints = getPoints(vertices, innerRadius, startAngle + Math.PI / vertices, centerv);

@@ -15,7 +15,7 @@ public class RoundedCuboidTests
     [Test]
     public void TestRoundedCuboidDefaults()
     {
-        var obs = RoundedCuboid(new Opts());
+        var obs = RoundedCuboid(center: (0, 0, 0)); // CSCAD changed the default center.
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
 
@@ -27,7 +27,7 @@ public class RoundedCuboidTests
     public void TestRoundedCuboidOptions()
     {
         // test segments
-        var obs = RoundedCuboid(new Opts { { "segments", 8 } });
+        var obs = RoundedCuboid(segments: 8, center: (0, 0, 0));
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
         var exp = new List<List<Vec3>> { };
@@ -35,7 +35,7 @@ public class RoundedCuboidTests
         Assert.AreEqual(pts.Count, 62);
 
         // test center
-        obs = RoundedCuboid(new Opts { { "center", (4, 5, 6) }, { "segments", 8 } });
+        obs = RoundedCuboid(center: (4, 5, 6), segments: 8);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> { };
@@ -43,7 +43,7 @@ public class RoundedCuboidTests
         Assert.AreEqual(pts.Count, 62);
 
         // test size
-        obs = RoundedCuboid(new Opts { { "size", (8, 10, 12) }, { "segments", 8 } });
+        obs = RoundedCuboid(size: (8, 10, 12), segments: 8, center: (0, 0, 0));
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> {
@@ -144,7 +144,7 @@ public class RoundedCuboidTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test roundRadius
-        obs = RoundedCuboid(new Opts { { "size", (8, 10, 12) }, { "roundRadius", 2 }, { "segments", 8 } });
+        obs = RoundedCuboid(size: (8, 10, 12), roundRadius: 2, segments: 8, center: (0, 0, 0));
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> {

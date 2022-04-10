@@ -16,13 +16,10 @@ public static partial class CSCAD
      * @example
      * var myshape = roundedCylinder({ height: 10, radius: 2, roundRadius: 0.5 })
      */
-    public static Geom3 RoundedCylinder(Opts opts)
+    public static Geom3 RoundedCylinder(double height = 2, double radius = 1,
+        double roundRadius = 0.2, int segments = 32, Vec3? center = null)
     {
-        var center = opts.GetVec3("center", (0.0, 0.0, 0.0));
-        var height = opts.GetDouble("height", 2);
-        var radius = opts.GetDouble("radius", 1);
-        var roundRadius = opts.GetDouble("roundRadius", 0.2);
-        var segments = opts.GetInt("segments", 32);
+        var _center = center ?? new Vec3(0, 0, 0);
 
         if (height <= 0) throw new ArgumentException("Option height must be greater then zero.");
         if (radius <= 0) throw new ArgumentException("Option radius must be greater then zero.");
@@ -62,7 +59,7 @@ public static partial class CSCAD
             var newpoints = new List<Vec3>(points.Count);
             foreach (var p in points)
             {
-                newpoints.Add(p.Add(center));
+                newpoints.Add(p.Add(_center));
             }
             return newpoints;
         }

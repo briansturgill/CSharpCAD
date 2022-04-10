@@ -15,7 +15,7 @@ public class RoundedRectangleTests
     [Test]
     public void TestRoundedRectangleDefaults()
     {
-        var geometry = RoundedRectangle(new Opts());
+        var geometry = RoundedRectangle(center: (0, 0)); // CSCAD changed the default center.
         Assert.DoesNotThrow(() => geometry.Validate());
         var obs = geometry.ToPoints();
 
@@ -26,7 +26,7 @@ public class RoundedRectangleTests
     public void TestRoundedRectangleOptions()
     {
         // test center
-        var geometry = RoundedRectangle(new Opts { { "center", (4, 5) }, { "segments", 16 } });
+        var geometry = RoundedRectangle(center: (4, 5), segments: 16);
         Assert.DoesNotThrow(() => geometry.Validate());
         var obs = geometry.ToPoints();
         var exp = new Vec2[] {
@@ -55,7 +55,7 @@ public class RoundedRectangleTests
         Assert.IsTrue(Helpers.CompareArrays(obs, exp));
 
         // test size
-        geometry = RoundedRectangle(new Opts { { "size", (10, 6) }, { "segments", 16 } });
+        geometry = RoundedRectangle(size: (10, 6), segments: 16, center: (0, 0));
         Assert.DoesNotThrow(() => geometry.Validate());
         obs = geometry.ToPoints();
         exp = new Vec2[] {
@@ -84,7 +84,7 @@ public class RoundedRectangleTests
         Assert.IsTrue(Helpers.CompareArrays(obs, exp));
 
         // test roundRadius
-        geometry = RoundedRectangle(new Opts { { "size", (10, 6) }, { "roundRadius", 2 }, { "segments", 16 } });
+        geometry = RoundedRectangle(size: (10, 6), roundRadius: 2, segments: 16, center: (0, 0));
         Assert.DoesNotThrow(() => geometry.Validate());
         obs = geometry.ToPoints();
         exp = new Vec2[] {
@@ -113,7 +113,7 @@ public class RoundedRectangleTests
         Assert.IsTrue(Helpers.CompareArrays(obs, exp));
 
         // test segments
-        geometry = RoundedRectangle(new Opts { { "size", (10, 6) }, { "roundRadius", 2 }, { "segments", 64 } });
+        geometry = RoundedRectangle(size: (10, 6), roundRadius: 2, segments: 64, center: (0, 0));
         Assert.DoesNotThrow(() => geometry.Validate());
         obs = geometry.ToPoints();
         Assert.AreEqual(obs.Length, 68);

@@ -131,7 +131,7 @@ public static partial class CSCAD
             offset = o;
         }
 
-        var geometry = Polyhedron(new Opts { { "points", points }, { "faces", faces }, { "orientation", "inward" } });
+        var geometry = Polyhedron(points: points, faces: faces, orientationOutward: false);
         if (radius != 1) geometry = geometry.Transform(Mat4.FromScaling(new Vec3(radius, radius, radius)));
         return geometry;
     }

@@ -139,22 +139,21 @@ public static partial class CSCAD
      * @example
      * var mycube = roundedCuboid({size: [10, 20, 10], roundRadius: 2, segments: 16})
      */
-    public static Geom3 RoundedCuboid(Opts opts)
+    public static Geom3 RoundedCuboid(Vec3? size = null, double roundRadius = 0.2,
+        int segments = 32, Vec3? center = null)
     {
-        var center = opts.GetVec3("center", (0.0, 0.0, 0.0));
-        var size = opts.GetVec3("size", (2.0, 2.0, 2.0));
-        var roundRadius = opts.GetDouble("roundRadius", 0.2);
-        var segments = opts.GetInt("segments", 32);
+        var _size = size ?? new Vec3(2.0, 2.0, 2.0);
+        var _center = center ?? new Vec3(_size.x/2, _size.y/2, _size.z/2);
 
-        if (size.x <= 0 || size.y <= 0 || size.z <= 0) throw new ArgumentException("Option size values must be greater than zero.");
+        if (_size.x <= 0 || _size.y <= 0 || _size.z <= 0) throw new ArgumentException("Option size values must be greater than zero.");
         if (roundRadius <= 0) throw new ArgumentException("Option roundRadius must be greater than zero.");
         if (segments < 4) throw new ArgumentException("Option segments must be four or more.");
 
-        size = new Vec3(size.x / 2, size.y / 2, size.z / 2); // convert to radius;
+        _size = new Vec3(_size.x / 2, _size.y / 2, _size.z / 2); // convert to radius;
 
-        if (roundRadius > (size.x - C.EPS) ||
-            roundRadius > (size.y - C.EPS) ||
-            roundRadius > (size.z - C.EPS)) throw new ArgumentException("Option roundRadius must be smaller then the radius of all dimensions.");
+        if (roundRadius > (_size.x - C.EPS) ||
+            roundRadius > (_size.y - C.EPS) ||
+            roundRadius > (_size.z - C.EPS)) throw new ArgumentException("Option roundRadius must be smaller then the radius of all dimensions.");
 
         segments = segments / 4;
 
@@ -163,8 +162,8 @@ public static partial class CSCAD
         var polygons = new List<List<Vec3>>();
         for (var slice = 0; slice <= segments; slice++)
         {
-            var cornersPos = createCorners(center, size, roundRadius, segments, slice, true);
-            var cornersNeg = createCorners(center, size, roundRadius, segments, slice, false);
+            var cornersPos = createCorners(_center, _size, roundRadius, segments, slice, true);
+            var cornersNeg = createCorners(_center, _size, roundRadius, segments, slice, false);
 
             if (slice == 0)
             {

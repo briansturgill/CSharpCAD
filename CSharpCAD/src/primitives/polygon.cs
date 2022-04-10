@@ -23,20 +23,20 @@ public static partial class CSCAD
      *
      * var poly = Polygon(new Opts {{ "points", points}, {"paths", paths }});
      */
-    public static Geom2 Polygon(Opts opts)
+    public static Geom2 Polygon(List<Vec2> points, List<List<int>>? paths = null)
     {
-        var points = opts.GetListOfVec2("points", new List<Vec2>(0));
-        var paths = opts.GetListOfListOfInt("paths", new List<List<int>>(0));
-
         var listofpolys = points;
 
-        foreach (var path in paths)
+        if (paths is not null)
         {
-            if (path.Count < 3) throw new ArgumentException("In option paths, each path must contain three or more points.");
+            foreach (var path in paths)
+            {
+                if (path.Count < 3) throw new ArgumentException("In the \"paths\" argument, each path must contain three or more points.");
+            }
         }
 
-        var listofpaths = paths;
-        if (paths.Count == 0)
+        List<List<int>> listofpaths;
+        if (paths is null || paths.Count == 0)
         {
             // create a list of paths based on the points
             listofpaths = new List<List<int>>(1);
@@ -46,6 +46,11 @@ public static partial class CSCAD
                 listofpaths[0].Add(i);
             }
         }
+        else
+        {
+            listofpaths = paths;
+        }
+
 
         var allpoints = listofpolys;
 

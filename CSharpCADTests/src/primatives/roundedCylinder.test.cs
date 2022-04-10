@@ -15,7 +15,7 @@ public class RoundedCylinderTests
     [Test]
     public void TestRoundedCylinderDefaults()
     {
-        var obs = RoundedCylinder(new Opts());
+        var obs = RoundedCylinder();
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
 
@@ -27,7 +27,7 @@ public class RoundedCylinderTests
     public void TestRoundedCylinderOptions()
     {
         // test segments
-        var obs = RoundedCylinder(new Opts { { "segments", 5 } });
+        var obs = RoundedCylinder(segments: 5);
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
         var exp = new List<List<Vec3>> { };
@@ -35,7 +35,7 @@ public class RoundedCylinderTests
         Assert.AreEqual(pts.Count, 15);
 
         // test center
-        obs = RoundedCylinder(new Opts { { "segments", 5 }, { "center", (-5, -5, -5) } });
+        obs = RoundedCylinder(segments: 5, center: (-5, -5, -5));
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> {
@@ -65,7 +65,7 @@ public class RoundedCylinderTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test height
-        obs = RoundedCylinder(new Opts { { "segments", 5 }, { "height", 20 } });
+        obs = RoundedCylinder(segments: 5, height: 20);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> {
@@ -95,7 +95,7 @@ public class RoundedCylinderTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test radius
-        obs = RoundedCylinder(new Opts { { "segments", 5 }, { "radius", 10 } });
+        obs = RoundedCylinder(segments: 5, radius: 10);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> {
@@ -125,7 +125,7 @@ public class RoundedCylinderTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test round radius
-        obs = RoundedCylinder(new Opts { { "segments", 5 }, { "height", 20 }, { "radius", 5 }, { "roundRadius", 2 } });
+        obs = RoundedCylinder(segments: 5, height: 20, radius: 5, roundRadius: 2);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> {

@@ -15,29 +15,28 @@ public static partial class CSCAD
      * @example
      * var myshape = roundedRectangle({size: [10, 20], roundRadius: 2})
      */
-    public static Geom2 RoundedRectangle(Opts opts)
+    public static Geom2 RoundedRectangle(Vec2? size = null, double roundRadius = 0.2,
+        int segments = 32, Vec2? center = null)
     {
-        var center = opts.GetVec2("center", (0, 0));
-        var size = opts.GetVec2("size", (2, 2));
-        var roundRadius = opts.GetDouble("roundRadius", 0.2);
-        var segments = opts.GetInt("segments", 32);
+        var _size = size ?? new Vec2(2, 2);
+        var _center = center ?? new Vec2(_size.x / 2, _size.y / 2);
 
-        if (size.x <= 0 || size.y <= 0) throw new ArgumentException("Option size values must be greater than zero.");
+        if (_size.x <= 0 || _size.y <= 0) throw new ArgumentException("Option size values must be greater than zero.");
         if (roundRadius <= 0) throw new ArgumentException("Option roundRadius must be greater than zero.");
         if (segments < 4) throw new ArgumentException("Option segments must be four or more.");
 
-        size = new Vec2(size.x / 2, size.y / 2); // convert to radius
+        _size = new Vec2(_size.x / 2, _size.y / 2); // convert to radius
 
-        if (roundRadius > (size.x - C.EPS) ||
-            roundRadius > (size.y - C.EPS)) throw new ArgumentException("Option roundRadius must be smaller then the radius of all dimensions.");
+        if (roundRadius > (_size.x - C.EPS) ||
+            roundRadius > (_size.y - C.EPS)) throw new ArgumentException("Option roundRadius must be smaller then the radius of all dimensions.");
 
         var cornersegments = segments / 4;
 
         // create sets of points that define the corners
-        var corner0 = center.Add(new Vec2(size.x - roundRadius, size.y - roundRadius));
-        var corner1 = center.Add(new Vec2(roundRadius - size.x, size.y - roundRadius));
-        var corner2 = center.Add(new Vec2(roundRadius - size.x, roundRadius - size.y));
-        var corner3 = center.Add(new Vec2(size.x - roundRadius, roundRadius - size.y));
+        var corner0 = _center.Add(new Vec2(_size.x - roundRadius, _size.y - roundRadius));
+        var corner1 = _center.Add(new Vec2(roundRadius - _size.x, _size.y - roundRadius));
+        var corner2 = _center.Add(new Vec2(roundRadius - _size.x, roundRadius - _size.y));
+        var corner3 = _center.Add(new Vec2(_size.x - roundRadius, roundRadius - _size.y));
         var corner0Points = new List<Vec2>();
         var corner1Points = new List<Vec2>();
         var corner2Points = new List<Vec2>();

@@ -15,7 +15,7 @@ public class StarTests
     [Test]
     public void TestStarDefaults()
     {
-        var geometry = Star(new Opts());
+        var geometry = Star();
         Assert.DoesNotThrow(() => geometry.Validate());
         var pts = geometry.ToPoints();
         var exp = new Vec2[] {
@@ -39,7 +39,7 @@ public class StarTests
     public void TestStarOptions()
     {
         // test center
-        var geometry = Star(new Opts { { "outerRadius", 5 }, { "center", (5, 5) } });
+        var geometry = Star(outerRadius: 5, center: (5, 5));
         Assert.DoesNotThrow(() => geometry.Validate());
         var pts = geometry.ToPoints();
         var exp = new Vec2[] {
@@ -59,7 +59,7 @@ public class StarTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // test vertices
-        geometry = Star(new Opts { { "outerRadius", 5 }, { "vertices", 8 } });
+        geometry = Star(outerRadius: 5, vertices: 8);
         Assert.DoesNotThrow(() => geometry.Validate());
         pts = geometry.ToPoints();
         exp = new Vec2[] {
@@ -85,7 +85,7 @@ public class StarTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // test density
-        geometry = Star(new Opts { { "outerRadius", 5 }, { "vertices", 8 }, { "density", 3 } });
+        geometry = Star(outerRadius: 5, vertices: 8, density: 3);
         Assert.DoesNotThrow(() => geometry.Validate());
         pts = geometry.ToPoints();
         exp = new Vec2[] {
@@ -111,7 +111,7 @@ public class StarTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // test innerRadius
-        geometry = Star(new Opts { { "outerRadius", 5 }, { "vertices", 8 }, { "innerRadius", 1 } });
+        geometry = Star(outerRadius: 5, vertices: 8, innerRadius: 1);
         Assert.DoesNotThrow(() => geometry.Validate());
         pts = geometry.ToPoints();
         exp = new Vec2[] {
@@ -137,7 +137,7 @@ public class StarTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // test start angle
-        geometry = Star(new Opts { { "outerRadius", 5 }, { "startAngle", (360 - 45) * 0.017453292519943295 } });
+        geometry = Star(outerRadius: 5, startAngle: (360 - 45) * 0.017453292519943295);
         Assert.DoesNotThrow(() => geometry.Validate());
         pts = geometry.ToPoints();
         exp = new Vec2[] {

@@ -19,13 +19,9 @@ public static partial class CSCAD
      * var myfaces = [ [0, 1, 4], [1, 2, 4], [2, 3, 4], [3, 0, 4], [1, 0, 3], [2, 1, 3] ]
      * var myshape = polyhedron({points: mypoint, faces: myfaces, orientation: "inward"})
      */
-    public static Geom3 Polyhedron(Opts opts)
+    public static Geom3 Polyhedron(List<Vec3> points, List<List<int>> faces,
+        List<Color>? colors = null, bool orientationOutward = true)
     {
-        var points = opts.GetListOfVec3("points", new List<Vec3>(0));
-        var faces = opts.GetListOfListOfInt("faces", new List<List<int>>(0));
-        var colors = opts.GetListOfColor("colors", new List<Color>(0));
-        var orientation = opts.GetString("orientation", "outward");
-
         if (points.Count < 3)
         {
             throw new ArgumentException("Three or more points are required.");
@@ -34,7 +30,7 @@ public static partial class CSCAD
         {
             throw new ArgumentException("One or more faces are required.");
         }
-        if (colors.Count != 0)
+        if (colors is not null && colors.Count != 0)
         {
             if (colors.Count != faces.Count)
             {
@@ -43,7 +39,7 @@ public static partial class CSCAD
         }
 
         // invert the faces if orientation is inwards, as all internals expect outwarding facing polygons
-        if (orientation != "outward")
+        if (!orientationOutward)
         {
             var newFaces = new List<List<int>>(faces.Count);
             foreach (var face in faces)
@@ -63,7 +59,7 @@ public static partial class CSCAD
             {
                 pts.Add(points[faces[i][j]]);
             }
-            polygons.Add(new Poly3(pts, (colors.Count != 0) ? colors[i] : null));
+            polygons.Add(new Poly3(pts, (colors is not null && colors.Count != 0) ? colors[i] : null));
         }
 
         return new Geom3(polygons.ToArray());

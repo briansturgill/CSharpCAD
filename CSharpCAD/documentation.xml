@@ -443,7 +443,7 @@
             <param name="radius">Target radius of sphere</param>
             <param name="frequency">Subdivision frequency per face, must be multiple of 6.</param>
         </member>
-        <member name="M:CSharpCAD.CSCAD.Polygon(CSharpCAD.Opts)">
+        <member name="M:CSharpCAD.CSCAD.Polygon(System.Collections.Generic.List{CSharpCAD.Vec2},System.Collections.Generic.List{System.Collections.Generic.List{System.Int32}})">
              <summary>Construct a polygon in two dimensional space from a list of points, or a list of points and paths.</summary>
              NOTE: The ordering of points is VERY IMPORTANT.
              @param {Array} options.points - points of the polygon : list of 2D points
@@ -464,7 +464,7 @@
             
              var poly = Polygon(new Opts {{ "points", points}, {"paths", paths }});
         </member>
-        <member name="M:CSharpCAD.CSCAD.Polyhedron(CSharpCAD.Opts)">
+        <member name="M:CSharpCAD.CSCAD.Polyhedron(System.Collections.Generic.List{CSharpCAD.Vec3},System.Collections.Generic.List{System.Collections.Generic.List{System.Int32}},System.Collections.Generic.List{CSharpCAD.Color},System.Boolean)">
              Construct a polyhedron in three dimensional space from the given set of 3D points and faces.
              The faces can define outward or inward facing polygons (orientation).
              However, each face must define a counter clockwise rotation of points which follows the right hand rule.
@@ -489,7 +489,7 @@
             @returns {geom2} new 2D geometry
             </remarks>
         </member>
-        <member name="M:CSharpCAD.CSCAD.RoundedCuboid(CSharpCAD.Opts)">
+        <member name="M:CSharpCAD.CSCAD.RoundedCuboid(System.Nullable{CSharpCAD.Vec3},System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
              Construct an axis-aligned solid cuboid in three dimensional space with rounded corners.
              @param {Object} [options] - options for construction
              @param {Array} [options.center=[0,0,0]] - center of rounded cube
@@ -502,7 +502,7 @@
              @example
              var mycube = roundedCuboid({size: [10, 20, 10], roundRadius: 2, segments: 16})
         </member>
-        <member name="M:CSharpCAD.CSCAD.RoundedCylinder(CSharpCAD.Opts)">
+        <member name="M:CSharpCAD.CSCAD.RoundedCylinder(System.Double,System.Double,System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
              Construct a Z axis-aligned solid cylinder in three dimensional space with rounded ends.
              @param {Object} [options] - options for construction
              @param {Array} [options.center=[0,0,0]] - center of cylinder
@@ -516,7 +516,7 @@
              @example
              var myshape = roundedCylinder({ height: 10, radius: 2, roundRadius: 0.5 })
         </member>
-        <member name="M:CSharpCAD.CSCAD.RoundedRectangle(CSharpCAD.Opts)">
+        <member name="M:CSharpCAD.CSCAD.RoundedRectangle(System.Nullable{CSharpCAD.Vec2},System.Double,System.Int32,System.Nullable{CSharpCAD.Vec2})">
              Construct an axis-aligned rectangle in two dimensional space with rounded corners.
              @param {Object} [options] - options for construction
              @param {Array} [options.center=[0,0]] - center of rounded rectangle
@@ -555,7 +555,7 @@
              @example
              var myshape = square({size: 10})
         </member>
-        <member name="M:CSharpCAD.CSCAD.Star(CSharpCAD.Opts)">
+        <member name="M:CSharpCAD.CSCAD.Star(System.Double,System.Double,System.Double,System.Double,System.Double,System.Nullable{CSharpCAD.Vec2})">
              Construct a star in two dimensional space.
              @see https://en.wikipedia.org/wiki/Star_polygon
              @param {Object} [options] - options for construction
@@ -588,7 +588,7 @@
              @example
              var myshape = torus({ innerRadius: 10, outerRadius: 100 })
         </member>
-        <member name="M:CSharpCAD.CSCAD.Triangle(CSharpCAD.Opts)">
+        <member name="M:CSharpCAD.CSCAD.Triangle(System.String,System.Nullable{CSharpCAD.Vec3})">
              <summary>Construct a triangle in two dimensional space from the given options.</summary>
              The triangle is always constructed CCW from the origin, [0, 0, 0].
              @see https://www.mathsisfun.com/algebra/trig-solving-triangles.html
