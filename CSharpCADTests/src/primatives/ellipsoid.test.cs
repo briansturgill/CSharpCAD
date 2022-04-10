@@ -15,7 +15,7 @@ public class EllipsoidTests
     [Test]
     public void TestEllipsoidDefaults()
     {
-        var obs = Ellipsoid(new Opts());
+        var obs = Ellipsoid();
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
 
@@ -26,7 +26,7 @@ public class EllipsoidTests
     public void TestEllipsoidOptions()
     {
         // test radius
-        var obs = Ellipsoid(new Opts { { "radius", (3, 5, 7) }, { "segments", 12 } });
+        var obs = Ellipsoid(radius: (3, 5, 7), segments: 12);
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
         var exp = new List<List<Vec3>> {
@@ -155,13 +155,13 @@ public class EllipsoidTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test segments
-        obs = Ellipsoid(new Opts { { "segments", 8 } });
+        obs = Ellipsoid(segments: 8);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> { };
         Assert.AreEqual(pts.Count, 32);
 
-        obs = Ellipsoid(new Opts { { "center", (-3, 5, 7) }, { "segments", 8 } });
+        obs = Ellipsoid(center: (-3, 5, 7), segments: 8);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> {

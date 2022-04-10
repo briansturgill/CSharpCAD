@@ -13,7 +13,7 @@ public class ModifiersTests
     [Test]
     public void TestGeneralize()
     {
-        var geometry1 = Cuboid(new Opts { { "size", (Math.PI, Math.PI / 2, Math.PI * 2) } });
+        var geometry1 = Cuboid(size: (Math.PI, Math.PI / 2, Math.PI * 2), center: (0, 0, 0));
 
         // apply no modifications
         var result = generalize(new Opts(), geometry1);
@@ -148,8 +148,8 @@ public class ModifiersTests
     public void TestGeneralizeNewCaseFixedErrorCBSFound()
     {
         var geometry1 = (Geom3)Union(
-          Cuboid(new Opts { { "size", (8, 8, 8) } }),
-          Cuboid(new Opts { { "center", (0, 0, 4) } })
+          Cuboid(size: (8, 8, 8), center: (0, 0, 0)),
+          Cuboid(center: (0, 0, 4))
         );
         geometry1.ApplyTransforms();
         var result = (Geom3)generalize(new Opts { { "repair", true } }, geometry1);
@@ -239,7 +239,7 @@ public class ModifiersTests
     public void TestinsertTjunctionsDirectly()
     {
         var geometry1 = new Geom3();
-        var geometry2 = (Geom3)Cuboid(new Opts { { "size", (2, 2, 2) } });
+        var geometry2 = (Geom3)Cuboid(size: (2, 2, 2), center: (0, 0, 0));
         var geometry3 = new Geom3(
           new List<List<Vec3>> {
       new List<Vec3> { new Vec3(-1, -1, -1), new Vec3(-1, -1, 1), new Vec3(-1, 1, 1), new Vec3(-1, 1, -1)},
@@ -389,9 +389,9 @@ public class ModifiersTests
     public void TestSnapGeom2()
     {
         var geometry1 = new Geom2();
-        var geometry2 = Rectangle(new Opts { { "size", (1, 1) } });
-        var geometry3 = Rectangle(new Opts { { "size", (1.3333333333333333333333, 1.3333333333333333333333) } });
-        var geometry4 = Rectangle(new Opts { { "size", (Math.PI * 1000, Math.PI * 1000) } });
+        var geometry2 = Rectangle(size: (1, 1), center: (0, 0));
+        var geometry3 = Rectangle(size: (1.3333333333333333333333, 1.3333333333333333333333), center: (0, 0));
+        var geometry4 = Rectangle(size: (Math.PI * 1000, Math.PI * 1000), center: (0, 0));
 
         var results = new Geom2[4];
         results[0] = snap(geometry1);
@@ -426,9 +426,9 @@ public class ModifiersTests
     public void TestSnapGeom3()
     {
         var geometry1 = new Geom3();
-        var geometry2 = Cuboid(new Opts { { "size", (1, 1, 1) } });
-        var geometry3 = Cuboid(new Opts { { "size", (1.3333333333333333333333, 1.3333333333333333333333, 1.3333333333333333333333) } });
-        var geometry4 = Cuboid(new Opts { { "size", (Math.PI * 1000, Math.PI * 1000, Math.PI * 1000) } });
+        var geometry2 = Cuboid(size: (1, 1, 1), center: (0, 0, 0));
+        var geometry3 = Cuboid(size: (1.3333333333333333333333, 1.3333333333333333333333, 1.3333333333333333333333), center: (0, 0, 0));
+        var geometry4 = Cuboid(size: (Math.PI * 1000, Math.PI * 1000, Math.PI * 1000), center: (0, 0, 0));
 
         var results = new Geom3[4];
         results[0] = snap((Geom3)geometry1);

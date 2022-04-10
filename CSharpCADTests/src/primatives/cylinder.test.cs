@@ -15,7 +15,7 @@ public class CylinderTests
     [Test]
     public void TestCylinderDefaults()
     {
-        var obs = Cylinder(new Opts());
+        var obs = Cylinder();
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
 
@@ -26,7 +26,7 @@ public class CylinderTests
     [Test]
     public void TestCylinderOptions()
     {
-        var obs = Cylinder(new Opts { { "height", 10 }, { "radius", 4 }, { "segments", 5 } });
+        var obs = Cylinder(height: 10, radius: 4, segments: 5);
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
         var exp = new List<List<Vec3>> {
@@ -56,7 +56,7 @@ public class CylinderTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test center
-        obs = Cylinder(new Opts { { "center", (-5, -5, -5) }, { "segments", 5 } });
+        obs = Cylinder(center: (-5, -5, -5), segments: 5);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> {

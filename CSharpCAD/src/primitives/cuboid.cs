@@ -3,16 +3,16 @@ namespace CSharpCAD;
 public static partial class CSCAD
 {
     /// <summary>Construct an axis-aligned solid cuboid in three dimensional space.</summary>
-    /// opts -- size: Vec3, center: Vec3
-    public static Geom3 Cuboid(Opts opts)
+    public static Geom3 Cuboid(Vec3? size = null, Vec3? center = null)
     {
-        var size = opts.GetVec3("size", (2.0, 2.0, 2.0));
-        var center = opts.GetVec3("center", (0.0, 0.0, 0.0));
+        var _size = size ?? new Vec3(2.0, 2.0, 2.0);
+        var _center = center ?? new Vec3(_size.x/2.0, _size.y/2.0, _size.z/2.0);
 
-        if (size.x <= 0 || size.y <= 0 || size.z <= 0)
+        if (_size.x <= 0 || _size.y <= 0 || _size.z <= 0)
         {
             throw new ArgumentException("All values in \"size\" must be greater than zero");
         }
+
         // adjust a basic shape to size
         var shape = new (int[], int[])[] {
           (new int[] {0, 4, 6, 2}, new int[] {-1, 0, 0}),
@@ -32,9 +32,9 @@ public static partial class CSCAD
             foreach (var i in info)
             {
                 points.Add(new Vec3(
-                  center.x + (size.x / 2) * (2 * cjsi(i & 1) - 1),
-                  center.y + (size.y / 2) * (2 * cjsi(i & 2) - 1),
-                  center.z + (size.z / 2) * (2 * cjsi(i & 4) - 1)
+                  _center.x + (_size.x / 2) * (2 * cjsi(i & 1) - 1),
+                  _center.y + (_size.y / 2) * (2 * cjsi(i & 2) - 1),
+                  _center.z + (_size.z / 2) * (2 * cjsi(i & 4) - 1)
                 ));
             }
             polygons.Add(points);

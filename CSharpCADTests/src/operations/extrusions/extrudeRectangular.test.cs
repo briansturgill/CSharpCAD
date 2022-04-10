@@ -15,7 +15,7 @@ public class ExtrudeRectangularTests
     [Test]
     public void TestExtrudeRectangularDefaults()
     {
-        var geometry2 = Rectangle(new Opts { { "size", (5, 5) } });
+        var geometry2 = Rectangle(size: (5, 5), center: (0, 0));
 
         var obs = ExtrudeRectangular(geometry2);
         var pts = obs.ToPoints();
@@ -25,7 +25,7 @@ public class ExtrudeRectangularTests
     [Test]
     public void TestExtrudeRectangularChamfer()
     {
-        var geometry2 = Rectangle(new Opts { { "size", (5, 5) } });
+        var geometry2 = Rectangle(size: (5, 5), center: (0, 0));
 
         var obs = ExtrudeRectangular(geometry2, corners: Corners.Chamfer);
         var pts = obs.ToPoints();
@@ -35,7 +35,7 @@ public class ExtrudeRectangularTests
     [Test]
     public void TestExtrudeRectangularSegsRound()
     {
-        var geometry2 = Rectangle(new Opts { { "size", (5, 5) } });
+        var geometry2 = Rectangle(size: (5, 5), center: (0, 0));
 
         var obs = ExtrudeRectangular(geometry2, segments: 8, corners: Corners.Round);
         var pts = obs.ToPoints();
@@ -57,7 +57,7 @@ public class ExtrudeRectangularTests
         });
 
         var obs = ExtrudeRectangular(geometry2, size: 2, height: 15, segments: 16, corners: Corners.Round);
-    var pts = obs.ToPoints();
-    Assert.AreEqual(pts.Count, 192);
+        var pts = obs.ToPoints();
+        Assert.AreEqual(pts.Count, 192);
     }
 }

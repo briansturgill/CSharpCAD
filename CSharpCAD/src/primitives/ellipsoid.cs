@@ -13,21 +13,21 @@ public static partial class CSCAD
      * @returns {geom3} new 3D geometry
      * </remarks>
 */
-    public static Geom3 Ellipsoid(Opts opts)
+    public static Geom3 Ellipsoid(Vec3? radius = null, int segments = 32, Vec3? center = null,
+        Vec3? axes_x = null, Vec3? axes_y = null, Vec3? axes_z = null)
     {
-        var center = opts.GetVec3("center", (0.0, 0.0, 0.0));
-        var radius = opts.GetVec3("radius", (1.0, 1.0, 1.0));
-        var segments = opts.GetInt("segments", 32);
-        var axes_x = opts.GetVec3("axes_x", (1.0, 0.0, 0.0));
-        var axes_y = opts.GetVec3("axes_y", (0.0, -1.0, 0.0));
-        var axes_z = opts.GetVec3("axes_z", (0.0, 0.0, 1.0));
+        var _center = center ?? new Vec3(0, 0, 0);
+        var _radius = radius ?? new Vec3(1.0, 1.0, 1.0);
+        var _axes_x = axes_x ?? new Vec3(1.0, 0.0, 0.0);
+        var _axes_y = axes_y ?? new Vec3(0.0, -1.0, 0.0);
+        var _axes_z = axes_z ?? new Vec3(0.0, 0.0, 1.0);
 
-        if (radius.x <= 0 || radius.y <= 0 || radius.z <= 0) throw new ArgumentException("Option radius values must be greater than zero.");
+        if (_radius.x <= 0 || _radius.y <= 0 || _radius.z <= 0) throw new ArgumentException("Option radius values must be greater than zero.");
         if (segments < 4) throw new ArgumentException("Option segments must be four or more.");
 
-        var xvector = axes_x.Normalize().Scale(radius.x);
-        var yvector = axes_y.Normalize().Scale(radius.y);
-        var zvector = axes_z.Normalize().Scale(radius.z);
+        var xvector = _axes_x.Normalize().Scale(_radius.x);
+        var yvector = _axes_y.Normalize().Scale(_radius.y);
+        var zvector = _axes_z.Normalize().Scale(_radius.z);
 
         var qsegments = segments / 4;
         var prevcylinderpoint = new Vec3();
@@ -50,38 +50,38 @@ public static partial class CSCAD
                         var points = new List<Vec3>();
                         var point = new Vec3();
                         point = prevcylinderpoint.Scale(prevcospitch).Subtract(zvector.Scale(prevsinpitch));
-                        point = point.Add(center);
+                        point = point.Add(_center);
                         points.Add(point);
                         point = cylinderpoint.Scale(prevcospitch).Subtract(zvector.Scale(prevsinpitch));
-                        point = point.Add(center);
+                        point = point.Add(_center);
                         points.Add(point);
                         if (slice2 < qsegments)
                         {
                             point = cylinderpoint.Scale(cospitch).Subtract(zvector.Scale(sinpitch));
-                            point = point.Add(center);
+                            point = point.Add(_center);
                             points.Add(point);
                         }
                         point = prevcylinderpoint.Scale(cospitch).Subtract(zvector.Scale(sinpitch));
-                        point = point.Add(center);
+                        point = point.Add(_center);
                         points.Add(point);
 
                         polygons.Add(points);
 
                         points = new List<Vec3>();
                         point = prevcylinderpoint.Scale(prevcospitch).Add(zvector.Scale(prevsinpitch));
-                        point = center.Add(point);
+                        point = _center.Add(point);
                         points.Add(point);
                         point = cylinderpoint.Scale(prevcospitch).Add(zvector.Scale(prevsinpitch));
-                        point = center.Add(point);
+                        point = _center.Add(point);
                         points.Add(point);
                         if (slice2 < qsegments)
                         {
                             point = cylinderpoint.Scale(cospitch).Add(zvector.Scale(sinpitch));
-                            point = center.Add(point);
+                            point = _center.Add(point);
                             points.Add(point);
                         }
                         point = prevcylinderpoint.Scale(cospitch).Add(zvector.Scale(sinpitch));
-                        point = center.Add(point);
+                        point = _center.Add(point);
                         points.Add(point);
                         points.Reverse();
 

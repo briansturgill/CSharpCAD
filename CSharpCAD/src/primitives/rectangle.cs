@@ -10,21 +10,21 @@ public static partial class CSCAD
      * @returns {geom2} new 2D geometry
      * </remarks>
      */
-    public static Geom2 Rectangle(Opts opts)
+    public static Geom2 Rectangle(Vec2? size = null, Vec2? center = null)
     {
-        var size = opts.GetVec2("size", (2.0, 2.0));
-        var center = opts.GetVec2("center", (0.0, 0.0));
+      var _size = size ?? new Vec2(2.0, 2.0);
+      var _center = center ?? new Vec2(_size.x/2, _size.y/2);
 
-        if (size.x < 0 || size.y < 0) throw new ArgumentException("Size values must be greater than zero.");
+        if (_size.x < 0 || _size.y < 0) throw new ArgumentException("Size values must be greater than zero.");
 
-        var point = new Vec2(size.x / 2, size.y / 2);
+        var point = new Vec2(_size.x / 2, _size.y / 2);
         var pswap = new Vec2(point.x, -point.y);
 
         var points = new List<Vec2> {
-          center.Subtract(point),
-          center.Add(pswap),
-          center.Add(point),
-          center.Subtract(pswap)
+          _center.Subtract(point),
+          _center.Add(pswap),
+          _center.Add(point),
+          _center.Subtract(pswap)
         };
         return new Geom2(points);
     }

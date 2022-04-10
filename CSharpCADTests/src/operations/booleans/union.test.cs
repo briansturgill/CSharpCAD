@@ -41,7 +41,7 @@ public class UnionTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // union of two non-overlapping objects
-        Geom2 obj = Rectangle(new Opts { { "size", (4, 4) } });
+        Geom2 obj = Rectangle(size: (4, 4), center: (0,0));
         Geom2 geometry2 = (Geom2)Center(obj, relativeTo: new Vec3(10, 10, 0));
         Assert.DoesNotThrow(() => geometry2.Validate());
 
@@ -65,7 +65,7 @@ public class UnionTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // union of two partially overlapping objects
-        var geometry3 = Rectangle(new Opts { { "size", (18, 18) } });
+        var geometry3 = Rectangle(size: (18, 18), center: (0,0));
         Assert.DoesNotThrow(() => geometry3.Validate());
 
         var result3 = (Geom2)Union(geometry2, geometry3);
@@ -117,7 +117,7 @@ public class UnionTests
     [Test]
     public void TestUnionGeom3()
     {
-        var geometry1 = Sphere(new Opts { { "radius", 2 }, { "segments", 8 } });
+        var geometry1 = Sphere(radius: 2, segments: 8);
         Assert.DoesNotThrow(() => geometry1.Validate());
 
         // union of one object
@@ -177,7 +177,7 @@ public class UnionTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
         // union of two non-overlapping objects
-        var obj2 = Cuboid(new Opts { { "size", (4, 4, 4) } });
+        var obj2 = Cuboid(size: (4, 4, 4), center: (0,0,0));
         var geometry2 = (Geom3)Center(obj2, relativeTo: new Vec3(10, 10, 10));
         Assert.DoesNotThrow(() => geometry2.Validate());
 
@@ -187,7 +187,7 @@ public class UnionTests
         Assert.AreEqual(obs.Count, 38);
 
         // union of two partially overlapping objects
-        var geometry3 = Cuboid(new Opts { { "size", (18, 18, 18) } });
+        var geometry3 = Cuboid(size: (18, 18, 18), center: (0,0,0));
         Assert.DoesNotThrow(() => geometry3.Validate());
 
         var result3 = (Geom3)Union(geometry2, geometry3);
@@ -236,10 +236,10 @@ public class UnionTests
     public void TestUnionGeom3WithRounding()
     {
         //'union of geom3 with rounding issues #137'
-        var obj1 = Cuboid(new Opts { { "size", (44, 26, 5) } });
+        var obj1 = Cuboid(size: (44, 26, 5), center: (0,0,0));
         var geometry1 = (Geom3)Center(obj1, relativeTo: new Vec3(0, 0, -1));
         Assert.DoesNotThrow(() => geometry1.Validate());
-        var obj2 = Cuboid(new Opts { { "size", (44, 26, 1.8) } }); // introduce percision error
+        var obj2 = Cuboid(size: (44, 26, 1.8), center: (0,0,0)); // introduce percision error
         var geometry2 = (Geom3)Center(obj2, relativeTo: new Vec3(0, 0, -4.400001)); // introduce percision error
         Assert.DoesNotThrow(() => geometry2.Validate());
 

@@ -15,7 +15,7 @@ public class RectangleTests
     [Test]
     public void TestRectangleDefaults()
     {
-        var geometry = Rectangle(new Opts());
+        var geometry = Rectangle(center: (0, 0)); // CSCAD has a different default.
         Assert.DoesNotThrow(() => geometry.Validate());
         var obs = geometry.ToPoints();
         var exp = new Vec2[] {
@@ -33,21 +33,21 @@ public class RectangleTests
     public void TestRectangleOptions()
     {
         // test center
-        var geometry = Rectangle(new Opts { { "center", (-4, -4) } });
+        var geometry = Rectangle(center: (-4, -4));
         Assert.DoesNotThrow(() => geometry.Validate());
         var obs = geometry.ToPoints();
-        var exp = new Vec2[] {
+var exp = new Vec2[] {
           new Vec2(-5, -5),
           new Vec2(-3, -5),
           new Vec2(-3, -3),
           new Vec2(-5, -3)
         };
 
-        Assert.AreEqual(obs.Length, 4);
+Assert.AreEqual(obs.Length, 4);
         Assert.IsTrue(Helpers.CompareArrays(obs, exp));
 
         // test size
-        geometry = Rectangle(new Opts { { "size", (6, 10) } });
+        geometry = Rectangle(size: (6, 10), center: (0,0));
         Assert.DoesNotThrow(() => geometry.Validate());
         obs = geometry.ToPoints();
         exp = new Vec2[] {
@@ -57,7 +57,7 @@ public class RectangleTests
           new Vec2(-3, 5)
         };
 
-        Assert.AreEqual(obs.Length, 4);
-        Assert.IsTrue(Helpers.CompareArrays(obs, exp));
+Assert.AreEqual(obs.Length, 4);
+Assert.IsTrue(Helpers.CompareArrays(obs, exp));
     }
 }

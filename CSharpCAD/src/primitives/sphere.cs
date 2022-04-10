@@ -16,18 +16,20 @@ public static partial class CSCAD
      * @example
      * var myshape = sphere({radius: 5})
      */
-    public static Geom3 Sphere(Opts opts)
+    public static Geom3 Sphere(double radius = 1, Vec3? center = null, int segments = 32,
+        Vec3? axes_x = null, Vec3? axes_y = null, Vec3? axes_z = null)
     {
-        var center = opts.GetVec3("center", (0, 0, 0));
-        var radius = opts.GetDouble("radius", 1);
-        var segments = opts.GetInt("segments", 32);
-        var axes_x = opts.GetVec3("axes_x", (1, 0, 0));
-        var axes_y = opts.GetVec3("axes_y", (0, -1, 0));
-        var axes_z = opts.GetVec3("axes_z", (0, 0, 1));
+        var _center = center ?? new Vec3(0, 0, 0);
+        var _axes_x = axes_x ?? new Vec3(1, 0, 0);
+        var _axes_y = axes_y ?? new Vec3(0, -1, 0);
+        var _axes_z = axes_z ?? new Vec3(0, 0, 1);
 
         if (radius <= 0) throw new ArgumentException("Option radius must be greater than zero.");
 
-        return Ellipsoid(new Opts{{"center", (center.x,center.y,center.z)}, {"radius", (radius,radius,radius)}, {"segments", segments},
-          {"axes_x", (axes_x.x,axes_x.y,axes_x.z)}, {"axes_y", (axes_y.x,axes_y.y,axes_y.z)}, {"axes_z", (axes_z.x,axes_z.y,axes_z.z)}});
+        return Ellipsoid(center: new Vec3(_center.x,_center.y,_center.z),
+            radius: new Vec3(radius,radius,radius), segments: segments,
+            axes_x: new Vec3(_axes_x.x,_axes_x.y,_axes_x.z),
+            axes_y: new Vec3(_axes_y.x,_axes_y.y,_axes_y.z),
+            axes_z: new Vec3(_axes_z.x,_axes_z.y,_axes_z.z));
     }
 }

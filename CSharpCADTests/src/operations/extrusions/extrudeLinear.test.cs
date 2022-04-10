@@ -50,7 +50,7 @@ public class ExtrudeLinearTests
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
         var exp = UnitTestData.ExtrudeLinearTwistExp;
-        Assert.AreEqual(pts.Count, exp.Count); ;
+        Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         geometry3 = ExtrudeLinear(geometry2, height: 15, twistAngle: Math.PI / 2, twistSteps: 3);

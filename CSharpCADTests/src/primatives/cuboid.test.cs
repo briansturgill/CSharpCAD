@@ -15,7 +15,7 @@ public class CuboidTests
     [Test]
     public void TestCuboidDefaults()
     {
-        var obs = Cuboid(new Opts());
+        var obs = Cuboid(center: (0,0,0)); // CSCAD changed default center.
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
         var exp = new List<List<Vec3>> {
@@ -52,7 +52,7 @@ public class CuboidTests
     public void TestCuboidOptions()
     {
         // test center
-        var obs = Cuboid(new Opts { { "size", (6, 6, 6) }, { "center", (3, 5, 7) } });
+        var obs = Cuboid(size: (6, 6, 6), center: (3, 5, 7));
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
         var exp = new List<List<Vec3>> {
@@ -68,7 +68,7 @@ public class CuboidTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test size
-        obs = Cuboid(new Opts { { "size", (4.5, 1.5, 7) } });
+        obs = Cuboid(size: (4.5, 1.5, 7), center: (0,0,0));
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> {

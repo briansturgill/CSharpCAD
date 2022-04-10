@@ -40,7 +40,7 @@ internal static partial class CSharpCADInternals
 
         Seg[]? previousSegment = null;
         var newPoints = new List<Vec2>();
-        var newCorners = new List<Corner>(); ;
+        var newCorners = new List<Corner>();
         var of = new Vec2();
         var n = points.Count;
         for (var i = 0; i < n; i++)

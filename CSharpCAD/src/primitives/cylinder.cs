@@ -16,23 +16,13 @@ public static partial class CSCAD
      * @example
      * var myshape = cylinder({height: 2, radius: 10})
      */
-    public static Geom3 Cylinder(Opts opts)
+    public static Geom3 Cylinder(double radius = 1, double height = 2, int segments = 32, Vec3? center = null)
     {
-        var center = opts.GetVec3("center", (0, 0, 0));
-        var height = opts.GetDouble("height", 2);
-        var radius = opts.GetDouble("radius", 1);
-        var segments = opts.GetInt("segments", 32);
+        var _center = center ?? new Vec3(0, 0, 0);
 
         if (radius <= 0) throw new ArgumentException("Option radius must be greater than zero.");
 
-        var newoptions = new Opts {
-          {"center", (center.x, center.y, center.z)},
-          {"height", height},
-          {"startRadius", (radius, radius)},
-          {"endRadius", (radius, radius)},
-          {"segments", segments}
-        };
-
-        return CylinderElliptic(newoptions);
+        return CylinderElliptic(height: height, startRadius: new Vec2(radius, radius),
+          endRadius: new Vec2(radius, radius), center: _center, segments: segments);
     }
 }

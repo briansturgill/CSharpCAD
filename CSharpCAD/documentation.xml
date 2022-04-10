@@ -383,14 +383,13 @@
             <param name="startAngle">Begining of the rotation of the circle (in radians).</param>
             <param name="endAngle">End of the rotation of the circle (in radians).</param>
         </member>
-        <member name="M:CSharpCAD.CSCAD.Cube(CSharpCAD.Opts)">
+        <member name="M:CSharpCAD.CSCAD.Cube(System.Double,System.Nullable{CSharpCAD.Vec3})">
             <summary>Construct an axis-aligned solid cube in three dimensional space with six square faces.</summary>
         </member>
-        <member name="M:CSharpCAD.CSCAD.Cuboid(CSharpCAD.Opts)">
+        <member name="M:CSharpCAD.CSCAD.Cuboid(System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
             <summary>Construct an axis-aligned solid cuboid in three dimensional space.</summary>
-            opts -- size: Vec3, center: Vec3
         </member>
-        <member name="M:CSharpCAD.CSCAD.Cylinder(CSharpCAD.Opts)">
+        <member name="M:CSharpCAD.CSCAD.Cylinder(System.Double,System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
              <summary>Construct a Z axis-aligned cylinder in three dimensional space.</summary>
              @see [cylinderElliptic]{@link module:modeling/primitives.cylinderElliptic} for more options
              @param {Object} [options] - options for construction
@@ -404,7 +403,7 @@
              @example
              var myshape = cylinder({height: 2, radius: 10})
         </member>
-        <member name="M:CSharpCAD.CSCAD.CylinderElliptic(CSharpCAD.Opts)">
+        <member name="M:CSharpCAD.CSCAD.CylinderElliptic(System.Double,System.Nullable{CSharpCAD.Vec2},System.Nullable{CSharpCAD.Vec2},System.Double,System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
             <summary>Construct a Z axis-aligned elliptic cylinder in three dimensional space.</summary>
             <remarks>
             @param {Object} [options] - options for construction
@@ -428,7 +427,7 @@
             <param name="endAngle">End angle of ellipse, in radians.</param>
             <param name="segments">Number of segments to create per full rotation.</param>
         </member>
-        <member name="M:CSharpCAD.CSCAD.Ellipsoid(CSharpCAD.Opts)">
+        <member name="M:CSharpCAD.CSCAD.Ellipsoid(System.Nullable{CSharpCAD.Vec3},System.Int32,System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
             Construct an axis-aligned ellipsoid in three dimensional space.
             <remarks>
             @param {Object} [options] - options for construction
@@ -482,7 +481,7 @@
              var myfaces = [ [0, 1, 4], [1, 2, 4], [2, 3, 4], [3, 0, 4], [1, 0, 3], [2, 1, 3] ]
              var myshape = polyhedron({points: mypoint, faces: myfaces, orientation: "inward"})
         </member>
-        <member name="M:CSharpCAD.CSCAD.Rectangle(CSharpCAD.Opts)">
+        <member name="M:CSharpCAD.CSCAD.Rectangle(System.Nullable{CSharpCAD.Vec2},System.Nullable{CSharpCAD.Vec2})">
             <summary>Construct an axis-aligned rectangle in two dimensional space with four sides at right angles.</summary>
             <remarks>
             @param {Array} [options.center=[0,0]] - center of rectangle
@@ -530,7 +529,7 @@
              @example
              var myshape = roundedRectangle({size: [10, 20], roundRadius: 2})
         </member>
-        <member name="M:CSharpCAD.CSCAD.Sphere(CSharpCAD.Opts)">
+        <member name="M:CSharpCAD.CSCAD.Sphere(System.Double,System.Nullable{CSharpCAD.Vec3},System.Int32,System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
              Construct a sphere in three dimensional space where all points are at the same distance from the center.
              @see [ellipsoid]{@link module:modeling/primitives.ellipsoid} for more options
              @param {Object} [options] - options for construction
@@ -544,7 +543,7 @@
              @example
              var myshape = sphere({radius: 5})
         </member>
-        <member name="M:CSharpCAD.CSCAD.Square(CSharpCAD.Opts)">
+        <member name="M:CSharpCAD.CSCAD.Square(System.Nullable{System.Double},System.Nullable{CSharpCAD.Vec2})">
              Construct an axis-aligned square in two dimensional space with four equal sides at right angles.
              @see [rectangle]{@link module:modeling/primitives.rectangle} for more options
              @param {Object} [options] - options for construction

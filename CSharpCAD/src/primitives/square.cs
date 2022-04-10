@@ -14,13 +14,13 @@ public static partial class CSCAD
      * @example
      * var myshape = square({size: 10})
      */
-    public static Geom2 Square(Opts opts)
+    public static Geom2 Square(double? size = null, Vec2? center = null)
     {
-        var center = opts.GetVec2("center", (0, 0));
-        var size = opts.GetDouble("size", 2);
+        var _size = size ?? 2;
+        var _center = center ?? new Vec2(_size/2, _size/2);
 
-        if (size <= 0) throw new ArgumentException("Optionsize must be greater than zero.");
+        if (_size <= 0) throw new ArgumentException("Option size must be greater than zero.");
 
-        return Rectangle(new Opts { { "center", (center.x, center.y) }, { "size", (size, size) } });
+        return Rectangle(center: _center, size: new Vec2(_size, _size));
     }
 }

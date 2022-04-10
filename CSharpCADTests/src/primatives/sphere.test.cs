@@ -15,7 +15,7 @@ public class SphereTests
     [Test]
     public void TestSphereDefaults()
     {
-        var obs = Sphere(new Opts());
+        var obs = Sphere();
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
 
@@ -26,7 +26,7 @@ public class SphereTests
     public void TestSphereOptions()
     {
         // test radius
-        var obs = Sphere(new Opts { { "radius", 5 }, { "segments", 12 } });
+        var obs = Sphere(radius: 5, segments: 12);
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
         var exp = new List<List<Vec3>> { };
@@ -34,7 +34,7 @@ public class SphereTests
         // Assert.IsTrue(comparePolygonsAsPoints(pts, exp))
 
         // test segments
-        obs = Sphere(new Opts { { "segments", 8 } });
+        obs = Sphere(segments: 8);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> {
@@ -142,7 +142,7 @@ public class SphereTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test center
-        obs = Sphere(new Opts { { "center", (-3, 5, 7) }, { "segments", 8 } });
+        obs = Sphere(center: (-3, 5, 7), segments: 8);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> {

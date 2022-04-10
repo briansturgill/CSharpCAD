@@ -15,7 +15,7 @@ public class CylinderEllipticTests
     [Test]
     public void TestCylinderEllipticDefaults()
     {
-        var obs = CylinderElliptic(new Opts());
+        var obs = CylinderElliptic();
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
 
@@ -26,7 +26,7 @@ public class CylinderEllipticTests
     public void TestCylinderEllipticOptions()
     {
         // test height
-        var obs = CylinderElliptic(new Opts { { "height", 10 }, { "segments", 12 } });
+        var obs = CylinderElliptic(height: 10, segments: 12);
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
         var exp = new List<List<Vec3>> {
@@ -84,7 +84,7 @@ public class CylinderEllipticTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test startRadius and endRadius
-        obs = CylinderElliptic(new Opts { { "startRadius", (1, 2) }, { "endRadius", (2, 1) }, { "segments", 12 } });
+        obs = CylinderElliptic(startRadius: (1, 2), endRadius: (2, 1), segments: 12);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> {
@@ -142,8 +142,8 @@ public class CylinderEllipticTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test startAngle and endAngle
-        obs = CylinderElliptic(new Opts{{"startRadius", (1, 2)}, {"endRadius", (2, 1)},
-    {"startAngle", Math.PI / 2}, {"endAngle", Math.PI * 2 * 0.75}, {"segments", 12 }});
+        obs = CylinderElliptic(startRadius: (1, 2), endRadius: (2, 1),
+          startAngle: Math.PI / 2, endAngle: Math.PI * 2 * 0.75, segments: 12);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> { };
@@ -152,14 +152,14 @@ public class CylinderEllipticTests
         // Assert.IsTrue(comparePolygonsAsPoints(pts, exp))
 
         // test segments
-        obs = CylinderElliptic(new Opts { { "segments", 8 } });
+        obs = CylinderElliptic(segments: 8);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
 
         Assert.AreEqual(pts.Count, 24);
 
         // test center
-        obs = CylinderElliptic(new Opts { { "center", (-5, -5, -5) }, { "height", 3 }, { "segments", 8 } });
+        obs = CylinderElliptic(center: (-5, -5, -5), height: 3, segments: 8);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> {

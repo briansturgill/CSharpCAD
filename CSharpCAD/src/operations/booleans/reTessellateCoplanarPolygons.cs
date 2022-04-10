@@ -446,7 +446,7 @@ public static partial class CSCAD
         var rightbound = array.Count;
         while (rightbound > leftbound)
         {
-            var testindex = (leftbound + rightbound) / 2; ;
+            var testindex = (leftbound + rightbound) / 2;
             var testelement = array[testindex];
             var compareresult = comparefunc(element, testelement);
             if (compareresult > 0)

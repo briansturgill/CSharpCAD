@@ -15,7 +15,7 @@ public class SquareTests
     [Test]
     public void TestSquareDefaults()
     {
-        var geometry = Square(new Opts());
+        var geometry = Square(center: (0, 0)); // CSCAD changed the default center.
         Assert.DoesNotThrow(() => geometry.Validate());
         var obs = geometry.ToPoints();
         Assert.AreEqual(obs.Length, 4);
@@ -26,7 +26,7 @@ public class SquareTests
     public void TestSquareOptions()
     {
         // test center
-        var obs = Square(new Opts { { "size", 7 }, { "center", (6.5, 6.5) } });
+        var obs = Square(size: 7, center: (6.5, 6.5));
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
         var exp = new Vec2[] {
@@ -40,7 +40,7 @@ public class SquareTests
         Assert.IsTrue(Helpers.CompareArrays(pts, exp));
 
         // test size
-        obs = Square(new Opts { { "size", 7 } });
+        obs = Square(size: 7, center: (0, 0));
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         exp = new Vec2[] {
