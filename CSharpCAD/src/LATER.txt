@@ -8,3 +8,10 @@ There is some progress in the prototype of jscad that is able to run 3 different
     Three.js
     Babylon.js
 
+Why does Prusa Slicer think I am using inches?
+
+
+Need to do something about polygon color.
+Also, what happens with union, etc.
+
+Get Colors By Rainbox needs work.

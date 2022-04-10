@@ -1,6 +1,6 @@
 namespace CSharpCAD;
 
-public static partial class CSCAD
+internal static partial class CSharpCADInternals
 {
     /*
      * <summary>Expand and extrude the given geometry (geom2).
@@ -12,7 +12,7 @@ public static partial class CSCAD
      * @return {geom3} the extruded geometry
      */
     internal static Geom3 ExtrudeRectangularGeom2(Geom2 gobj, double size = 1, double height = 1,
-        double twistAngle = 0, int twistSteps = 12, string corners = "edge", int segments = 16, bool repair = true)
+        double twistAngle = 0, int twistSteps = 12, Corners corners = Corners.Edge, int segments = 16, bool repair = true)
     {
         // convert the geometry to outlines
         var outlines = gobj.ToOutlines();

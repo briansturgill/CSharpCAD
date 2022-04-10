@@ -1,6 +1,6 @@
 namespace CSharpCAD;
 
-public static partial class Modifiers
+internal static partial class Modifiers
 {
     private static Geom2 generalizeGeom2(Opts opts, Geom2 geometry) => geometry;
 

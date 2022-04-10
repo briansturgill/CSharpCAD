@@ -8,5 +8,10 @@
   <ItemGroup>
     <CSFile Include="src/**/*.cs"/>
   </ItemGroup>
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<DocumentationFile>documentation.xml</DocumentationFile>
+	</PropertyGroup>
+
 
 </Project>

@@ -3,31 +3,38 @@ namespace CSharpCAD;
 /// <summary>Represents a plane in 3D coordinate space as determined by a normal (perpendicular to the plane) and distance from 0,0,0.</summary>
 public class Plane : IEquatable<Plane>
 {
-    /// <summary>Sides made of tuples of (Vec2, Vec2)</summary>
-    public readonly Vec3 normal;
-    public readonly double w;
+    /// <summary>Vector normal to the plane.</summary>
+    public readonly Vec3 Normal;
 
+    /// <summary>Mysterious entity, akin to + C in integrals.</summary>
+    /// <remarks>
+    ///   More seriously, W seems to just be any point in the plane, not colinear with normal.
+    ///   We could call it NonColinearPoint, that would make things too easy.
+    /// </remarks>
+    public readonly double W;
+
+    ///<summary>Construct an empty Plane.</summary>
     public Plane() { }
 
     /// <summary>Create a new plane from the given normal and origin values.</summary>
     public Plane(Vec3 normal, Vec3 origin)
     {
-        this.normal = normal.Normalize();
-        this.w = origin.Dot(this.normal);
+        this.Normal = normal.Normalize();
+        this.W = origin.Dot(this.Normal);
     }
 
     /// <summary>Create a new plane from normal and w.</summary>
     public Plane(Vec3 normal, double w)
     {
-        this.normal = normal;
-        this.w = w;
+        this.Normal = normal;
+        this.W = w;
     }
 
     /// <summary>Create a new plane by copying.</summary>
     public Plane(Plane p)
     {
-        this.normal = p.normal;
-        this.w = p.w;
+        this.Normal = p.Normal;
+        this.W = p.W;
     }
 
     /// <summary>Check if this geometry is equal to the given geometry.</summary>
@@ -36,7 +43,7 @@ public class Plane : IEquatable<Plane>
         if (gp is null) {
             return false;
         }
-        return this.normal == gp.normal && this.w == gp.w;
+        return this.Normal == gp.Normal && this.W == gp.W;
     }
 
     /// <summary>Check if this vector is equal to the given vector.</summary>
@@ -65,19 +72,19 @@ public class Plane : IEquatable<Plane>
     /// <summary>Standard C# override.</summary>
     public override int GetHashCode()
     {
-        return normal.GetHashCode() ^ w.GetHashCode();
+        return Normal.GetHashCode() ^ W.GetHashCode();
     }
 
     /// <summary>Standard C# override.</summary>
 	public override string ToString()
     {
-        return $"Plane(normal={normal},w={w})";
+        return $"Plane(normal={Normal},w={W})";
     }
 
     /// <summary>Used mostly for testing.</summary>
     public bool IsNearlyEqual(Plane p)
     {
-        return this.normal.IsNearlyEqual(p.normal) && Math.Abs(this.w - p.w) < C.EPS;
+        return this.Normal.IsNearlyEqual(p.Normal) && Math.Abs(this.W - p.W) < C.EPS;
     }
 
     /**
@@ -91,8 +98,8 @@ public class Plane : IEquatable<Plane>
     public Plane Flip()
     {
         return new Plane(
-            this.normal.Negate(),
-            -this.w
+            this.Normal.Negate(),
+            -this.W
         );
     }
 
@@ -185,7 +192,7 @@ public class Plane : IEquatable<Plane>
     }
 
     /// <summary>Used by Mat4.</summary>
-    public (double, double, double, double) Points => (this.normal.x, this.normal.y, this.normal.z, this.w);
+    public (double, double, double, double) Points => (this.Normal.x, this.Normal.y, this.Normal.z, this.W);
 
     /**
      * Project the given point on to the this plane.
@@ -197,27 +204,27 @@ public class Plane : IEquatable<Plane>
      */
     public Vec3 ProjectionOfPoint(Vec3 point)
     {
-        var a = point.x * this.normal.x + point.y * this.normal.y + point.z * this.normal.z - this.w;
+        var a = point.x * this.Normal.x + point.y * this.Normal.y + point.z * this.Normal.z - this.W;
         return new Vec3(
-          point.x - a * this.normal.x,
-          point.y - a * this.normal.y,
-          point.z - a * this.normal.z
+          point.x - a * this.Normal.x,
+          point.y - a * this.Normal.y,
+          point.z - a * this.Normal.z
         );
     }
 
     /// <summary>Calculate the distance to the given point.</summary>
-    public double SignedDistanceToPoint(Vec3 gp) => this.normal.Dot(gp) - this.w;
+    public double SignedDistanceToPoint(Vec3 gp) => this.Normal.Dot(gp) - this.W;
 
 
-    /// <summary>Transform the given plane using the given matrix</summary
+    /// <summary>Transform the given plane using the given matrix</summary>
     public Plane Transform(Mat4 matrix)
     {
         // get two vectors in the plane:
-        var r = this.normal.Orthogonal();
-        var u = this.normal.Cross(r);
-        var v = this.normal.Cross(u);
+        var r = this.Normal.Orthogonal();
+        var u = this.Normal.Cross(r);
+        var v = this.Normal.Cross(u);
         // get 3 points in the plane:
-        var point1 = new Vec3(this.w).Multiply(this.normal);
+        var point1 = new Vec3(this.W).Multiply(this.Normal);
         var point2 = point1.Add(u);
         var point3 = point1.Add(v);
         // transform the points:

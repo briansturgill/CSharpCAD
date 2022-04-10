@@ -17,7 +17,7 @@ public class ExpandTests
     {
         var geometry = new Geom2(new Vec2[] { new Vec2(-8, -8), new Vec2(8, -8), new Vec2(8, 8), new Vec2(-8, 8) });
 
-        var obs = (Geom2)Expand(geometry, delta: 2, corners: "round", segments: 8);
+        var obs = (Geom2)Expand(geometry, delta: 2, corners: Corners.Round, segments: 8);
         var pts = obs.ToPoints();
         var exp = new Vec2[] {
           new Vec2(-9.414213562373096, -9.414213562373096),
@@ -64,7 +64,7 @@ public class ExpandTests
         });
 
         // expand +
-        var obs = (Geom2)Expand(geometry, delta: 2, corners: "edge");
+        var obs = (Geom2)Expand(geometry, delta: 2, corners: Corners.Edge);
         var pts = obs.ToPoints();
         var exp = new Vec2[] {
           new Vec2(77, -77),

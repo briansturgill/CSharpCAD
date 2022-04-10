@@ -3,16 +3,20 @@ namespace CSharpCAD;
 /// <summary>Represents a 2D geometry consisting of an array of sides.</summary>
 public class Geom2 : Geometry
 {
-    /// <summary>Sides made of tuples of (Vec2, Vec2)</summary>
     private Side[] sides;
     private Mat4 transforms;
+    ///
     public Mat4 Transforms { get => this.transforms; }
+    ///
     public Color? Color;
 
+    /// <summary>Is this a 2D geometry object?</summary>
     public override bool Is2D => true;
+
+    /// <summary>Is this a 3D geometry object?</summary>
     public override bool Is3D => false;
 
-    /// <summary>Internal constructor. Public for testing use only.</summary>
+    /// <summary>Empty constructor.</summary>
     public Geom2()
     {
         this.sides = new Side[0];
@@ -20,7 +24,7 @@ public class Geom2 : Geometry
         this.Color = null;
     }
 
-    /// <summary>Internal constructor. Unfortuantely it has to be public, DO NOT USE!</summary>
+    /// <summary>Internal constructor.</summary>
     internal Geom2(Side[] sides, Mat4? transforms = null, Color? Color = null)
     {
         this.sides = sides;
@@ -48,7 +52,7 @@ public class Geom2 : Geometry
             throw new ArgumentException("The given points must define a closed geometry with three or more points.");
         }
         // adjust length if the given points are closed by the same point
-        if (points[0] == points[length - 1]) { --length; }
+        if (points[0].IsNearlyEqual(points[length - 1])) { --length; }
 
         var sides = new Side[length];
 
@@ -85,7 +89,7 @@ public class Geom2 : Geometry
             throw new ArgumentException("The given points must define a closed geometry with three or more points.");
         }
         // adjust length if the given points are closed by the same point
-        if (points[0] == points[length - 1]) { --length; }
+        if (points[0].IsNearlyEqual(points[length - 1])) { --length; }
 
         var sides = new Side[length];
 
@@ -194,15 +198,13 @@ public class Geom2 : Geometry
         {
             return false;
         }
-        return this.Color == gg.Color;
+        return this.Color == gg.Color; // LATER is this wise?
     }
 
 
 
-    /*
-     * <summary>Apply the transforms of the given geometry.</summary>
-     * <remarks>NOTE: This function must be called BEFORE exposing any data. See toSides().</remarks>
-     */
+     /// <summary>Apply the transforms of the given geometry.</summary>
+     /// <remarks>NOTE: This function must be called BEFORE exposing any data. See toSides().</remarks>
     public Geom2 ApplyTransforms()
     {
         if (this.transforms.IsIdentity())
@@ -254,6 +256,7 @@ public class Geom2 : Geometry
         return new Geom2(this.sides.ToArray(), this.transforms, this.Color);
     }
 
+    /// <summary>Measure the epsilon of this geometry object.</summary>
     public double MeasureEpsilon()
     {
         var total = 0.0;
@@ -409,7 +412,7 @@ public class Geom2 : Geometry
      * NOTE: The sides returned do NOT define an order. Use toOutlines() for ordered points.
      * </remarks>
      */
-    public Side[] ToSides()
+    internal Side[] ToSides()
     {
         return this.ApplyTransforms().sides;
     }
@@ -419,7 +422,7 @@ public class Geom2 : Geometry
      * <remarks>
      * This is a lazy transform of the sides, as this function only adjusts the transforms.
      * The transforms are applied when accessing the sides via toSides().
-     * </remarks
+     * </remarks>
      */
     public Geom2 Transform(Mat4 matrix)
     {
@@ -427,7 +430,7 @@ public class Geom2 : Geometry
         return new Geom2(this.sides.ToArray(), transforms, this.Color);
     }
 
-    public class Side : IEquatable<Side>
+    internal class Side : IEquatable<Side>
     {
         public readonly Vec2 v0;
         public readonly Vec2 v1;

@@ -34,7 +34,7 @@ public class OffsetTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // expand +
-        obs = (Geom2)Offset(geometry, delta: 1, corners: "round", segments:0);
+        obs = (Geom2)Offset(geometry, delta: 1, corners: Corners.Round, segments:0);
         pts = obs.ToPoints();
         exp = new Vec2[] {
           new Vec2(-5, -6),
@@ -55,7 +55,7 @@ public class OffsetTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // contract -
-        obs = (Geom2)Offset(geometry, delta: -0.5, corners: "round", segments:0);
+        obs = (Geom2)Offset(geometry, delta: -0.5, corners: Corners.Round, segments:0);
         pts = obs.ToPoints();
         exp = new Vec2[] {
           new Vec2(-4.5, -4.5),
@@ -72,7 +72,7 @@ public class OffsetTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // segments 1 - sharp points at corner
-        obs = (Geom2)Offset(geometry, delta: 1, corners: "edge");
+        obs = (Geom2)Offset(geometry, delta: 1, corners: Corners.Edge);
         pts = obs.ToPoints();
         exp = new Vec2[] {
           new Vec2(6, -6),
@@ -87,7 +87,7 @@ public class OffsetTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // segments 16 - rounded corners
-        obs = (Geom2)Offset(geometry, delta: -0.5, corners: "round");
+        obs = (Geom2)Offset(geometry, delta: -0.5, corners: Corners.Round);
         pts = obs.ToPoints();
         exp = new Vec2[] {
           new Vec2(-4.5, -4.5),
@@ -137,7 +137,7 @@ public class OffsetTests
         });
 
         // expand +
-        var obs = (Geom2)Offset(geometry, delta: 2, corners: "edge");
+        var obs = (Geom2)Offset(geometry, delta: 2, corners: Corners.Edge);
         var pts = obs.ToPoints();
         var exp = new Vec2[] {
           new Vec2(77, -77),
@@ -187,7 +187,7 @@ public class OffsetTests
             new Vec2(9.23880, -3.82683)
         });
 
-        var obs = (Geom2)Offset(geometry, delta: -0.5, corners: "round");
+        var obs = (Geom2)Offset(geometry, delta: -0.5, corners: Corners.Round);
         var pts = obs.ToPoints();
         var exp = new Vec2[] {
           new Vec2(9.490204518135641, 0),

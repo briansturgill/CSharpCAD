@@ -1,16 +1,14 @@
 namespace CSharpCAD;
 
 /// <summary>Represents a convex 3D polygon.</summary>
-/// <remarks>The vertices used to initialize a polygon must be coplanar and form a convex shape.
-public class Poly3 : Geometry, IEquatable<Poly3>
+/// <remarks>The vertices used to initialize a polygon must be coplanar and form a convex shape.</remarks>
+public class Poly3 : IEquatable<Poly3>
 {
     /// <summary>Sides made of tuples of (Vec2, Vec2)</summary>
     private Vec3[] vertices;
-    public Vec3[] Vertices { get => vertices; }
-    public Color? Color;
+    internal Vec3[] Vertices { get => vertices; }
+    internal Color? Color;
     private CSharpCAD.Plane? _plane; // Cached Plane
-    public override bool Is2D => false;
-    public override bool Is3D => false; // Poly3 really only qualifies for Colorization
 
     /// <summary>Creates a new 3D polygon with initial values.</summary>
     public Poly3(List<Vec3> points, Color? Color = null)
@@ -140,7 +138,7 @@ public class Poly3 : Geometry, IEquatable<Poly3>
         if (numvertices > 2)
         {
             // note: plane ~= normal point
-            var normal = CSharpCAD.Plane.FromPoints(vertices).normal;
+            var normal = CSharpCAD.Plane.FromPoints(vertices).Normal;
             var prevprevpos = vertices[numvertices - 2];
             var prevpos = vertices[numvertices - 1];
             for (var i = 0; i < numvertices; i++)
@@ -157,9 +155,7 @@ public class Poly3 : Geometry, IEquatable<Poly3>
         return true;
     }
 
-    // calculate whether three points form a convex corner
-    //  prevpoint, point, nextpoint: the 3 coordinates (Vector3D instances)
-    //  normal: the normal vector of the plane
+    /// <summary>Calculate whether three points form a convex corner.</summary>
     public static bool IsConvexPoint(Vec3 prevpoint, Vec3 point, Vec3 nextpoint, Vec3 normal)
     {
         var crossproduct = point.Subtract(prevpoint).Cross(nextpoint.Subtract(point));
@@ -179,7 +175,7 @@ public class Poly3 : Geometry, IEquatable<Poly3>
         var vertices = this.vertices;
 
         // calculate a normal vector
-        var normal = Plane().normal;
+        var normal = Plane().Normal;
 
         // determine direction of projection
         var ax = Math.Abs(normal.x);
@@ -252,7 +248,7 @@ public class Poly3 : Geometry, IEquatable<Poly3>
         return area;
     }
 
-    /// <summary>Measure the bounding box of this polygon.
+    /// <summary>Measure the bounding box of this polygon.</summary>
     /// <returns>Tuple of (min, max)</returns>
     public (Vec3, Vec3) BoundingBox()
     {
@@ -281,7 +277,7 @@ public class Poly3 : Geometry, IEquatable<Poly3>
     }
 
     /**
-     * <summar>Measure the signed volume of the given polygon, which must be convex.</summary>
+     * <summary>Measure the signed volume of the given polygon, which must be convex.</summary>
      * <remarks>
      * The volume is that formed by the tetrahedon connected to the axis [0,0,0],
      * and will be positive or negative based on the rotation of the vertices.
@@ -302,6 +298,7 @@ public class Poly3 : Geometry, IEquatable<Poly3>
         return signedVolume;
     }
 
+    /// <summary>The plane of this polygon.</summary>
     public Plane Plane()
     {
         if (_plane is null)

@@ -11,7 +11,7 @@ public class IntersectTests
     [Test]
     public void TestIntersetGeom2()
     {
-        var geometry1 = Circle(new Opts { { "radius", 2 }, { "segments", 8 } });
+        var geometry1 = Circle(radius: 2, segments: 8);
         Assert.DoesNotThrow(() => geometry1.Validate());
 
         // intersect of one object

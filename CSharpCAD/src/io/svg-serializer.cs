@@ -15,7 +15,7 @@ Notes:
 public static partial class CSCAD
 {
 
-    public static void SerializeToSVG(string file, Geometry g)
+    internal static void SerializeToSVG(string file, Geometry g)
     {
         var svg = SVGSerializer.SerializeToSVG(g);
         System.IO.File.WriteAllText(file, svg);

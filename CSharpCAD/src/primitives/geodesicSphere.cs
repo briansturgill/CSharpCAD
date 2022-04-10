@@ -3,23 +3,15 @@ namespace CSharpCAD;
 public static partial class CSCAD
 {
     /**
-     * <summar>Construct a geodesic sphere based on icosahedron symmetry.</summary>
-     * @param {Object} [options] - options for construction
-     * @param {Number} [options.radius=1] - target radius of sphere
-     * @param {Number} [options.frequency=6] - subdivision frequency per face, multiples of 6
-     * @returns {geom3} new 3D geometry
-     * @alias module:modeling/primitives.geodesicSphere
-     *
-     * @example
-     * var myshape = geodesicSphere({radius: 15, frequency: 18})
+     * <summary>Construct a geodesic sphere based on icosahedron symmetry.</summary>
+     * <param name="radius">Target radius of sphere</param>
+     * <param name="frequency">Subdivision frequency per face, must be multiple of 6.</param>
      */
-    public static Geom3 GeodesicSphere(Opts opts)
+    public static Geom3 GeodesicSphere(double radius = 1, int frequency = 6)
     {
-        var radius = opts.GetDouble("radius", 1);
-        var frequency = opts.GetInt("frequency", 6);
-
         if (radius <= 0) throw new ArgumentException("Option radius must be greater than zero.");
         if (frequency < 6) throw new ArgumentException("Option frequency must be six or more.");
+        if (frequency % 6 != 0) throw new ArgumentException("Option frequency must be a multiple of six.");
 
         // adjust the frequency to base 6
         frequency = frequency / 6;
@@ -46,7 +38,9 @@ public static partial class CSCAD
           new Vec3(8, 7, 3), new Vec3(9, 8, 4), new Vec3(11, 10, 5), new Vec3(10, 11, 6), new Vec3(8, 9, 7)
         };
 
-        (List<Vec3>, List<List<int>>, int) geodesicSubDivide((Vec3, Vec3, Vec3) p, int frequency, int offset)
+        // Note the switch over of frequency from int to double here is intentional.
+        // Frequency is truly used as a double in this subroutine.
+        (List<Vec3>, List<List<int>>, int) geodesicSubDivide((Vec3, Vec3, Vec3) p, double frequency, int offset)
         {
             var (p1, p2, p3) = p;
             var n = offset;

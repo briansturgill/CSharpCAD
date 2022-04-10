@@ -15,7 +15,7 @@ public class GeodesicSphereTests
     [Test]
     public void TestGeodesicSphereDefaults()
     {
-        var obs = GeodesicSphere(new Opts());
+        var obs = GeodesicSphere();
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
         Assert.AreEqual(pts.Count, 20);
@@ -25,7 +25,7 @@ public class GeodesicSphereTests
     public void TestGeodesicSphereOptions()
     {
         // test radius
-        var obs = GeodesicSphere(new Opts { { "radius", 5 } });
+        var obs = GeodesicSphere(radius: 5);
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
         var exp = new List<List<Vec3>> {
@@ -56,8 +56,8 @@ public class GeodesicSphereTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test frequency
-        obs = GeodesicSphere(new Opts { { "radius", 5 }, { "frequency", 18 } });
-        // LATER Assert.DoesNotThrow(() => obs.Validate());
+        obs = GeodesicSphere(radius: 5, frequency: 18);
+        Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
 
         Assert.AreEqual(pts.Count, 180);

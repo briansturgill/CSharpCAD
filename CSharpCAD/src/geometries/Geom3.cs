@@ -3,15 +3,20 @@ namespace CSharpCAD;
 /// <summary>Represents a new 3D geometry composed of polygons.</summary>
 public class Geom3 : Geometry
 {
-    /// <summary>List of polygons</summary>
+    ///
     public Poly3[] Polygons { get => this.polygons; }
     private Poly3[] polygons;
     private Mat4 transforms;
+    ///
     public Mat4 Transforms { get => this.transforms; }
+    ///
     public Color? Color;
-    public readonly bool IsRetesselated;
+    internal readonly bool IsRetesselated;
 
+    /// <summary>Is this a 2D geometry object?</summary>
     public override bool Is2D => false;
+
+    /// <summary>Is this a 3D geometry object?</summary>
     public override bool Is3D => true;
 
     /**
@@ -163,6 +168,8 @@ public class Geom3 : Geometry
         this.transforms = new Mat4();
         return this;
     }
+    
+    /// <summary>Measure the epsilon value for this geometry object.</summary>
     public double MeasureEpsilon()
     {
         var total = 0.0;
@@ -229,6 +236,8 @@ public class Geom3 : Geometry
     public Poly3[] ToPolygons() => this.ApplyTransforms().polygons;
 
 
+    /// <summary>Add a transformation to this geometry.</summary>
+    /// <remarks>This is done in a lazy fashion, only affecting the internal transforms vector.</remarks>
     public Geom3 Transform(Mat4 matrix)
     {
         var transforms = matrix.Multiply(this.transforms);

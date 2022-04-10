@@ -16,15 +16,13 @@ public readonly struct Vec2 : IEquatable<Vec2>
         this.x = x; this.y = y;
     }
 
-    public readonly static Vec2 ZERO = new Vec2(0, 0);
-
-    /// <summary>Check if this vector is equal to the given vector.</summary>
+    ///
     public bool Equals(Vec2 gv)
     {
         return this.x == gv.x && this.y == gv.y;
     }
 
-    /// <summary>Check if this vector is equal to the given vector.</summary>
+    ///
     public static bool operator ==(Vec2 a, Vec2 b)
     {
         return a.Equals(b);
@@ -33,7 +31,13 @@ public readonly struct Vec2 : IEquatable<Vec2>
     /// <summary>Check if this vector is not equal to the given vector.</summary>
     public static bool operator !=(Vec2 a, Vec2 b) => !(a == b);
 
-    /// <summary>Standard C# override.</summary>
+    /// <summary>Automatically convert a tuple of 2 doubles to a Vec2.</summary>
+    public static implicit operator Vec2((double, double) tuple) {
+        var (x, y) = tuple;
+        return new Vec2(x, y);
+    }
+
+    ///
     public override bool Equals(object? obj)
     {
         if ((obj == null) || !this.GetType().Equals(obj.GetType()))
@@ -101,7 +105,7 @@ public readonly struct Vec2 : IEquatable<Vec2>
         );
     }
 
-    /// <summary>Adds the coordinates of this and the given vector.<summary>
+    /// <summary>Adds the coordinates of this and the given vector.</summary>
     public Vec2 Add(Vec2 gv)
     {
         return new Vec2(
@@ -143,7 +147,7 @@ public readonly struct Vec2 : IEquatable<Vec2>
         );
     }
 
-    /// <summmary>Calculates the dot product of two vectors.</summary>
+    /// <summary>Calculates the dot product of two vectors.</summary>
     public double Dot(Vec2 gv) => this.x * gv.x + this.y * gv.y;
 
 
@@ -182,7 +186,7 @@ public readonly struct Vec2 : IEquatable<Vec2>
         );
     }
 
-    /// <summary>Returns the maximum coordinates of this and a given vector.
+    /// <summary>Returns the maximum coordinates of this and a given vector.</summary>
     public Vec2 Max(Vec2 gv)
     {
         return new Vec2(
@@ -190,7 +194,7 @@ public readonly struct Vec2 : IEquatable<Vec2>
             Math.Max(this.y, gv.y));
     }
 
-    /// <summary>Returns the minimum coordinates of this and a given vector.
+    /// <summary>Returns the minimum coordinates of this and a given vector.</summary>
     public Vec2 Min(Vec2 gv)
     {
         return new Vec2(

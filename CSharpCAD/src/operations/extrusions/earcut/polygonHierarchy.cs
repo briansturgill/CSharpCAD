@@ -1,6 +1,6 @@
 namespace CSharpCAD;
 
-public static partial class CSCAD
+internal static partial class CSharpCADInternals
 {
 
     internal static partial class Earcut
@@ -23,11 +23,11 @@ public static partial class CSCAD
 
                 // create an orthonormal basis
                 // choose an arbitrary right hand vector, making sure it is somewhat orthogonal to the plane normal
-                var rightvector = this.plane.normal.Orthogonal();
-                var perp = this.plane.normal.Cross(rightvector);
+                var rightvector = this.plane.Normal.Orthogonal();
+                var perp = this.plane.Normal.Cross(rightvector);
                 perp = perp.Normalize();
                 this.v = perp;
-                this.u = this.v.Cross(this.plane.normal);
+                this.u = this.v.Cross(this.plane.Normal);
 
                 // map from 2D to original 3D points
                 this.basisMap = new Dictionary<Vec2, Vec3>();
@@ -74,7 +74,7 @@ public static partial class CSCAD
                     var v1 = this.u.Scale(vector2.x);
                     var v2 = this.v.Scale(vector2.y);
 
-                    var planeOrigin = plane.normal.Scale(plane.w);
+                    var planeOrigin = plane.Normal.Scale(plane.W);
                     var v3 = v1.Add(planeOrigin);
                     return v2.Add(v3);
                 }

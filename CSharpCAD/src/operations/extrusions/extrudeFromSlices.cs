@@ -2,6 +2,7 @@ namespace CSharpCAD;
 
 public static partial class CSCAD
 {
+    ///<summary>Callback for use with ExtrudeFromSlices. For advanced users only.</summary>
     public delegate Slice? SliceGenerator(double progress, int index, Slice baseSlice);
 
     private static Slice? defaultCallback(double progress, int index, Slice baseSlice)
@@ -39,14 +40,10 @@ public static partial class CSCAD
      *   return slice
      * }
      */
-    internal static Geom3 ExtrudeFromSlices(Opts opts, Slice baseSlice, SliceGenerator? _generate = null)
+    internal static Geom3 ExtrudeFromSlices(Slice baseSlice, SliceGenerator? _generate = null,
+        int numberOfSlices = 2, bool capStart = true, bool capEnd = true, bool close = false, bool repair = true)
     {
         var generate = _generate ?? defaultCallback;
-        var numberOfSlices = opts.GetInt("numberOfSlices", 2);
-        var capStart = opts.GetBool("capStart", true);
-        var capEnd = opts.GetBool("capEnd", true);
-        var close = opts.GetBool("close", false);
-        var repair = opts.GetBool("repair", true);
 
         if (numberOfSlices < 2) throw new ArgumentException("Option numberOfSlices must be 2 or more.");
 

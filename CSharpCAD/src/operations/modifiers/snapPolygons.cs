@@ -1,6 +1,6 @@
 namespace CSharpCAD;
 
-public static partial class Modifiers
+internal static partial class Modifiers
 {
     public static Geom2 snap(Geom2 geometry)
     {

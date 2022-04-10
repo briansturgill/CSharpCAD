@@ -29,7 +29,7 @@ public static partial class CSCAD
         if (outerRotation <= 0) throw new ArgumentException("Option outerRotation must be greater than zero");
         if (innerRadius >= outerRadius) throw new ArgumentException("Inner circle is too large to rotate about the outer circle.");
 
-        var innerCircle = Circle(new Opts { { "radius", innerRadius }, { "segments", innerSegments } });
+        var innerCircle = Circle(radius: innerRadius, segments: innerSegments);
 
         if (innerRotation != 0)
         {

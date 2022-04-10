@@ -7,8 +7,8 @@ public static partial class CSCAD
     {
         // create a plane from the options, and verify
         var projplane = new Plane(axis, origin);
-        if (double.IsNaN(projplane.normal.x) || double.IsNaN(projplane.normal.y)
-          || double.IsNaN(projplane.normal.z) || double.IsNaN(projplane.w))
+        if (double.IsNaN(projplane.Normal.x) || double.IsNaN(projplane.Normal.y)
+          || double.IsNaN(projplane.Normal.z) || double.IsNaN(projplane.W))
         {
             throw new ArgumentException("project: invalid axis or origin arguments.");
         }
@@ -36,16 +36,16 @@ public static partial class CSCAD
             if (newpoly.Area() < epsilonArea) continue;
             // only keep projections that face the same direction as the plane
             var newplane = newpoly.Plane();
-            if (!AboutEqualNormals(projplane.normal, newplane.normal)) continue;
+            if (!AboutEqualNormals(projplane.Normal, newplane.Normal)) continue;
             projpolys.Add(newpoly);
         }
         // union the projected polygons to eliminate overlaying polygons
         var projection = new Geom3(projpolys.ToArray());
         projection = UnionGeom3(projection, projection);
         // rotate the projection to lay on X/Y axes if necessary
-        if (!AboutEqualNormals(projplane.normal, new Vec3(0, 0, 1)))
+        if (!AboutEqualNormals(projplane.Normal, new Vec3(0, 0, 1)))
         {
-            var rotation = Mat4.FromVectorRotation(projplane.normal, new Vec3(0, 0, 1));
+            var rotation = Mat4.FromVectorRotation(projplane.Normal, new Vec3(0, 0, 1));
             projection = projection.Transform(rotation);
         }
 
@@ -73,8 +73,8 @@ public static partial class CSCAD
 
     /**
      * Project the given 3D geometry onto the given plane.
-     * <param name="obj">The given 3D geometry object.</summary>
-     * <param name="axis">The axis of the plane. Default: [0,0,1] (the Z axis).</param 
+     * <param name="obj">The given 3D geometry object.</param>
+     * <param name="axis">The axis of the plane. Default: [0,0,1] (the Z axis).</param>
      * <param name="origin">The origin of the plane. Default [0,0,0].</param>
      * <returns>The projected 2D geometry.</returns>
      */

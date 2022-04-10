@@ -4,7 +4,8 @@ namespace CSharpCAD;
 public static partial class CSCAD
 {
     /**
-     * <summary>Translate (move) the given geometry.</summary<
+     * @ingroup Transforms
+     * <summary>Translate (move) the given geometry.</summary>
      * <param name="offset">The vector of offsets to applied to the object.</param>
      * <param name="g">The geometry object to translate.</param>
      * <returns>The translated geometry object.</returns>

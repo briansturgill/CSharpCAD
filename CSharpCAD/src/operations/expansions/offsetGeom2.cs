@@ -2,7 +2,7 @@ namespace CSharpCAD;
 
 public static partial class CSCAD
 {
-    internal static Geom2 OffsetGeom2(Geom2 gobj, double delta = 1, string corners = "edge", int segments = 16)
+    internal static Geom2 OffsetGeom2(Geom2 gobj, double delta = 1, Corners corners = Corners.Edge, int segments = 16)
     {
         var outlines = gobj.ToOutlines();
         var allSides = new List<Geom2.Side>();

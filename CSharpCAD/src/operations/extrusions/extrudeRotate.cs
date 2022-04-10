@@ -10,7 +10,7 @@ public static partial class CSCAD
      * <param name="segments">Number of segments of the extrusion. Default: 12</param>
      * <returns>The extruded 3D geometry</returns>
      */
-    public static Geom3 ExtrudeRotate(Geom2 geometry, int segments = 12, double startAngle = ((double)(0.0)), double angle = ((double)(Math.PI*2)))
+    public static Geom3 ExtrudeRotate(Geom2 geometry, int segments = 12, double startAngle = ((double)(0.0)), double angle = ((double)(Math.PI * 2)))
     {
         // @param {String} [options.overflow="cap"] - what to do with points outside of bounds (+ / - x) :
         // defaults to capping those points to 0 (only supported behaviour for now)
@@ -127,13 +127,8 @@ public static partial class CSCAD
             return ((Slice)baseSlice).Transform(matrix);
         }
 
-        var options = new Opts {
-    {"numberOfSlices", segments + 1},
-    {"capStart", isCapped},
-    {"capEnd", isCapped},
-    {"close", !isCapped},
-  };
-        return ExtrudeFromSlices(options, baseSlice, createSlice);
+        return ExtrudeFromSlices(baseSlice, createSlice, numberOfSlices: segments + 1,
+            capStart: isCapped, capEnd: isCapped, close: !isCapped);
     }
 
 }

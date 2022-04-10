@@ -1,6 +1,6 @@
 namespace CSharpCAD;
 
-public static partial class CSCAD
+internal static partial class CSharpCADInternals
 {
     public static bool Equalish(double a, double b, double epsilon = C.EPS)
     {
@@ -19,6 +19,13 @@ public static partial class CSCAD
         return diff <= epsilon;
     }
 
+    public static bool LessThanish(double a, double b) {
+        if (Equalish(a, b)) {
+            return false;
+        }
+        return a < b;
+    }
+
     public static int Floorish(double a, double epsilon = C.EPS)
     {
         var a_ceil = Math.Ceiling(a);
@@ -26,5 +33,17 @@ public static partial class CSCAD
             return (int)a_ceil;
         }
         return (int)Math.Floor(a);
+    }
+
+    private static double rezero(double v) => Math.Abs(v) < C.NEPS ? 0 : v;
+
+    public static double sin(double angle)
+    {
+        return rezero(Math.Sin(angle));
+    }
+
+    public static double cos(double angle)
+    {
+        return rezero(Math.Cos(angle));
     }
 }

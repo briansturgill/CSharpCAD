@@ -18,7 +18,7 @@ public static partial class CSCAD
 {
 
     /// Serialize the give objects (geometry) to AMF source data (XML).
-    public static void SerializeToAMF(string file, Geometry g)
+    internal static void SerializeToAMF(string file, Geometry g)
     {
         string unit = GlobalParams.Units;
         switch (unit)
@@ -64,7 +64,7 @@ public static partial class CSCAD
     }
 
     private static int id = 0;
-    public static void TranslateObject(XmlTextWriter xml, Geom3 obj)
+    internal static void TranslateObject(XmlTextWriter xml, Geom3 obj)
     {
         var polygons = obj.ToPolygons();
         if (polygons.Length > 0)
@@ -73,7 +73,7 @@ public static partial class CSCAD
         }
     }
 
-    public static void ConvertToObject(XmlTextWriter xml, Geom3 obj)
+    internal static void ConvertToObject(XmlTextWriter xml, Geom3 obj)
     {
         xml.WriteStartElement("object");
         xml.WriteAttributeString("id", id.ToString());
@@ -82,7 +82,7 @@ public static partial class CSCAD
         xml.WriteEndElement(); // object
     }
 
-    public static void ConvertToMesh(XmlTextWriter xml, Geom3 obj)
+    internal static void ConvertToMesh(XmlTextWriter xml, Geom3 obj)
     {
         xml.WriteStartElement("mesh");
         ConvertToVertices(xml, obj);
@@ -94,7 +94,7 @@ public static partial class CSCAD
      * This section converts each 3D geometry to a list of vertex / coordinates
      */
 
-    public static void ConvertToVertices(XmlTextWriter xml, Geom3 obj)
+    internal static void ConvertToVertices(XmlTextWriter xml, Geom3 obj)
     {
         xml.WriteStartElement("vertices");
 
@@ -111,14 +111,14 @@ public static partial class CSCAD
         xml.WriteEndElement(); // vertices
     }
 
-    public static void ConvertToVertex(XmlTextWriter xml, Vec3 vertex)
+    internal static void ConvertToVertex(XmlTextWriter xml, Vec3 vertex)
     {
         xml.WriteStartElement("vertex");
         ConvertToCoordinates(xml, vertex);
         xml.WriteEndElement(); // vertex;
     }
 
-    public static void ConvertToCoordinates(XmlTextWriter xml, Vec3 vertex)
+    internal static void ConvertToCoordinates(XmlTextWriter xml, Vec3 vertex)
     {
         xml.WriteStartElement("coordinates");
         xml.WriteStartElement("x");
@@ -137,7 +137,7 @@ public static partial class CSCAD
      * This section converts each 3D geometry to a list of volumes consisting of indexes into the list of vertices
      */
 
-    public static void ConvertToVolumes(XmlTextWriter xml, Geom3 obj)
+    internal static void ConvertToVolumes(XmlTextWriter xml, Geom3 obj)
     {
         var polygons = obj.ToPolygons();
 
@@ -158,7 +158,7 @@ public static partial class CSCAD
         xml.WriteEndElement(); // volume
     }
 
-    public static void OutputColor(XmlTextWriter xml, Color? _color)
+    internal static void OutputColor(XmlTextWriter xml, Color? _color)
     {
         if (_color == null) return;
         Color color = _color ?? new Color(0, 0, 0);
@@ -178,7 +178,7 @@ public static partial class CSCAD
         xml.WriteEndElement(); // color
     }
 
-    public static void ConvertToTriangles(XmlTextWriter xml, Poly3 polygon, int index)
+    internal static void ConvertToTriangles(XmlTextWriter xml, Poly3 polygon, int index)
     {
         // making sure they are all triangles (triangular polygons)
         for (var i = 0; i < polygon.Vertices.Length - 2; i++)

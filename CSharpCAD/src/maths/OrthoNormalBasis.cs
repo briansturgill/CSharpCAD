@@ -1,11 +1,8 @@
 namespace CSharpCAD;
 
-/*
- * Class OrthoNormalBasis
- * Reprojects points on a 3D plane onto a 2D plane
- * or from a 2D plane back onto the 3D plane
- * @param  {plane} plane
- * @param  {vec3} rightvector
+/**
+ * <summary>OrthoNormalBasis reprojects points on a 3D plane onto a 2D plane
+ * or from a 2D plane back onto the 3D plane.</summary>
  */
 public class OrthoNormalBasis
 {
@@ -13,23 +10,28 @@ public class OrthoNormalBasis
     Vec3 v;
     Plane plane;
     Vec3 planeorigin;
+    /// <summary>Construct an OrthoNormalBasis</summary>
+    /// <param name="plane">The basis plane.</param>
+    /// <param name="rv">Right hand vector.</param>
     public OrthoNormalBasis(Plane plane, Vec3? rv = null)
     {
         // choose an arbitrary right hand vector, making sure it is somewhat orthogonal to the plane normal:
-        var rightvector = rv ?? plane.normal.Orthogonal();
-        this.v = plane.normal.Cross(rightvector).Normalize();
-        this.u = this.v.Cross(plane.normal);
+        var rightvector = rv ?? plane.Normal.Orthogonal();
+        this.v = plane.Normal.Cross(rightvector).Normalize();
+        this.u = this.v.Cross(plane.Normal);
         this.plane = plane;
-        this.planeorigin = plane.normal.Scale(plane.w);
+        this.planeorigin = plane.Normal.Scale(plane.W);
     }
 
-    // Get an orthonormal basis for the standard XYZ planes.
-    // Parameters: the names of two 3D axes. The 2d x axis will map to the first given 3D axis, the 2d y
-    // axis will map to the second.
-    // Prepend the axis with a "-" to invert the direction of this axis.
-    // For example: OrthoNormalBasis.GetCartesian("-Y","Z")
-    //   will return an orthonormal basis where the 2d X axis maps to the 3D inverted Y axis, and
-    //   the 2d Y axis maps to the 3D Z axis.
+    /// <summary>Get an orthonormal basis for the standard XYZ planes.</summary>
+    /// <remarks>
+    /// Parameters: the names of two 3D axes. The 2d x axis will map to the first given 3D axis, the 2d y
+    /// axis will map to the second.
+    /// Prepend the axis with a "-" to invert the direction of this axis.
+    /// For example: OrthoNormalBasis.GetCartesian("-Y","Z")
+    ///   will return an orthonormal basis where the 2d X axis maps to the 3D inverted Y axis, and
+    ///   the 2d Y axis maps to the 3D Z axis.
+    /// </remarks>
     public static OrthoNormalBasis GetCartesian(string xaxisid, string yaxisid)
     {
         var axisid = xaxisid + "/" + yaxisid;
@@ -170,32 +172,36 @@ public class OrthoNormalBasis
     }
 #endif
 
+    ///
     public Mat4 GetProjectionMatrix()
     {
         return new Mat4(
-          this.u.x, this.v.x, this.plane.normal.x, 0,
-          this.u.y, this.v.y, this.plane.normal.y, 0,
-          this.u.z, this.v.z, this.plane.normal.z, 0,
-          0, 0, -this.plane.w, 1
+          this.u.x, this.v.x, this.plane.Normal.x, 0,
+          this.u.y, this.v.y, this.plane.Normal.y, 0,
+          this.u.z, this.v.z, this.plane.Normal.z, 0,
+          0, 0, -this.plane.W, 1
         );
     }
 
+    ///
     public Mat4 GetInverseProjectionMatrix()
     {
-        var p = this.plane.normal.Scale(this.plane.w);
+        var p = this.plane.Normal.Scale(this.plane.W);
         return new Mat4(
             this.u.x, this.u.y, this.u.z, 0,
             this.v.x, this.v.y, this.v.z, 0,
-            this.plane.normal.x, this.plane.normal.y, this.plane.normal.z, 0,
+            this.plane.Normal.x, this.plane.Normal.y, this.plane.Normal.z, 0,
             p.x, p.y, p.z, 1
           );
     }
 
+    /// <summary>Use the ONB to translate a 3D point to 2D.</summary>
     public Vec2 To2D(Vec3 point)
     {
         return new Vec2(point.Dot(this.u), point.Dot(this.v));
     }
 
+    /// <summary>Use the ONB to translate a 2D point to 3D.</summary>
     public Vec3 To3D(Vec2 point)
     {
         var v1 = this.u.Scale(point.x);

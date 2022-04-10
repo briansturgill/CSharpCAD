@@ -3,7 +3,7 @@ namespace CSharpCAD;
 
 using Seg = Vec2;
 
-public static partial class CSCAD
+internal static partial class CSharpCADInternals
 {
     internal struct Corner
     {
@@ -27,7 +27,7 @@ public static partial class CSCAD
      * @param {Array} points - array of 2D points
      * @returns {Array} new set of offset points, plus points for each rounded corner
      */
-    internal static List<Vec2> OffsetFromPoints(List<Vec2> points, double delta, string corners, int segments, bool closed)
+    internal static List<Vec2> OffsetFromPoints(List<Vec2> points, double delta, Corners corners, int segments, bool closed)
     {
         if (Math.Abs(delta) < C.EPS) return points;
 
@@ -108,7 +108,7 @@ public static partial class CSCAD
 
         // generate corners if necessary
 
-        if (corners == "edge")
+        if (corners == Corners.Edge)
         {
             // map for fast point index lookup
             var pointIndex = new Dictionary<Vec2, int>(); // {point: index}
@@ -139,7 +139,7 @@ public static partial class CSCAD
             newPoints = newPoints.Where((p) => !(double.IsNaN(p.x) && double.IsNaN(p.y))).ToList();
         }
 
-        if (corners == "round")
+        if (corners == Corners.Round)
         {
             // create rounded corners
             var cornersegments = segments / 4;

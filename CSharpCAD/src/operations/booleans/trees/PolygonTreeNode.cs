@@ -173,7 +173,7 @@ public static partial class CSCAD
                 var (min, max) = polygon.BoundingSphere();
                 var sphereradius = max + C.EPS; // ensure radius is LARGER then polygon
                 var spherecenter = min;
-                var d = splane.normal.Dot(spherecenter) - splane.w;
+                var d = splane.Normal.Dot(spherecenter) - splane.W;
                 if (d > sphereradius)
                 {
                     frontnodes.Add(this);

@@ -15,7 +15,7 @@ public class CircleTests
     [Test]
     public void TestCircleDefaults()
     {
-        var geometry = Circle(new Opts { { "radius", 2 } });
+        var geometry = Circle(radius: 2);
         Assert.DoesNotThrow(() => geometry.Validate());
         var pts = ((Geom2)geometry).ToPoints();
 
@@ -27,7 +27,7 @@ public class CircleTests
     public void TestCircleOptions()
     {
         // test center
-        var geometry = Circle(new Opts { { "radius", 3.5 }, { "center", (6.5, 6.5) } });
+        var geometry = Circle(radius: 3.5, center: (6.5, 6.5));
         Assert.DoesNotThrow(() => geometry.Validate());
         var pts = ((Geom2)geometry).ToPoints();
         var exp = new Vec2[] {
@@ -69,7 +69,7 @@ public class CircleTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // test radius
-        geometry = Circle(new Opts { { "radius", 3.5 }, { "segments", 16 } });
+        geometry = Circle(radius: 3.5, segments: 16);
         Assert.DoesNotThrow(() => geometry.Validate());
         pts = ((Geom2)geometry).ToPoints();
         exp = new Vec2[] {
@@ -95,7 +95,7 @@ public class CircleTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // test startAngle
-        geometry = Circle(new Opts { { "radius", 3.5 }, { "startAngle", Math.PI / 2 }, { "segments", 16 } });
+        geometry = Circle(radius: 3.5, startAngle: Math.PI / 2, segments: 16);
         Assert.DoesNotThrow(() => geometry.Validate());
         pts = ((Geom2)geometry).ToPoints();
         exp = new Vec2[] {
@@ -119,7 +119,7 @@ public class CircleTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // test endAngle
-        geometry = Circle(new Opts { { "radius", 3.5 }, { "endAngle", Math.PI / 2 }, { "segments", 16 } });
+        geometry = Circle(radius: 3.5, endAngle: Math.PI / 2, segments: 16);
         Assert.DoesNotThrow(() => geometry.Validate());
         pts = ((Geom2)geometry).ToPoints();
         exp = new Vec2[] {
@@ -135,7 +135,7 @@ public class CircleTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // test segments
-        geometry = Circle(new Opts { { "radius", 3.5 }, { "segments", 5 } });
+        geometry = Circle(radius: 3.5, segments: 5);
         Assert.DoesNotThrow(() => geometry.Validate());
         pts = ((Geom2)geometry).ToPoints();
         exp = new Vec2[] {

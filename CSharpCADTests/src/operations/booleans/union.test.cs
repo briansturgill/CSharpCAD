@@ -21,7 +21,7 @@ public class UnionTests
         //   t.deepEqual(obs, exp)
         // })
 
-        var geometry1 = (Geom2)Circle(new Opts { { "radius", 2 }, { "segments", 8 } });
+        var geometry1 = (Geom2)Circle(radius: 2, segments: 8);
         Assert.DoesNotThrow(() => geometry1.Validate());
 
         // union of one object
@@ -96,7 +96,7 @@ public class UnionTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // union of unions of non-overlapping objects (BSP gap from #907)
-        var circ = Circle(new Opts { { "radius", 1 }, { "segments", 32 } });
+        var circ = Circle(radius: 1, segments: 32);
         Assert.DoesNotThrow(() => circ.Validate());
         var result5 = (Geom2)Union(
           Union(

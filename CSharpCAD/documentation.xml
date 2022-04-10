@@ -1,0 +1,1666 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CSharpCAD</name>
+    </assembly>
+    <members>
+        <member name="T:CSharpCAD.Color">
+            <summary>Represent a color in a space efficient manner.</summary>
+        </member>
+        <member name="F:CSharpCAD.Color.r">
+            <summary>Red</summary>
+        </member>
+        <member name="F:CSharpCAD.Color.g">
+            <summary>Green</summary>
+        </member>
+        <member name="F:CSharpCAD.Color.b">
+            <summary>Blue</summary>
+        </member>
+        <member name="F:CSharpCAD.Color.a">
+            <summary>Alpha range is 0-255, with 255 meaning opaque.</summary>
+        </member>
+        <member name="M:CSharpCAD.Color.#ctor(System.Byte,System.Byte,System.Byte,System.Byte)">
+            <summary>Construct from 3 RGB bytes.</summary>
+            <remarks>With no arguments, construct the color "black".</remarks>
+        </member>
+        <member name="M:CSharpCAD.Color.#ctor(System.String,System.Byte)">
+            <summary>Construct from a CSS extended name or a hex specification (begins with) repeated 3 times.</summary>
+        </member>
+        <member name="M:CSharpCAD.Color.Equals(CSharpCAD.Color)">
+            <summary>Check if this Color is equal to the given Color.</summary>
+        </member>
+        <member name="M:CSharpCAD.Color.op_Equality(CSharpCAD.Color,CSharpCAD.Color)">
+            <summary>Check if this vector is equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Color.op_Inequality(CSharpCAD.Color,CSharpCAD.Color)">
+            <summary>Check if this Color is not equal to the given Color.</summary>
+        </member>
+        <member name="M:CSharpCAD.Color.Equals(System.Object)">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Color.GetHashCode">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Color.ToString">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="T:CSharpCAD.CSCAD">
+            <summary>CSCAD contains the static methods most commonly used in producing geometries.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Colorize(System.Object,CSharpCAD.Geometry)">
+            <summary>Assign the given color to the given objects.</summary>
+            <param name="rgbcolor">Has 3 formats:
+              A C# Tuple of RGB color values, where each value is between 0 and 255.
+              A string beginning with "#" followed by 6 hex digits representing RGB.
+              A string that s one of the extended CSS color names.
+            </param>
+            <param name="obj">A 2D or 3D geometry object.</param>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ColorNameToRGB(System.String)">
+            <summary>Converts a CSS color name to RGB color.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.GetColorNames">
+            <summary>Get array of color names.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.GetColorNamesByRainbow">
+            <summary>Returns a tuple of names and colors sorted, but not really by rainbow.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.HexToRGB(System.String,System.Byte)">
+            <summary>Converts CSS color notations (string of hex values) to RGB values.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.SerializeToAMF(System.String,CSharpCAD.Geometry)">
+            Serialize the give objects (geometry) to AMF source data (XML).
+        </member>
+        <member name="M:CSharpCAD.CSCAD.SVGSerializer.SerializeToSVG(CSharpCAD.Geometry)">
+            <summary>Serializer of JSCAD geometries to SVG source (XML).</summary>
+            <remarks>
+            The serialization of the following geometries are possible.
+            - serialization of 2D geometry (geom2) to SVG path (a continous path containing the outlines of the geometry)
+            - serialization of 2D geometry (path2) to SVG path
+            Colors are added to SVG shapes when found on the geometry.
+            Special attributes (id and class) are added to SVG shapes when found on the geometry.
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Intersect(CSharpCAD.Geometry[])">
+             <summary>Return a new geometry representing space in both the first geometry and
+             all subsequent geometries.</summary>
+             <remarks>The given geometries should be of the same type, either geom2 or geom3.</remarks>
+            <example>
+             +-------+
+             |       |
+             |   A   |
+             |    +--+----+   =   +--+
+             +----+--+    |       +--+
+                  |   B   |
+                  |       |
+                  +-------+
+             </example>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Retessellate(CSharpCAD.Geom3)">
+            <summary>Public only for unit testing.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.InterpolateBetween2DPointsForY(CSharpCAD.Vec2,CSharpCAD.Vec2,System.Double)">
+            Get the X coordinate of a point with a certain Y coordinate, interpolated between two points.
+            Interpolation is robust even if the points have the same Y coordinate
+            @param {vec2} point1
+            @param {vec2} point2
+            @param {Number} y
+            @return {Array} X and Y of interpolated point
+            @alias module:modeling/maths/utils.interpolateBetween2DPointsForY
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Subtract(CSharpCAD.Geometry[])">
+             <summary>Return a new geometry representing space in the first geometry but
+             not in all subsequent geometries.</summary>
+             <remarks>The given geometries should be of the same type, either geom2 or geom3.</remarks>
+            <example>
+             +-------+            +-------+
+             |       |            |       |
+             |   A   |            |       |
+             |    +--+----+   =   |    +--+
+             +----+--+    |       +----+
+                  |   B   |
+                  |       |
+                  +-------+
+             </example>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Union(CSharpCAD.Geometry[])">
+             <summary>Return a new geometry representing the total space in the given geometries.</summary>
+             <remarks>The given geometries should be of the same type, either geom2 or geom3.</remarks>
+            
+             <param name="gobjs">At least 2 geometry objects, all of the same type. (All 2D or 3D).</param>
+             <returns>The new geometry formed the union of all the geometry objects.</returns>
+             <example>
+             var myshape = Union(Rectangle(size: [5,5]), Rectangle(size: [5,5], center: [5,5]));
+            
+             +-------+            +-------+
+             |       |            |       |
+             |   A   |            |       |
+             |    +--+----+   =   |       +----+
+             +----+--+    |       +----+       |
+                  |   B   |            |       |
+                  |       |            |       |
+                  +-------+            +-------+
+             </example>
+        </member>
+        <member name="T:CSharpCAD.CSCAD.Corners">
+            <summary>Specify handling of corners.</summary>
+        </member>
+        <member name="F:CSharpCAD.CSCAD.Corners.Edge">
+            <summary>Simple straight edge.</summary>
+        </member>
+        <member name="F:CSharpCAD.CSCAD.Corners.Chamfer">
+            <summary>Diagonal edge.</summary>
+        </member>
+        <member name="F:CSharpCAD.CSCAD.Corners.Round">
+            <summary>Rounded edge.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Expand(CSharpCAD.Geometry,System.Double,CSharpCAD.CSCAD.Corners,System.Int32)">
+             <summary>Expand the given geometry using the given options.</summary>
+             <remarks>
+             Both internal and external space is expanded for 2D and 3D shapes.
+            
+             Note: Contract is expand using a negative delta.
+             </remarks>
+             <param name="gobj">The geometry to expand.</param>
+             <param name="delta">Delta (+/-) of expansion.</param>
+             <param name="corners">Type of corner to create after expanding.</param>
+             <param name="segments">Number of segments when creating round corners.</param>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Offset(CSharpCAD.Geometry,System.Double,CSharpCAD.CSCAD.Corners,System.Int32)">
+            <summary>Create offset geometry from the given geometry.</summary>
+            <remarks>Offsets from internal and external space are created.</remarks>
+            <param name="gobj">2D geometry object to be offset.</param>
+            <param name="delta">Delta of offset (+ to exterior, - from interior).</param>
+            <param name="corners">Type of corner to create after offseting; edge, chamfer, round.</param>
+            <param name="segments">Number of segments when creating round corners.</param>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ArePointsInside(System.Collections.Generic.List{CSharpCAD.Vec2},System.Collections.Generic.List{CSharpCAD.Vec2})">
+             Determine if the given points are inside the given polygon.
+            
+             @param {Array} points - a list of points, where each point is an array with X and Y values
+             @param {poly2} polygon - a 2D polygon
+             @return {Integer} 1 if all points are inside, 0 if some or none are inside
+             @alias module:modeling/geometries/poly2.arePointsInside
+        </member>
+        <member name="T:CSharpCAD.CSCAD.SliceGenerator">
+            <summary>Callback for use with ExtrudeFromSlices. For advanced users only.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ExtrudeFromSlices(CSharpCAD.Slice,CSharpCAD.CSCAD.SliceGenerator,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
+             <summary>Extrude a solid from the slices as returned by the callback function.</summary>
+             @see slice
+            
+             @param {Object} options - options for extrude
+             @param {Integer} [options.numberOfSlices=2] the number of slices to be generated by the callback
+             @param {Boolean} [options.capStart=true] the solid should have a cap at the start
+             @param {Boolean} [options.capEnd=true] the solid should have a cap at the end
+             @param {Boolean} [options.close=false] the solid should have a closing section between start and end
+             @param {Function} [options.callback] the callback function that generates each slice
+             @param {Object} base - the base object which is used to create slices (see the example for callback information)
+             @return {geom3} the extruded shape
+             @alias module:modeling/extrusions.extrudeFromSlices
+            
+             @example
+             // Parameters:
+             //   progress : the percent complete [0..1]
+             //   index : the index of the current slice [0..numberOfSlices - 1]
+             //   base : the base object as given
+             // Return Value:
+             //   slice or null (to skip)
+             var callback = (progress, index, base) => {
+               ...
+               return slice
+             }
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ExtrudeLinear(CSharpCAD.Geom2,System.Double,System.Double,System.Int32,System.Boolean)">
+            <summary>Extrude the given geometry in an upward linear direction using the given options.</summary>
+            <param name="obj">The geometries to extrude.</param>
+            <param name="height">The height of the extrusion.</param>
+            <param name="twistAngle">The final rotation (RADIANS) about the origin of the shape (if any).</param>
+            <param name="twistSteps">The resolution of the twist about the axis (if any).</param>
+            <param name="repair">Repair the slice to make it conformant.</param>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ExtrudeRectangular(CSharpCAD.Geometry,System.Double,System.Double,System.Double,System.Int32,CSharpCAD.CSCAD.Corners,System.Int32)">
+            <summary>Extrude the given geometry by following the outline(s) with a rectangle.</summary>
+            <param name="gobj">2D geometry object to be extruded.</param>
+            <param name="size">Size of the rectangle.</param>
+            <param name="height">Height of the extrusion.</param>
+            <param name="twistAngle">The final rotation (RADIANS) about the origin of the shape (if any).</param>
+            <param name="twistSteps">The resolution of the twist about the axis (if any).</param>
+            <param name="corners">Type of corner to create after expanding.</param>
+            <param name="segments">Number of segments when creating round corners.</param>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ExtrudeRotate(CSharpCAD.Geom2,System.Int32,System.Double,System.Double)">
+            <summary>Rotate extrude the given geometry using the given options.</summary>
+            <param name="geometry">The 2D geometry to extrude.</param>
+            <param name="angle">Angle of the extrusion (RADIANS). Default: PI*2</param>
+            <param name="startAngle">Start angle of the extrusion (RADIANS). Default: ((double)(0.0))</param>
+            <param name="segments">Number of segments of the extrusion. Default: 12</param>
+            <returns>The extruded 3D geometry</returns>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Project(CSharpCAD.Geom3,System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
+            Project the given 3D geometry onto the given plane.
+            <param name="obj">The given 3D geometry object.</param>
+            <param name="axis">The axis of the plane. Default: [0,0,1] (the Z axis).</param>
+            <param name="origin">The origin of the plane. Default [0,0,0].</param>
+            <returns>The projected 2D geometry.</returns>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Hull(CSharpCAD.Geometry[])">
+            <summary>Create a convex hull of the given geometries.</summary>
+            <remarks>Currently, the given geometries must be of type Geom2.</remarks>
+            <example>
+            +-------+           +-------+
+            |       |           |        \
+            |   A   |           |         \
+            |       |           |          \
+            +-------+           +           \
+                             =   \           \
+                  +-------+       \           +
+                  |       |        \          |
+                  |   B   |         \         |
+                  |       |          \        |
+                  +-------+           +-------+
+            </example>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Center(CSharpCAD.Geometry,System.Boolean,System.Boolean,System.Boolean,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Center the given objects using the given options.</summary>
+            <param name="axisX">=Center along X axis. Default: true.</param>
+            <param name="axisY">=Center along Y axis. Default: true.</param>
+            <param name="axisZ">=Center along Z axis. Default: true.</param>
+            <param name="relativeTo">Centering occurs relative to this point. Default: Vec3(0,0,0)</param>
+            <param name="obj">The geometry object to center</param>
+            <remarks>The Z components are ignored for 2D geometry objects.</remarks>
+            <returns>The centered object.</returns>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.CenterX(CSharpCAD.Geometry)">
+            Center the given objects about the X axis.
+            @param {...Object} objects - the objects to center
+            @return {Object|Array} the centered object, or a list of centered objects
+            @alias module:modeling/transforms.centerX
+        </member>
+        <member name="M:CSharpCAD.CSCAD.CenterY(CSharpCAD.Geometry)">
+            Center the given objects about the Y axis.
+            @param {...Object} objects - the objects to center
+            @return {Object|Array} the centered object, or a list of centered objects
+            @alias module:modeling/transforms.centerY
+        </member>
+        <member name="M:CSharpCAD.CSCAD.CenterZ(CSharpCAD.Geometry)">
+            Center the given objects about the Z axis.
+            @param {...Object} objects - the objects to center
+            @return {Object|Array} the centered object, or a list of centered objects
+            @alias module:modeling/transforms.centerZ
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Mirror(CSharpCAD.Geometry,System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
+            <summary>Mirror the given object using the given options.</summary>
+            <param name="g">The object to mirror.</param>
+            <param name="origin">The origin of the plane. Default: new Vec3(0,0,0)</param>
+            <param name="normal">The normal vector of the plane. Default: new Vec3(0,0,1)</param>
+            <returns>The mirrored geometry.</returns>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.MirrorX(CSharpCAD.Geometry,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Mirror the given ogeometry about the X axis.</summary>
+            <param name="g">The object to mirror.</param>
+            <param name="origin">The origin of the plane. Default: new Vec3(0,0,0)</param>
+            <returns>The mirrored geometry.</returns>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.MirrorY(CSharpCAD.Geometry,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Mirror the given geometry about the Y axis.</summary>
+            <param name="g">The object to mirror.</param>
+            <param name="origin">The origin of the plane. Default: new Vec3(0,0,0)</param>
+            <returns>The mirrored geometry.</returns>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.MirrorZ(CSharpCAD.Geometry,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Mirror the given geometry about the Z axis.</summary>
+            <param name="g">The object to mirror.</param>
+            <param name="origin">The origin of the plane. Default: new Vec3(0,0,0)</param>
+            <returns>The mirrored geometry.</returns>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Rotate(CSharpCAD.Vec3,CSharpCAD.Geometry)">
+            <summary>Rotate the given objects using the given options.</summary>
+            <param name="angles">The angle (RADIANS) of rotations about X, Y, and Z axis.</param>
+            <param name="g">The geometry object to rotate.</param>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.RotateX(System.Double,CSharpCAD.Geometry)">
+            <summary>Rotate the given objects about the X axis.</summary>
+            <param name="angle">The angle (RADIANS) of rotations about X.</param>
+            <param name="g">The geometry object to rotate.</param>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.RotateY(System.Double,CSharpCAD.Geometry)">
+            <summary>Rotate the given objects about the Y axis.</summary>
+            <param name="angle">The angle (RADIANS) of rotations about Y.</param>
+            <param name="g">The geometry object to rotate.</param>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.RotateZ(System.Double,CSharpCAD.Geometry)">
+            <summary>Rotate the given objects about the Z axis.</summary>
+            <param name="angle">The angle (RADIANS) of rotations about Z.</param>
+            <param name="g">The geometry object to rotate.</param>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Scale(CSharpCAD.Vec3,CSharpCAD.Geometry)">
+            <summary>Scale the given geometry object using the given factors.</summary>
+            <remarks>The Z point is ignored for 2d geometry objects.</remarks>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ScaleX(System.Double,CSharpCAD.Geometry)">
+            <summary>Scale the given objects about the X axis using the given factor.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ScaleY(System.Double,CSharpCAD.Geometry)">
+            <summary>Scale the given objects about the Y axis using the given factor.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ScaleZ(System.Double,CSharpCAD.Geometry)">
+            <summary>Scale the given objects about the Z axis using the given factor.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Transform(CSharpCAD.Mat4,CSharpCAD.Geometry)">
+            <summary>Transform the geometry object using the given matrix.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Translate(CSharpCAD.Vec3,CSharpCAD.Geometry)">
+            @ingroup Transforms
+            <summary>Translate (move) the given geometry.</summary>
+            <param name="offset">The vector of offsets to applied to the object.</param>
+            <param name="g">The geometry object to translate.</param>
+            <returns>The translated geometry object.</returns>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.TranslateX(System.Double,CSharpCAD.Geometry)">
+            <summary>Translate the given objects along the X axis.</summary>
+            <param name="offset">X offset of which to translate the object.</param>
+            <param name="g">The geometry object to translate.</param>
+            <returns>The translated geometry object.</returns>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.TranslateY(System.Double,CSharpCAD.Geometry)">
+            <summary>Translate the given objects along the Y axis.</summary>
+            <param name="offset">Y offset of which to translate the object.</param>
+            <param name="g">The geometry object to translate.</param>
+            <returns>The translated geometry object.</returns>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.TranslateZ(System.Double,CSharpCAD.Geometry)">
+            <summary>Translate the given objects along the Z axis.</summary>
+            <param name="offset">Z offset of which to translate the object.</param>
+            <param name="g">The geometry object to translate.</param>
+            <returns>The translated geometry object.</returns>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Circle(System.Double,System.Int32,System.Double,System.Double,System.Nullable{CSharpCAD.Vec2})">
+            <summary>Construct a circle in two dimensional space where all points are at the same distance from the center.</summary>
+            <param name="center" default="(0,0)">Center of circle.</param>
+            <param name="radius">Radius of circle.</param>
+            <param name="segments">Number of segments in a full rotation of circle.</param>
+            <param name="startAngle">Begining of the rotation of the circle (in radians).</param>
+            <param name="endAngle">End of the rotation of the circle (in radians).</param>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Cube(CSharpCAD.Opts)">
+            <summary>Construct an axis-aligned solid cube in three dimensional space with six square faces.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Cuboid(CSharpCAD.Opts)">
+            <summary>Construct an axis-aligned solid cuboid in three dimensional space.</summary>
+            opts -- size: Vec3, center: Vec3
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Cylinder(CSharpCAD.Opts)">
+             <summary>Construct a Z axis-aligned cylinder in three dimensional space.</summary>
+             @see [cylinderElliptic]{@link module:modeling/primitives.cylinderElliptic} for more options
+             @param {Object} [options] - options for construction
+             @param {Array} [options.center=[0,0,0]] - center of cylinder
+             @param {Number} [options.height=2] - height of cylinder
+             @param {Number} [options.radius=1] - radius of cylinder (at both start and end)
+             @param {Number} [options.segments=32] - number of segments to create per full rotation
+             @returns {geom3} new geometry
+             @alias module:modeling/primitives.cylinder
+            
+             @example
+             var myshape = cylinder({height: 2, radius: 10})
+        </member>
+        <member name="M:CSharpCAD.CSCAD.CylinderElliptic(CSharpCAD.Opts)">
+            <summary>Construct a Z axis-aligned elliptic cylinder in three dimensional space.</summary>
+            <remarks>
+            @param {Object} [options] - options for construction
+            @param {Array} [options.center=[0,0,0]] - center of cylinder
+            @param {Number} [options.height=2] - height of cylinder
+            @param {Array} [options.startRadius=[1,1]] - radius of rounded start, must be two dimensional array
+            @param {Number} [options.startAngle=0] - start angle of cylinder, in radians
+            @param {Array} [options.endRadius=[1,1]] - radius of rounded end, must be two dimensional array
+            @param {Number} [options.endAngle=(Math.PI * 2)] - end angle of cylinder, in radians
+            @param {Number} [options.segments=32] - number of segments to create per full rotation
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Ellipse(System.Nullable{CSharpCAD.Vec2},System.Int32,System.Nullable{CSharpCAD.Vec2},System.Double,System.Double)">
+            <summary>Construct an axis-aligned ellipse in two dimensional space.</summary>
+            <remarks>
+            @see https://en.wikipedia.org/wiki/Ellipse
+            </remarks>
+            <param name="center">Center of Ellipse. Default: [0,0].</param>
+            <param name="radius">Radius of ellipse, along X and Y axes. Default:[1,1]</param>
+            <param name="startAngle">Start angle of ellipse, in radians</param>
+            <param name="endAngle">End angle of ellipse, in radians.</param>
+            <param name="segments">Number of segments to create per full rotation.</param>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Ellipsoid(CSharpCAD.Opts)">
+            Construct an axis-aligned ellipsoid in three dimensional space.
+            <remarks>
+            @param {Object} [options] - options for construction
+            @param {Array} [options.center=[0,0,0]] - center of ellipsoid
+            @param {Array} [options.radius=[1,1,1]] - radius of ellipsoid, along X, Y and Z
+            @param {Number} [options.segments=32] - number of segements to create per full rotation
+            @param {Array} [options.axes] -  an array with three vectors for the x, y and z base vectors
+            @returns {geom3} new 3D geometry
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.GeodesicSphere(System.Double,System.Int32)">
+            <summary>Construct a geodesic sphere based on icosahedron symmetry.</summary>
+            <param name="radius">Target radius of sphere</param>
+            <param name="frequency">Subdivision frequency per face, must be multiple of 6.</param>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Polygon(CSharpCAD.Opts)">
+             <summary>Construct a polygon in two dimensional space from a list of points, or a list of points and paths.</summary>
+             NOTE: The ordering of points is VERY IMPORTANT.
+             @param {Array} options.points - points of the polygon : list of 2D points
+             @param {Array} [options.paths] - paths of the polygon : list of list of point indexes
+             @returns {geom2} new 2D geometry
+            
+             @example
+             var points = new Points2 {
+               // roof
+               [10,11], [0,11], [5,20],
+               // wall
+               [0,0], [10,0], [10,10], [0,10]
+              };
+              var paths = new Paths {
+                new Path { 0, 1, 2},
+                new Path { 3, 4, 5, 6}
+              };
+            
+             var poly = Polygon(new Opts {{ "points", points}, {"paths", paths }});
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Polyhedron(CSharpCAD.Opts)">
+             Construct a polyhedron in three dimensional space from the given set of 3D points and faces.
+             The faces can define outward or inward facing polygons (orientation).
+             However, each face must define a counter clockwise rotation of points which follows the right hand rule.
+             @param {Object} options - options for construction
+             @param {Array} options.points - list of points in 3D space
+             @param {Array} options.faces - list of faces, where each face is a set of indexes into the points
+             @param {Array} [options.colors=undefined] - list of RGBA colors to apply to each face
+             @param {Array} [options.orientation="outward"] - orientation of faces
+             @returns {geom3} new 3D geometry
+             @alias module:modeling/primitives.polyhedron
+            
+             @example
+             var mypoints = [ [10, 10, 0], [10, -10, 0], [-10, -10, 0], [-10, 10, 0], [0, 0, 10] ]
+             var myfaces = [ [0, 1, 4], [1, 2, 4], [2, 3, 4], [3, 0, 4], [1, 0, 3], [2, 1, 3] ]
+             var myshape = polyhedron({points: mypoint, faces: myfaces, orientation: "inward"})
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Rectangle(CSharpCAD.Opts)">
+            <summary>Construct an axis-aligned rectangle in two dimensional space with four sides at right angles.</summary>
+            <remarks>
+            @param {Array} [options.center=[0,0]] - center of rectangle
+            @param {Array} [options.size=[2,2]] - dimension of rectangle, width and length
+            @returns {geom2} new 2D geometry
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.RoundedCuboid(CSharpCAD.Opts)">
+             Construct an axis-aligned solid cuboid in three dimensional space with rounded corners.
+             @param {Object} [options] - options for construction
+             @param {Array} [options.center=[0,0,0]] - center of rounded cube
+             @param {Array} [options.size=[2,2,2]] - dimension of rounded cube; width, depth, height
+             @param {Number} [options.roundRadius=0.2] - radius of rounded edges
+             @param {Number} [options.segments=32] - number of segments to create per full rotation
+             @returns {geom3} new 3D geometry
+             @alias module:modeling/primitives.roundedCuboid
+            
+             @example
+             var mycube = roundedCuboid({size: [10, 20, 10], roundRadius: 2, segments: 16})
+        </member>
+        <member name="M:CSharpCAD.CSCAD.RoundedCylinder(CSharpCAD.Opts)">
+             Construct a Z axis-aligned solid cylinder in three dimensional space with rounded ends.
+             @param {Object} [options] - options for construction
+             @param {Array} [options.center=[0,0,0]] - center of cylinder
+             @param {Number} [options.height=2] - height of cylinder
+             @param {Number} [options.radius=1] - radius of cylinder
+             @param {Number} [options.roundRadius=0.2] - radius of rounded edges
+             @param {Number} [options.segments=32] - number of segments to create per full rotation
+             @returns {geom3} new 3D geometry
+             @alias module:modeling/primitives.roundedCylinder
+            
+             @example
+             var myshape = roundedCylinder({ height: 10, radius: 2, roundRadius: 0.5 })
+        </member>
+        <member name="M:CSharpCAD.CSCAD.RoundedRectangle(CSharpCAD.Opts)">
+             Construct an axis-aligned rectangle in two dimensional space with rounded corners.
+             @param {Object} [options] - options for construction
+             @param {Array} [options.center=[0,0]] - center of rounded rectangle
+             @param {Array} [options.size=[2,2]] - dimension of rounded rectangle; width and length
+             @param {Number} [options.roundRadius=0.2] - round radius of corners
+             @param {Number} [options.segments=32] - number of segments to create per full rotation
+             @returns {geom2} new 2D geometry
+             @alias module:modeling/primitives.roundedRectangle
+            
+             @example
+             var myshape = roundedRectangle({size: [10, 20], roundRadius: 2})
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Sphere(CSharpCAD.Opts)">
+             Construct a sphere in three dimensional space where all points are at the same distance from the center.
+             @see [ellipsoid]{@link module:modeling/primitives.ellipsoid} for more options
+             @param {Object} [options] - options for construction
+             @param {Array} [options.center=[0,0,0]] - center of sphere
+             @param {Number} [options.radius=1] - radius of sphere
+             @param {Number} [options.segments=32] - number of segments to create per full rotation
+             @param {Array} [options.axes] -  an array with three vectors for the x, y and z base vectors
+             @returns {geom3} new 3D geometry
+             @alias module:modeling/primitives.sphere
+            
+             @example
+             var myshape = sphere({radius: 5})
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Square(CSharpCAD.Opts)">
+             Construct an axis-aligned square in two dimensional space with four equal sides at right angles.
+             @see [rectangle]{@link module:modeling/primitives.rectangle} for more options
+             @param {Object} [options] - options for construction
+             @param {Array} [options.center=[0,0]] - center of square
+             @param {Number} [options.size=2] - dimension of square
+             @returns {geom2} new 2D geometry
+             @alias module:modeling/primitives.square
+            
+             @example
+             var myshape = square({size: 10})
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Star(CSharpCAD.Opts)">
+             Construct a star in two dimensional space.
+             @see https://en.wikipedia.org/wiki/Star_polygon
+             @param {Object} [options] - options for construction
+             @param {Array} [options.center=[0,0]] - center of star
+             @param {Number} [options.vertices=5] - number of vertices (P) on the star
+             @param {Number} [options.density=2] - density (Q) of star
+             @param {Number} [options.outerRadius=1] - outer radius of vertices
+             @param {Number} [options.innerRadius=0] - inner radius of vertices, or zero to calculate
+             @param {Number} [options.startAngle=0] - starting angle for first vertice, in radians
+             @returns {geom2} new 2D geometry
+             @alias module:modeling/primitives.star
+            
+             @example
+             var star1 = star({vertices: 8, outerRadius: 10}) // star with 8/2 density
+             var star2 = star({vertices: 12, outerRadius: 40, innerRadius: 20}) // star with given radius
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Torus(System.Double,System.Int32,System.Double,System.Int32,System.Double,System.Double,System.Double)">
+             <summary>Construct a torus by revolving a small circle (inner) about the circumference of a large (outer) circle.</summary>
+             @param {Object} [options] - options for construction
+             @param {Number} [options.innerRadius=1] - radius of small (inner) circle
+             @param {Number} [options.outerRadius=4] - radius of large (outer) circle
+             @param {Integer} [options.innerSegments=32] - number of segments to create per rotation
+             @param {Integer} [options.outerSegments=32] - number of segments to create per rotation
+             @param {Integer} [options.innerRotation=0] - rotation of small (inner) circle in radians
+             @param {Number} [options.outerRotation=(PI * 2)] - rotation (outer) of the torus (RADIANS)
+             @param {Number} [options.startAngle=0] - start angle of the torus (RADIANS)
+             @returns {geom3} new 3D geometry
+             @alias module:modeling/primitives.torus
+            
+             @example
+             var myshape = torus({ innerRadius: 10, outerRadius: 100 })
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Triangle(CSharpCAD.Opts)">
+             <summary>Construct a triangle in two dimensional space from the given options.</summary>
+             The triangle is always constructed CCW from the origin, [0, 0, 0].
+             @see https://www.mathsisfun.com/algebra/trig-solving-triangles.html
+             @param {Object} [options] - options for construction
+             @param {String} [options.type="SSS" - type of triangle to construct; A ~ angle, S ~ side
+             @param {Array} [options.values=[1,1,1]] - angle (radians) of corners or length of sides
+             @returns {geom2} new 2D geometry
+             @alias module:modeling/primitives.triangle
+            
+             @example
+             var myshape = triangle({type: "AAS", values: [degToRad(62), degToRad(35), 7]})
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Echo(System.Object[])">
+            <summary>Print string representations of any object.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Save(System.String,CSharpCAD.Geometry,System.Boolean)">
+            <summary>Save a geometry object in a file suitable for printing, etc.</summary>
+        </member>
+        <member name="T:CSharpCAD.ValidationException">
+            <summary>Thrown by internal validation checks.</summary>
+        </member>
+        <member name="M:CSharpCAD.ValidationException.#ctor(System.String)">
+            
+        </member>
+        <member name="T:CSharpCAD.Geom2">
+            <summary>Represents a 2D geometry consisting of an array of sides.</summary>
+        </member>
+        <member name="P:CSharpCAD.Geom2.Transforms">
+            
+        </member>
+        <member name="F:CSharpCAD.Geom2.Color">
+            
+        </member>
+        <member name="P:CSharpCAD.Geom2.Is2D">
+            <summary>Is this a 2D geometry object?</summary>
+        </member>
+        <member name="P:CSharpCAD.Geom2.Is3D">
+            <summary>Is this a 3D geometry object?</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.#ctor">
+            <summary>Empty constructor.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.#ctor(CSharpCAD.Geom2.Side[],CSharpCAD.Mat4,System.Nullable{CSharpCAD.Color})">
+            <summary>Internal constructor.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.#ctor(System.Collections.Generic.List{CSharpCAD.Vec2})">
+            <summary>Create a new 2D geometry from the given points.</summary>
+            <remarks>
+            The direction (rotation) of the points is not relevant,
+            as the points can define a convex or a concave polygon.
+            The geometry must not self intersect, i.e. the sides cannot cross.
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom2.#ctor(CSharpCAD.Vec2[])">
+            <summary>Create a new 2D geometry from the given points.</summary>
+            <remarks>
+            The direction (rotation) of the points is not relevant,
+            as the points can define a convex or a concave polygon.
+            The geometry must not self intersect, i.e. the sides cannot cross.
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom2.Equals(CSharpCAD.Geom2)">
+            <summary>Check if this geometry is equal to the given geometry.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.op_Equality(CSharpCAD.Geom2,CSharpCAD.Geom2)">
+            <summary>Check if this vector is equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.op_Inequality(CSharpCAD.Geom2,CSharpCAD.Geom2)">
+            <summary>Check if this vector is not equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.Equals(System.Object)">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.GetHashCode">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.ToString">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.IsNearlyEqual(CSharpCAD.Geom2)">
+            <summary>Used mostly for testing.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.ApplyTransforms">
+            <summary>Apply the transforms of the given geometry.</summary>
+            <remarks>NOTE: This function must be called BEFORE exposing any data. See toSides().</remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom2.BoundingBox">
+            <summary>Measure the min and max bounds of the given (geom2) geometry.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.Clone">
+            <summary>Return a clone of this geometry.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.MeasureEpsilon">
+            <summary>Measure the epsilon of this geometry object.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.ToOutlines(System.Boolean)">
+            <summary>Create the outline(s) of the given geometry.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.Reverse">
+            <summary>Reverses the given geometry so that the sides are flipped in the opposite order.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.ToPoints">
+            <summary>Produces an array of points from the given geometry.</summary>
+            <remarks>
+            NOTE: The points returned do NOT define an order. Use toOutlines() for ordered points.
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom2.ToSides">
+            <summary>Produces an array of sides from the given geometry.</summary>
+            <remarks>
+            The returned array should not be modified as the data is shared with the geometry.
+            NOTE: The sides returned do NOT define an order. Use toOutlines() for ordered points.
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom2.Transform(CSharpCAD.Mat4)">
+            <summary>Transform this geometry using the given matrix.</summary>
+            <remarks>
+            This is a lazy transform of the sides, as this function only adjusts the transforms.
+            The transforms are applied when accessing the sides via toSides().
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom2.Side.Equals(System.Object)">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.Side.GetHashCode">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.Side.ToString">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.Validate">
+             <summary>Determine if this object is a valid geom2.</summary>
+             <remarks>
+             Checks for closedness, self-edges, and valid data points.
+            
+             **If the geometry is not valid, an exception will be thrown with details of the geometry error.**
+             </remarks>
+        </member>
+        <member name="T:CSharpCAD.Geom3">
+            <summary>Represents a new 3D geometry composed of polygons.</summary>
+        </member>
+        <member name="P:CSharpCAD.Geom3.Polygons">
+            
+        </member>
+        <member name="P:CSharpCAD.Geom3.Transforms">
+            
+        </member>
+        <member name="F:CSharpCAD.Geom3.Color">
+            
+        </member>
+        <member name="P:CSharpCAD.Geom3.Is2D">
+            <summary>Is this a 2D geometry object?</summary>
+        </member>
+        <member name="P:CSharpCAD.Geom3.Is3D">
+            <summary>Is this a 3D geometry object?</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.#ctor(System.Collections.Generic.List{System.Collections.Generic.List{CSharpCAD.Vec3}})">
+            <summary>Construct a new 3D geometry from a list of points.</summary>
+            <remarks>
+            The list of points should contain sub-arrays, each defining a single polygon of points.
+            In addition, the points should follow the right-hand rule for rotation in order to
+            define an external facing polygon.
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom3.#ctor">
+            <summary>Internal constructor. Public for testing use only.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.#ctor(CSharpCAD.Poly3[],CSharpCAD.Mat4,System.Nullable{CSharpCAD.Color},System.Boolean)">
+            <summary>Internal constructor. Public for testing use only.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.Equals(CSharpCAD.Geom3)">
+            <summary>Check if this geometry is equal to the given geometry.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.op_Equality(CSharpCAD.Geom3,CSharpCAD.Geom3)">
+            <summary>Check if this vector is equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.op_Inequality(CSharpCAD.Geom3,CSharpCAD.Geom3)">
+            <summary>Check if this vector is not equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.Equals(System.Object)">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.GetHashCode">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.ToString">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.IsNearlyEqual(CSharpCAD.Geom3)">
+            <summary>Used mostly for testing.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.ApplyTransforms">
+            <summary>Apply the transforms of the given geometry.</summary>
+            <remarks>NOTE: This function must be called BEFORE exposing any data. See toPolygons.</remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom3.MeasureEpsilon">
+            <summary>Measure the epsilon value for this geometry object.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.Clone">
+            <summary>Return a full clone of this geometry.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.Invert">
+            <summary>Invert this geometry, transposing solid and empty space.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.BoundingBox">
+            <summary>Return the (min, max) BoundingBox of this geometry.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.ToPoints">
+            <summary>Return this geometry as a list of points, after applying transforms.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.ToPolygons">
+            <summary>Produces an array of polygons from this geometry, after applying transforms.</summary>
+            <remarks>The returned array should not be modified as the polygons are shared with the geometry.</remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom3.Transform(CSharpCAD.Mat4)">
+            <summary>Add a transformation to this geometry.</summary>
+            <remarks>This is done in a lazy fashion, only affecting the internal transforms vector.</remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom3.Validate">
+             <summary>Determine if the given object is a valid 3D geometry.</summary>
+             <remarks>
+             Checks for valid data structure, convex polygon faces, and manifold edges.
+            
+             **If the geometry is not valid, an exception will be thrown with details of the geometry error.**
+             </remarks>
+        </member>
+        <member name="T:CSharpCAD.Geometry">
+            <summary>Abstract class currently joining Geom2 and Geom3.</summary>
+        </member>
+        <member name="P:CSharpCAD.Geometry.Is2D">
+            <summary>Is this a 2D geometry object?</summary>
+        </member>
+        <member name="P:CSharpCAD.Geometry.Is3D">
+            <summary>Is this a 3D geometry object?</summary>
+        </member>
+        <member name="T:CSharpCAD.Poly3">
+            <summary>Represents a convex 3D polygon.</summary>
+            <remarks>The vertices used to initialize a polygon must be coplanar and form a convex shape.</remarks>
+        </member>
+        <member name="F:CSharpCAD.Poly3.vertices">
+            <summary>Sides made of tuples of (Vec2, Vec2)</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.#ctor(System.Collections.Generic.List{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Color})">
+            <summary>Creates a new 3D polygon with initial values.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.#ctor(CSharpCAD.Vec3[],System.Nullable{CSharpCAD.Color})">
+            <summary>Internal constructor. Public for testing use only.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Equals(CSharpCAD.Poly3)">
+            <summary>Check if this polygon is equal to the given polygon.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.op_Equality(CSharpCAD.Poly3,CSharpCAD.Poly3)">
+            <summary>Check if this vector is equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.op_Inequality(CSharpCAD.Poly3,CSharpCAD.Poly3)">
+            <summary>Check if this vector is not equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Equals(System.Object)">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.GetHashCode">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.ToString">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.IsNearlyEqual(CSharpCAD.Poly3)">
+            <summary>Used mostly for testing.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Clone">
+            <summary>Create a deep clone of this polygon.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Invert">
+            <summary>Invert this polygon to face the opposite direction.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.IsConvex">
+            <summary>Check whether this polygon is convex.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.AreVerticesConvex(CSharpCAD.Vec3[])">
+            <summary>Check whether a set of vertices are convex.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.IsConvexPoint(CSharpCAD.Vec3,CSharpCAD.Vec3,CSharpCAD.Vec3,CSharpCAD.Vec3)">
+            <summary>Calculate whether three points form a convex corner.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Area">
+            <summary>Measure the area of this polygon.</summary>
+            <remarks>@see 2000 softSurfer http://geomalgorithms.com</remarks>
+        </member>
+        <member name="M:CSharpCAD.Poly3.BoundingBox">
+            <summary>Measure the bounding box of this polygon.</summary>
+            <returns>Tuple of (min, max)</returns>
+        </member>
+        <member name="M:CSharpCAD.Poly3.BoundingSphere">
+            <summary>Measure the bounding sphere of the given polygon.</summary>
+            <returns>Tuple of (center, radius)</returns>
+        </member>
+        <member name="M:CSharpCAD.Poly3.SignedVolume">
+            <summary>Measure the signed volume of the given polygon, which must be convex.</summary>
+            <remarks>
+            The volume is that formed by the tetrahedon connected to the axis [0,0,0],
+            and will be positive or negative based on the rotation of the vertices.
+            @see http://chenlab.ece.cornell.edu/Publication/Cha/icip01_Cha.pdf
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Plane">
+            <summary>The plane of this polygon.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.ToPoints">
+            <summary>Return the given polygon as a list of points.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Transform(CSharpCAD.Mat4)">
+            <summary>Transform the given polygon using the given matrix.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Validate">
+             <summary>Determine if this object is a valid polygon.</summary>
+             <remarks>
+             Checks for valid data structure, convex polygons, and duplicate points.
+            
+             **If the geometry is not valid, an exception will be thrown with details of the geometry error.**
+             </remarks>
+        </member>
+        <member name="T:CSharpCAD.C">
+            <summary>Constants.</summary>
+        </member>
+        <member name="F:CSharpCAD.C.EPS">
+            <summary>Epsilon used during determination of near zero distances (1/spatialResolution)</summary>
+        </member>
+        <member name="F:CSharpCAD.C.EPSILON">
+            <summary>Like Number.EPSILON in Javascript.</summary>
+        </member>
+        <member name="F:CSharpCAD.C.NEPS">
+            <summary>Normal vectors require a special EPS.</summary>
+        </member>
+        <member name="T:CSharpCAD.Mat4">
+            <summary>A 4x4 matrix.</summary>
+        </member>
+        <member name="F:CSharpCAD.Mat4.d">
+            <summary>Data.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.D(System.Int32)">
+            <summary>Readonly access to data array for this matrix.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.#ctor">
+            <summary>Construct an identity matrix.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.#ctor(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>Construct from 16 values.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.#ctor(CSharpCAD.Mat4)">
+            <summary>Construct a copy of a Mat4.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.Equals(CSharpCAD.Mat4)">
+            <summary>Check if this matrix is equal to the given matrix.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.op_Equality(CSharpCAD.Mat4,CSharpCAD.Mat4)">
+            <summary>Check if the two matricies are equal.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.op_Inequality(CSharpCAD.Mat4,CSharpCAD.Mat4)">
+            <summary>Check if the two matricies are not equal.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.Equals(System.Object)">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.GetHashCode">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.ToString">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.IsNearlyEqual(CSharpCAD.Mat4)">
+            <summary>Used mostly for testing.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.Add(CSharpCAD.Mat4)">
+            <summary>Returns the addition of this matrix with the given matrix.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.Clone">
+            <summary>Return a full clone of this matrix.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.FromRotation(System.Double,CSharpCAD.Vec3)">
+             <summary>Creates a matrix from a given angle around a given axis.</summary>
+            
+             <remarks>
+             This is equivalent to (but much faster than):
+            
+                 mat4.identity(dest)
+                 mat4.rotate(dest, dest, rad, axis)
+            
+             </remarks>
+            
+             <example>
+             var matrix = FromRotation(Math.PI / 2, new Vec3(0, 0, 3));
+             </example>
+            
+        </member>
+        <member name="M:CSharpCAD.Mat4.FromScaling(CSharpCAD.Vec3)">
+             <summary>Creates a matrix from a vector scaling.</summary>
+            
+             <remarks>
+             This is equivalent to (but much faster than):
+            
+                 mat4.identity(dest)
+                 mat4.scale(dest, dest, vec)
+             </remarks>
+            
+             <example>
+             var matrix = FromScaling(new Vec3(1, 2, 0.5));
+             </example>
+            
+        </member>
+        <member name="M:CSharpCAD.Mat4.FromTaitBryanRotation(System.Double,System.Double,System.Double)">
+             <summary>Creates a matrix from the given Tait–Bryan angles.</summary>
+            
+             <param name="yaw">Z rotation in radians.</param>
+             <param name="pitch">Y rotation in radians.</param>
+             <param name="roll">X rotation in radians.</param>
+            
+             <remarks>
+             Tait-Bryan Euler angle convention using active, intrinsic rotations around the axes in the order z-y-x.
+             @see https://en.wikipedia.org/wiki/Euler_angles
+             </remarks>
+            
+             <example>
+             var matrix = FromTaitBryanRotation(Math.PI/2, 0, Math.PI);
+             </example>
+            
+        </member>
+        <member name="M:CSharpCAD.Mat4.FromTranslation(CSharpCAD.Vec3)">
+             <summary>Creates a matrix from a vector translation.</summary>
+            
+             <param name="vec">Offset (vector) of translation.</param>
+            
+             <remarks>
+             This is equivalent to (but much faster than):
+            
+                 mat4.identity(dest)
+                 mat4.translate(dest, dest, vec)
+             </remarks>
+            
+             <example>
+             var matrix = FromTranslation(new Vec3(1, 2, 3));
+             </example>
+            
+        </member>
+        <member name="M:CSharpCAD.Mat4.FromVectorRotation(CSharpCAD.Vec3,CSharpCAD.Vec3)">
+             <summary>Creates a matrix from a vector scaling.</summary>
+            
+             <remarks>
+             Each vector must be a directional vector with a length greater then zero.
+             @see https://gist.github.com/kevinmoran/b45980723e53edeb8a5a43c49f134724
+             </remarks>
+            
+             <example>
+             var matrix = FromTranslation(new Vec3(1, 2, 3));
+             </example>
+            
+        </member>
+        <member name="M:CSharpCAD.Mat4.FromXRotation(System.Double)">
+             <summary>Creates a matrix from the given angle around the X axis.</summary>
+            
+             <remarks>
+             This is equivalent to (but much faster than):
+            
+                 mat4.identity(dest)
+                 mat4.rotateX(dest, dest, radians)
+             </remarks>
+            
+             <example>
+             var matrix = FromXRotation(Math.PI / 2));
+             </example>
+            
+        </member>
+        <member name="M:CSharpCAD.Mat4.FromYRotation(System.Double)">
+             <summary>Creates a matrix from the given angle around the Y axis.</summary>
+            
+             <remarks>
+             This is equivalent to (but much faster than):
+            
+                 mat4.identity(dest)
+                 mat4.rotateY(dest, dest, radians)
+             </remarks>
+            
+             <example>
+             var matrix = FromYRotation(Math.PI / 2));
+             </example>
+            
+        </member>
+        <member name="M:CSharpCAD.Mat4.FromZRotation(System.Double)">
+             <summary>Creates a matrix from the given angle around the Z axis.</summary>
+            
+             <remarks>
+             This is equivalent to (but much faster than):
+            
+                 mat4.identity(dest)
+                 mat4.rotateZ(dest, dest, radians)
+             </remarks>
+            
+             <example>
+             var matrix = FromZRotation(Math.PI / 2));
+             </example>
+            
+        </member>
+        <member name="M:CSharpCAD.Mat4.IsIdentity">
+            <summary>Is this matrix an identity matrix?</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.Invert">
+            <summary>Returns an inverted copy of this matrix.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.IsMirroring">
+            <summary>Determine whether this matrix is a mirroring transformation.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.IsOnlyTransformScale">
+            <summary>Determine whether this matrix is only translate and/or scale.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.LeftMultiplyVec2(CSharpCAD.Vec2)">
+            <summary>Multiply the input matrix by a Vector2.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.LeftMultiplyVec3(CSharpCAD.Vec3)">
+            <summary>Multiply the input matrix by a Vector3.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.MirrorByPlane(CSharpCAD.Plane)">
+            <summary>Create a matrix for mirroring about the given plane.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.Mirror(CSharpCAD.Vec3)">
+            <summary>Create an affine matrix for mirroring into an arbitrary plane.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.Multiply(CSharpCAD.Mat4)">
+            <summary>Multiplies this by the given matrix.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.RightMultiplyVec2(CSharpCAD.Vec2)">
+            <summary>Multiply a 2D vector by a matrix.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.RightMultiplyVec3(CSharpCAD.Vec3)">
+            <summary>Multiply a 3D vector by a matrix</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.Rotate(System.Double,CSharpCAD.Vec3)">
+            <summary>Rotates this matrix by the given angle about the given axis.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.RotateX(System.Double)">
+            <summary>Rotates a matrix by the given angle around the X axis.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.RotateY(System.Double)">
+            <summary>Rotates this matrix by the given angle around the Y axis.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.RotateZ(System.Double)">
+            <summary>Rotates this matrix by the given angle around the Z axis.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.Scale(CSharpCAD.Vec3)">
+            <summary>Scales the matrix by the given dimensions Vec3.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.Subtract(CSharpCAD.Mat4)">
+            <summary>Subtracts this matrix from a given matrix</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.Translate(CSharpCAD.Vec3)">
+            <summary>Translate the matrix by the given offset vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Mat4.Validate">
+            <summary>Check if matrix is valid.</summary>
+        </member>
+        <member name="T:CSharpCAD.OrthoNormalBasis">
+            <summary>OrthoNormalBasis reprojects points on a 3D plane onto a 2D plane
+            or from a 2D plane back onto the 3D plane.</summary>
+        </member>
+        <member name="M:CSharpCAD.OrthoNormalBasis.#ctor(CSharpCAD.Plane,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Construct an OrthoNormalBasis</summary>
+            <param name="plane">The basis plane.</param>
+            <param name="rv">Right hand vector.</param>
+        </member>
+        <member name="M:CSharpCAD.OrthoNormalBasis.GetCartesian(System.String,System.String)">
+            <summary>Get an orthonormal basis for the standard XYZ planes.</summary>
+            <remarks>
+            Parameters: the names of two 3D axes. The 2d x axis will map to the first given 3D axis, the 2d y
+            axis will map to the second.
+            Prepend the axis with a "-" to invert the direction of this axis.
+            For example: OrthoNormalBasis.GetCartesian("-Y","Z")
+              will return an orthonormal basis where the 2d X axis maps to the 3D inverted Y axis, and
+              the 2d Y axis maps to the 3D Z axis.
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.OrthoNormalBasis.GetProjectionMatrix">
+            
+        </member>
+        <member name="M:CSharpCAD.OrthoNormalBasis.GetInverseProjectionMatrix">
+            
+        </member>
+        <member name="M:CSharpCAD.OrthoNormalBasis.To2D(CSharpCAD.Vec3)">
+            <summary>Use the ONB to translate a 3D point to 2D.</summary>
+        </member>
+        <member name="M:CSharpCAD.OrthoNormalBasis.To3D(CSharpCAD.Vec2)">
+            <summary>Use the ONB to translate a 2D point to 3D.</summary>
+        </member>
+        <member name="T:CSharpCAD.Plane">
+            <summary>Represents a plane in 3D coordinate space as determined by a normal (perpendicular to the plane) and distance from 0,0,0.</summary>
+        </member>
+        <member name="F:CSharpCAD.Plane.Normal">
+            <summary>Vector normal to the plane.</summary>
+        </member>
+        <member name="F:CSharpCAD.Plane.W">
+            <summary>Mysterious entity, akin to + C in integrals.</summary>
+            <remarks>
+              More seriously, W seems to just be any point in the plane, not colinear with normal.
+              We could call it NonColinearPoint, that would make things too easy.
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.Plane.#ctor">
+            <summary>Construct an empty Plane.</summary>
+        </member>
+        <member name="M:CSharpCAD.Plane.#ctor(CSharpCAD.Vec3,CSharpCAD.Vec3)">
+            <summary>Create a new plane from the given normal and origin values.</summary>
+        </member>
+        <member name="M:CSharpCAD.Plane.#ctor(CSharpCAD.Vec3,System.Double)">
+            <summary>Create a new plane from normal and w.</summary>
+        </member>
+        <member name="M:CSharpCAD.Plane.#ctor(CSharpCAD.Plane)">
+            <summary>Create a new plane by copying.</summary>
+        </member>
+        <member name="M:CSharpCAD.Plane.Equals(CSharpCAD.Plane)">
+            <summary>Check if this geometry is equal to the given geometry.</summary>
+        </member>
+        <member name="M:CSharpCAD.Plane.op_Equality(CSharpCAD.Plane,CSharpCAD.Plane)">
+            <summary>Check if this vector is equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Plane.op_Inequality(CSharpCAD.Plane,CSharpCAD.Plane)">
+            <summary>Check if this vector is not equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Plane.Equals(System.Object)">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Plane.GetHashCode">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Plane.ToString">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Plane.IsNearlyEqual(CSharpCAD.Plane)">
+            <summary>Used mostly for testing.</summary>
+        </member>
+        <member name="M:CSharpCAD.Plane.Flip">
+             Flip the given plane.
+            
+             @param {plane} out - receiving plane
+             @param {plane} plane - plane to flip
+             @return {plane} out
+             @alias module:modeling/maths/plane.flip
+        </member>
+        <member name="M:CSharpCAD.Plane.From3Points(CSharpCAD.Vec3,CSharpCAD.Vec3,CSharpCAD.Vec3)">
+             Create a plane from the given 3 points.
+            
+             @param {plane} out - receiving plane
+             @param {Array} vertices - points on the plane
+             @returns {plane} out
+             @alias module:modeling/maths/plane.fromPoints
+        </member>
+        <member name="M:CSharpCAD.Plane.FromPoints(CSharpCAD.Vec3[])">
+             Create a plane from the given points.
+            
+             @param {plane} out - receiving plane
+             @param {Array} vertices - points on the plane
+             @returns {plane} out
+             @alias module:modeling/maths/plane.fromPoints
+        </member>
+        <member name="M:CSharpCAD.Plane.FromPointsRandom(CSharpCAD.Vec3,CSharpCAD.Vec3,CSharpCAD.Vec3)">
+            <summary>
+            Create a new plane from the given points like fromPoints,
+            but allow the vectors to be on one point or one line.
+            In such a case, a random plane through the given points is constructed.
+            </summary>
+        </member>
+        <member name="P:CSharpCAD.Plane.Points">
+            <summary>Used by Mat4.</summary>
+        </member>
+        <member name="M:CSharpCAD.Plane.ProjectionOfPoint(CSharpCAD.Vec3)">
+             Project the given point on to the this plane.
+            
+             @param {plane} plane - plane of reference
+             @param {vec3} point - point of reference
+             @return {vec3} projected point on plane
+             @alias module:modeling/maths/plane.projectionOfPoint
+        </member>
+        <member name="M:CSharpCAD.Plane.SignedDistanceToPoint(CSharpCAD.Vec3)">
+            <summary>Calculate the distance to the given point.</summary>
+        </member>
+        <member name="M:CSharpCAD.Plane.Transform(CSharpCAD.Mat4)">
+            <summary>Transform the given plane using the given matrix</summary>
+        </member>
+        <member name="T:CSharpCAD.Vec2">
+            <summary>A vector of 2 coordinates.</summary>
+        </member>
+        <member name="F:CSharpCAD.Vec2.x">
+            <summary>Coordinate.</summary>
+        </member>
+        <member name="F:CSharpCAD.Vec2.y">
+            <summary>Coordinate.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.#ctor(System.Double,System.Double)">
+            <summary>Construct from 2 coordinates.</summary>
+            <remarks>With no arguments, construct a zero vector.</remarks>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Equals(CSharpCAD.Vec2)">
+            
+        </member>
+        <member name="M:CSharpCAD.Vec2.op_Equality(CSharpCAD.Vec2,CSharpCAD.Vec2)">
+            
+        </member>
+        <member name="M:CSharpCAD.Vec2.op_Inequality(CSharpCAD.Vec2,CSharpCAD.Vec2)">
+            <summary>Check if this vector is not equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.op_Implicit(System.ValueTuple{System.Double,System.Double})~CSharpCAD.Vec2">
+            <summary>Automatically convert a tuple of 2 doubles to a Vec2.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Equals(System.Object)">
+            
+        </member>
+        <member name="M:CSharpCAD.Vec2.GetHashCode">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.ToString">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.IsNearlyEqual(CSharpCAD.Vec2)">
+            <summary>Used mostly for testing.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Hypot(System.Double,System.Double)">
+            <summary>Returns the hypotenuse of the three points, avoiding unnecessary underflow/overflow.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Abs">
+            <summary>Calculates the absolute coordinates of the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Add(CSharpCAD.Vec2)">
+            <summary>Adds the coordinates of this and the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.AngleDegrees">
+            <summary>Calculate the angle of the given vector in degrees.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.AngleRadians">
+            <summary>Calculate the angle of the given vector in radians.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Cross(CSharpCAD.Vec2)">
+            <summary>Computes the cross product (3D) of this and the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Distance(CSharpCAD.Vec2)">
+            <summary>Calculates the distance between this and the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Divide(CSharpCAD.Vec2)">
+            <summary>Divides the coordinates of this and the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Dot(CSharpCAD.Vec2)">
+            <summary>Calculates the dot product of two vectors.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.FromAngleDegrees(System.Double)">
+            <summary>Create a new vector in the direction of the given angle.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.FromAngleRadians(System.Double)">
+            <summary>Create a new vector in the direction of the given angle.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.FromScalar(System.Double)">
+            <summary>Create a vector from a single scalar value.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Length">
+            <summary>Calculates the length of this vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Lerp(CSharpCAD.Vec2,System.Double)">
+            <summary>Performs a linear interpolation between this and the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Max(CSharpCAD.Vec2)">
+            <summary>Returns the maximum coordinates of this and a given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Min(CSharpCAD.Vec2)">
+            <summary>Returns the minimum coordinates of this and a given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Multiply(CSharpCAD.Vec2)">
+            <summary>Multiplies the coordinates of two vectors (A*B).</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Negate">
+            <summary>Negates the coordinates of this vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Normalize">
+            <summary>Normalize this vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Normal">
+            <summary>Calculates the normal of the given vector.</summary>
+            <remarks>The normal value is the given vector rotated 90 degress.</remarks>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Rotate(CSharpCAD.Vec2,System.Double)">
+            <summary>Rotates the given vector by the given angle.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Scale(System.Double)">
+            <summary>Scales the coordinates of the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Snap(System.Double)">
+            <summary>Snaps the coordinates of the given vector to the given epsilon.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.SquaredDistance(CSharpCAD.Vec2)">
+            <summary>Calculates the squared distance between this and the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.SquaredLength">
+            <summary>Calculates the squared length of the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Subtract(CSharpCAD.Vec2)">
+            <summary>Subtracts the coordinates of this and the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec2.Transform(CSharpCAD.Mat4)">
+            <summary>Transforms the given vector using the given matrix.</summary>
+        </member>
+        <member name="T:CSharpCAD.Vec3">
+            <summary>A vector of 3 coordinates.</summary>
+        </member>
+        <member name="F:CSharpCAD.Vec3.x">
+            <summary>Coordinate.</summary>
+        </member>
+        <member name="F:CSharpCAD.Vec3.y">
+            <summary>Coordinate.</summary>
+        </member>
+        <member name="F:CSharpCAD.Vec3.z">
+            <summary>Coordinate.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.#ctor(System.Double,System.Double,System.Double)">
+            <summary>Construct from 3 coordinates.</summary>
+            <remarks>With no arguments, construct a zero vector.</remarks>
+        </member>
+        <member name="M:CSharpCAD.Vec3.#ctor(CSharpCAD.Vec2,System.Double)">
+            <summary>Construct from the x and y of the Vec2 and the z argument.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.#ctor(System.Double)">
+            <summary>Construct from a scalar repeated 3 times.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Equals(CSharpCAD.Vec3)">
+            <summary>Check if this vector is equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.op_Equality(CSharpCAD.Vec3,CSharpCAD.Vec3)">
+            <summary>Check if this vector is equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.op_Inequality(CSharpCAD.Vec3,CSharpCAD.Vec3)">
+            <summary>Check if this vector is not equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.op_Implicit(System.ValueTuple{System.Double,System.Double,System.Double})~CSharpCAD.Vec3">
+            <summary>Automatically convert a tuple of 3 doubles to a Vec3.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Equals(System.Object)">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.GetHashCode">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.ToString">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.IsNearlyEqual(CSharpCAD.Vec3)">
+            <summary>Used mostly for testing.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Hypot(System.Double,System.Double,System.Double)">
+            <summary>Returns the hypotenuse of the three points, avoiding unnecessary underflow/overflow.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Abs">
+            <summary>Returns the vector of the absolute value of this vector's coordinates.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Add(CSharpCAD.Vec3)">
+            <summary>Returns the addition of this vector with the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Angle(CSharpCAD.Vec3)">
+            <summary>Returns the angle between this and the given vector in radians.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Cross(CSharpCAD.Vec3)">
+            <summary>Returns the cross product of this and the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Distance(CSharpCAD.Vec3)">
+            <summary>Returns the Euclidian distance between this and the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Divide(CSharpCAD.Vec3)">
+            <summary>Returns the vector containing the division of this vector by the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Dot(CSharpCAD.Vec3)">
+            <summary>Returns the dot product of this and the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Length">
+            <summary>Returns the length of a vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Lerp(CSharpCAD.Vec3,System.Double)">
+            <summary>Returns a linear interpolation between this and the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Max(CSharpCAD.Vec3)">
+            <summary>Returns the maximum coordinates of this and the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Min(CSharpCAD.Vec3)">
+            <summary>Returns the minimum coordinates of this and the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Multiply(CSharpCAD.Vec3)">
+            <summary>Returns the vector containing the multiplication of this vector by the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Negate">
+            <summary>Returns the vector containing the negation of this vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Normalize">
+            <summary>Returns the vector containing the normalization of this vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Orthogonal">
+            <summary>Create a vector orthogonal to this one.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.RotateX(CSharpCAD.Vec3,System.Double)">
+            <summary>Rotate the this vector around the given origin, X axis only.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.RotateY(CSharpCAD.Vec3,System.Double)">
+            <summary>Rotate the this vector around the given origin, Y axis only.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.RotateZ(CSharpCAD.Vec3,System.Double)">
+            <summary>Rotate the this vector around the given origin, Z axis only.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Scale(System.Double)">
+            <summary>Scales the coordinates of this vector by a scalar number.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Snap(System.Double)">
+            <summary>Snaps the coordinates of this vector to the given epsilon.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.SquaredDistance(CSharpCAD.Vec3)">
+            <summary>Calculates the squared distance between two vectors.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.SquaredLength">
+            <summary>Calculates the squared length of the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Subtract(CSharpCAD.Vec3)">
+            <summary>Subtracts the coordinates of this vector and the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Vec3.Transform(CSharpCAD.Mat4)">
+            <summary>Transforms this vector using the given matrix.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSharpCADInternals.intersect(CSharpCAD.Vec2,CSharpCAD.Vec2,CSharpCAD.Vec2,CSharpCAD.Vec2)">
+            Calculate the intersect point of the two line segments (p1-p2 and p3-p4), end points included.
+            Note: If the line segments do NOT intersect then undefined is returned.
+            @see http://paulbourke.net/geometry/pointlineplane/
+            @param {vec2} p1 - first point of first line segment
+            @param {vec2} p2 - second point of first line segment
+            @param {vec2} p3 - first point of second line segment
+            @param {vec2} p4 - second point of second line segment
+            @returns {vec2} intersection point of the two line segments, or undefined
+            @alias module:modeling/maths/utils.intersect
+        </member>
+        <member name="T:CSharpCAD.Slice">
+            <summary>An advanced class, you need to understand "extrudeFromSlices.cs" before using.</summary>
+        </member>
+        <member name="M:CSharpCAD.Slice.#ctor(CSharpCAD.Slice.Edge[])">
+            <summary>Internal constructor.</summary>
+        </member>
+        <member name="M:CSharpCAD.Slice.#ctor(CSharpCAD.Geom2.Side[])">
+            <summary>Internal constructor.</summary>
+        </member>
+        <member name="M:CSharpCAD.Slice.#ctor(System.Collections.Generic.List{CSharpCAD.Vec2})">
+            <summary>Create a slice from the given points.</summary>
+        </member>
+        <member name="M:CSharpCAD.Slice.#ctor(System.Collections.Generic.List{CSharpCAD.Vec3})">
+            
+        </member>
+        <member name="M:CSharpCAD.Slice.Equals(CSharpCAD.Slice)">
+            
+        </member>
+        <member name="M:CSharpCAD.Slice.op_Equality(CSharpCAD.Slice,CSharpCAD.Slice)">
+            
+        </member>
+        <member name="M:CSharpCAD.Slice.op_Inequality(CSharpCAD.Slice,CSharpCAD.Slice)">
+            
+        </member>
+        <member name="M:CSharpCAD.Slice.Equals(System.Object)">
+            
+        </member>
+        <member name="M:CSharpCAD.Slice.GetHashCode">
+            
+        </member>
+        <member name="M:CSharpCAD.Slice.ToString">
+            
+        </member>
+        <member name="M:CSharpCAD.Slice.IsNearlyEqual(CSharpCAD.Slice)">
+            
+        </member>
+        <member name="M:CSharpCAD.Slice.CalculatePlane">
+            <summary>Calculate the plane of the given slice.</summary>
+            <remarks>NOTE: The slice (and all points) are assumed to be planar from the beginning.</remarks>
+        </member>
+        <member name="M:CSharpCAD.Slice.Reverse">
+            <summary>Reverse the edges of the given slice.</summary>
+        </member>
+        <member name="M:CSharpCAD.Slice.ToEdges">
+            <summary>Reverse the edges of the given slice.</summary>
+        </member>
+        <member name="M:CSharpCAD.Slice.ToPolygons">
+            <summary>Return a list of polygons which are enclosed by the slice.</summary>
+        </member>
+        <member name="M:CSharpCAD.Slice.Transform(CSharpCAD.Mat4)">
+            <summary>Transform this slice using the given matrix.</summary>
+        </member>
+        <member name="M:CSharpCAD.Slice.Edge.Equals(System.Object)">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Slice.Edge.GetHashCode">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Slice.Edge.ToString">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Slice.RepairSlice">
+            <summary>Mend gaps in a 2D slice to make it a closed polygon.</summary>
+        </member>
+        <member name="M:CSharpCAD.Modifiers.closestPoint(System.ValueTuple{CSharpCAD.Vec3,CSharpCAD.Vec3},CSharpCAD.Vec3)">
+            <summary>Determine the closest point on the given line to the given point.</summary>
+        </member>
+        <member name="M:CSharpCAD.Modifiers.generalize(CSharpCAD.Opts,CSharpCAD.Geometry)">
+            <summary>Apply various modifications in proper order to produce a generalized geometry.</summary>
+            <remarks>
+            @param {Object} options - options for modifications
+            @param {Boolean} [options.snap=false] the geometries should be snapped to epsilons
+            @param {Boolean} [options.simplify=false] the geometries should be simplified
+            @param {Boolean} [options.triangulate=false] the geometries should be triangulated
+            @param {Boolean} [options.repair=false] the geometries should be repaired
+            @param {...Object} geometries - the geometries to generalize
+            @return {Object|Array} the modified geometry, or a list of modified geometries
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.Modifiers.getTag(CSharpCAD.Vec3)">
+            All shapes (primitives or the results of operations) can be modified to correct issues, etc.
+            In all cases, these functions returns the results, and never changes the original geometry.
+            @module modeling/modifiers
+            @example
+            var { snap } = require('@jscad/modeling').modifiers
+        </member>
+        <member name="T:CSharpCAD.GlobalParams">
+            <summary>Contains settings of global importance to the library.</summary>
+        </member>
+        <member name="P:CSharpCAD.GlobalParams.Units">
+            <summary>Units in the library are representing this real world unit.</summary>
+            <returns>One of "mm" or "in" meaning millimeters or inches.</returns>
+        </member>
+        <member name="F:CSharpCAD.GlobalParams.CheckingEnabled">
+            <summary>Enables special (time consuming) debug checking like geometry validation.</summary>
+        </member>
+        <member name="T:CSharpCAD.Opts">
+            <summary>Opts</summary>
+        </member>
+        <member name="M:CSharpCAD.Opts.#ctor">
+            
+        </member>
+        <member name="M:CSharpCAD.Opts.#ctor(System.Int32)">
+            <summary>Opts</summary>
+            <param name="capacity" default="0">Capacity.</param>
+            <group>Util</group>
+        </member>
+        <member name="M:CSharpCAD.Opts.GetListOfListOfInt(System.String,System.Collections.Generic.List{System.Collections.Generic.List{System.Int32}})">
+            
+        </member>
+        <member name="M:CSharpCAD.Opts.GetListOfVec3(System.String,System.Collections.Generic.List{CSharpCAD.Vec3})">
+            
+        </member>
+        <member name="M:CSharpCAD.Opts.GetListOfVec2(System.String,System.Collections.Generic.List{CSharpCAD.Vec2})">
+            
+        </member>
+        <member name="M:CSharpCAD.Opts.GetListOfColor(System.String,System.Collections.Generic.List{CSharpCAD.Color})">
+            
+        </member>
+        <member name="M:CSharpCAD.Opts.GetInt(System.String,System.Int32)">
+            
+        </member>
+        <member name="M:CSharpCAD.Opts.GetBool(System.String,System.Boolean)">
+            
+        </member>
+        <member name="M:CSharpCAD.Opts.GetString(System.String,System.String)">
+            
+        </member>
+        <member name="M:CSharpCAD.Opts.GetDouble(System.String,System.Double)">
+            
+        </member>
+        <member name="M:CSharpCAD.Opts.GetVec2(System.String,System.ValueTuple{System.Double,System.Double})">
+            
+        </member>
+        <member name="M:CSharpCAD.Opts.GetVec3(System.String,System.ValueTuple{System.Double,System.Double,System.Double})">
+            
+        </member>
+    </members>
+</doc>

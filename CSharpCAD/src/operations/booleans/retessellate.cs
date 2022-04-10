@@ -12,9 +12,9 @@ public static partial class CSCAD
     private static bool Coplanar(Plane plane1, Plane plane2)
     {
         // expect the same distance from the origin, within tolerance
-        if (Math.Abs(plane1.w - plane2.w) < 0.00000015)
+        if (Math.Abs(plane1.W - plane2.W) < 0.00000015)
         {
-            return AboutEqualNormals(plane1.normal, plane2.normal);
+            return AboutEqualNormals(plane1.Normal, plane2.Normal);
         }
         return false;
     }

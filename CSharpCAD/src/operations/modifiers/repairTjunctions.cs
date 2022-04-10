@@ -1,6 +1,6 @@
 namespace CSharpCAD;
 
-public static partial class Modifiers
+internal static partial class Modifiers
 {
     public static Poly3[] repairTjunctions(double epsilon, Poly3[] polygons)
     {

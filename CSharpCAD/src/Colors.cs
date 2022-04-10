@@ -1,12 +1,15 @@
 namespace CSharpCAD;
 
+/// <summary>Represent a color in a space efficient manner.</summary>
 public readonly struct Color : IEquatable<Color>
 {
-    /// <summary>RGBA tuple of bytes.</summary>
+    /// <summary>Red</summary>
     public readonly byte r;
+    /// <summary>Green</summary>
     public readonly byte g;
+    /// <summary>Blue</summary>
     public readonly byte b;
-    // Alpha range is 0-255, with 255 meaning opaque.
+    /// <summary>Alpha range is 0-255, with 255 meaning opaque.</summary>
     public readonly byte a;
 
     /// <summary>Construct from 3 RGB bytes.</summary>
@@ -20,17 +23,17 @@ public readonly struct Color : IEquatable<Color>
     }
 
     /// <summary>Construct from a CSS extended name or a hex specification (begins with) repeated 3 times.</summary>
-    public Color(string color)
+    public Color(string color, byte alpha = (byte)255)
     {
         if (color[0] == '#')
         {
             (r, g, b) = CSCAD.HexToRGB(color);
-            a = 255;
+            a = alpha;
         }
         else
         {
             (r, g, b) = CSCAD.ColorNameToRGB(color);
-            a = 255;
+            a = alpha;
         }
     }
 
@@ -79,6 +82,7 @@ public readonly struct Color : IEquatable<Color>
     }
 }
 
+/// <summary>CSCAD contains the static methods most commonly used in producing geometries.</summary>
 public static partial class CSCAD
 {
 
@@ -96,20 +100,14 @@ public static partial class CSCAD
         return newgeom3;
     }
 
-    private static Poly3 colorPoly3(Color color, Poly3 g)
-    {
-        Poly3 newgeom3 = g.Clone();
-        newgeom3.Color = color;
-        return newgeom3;
-    }
-
-    /*
+    /**
      * <summary>Assign the given color to the given objects.</summary>
      * <param name="rgbcolor">Has 3 formats:
      *   A C# Tuple of RGB color values, where each value is between 0 and 255.
      *   A string beginning with "#" followed by 6 hex digits representing RGB.
      *   A string that s one of the extended CSS color names.
      * </param>
+     * <param name="obj">A 2D or 3D geometry object.</param>
      */
     public static Geometry Colorize(object rgbcolor, Geometry obj)
     {
@@ -141,15 +139,13 @@ public static partial class CSCAD
                 return colorGeom2(color, (Geom2)obj);
             case "CSharpCAD.Geom3":
                 return colorGeom3(color, (Geom3)obj);
-            case "CSharpCAD.Poly3":
-                return colorPoly3(color, (Poly3)obj);
             default:
                 throw new ArgumentException($"Don't know how to color object of type: {rgbcolor.GetType().ToString()}.");
         }
     }
 
     /// <summary>Converts a CSS color name to RGB color.</summary>
-    public static (byte, byte, byte) ColorNameToRGB(string colorName)
+    internal static (byte, byte, byte) ColorNameToRGB(string colorName)
     {
         (byte, byte, byte) color;
         colorName = colorName.ToLower();
@@ -162,6 +158,7 @@ public static partial class CSCAD
 
     private static Dictionary<string, (byte, byte, byte)> cssColors = new Dictionary<string, (byte, byte, byte)>();
 
+    /// <summary>Get array of color names.</summary>
     public static string[] GetColorNames()
     {
         var n = cssColors.Keys.ToArray();
@@ -169,6 +166,7 @@ public static partial class CSCAD
         return n;
     }
 
+    /// <summary>Returns a tuple of names and colors sorted, but not really by rainbow.</summary>
     public static (string, (byte, byte, byte))[] GetColorNamesByRainbow()
     {
         var names = cssColors.Keys.ToArray();
@@ -184,8 +182,8 @@ public static partial class CSCAD
             var (n2, c2) = p2;
             var (r1, g1, b1) = c1;
             var (r2, g2, b2) = c2;
-            var s1 = r1+g1+b1;
-            var s2 = r2+g2+b2;
+            var s1 = r1 + g1 + b1;
+            var s2 = r2 + g2 + b2;
             return s1.CompareTo(s2);
         });
         return pairs.ToArray();
@@ -345,7 +343,7 @@ public static partial class CSCAD
     }
 
     /// <summary>Converts CSS color notations (string of hex values) to RGB values.</summary>
-    public static (byte, byte, byte) HexToRGB(string notation)
+    internal static (byte, byte, byte) HexToRGB(string notation, byte alpha = (byte)255)
     {
         notation = notation.Replace("#", "");
 

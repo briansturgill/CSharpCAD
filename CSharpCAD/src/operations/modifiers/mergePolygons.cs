@@ -1,6 +1,6 @@
 namespace CSharpCAD;
 
-public static partial class Modifiers
+internal static partial class Modifiers
 {
     // create a set of edges from the given polygon, and link the edges as well
     public static List<Edge> CreateEdges(Poly3 polygon)
@@ -116,7 +116,7 @@ public static partial class Modifiers
                 if (opposite is not null && opposite.prev is not null && opposite.next is not null
                     && current.prev is not null && current.next is not null)
                 {
-                    var (angle_0, angle_1) = CalculateAnglesBetween(current, opposite, normal.normal);
+                    var (angle_0, angle_1) = CalculateAnglesBetween(current, opposite, normal.Normal);
                     if (angle_0 >= 0 && angle_1 >= 0)
                     {
                         var edge1 = opposite.next;
@@ -200,9 +200,9 @@ public static partial class Modifiers
     public static bool Coplanar(Plane plane1, Plane plane2)
     {
         // expect the same distance from the origin, within tolerance
-        if (Math.Abs(plane1.w - plane2.w) < 0.00000015)
+        if (Math.Abs(plane1.W - plane2.W) < 0.00000015)
         {
-            return AboutEqualNormals(plane1.normal, plane2.normal);
+            return AboutEqualNormals(plane1.Normal, plane2.Normal);
         }
         return false;
     }

@@ -15,7 +15,7 @@ public class EllipseTests
     [Test]
     public void TestEllipseDefaults()
     {
-        var geometry = Ellipse(new Opts());
+        var geometry = Ellipse();
         Assert.DoesNotThrow(() => geometry.Validate());
         var obs = geometry.ToPoints();
 
@@ -27,7 +27,7 @@ public class EllipseTests
     public void TestEllipseOptions()
     {
         // test center
-        var geometry = Ellipse(new Opts { { "center", (3, 5) } });
+        var geometry = Ellipse(center: (3, 5));
         Assert.DoesNotThrow(() => geometry.Validate());
         var obs = geometry.ToPoints();
         var exp = new Vec2[] {
@@ -69,7 +69,7 @@ public class EllipseTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // test radius
-        geometry = Ellipse(new Opts { { "radius", (3, 5) }, { "segments", 16 } });
+        geometry = Ellipse(radius: (3, 5), segments: 16);
         Assert.DoesNotThrow(() => geometry.Validate());
         obs = geometry.ToPoints();
         exp = new Vec2[] {
@@ -95,7 +95,7 @@ public class EllipseTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // test startAngle
-        geometry = Ellipse(new Opts { { "radius", (3, 5) }, { "startAngle", Math.PI / 2 }, { "segments", 16 } });
+        geometry = Ellipse(radius: (3, 5), startAngle: Math.PI / 2, segments: 16);
         Assert.DoesNotThrow(() => geometry.Validate());
         obs = geometry.ToPoints();
         exp = new Vec2[] {
@@ -119,7 +119,7 @@ public class EllipseTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // test endAngle
-        geometry = Ellipse(new Opts { { "radius", (3, 5) }, { "endAngle", Math.PI / 2 }, { "segments", 16 } });
+        geometry = Ellipse(radius: (3, 5), endAngle: Math.PI / 2, segments: 16);
         Assert.DoesNotThrow(() => geometry.Validate());
         obs = geometry.ToPoints();
         exp = new Vec2[] {
@@ -135,7 +135,7 @@ public class EllipseTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // test segments
-        geometry = Ellipse(new Opts { { "segments", 72 } });
+        geometry = Ellipse(segments: 72);
         Assert.DoesNotThrow(() => geometry.Validate());
         obs = geometry.ToPoints();
         Assert.AreEqual(obs.Length, 72);

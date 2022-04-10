@@ -18,7 +18,7 @@ public class TestExtrudeFromSlices
         var geometry2 = new Geom2(new List<Vec2>{new Vec2(10, 10),
           new Vec2(-10, 10), new Vec2(-10, -10), new Vec2(10, -10)});
 
-        var geometry3 = ExtrudeFromSlices(new Opts { }, new Slice(geometry2.ToSides()));
+        var geometry3 = ExtrudeFromSlices(new Slice(geometry2.ToSides()));
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
         var exp = UnitTestData.ExtrudeFSDef1;
@@ -27,7 +27,7 @@ public class TestExtrudeFromSlices
 
         var poly2 = new Poly3(new List<Vec3>{ new Vec3(10, 10, 0), new Vec3(-10, 10, 0),
           new Vec3(-10, -10, 0), new Vec3(10, -10, 0)});
-        geometry3 = ExtrudeFromSlices(new Opts { }, new Slice(poly2.ToPoints()));
+        geometry3 = ExtrudeFromSlices(new Slice(poly2.ToPoints()));
         Assert.DoesNotThrow(() => geometry3.Validate());
         pts = geometry3.ToPoints();
 
@@ -57,12 +57,8 @@ public class TestExtrudeFromSlices
         {
             return ((Slice)baseSlice).Transform(Mat4.FromXRotation(angle * index));
         }
-        var geometry3 = ExtrudeFromSlices(new Opts {
-          {"numberOfSlices", Floorish(Math.PI * 2 / angle)},
-          {"capStart", false},
-          {"capEnd", false},
-          {"close", true}
-        }, hexSlice, callback);
+        var geometry3 = ExtrudeFromSlices(hexSlice, callback,
+          numberOfSlices: Floorish(Math.PI * 2 / angle), capStart: false, capEnd: false, close: true);
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
         Assert.AreEqual(pts.Count, 96);
@@ -77,11 +73,7 @@ public class TestExtrudeFromSlices
             return newslice;
         }
         var baseSlice = new Slice(new List<Vec3> { new Vec3(0, 0, 0), new Vec3(1, 0, 0), new Vec3(1, 1, 0), new Vec3(0, 1, 0) });
-        var geometry3 = ExtrudeFromSlices(new Opts {
-              {"numberOfSlices", 4},
-              {"capStart", true},
-              {"capEnd", false},
-              }, baseSlice, callBack);
+        var geometry3 = ExtrudeFromSlices(baseSlice, callBack, numberOfSlices: 4, capStart: true, capEnd: false);
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
         Assert.AreEqual(pts.Count, 26);
@@ -92,13 +84,13 @@ public class TestExtrudeFromSlices
     {
         Slice? callBack(double progress, int count, Slice baseSlice)
         {
-            var newshape = Circle(new Opts { { "radius", 5 + count }, { "segments", 4 + count } });
+            var newshape = Circle(radius: 5 + count, segments: 4 + count);
             var newslice = new Slice(newshape.ToSides());
             newslice = newslice.Transform(Mat4.FromTranslation(new Vec3(0, 0, count * 10)));
             return newslice;
         }
-        var baseSlice = new Slice(Circle(new Opts { { "radius", 4 }, { "segments", 4 } }).ToSides());
-        var geometry3 = ExtrudeFromSlices(new Opts { { "numberOfSlices", 5 } }, baseSlice, callBack);
+        var baseSlice = new Slice(Circle(radius: 4, segments: 4).ToSides());
+        var geometry3 = ExtrudeFromSlices(baseSlice, callBack, numberOfSlices: 5);
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
         Assert.AreEqual(pts.Count, 304);
@@ -108,7 +100,7 @@ public class TestExtrudeFromSlices
     public void TestExtrudeFSHoles()
     {
         var geometry2 = new Geom2(UnitTestData.ExtrudeFSHole1, new Mat4(), null);
-        var geometry3 = ExtrudeFromSlices(new Opts { }, new Slice(geometry2.ToSides()));
+        var geometry3 = ExtrudeFromSlices(new Slice(geometry2.ToSides()));
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
         var exp = UnitTestData.ExtrudeFSHoleExp;

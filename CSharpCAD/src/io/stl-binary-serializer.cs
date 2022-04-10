@@ -4,7 +4,7 @@ public static partial class CSCAD
 
     // see http://en.wikipedia.org/wiki/STL_%28file_format%29#Binary_STL
 
-    public static void SerializeToSTLBinary(string file, Geometry g)
+    internal static void SerializeToSTLBinary(string file, Geometry g)
     {
 
         // first check if the host is little-endian:
@@ -47,7 +47,7 @@ public static partial class CSCAD
         {
             var vertices = polygon.Vertices;
             var numvertices = vertices.Length;
-            var normal = polygon.Plane().normal;
+            var normal = polygon.Plane().Normal;
             for (var i = 0; i < numvertices - 2; i++)
             {
                 binW.Write((float)normal.x);

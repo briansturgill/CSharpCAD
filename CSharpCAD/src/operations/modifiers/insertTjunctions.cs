@@ -1,6 +1,6 @@
 namespace CSharpCAD;
 
-public static partial class Modifiers
+internal static partial class Modifiers
 {
     /**
      * All shapes (primitives or the results of operations) can be modified to correct issues, etc.

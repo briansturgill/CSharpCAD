@@ -45,6 +45,13 @@ public readonly struct Vec3 : IEquatable<Vec3>
     /// <summary>Check if this vector is not equal to the given vector.</summary>
     public static bool operator !=(Vec3 a, Vec3 b) => !(a == b);
 
+    /// <summary>Automatically convert a tuple of 3 doubles to a Vec3.</summary>
+    public static implicit operator Vec3((double, double, double ) tuple) {
+        var (x, y, z) = tuple;
+        return new Vec3(x, y, z);
+    }
+
+
     /// <summary>Standard C# override.</summary>
     public override bool Equals(object? obj)
     {

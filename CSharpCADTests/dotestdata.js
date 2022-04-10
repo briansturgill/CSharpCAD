@@ -72,7 +72,7 @@ function asides(tree) {
 	data += "\n"
 	data += "public static partial class UnitTestData {\n"
 	indent();
-		tab(); data += `public static Geom2.Side[] ${tag} = new Geom2.Side[] {\n`
+		tab(); data += `internal static Geom2.Side[] ${tag} = new Geom2.Side[] {\n`
 		indent();
 		for (let i=0; i<tree.length; i++) {
 			let sub = tree[i]

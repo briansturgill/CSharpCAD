@@ -29,13 +29,13 @@ public static partial class CSCAD
         }
     }
 
-    /// <summary>Scale the given objects about the X axis using the given factor.</summary
+    /// <summary>Scale the given objects about the X axis using the given factor.</summary>
     public static Geometry ScaleX(double factor, Geometry gobj) => Scale(new Vec3(factor, 1, 1), gobj);
 
-    /// <summary>Scale the given objects about the Y axis using the given factor.</summary
+    /// <summary>Scale the given objects about the Y axis using the given factor.</summary>
     public static Geometry ScaleY(double factor, Geometry gobj) => Scale(new Vec3(1, factor, 1), gobj);
 
-    /// <summary>Scale the given objects about the Z axis using the given factor.</summary
+    /// <summary>Scale the given objects about the Z axis using the given factor.</summary>
     public static Geometry ScaleZ(double factor, Geometry gobj) => Scale(new Vec3(1, 1, factor), gobj);
 
 }

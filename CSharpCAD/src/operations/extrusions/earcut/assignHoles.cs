@@ -1,6 +1,6 @@
 namespace CSharpCAD;
 
-public static partial class CSCAD
+internal static partial class CSharpCADInternals
 {
 
     internal static partial class Earcut

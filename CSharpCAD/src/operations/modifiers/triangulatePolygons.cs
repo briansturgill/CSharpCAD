@@ -1,6 +1,6 @@
 namespace CSharpCAD;
 
-public static partial class Modifiers
+internal static partial class Modifiers
 {
 
     public static void TriangulatePolygon(double epsilon, Poly3 polygon, List<Poly3> triangles)

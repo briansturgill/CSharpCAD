@@ -243,7 +243,7 @@ public class Mat4 : IEquatable<Mat4>
       *
       * <param name="yaw">Z rotation in radians.</param>
       * <param name="pitch">Y rotation in radians.</param>
-      * <param name="roll">X rotation in radians.
+      * <param name="roll">X rotation in radians.</param>
       *
       * <remarks>
       * Tait-Bryan Euler angle convention using active, intrinsic rotations around the axes in the order z-y-x.
@@ -558,7 +558,7 @@ public class Mat4 : IEquatable<Mat4>
       this.d[15] == 1
     );
 
-    public bool IsNearZero(double num) => Math.Abs(num) < C.EPSILON;
+    private bool IsNearZero(double num) => Math.Abs(num) < C.EPSILON;
 
     /// <summary>Multiply the input matrix by a Vector2.</summary>
     public Vec2 LeftMultiplyVec2(Vec2 v)
@@ -1034,6 +1034,7 @@ public class Mat4 : IEquatable<Mat4>
         return ret;
     }
 
+    /// <summary>Check if matrix is valid.</summary>
     public void Validate() {
         if (!this.d.All(double.IsFinite))
         {

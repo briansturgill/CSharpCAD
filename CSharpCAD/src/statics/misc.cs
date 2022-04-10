@@ -1,14 +1,22 @@
 namespace CSharpCAD;
 
+/**
+<summary>Opts</summary>
+*/
 public class Opts : Dictionary<string, object>
 {
+    ///
     public Opts() : base(0) { }
+    /// <summary>Opts</summary>
+    /// <param name="capacity" default="0">Capacity.</param>
+    /// <group>Util</group>
     public Opts(int capacity) : base(capacity) { }
     private void err(string key, string expectedType)
     {
         throw new ArgumentException($"Option value for \"{key}\" must be of type: {expectedType}.");
     }
 
+    ///
     public List<List<int>> GetListOfListOfInt(string key, List<List<int>> _default)
     {
         if (!this.ContainsKey(key))
@@ -28,6 +36,7 @@ public class Opts : Dictionary<string, object>
         return ret;
     }
 
+    ///
     public List<Vec3> GetListOfVec3(string key, List<Vec3> _default)
     {
         if (!this.ContainsKey(key))
@@ -47,6 +56,7 @@ public class Opts : Dictionary<string, object>
         return ret;
     }
 
+    ///
     public List<Vec2> GetListOfVec2(string key, List<Vec2> _default)
     {
         if (!this.ContainsKey(key))
@@ -66,6 +76,7 @@ public class Opts : Dictionary<string, object>
         return ret;
     }
 
+    ///
     public List<Color> GetListOfColor(string key, List<Color> _default)
     {
         if (!this.ContainsKey(key))
@@ -85,6 +96,7 @@ public class Opts : Dictionary<string, object>
         return ret;
     }
 
+    ///
     public int GetInt(string key, int _default)
     {
         if (!this.ContainsKey(key))
@@ -104,6 +116,7 @@ public class Opts : Dictionary<string, object>
         return ret;
     }
 
+    ///
     public bool GetBool(string key, bool _default)
     {
         if (!this.ContainsKey(key))
@@ -123,6 +136,7 @@ public class Opts : Dictionary<string, object>
         return ret;
     }
 
+    ///
     public string GetString(string key, string _default)
     {
         if (!this.ContainsKey(key))
@@ -142,6 +156,7 @@ public class Opts : Dictionary<string, object>
         return ret;
     }
 
+    ///
     public double GetDouble(string key, double _default)
     {
         if (!this.ContainsKey(key))
@@ -165,6 +180,7 @@ public class Opts : Dictionary<string, object>
         return ret;
     }
 
+    ///
     public Vec2 GetVec2(string key, (double, double) _default)
     {
         var (x, y) = _default;
@@ -205,6 +221,7 @@ public class Opts : Dictionary<string, object>
         return new Vec2(x, y);
     }
 
+    ///
     public Vec3 GetVec3(string key, (double, double, double) _default)
     {
         var (x, y, z) = _default;
@@ -280,6 +297,7 @@ public class Opts : Dictionary<string, object>
 
 public static partial class CSCAD
 {
+    ///<summary>Print string representations of any object.</summary>
     public static void Echo(params object[] objs)
     {
         var first = true;
@@ -295,6 +313,7 @@ public static partial class CSCAD
         Console.WriteLine("");
     }
 
+    ///<summary>Save a geometry object in a file suitable for printing, etc.</summary>
     public static void Save(string file, Geometry g, bool binary = true)
     {
         if (file.EndsWith(".svg"))
@@ -320,17 +339,5 @@ public static partial class CSCAD
         {
             throw new ArgumentException($"Sorry but the output file type of \"{file}\" is not one we understand!");
         }
-    }
-
-    private static double rezero(double v) => Math.Abs(v) < C.NEPS ? 0 : v;
-
-    public static double sin(double angle)
-    {
-        return rezero(Math.Sin(angle));
-    }
-
-    public static double cos(double angle)
-    {
-        return rezero(Math.Cos(angle));
     }
 }
