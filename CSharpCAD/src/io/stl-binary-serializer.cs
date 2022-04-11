@@ -18,7 +18,7 @@ public static partial class CSCAD
             throw new ArgumentException("STL Serialization only works on 3D objects.");
         }
 
-        var obj = (Geom3)Modifiers.generalize(new Opts { { "snap", true }, { "triangulate", true } }, g);
+        var obj = (Geom3)Modifiers.generalize(g, snap: true, triangulate: true);
 
         uint numtriangles = 0;
         var numpolygons = 0;

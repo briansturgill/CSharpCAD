@@ -2,7 +2,7 @@ namespace CSharpCAD;
 
 internal static partial class Modifiers
 {
-    /**
+    /*
      * All shapes (primitives or the results of operations) can be modified to correct issues, etc.
      * In all cases, these functions returns the results, and never changes the original geometry.
      * @module modeling/modifiers

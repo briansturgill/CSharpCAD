@@ -24,7 +24,7 @@ public class Geom2 : Geometry
         this.Color = null;
     }
 
-    /// <summary>Internal constructor.</summary>
+    // Internal constructor.
     internal Geom2(Side[] sides, Mat4? transforms = null, Color? Color = null)
     {
         this.sides = sides;
@@ -203,8 +203,8 @@ public class Geom2 : Geometry
 
 
 
-     /// <summary>Apply the transforms of the given geometry.</summary>
-     /// <remarks>NOTE: This function must be called BEFORE exposing any data. See toSides().</remarks>
+    /// <summary>Apply the transforms of the given geometry.</summary>
+    /// <remarks>NOTE: This function must be called BEFORE exposing any data. See ToSides().</remarks>
     public Geom2 ApplyTransforms()
     {
         if (this.transforms.IsIdentity())
@@ -405,12 +405,12 @@ public class Geom2 : Geometry
         return points.ToArray();
     }
 
-    /**
-     * <summary>Produces an array of sides from the given geometry.</summary>
-     * <remarks>
+    /*
+     * Produces an array of sides from the given geometry.
+     *
      * The returned array should not be modified as the data is shared with the geometry.
      * NOTE: The sides returned do NOT define an order. Use toOutlines() for ordered points.
-     * </remarks>
+     *
      */
     internal Side[] ToSides()
     {
@@ -421,7 +421,7 @@ public class Geom2 : Geometry
      * <summary>Transform this geometry using the given matrix.</summary>
      * <remarks>
      * This is a lazy transform of the sides, as this function only adjusts the transforms.
-     * The transforms are applied when accessing the sides via toSides().
+     * The transforms are applied when accessing the sides via ToSides().
      * </remarks>
      */
     public Geom2 Transform(Mat4 matrix)
@@ -430,6 +430,7 @@ public class Geom2 : Geometry
         return new Geom2(this.sides.ToArray(), transforms, this.Color);
     }
 
+    // Internal class.
     internal class Side : IEquatable<Side>
     {
         public readonly Vec2 v0;
@@ -440,6 +441,7 @@ public class Geom2 : Geometry
             this.v0 = new Vec2();
             this.v1 = new Vec2();
         }
+
         public Side(Vec2 v0, Vec2 v1)
         {
             this.v0 = v0;
@@ -462,7 +464,6 @@ public class Geom2 : Geometry
 
         public static bool operator !=(Side a, Side b) => !(a == b);
 
-        /// <summary>Standard C# override.</summary>
         public override bool Equals(object? obj)
         {
             if ((obj == null) || !this.GetType().Equals(obj.GetType()))
@@ -476,13 +477,11 @@ public class Geom2 : Geometry
             }
         }
 
-        /// <summary>Standard C# override.</summary>
         public override int GetHashCode()
         {
             return v0.GetHashCode() ^ v1.GetHashCode();
         }
 
-        /// <summary>Standard C# override.</summary>
         public override string ToString() => $"Side({this.v0},{this.v1})";
     }
 
@@ -497,7 +496,7 @@ public class Geom2 : Geometry
     public void Validate()
     {
         // check for closedness
-        this.ToOutlines(false); // Need to surpress doing transforms.
+        this.ToOutlines(false);
 
         // check for self-edges
         foreach (var side in sides)
@@ -510,6 +509,7 @@ public class Geom2 : Geometry
 
         // check transforms
         this.transforms.Validate();
+        // LATER: check for self-intersecting
     }
 
 }

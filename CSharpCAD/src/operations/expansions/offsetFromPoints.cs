@@ -207,7 +207,7 @@ internal static partial class CSharpCADInternals
         return (area / 2.0);
     }
 
-    /**
+    /*
      * Calculate the intersect point of the two line segments (p1-p2 and p3-p4), end points included.
      * Note: If the line segments do NOT intersect then undefined is returned.
      * @see http://paulbourke.net/geometry/pointlineplane/

@@ -40,7 +40,7 @@ public static partial class CSCAD
         {
             throw new ArgumentException("Only 3D geometries can be serialized to AMF.");
         }
-        var object3d = (Geom3)Modifiers.generalize(new Opts { { "snap", true }, { "triangulate", true } }, g);
+        var object3d = (Geom3)Modifiers.generalize(g, snap: true, triangulate: true);
         // convert only 3D geometries
 
         var xml = new XmlTextWriter(file, new UTF8Encoding());

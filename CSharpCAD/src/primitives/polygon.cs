@@ -21,7 +21,7 @@ public static partial class CSCAD
      *    new Path { 3, 4, 5, 6}
      *  };
      *
-     * var poly = Polygon(new Opts {{ "points", points}, {"paths", paths }});
+     * var poly = Polygon(points: points, paths: paths);
      */
     public static Geom2 Polygon(List<Vec2> points, List<List<int>>? paths = null)
     {

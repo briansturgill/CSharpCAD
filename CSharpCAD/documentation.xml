@@ -4,74 +4,297 @@
         <name>CSharpCAD</name>
     </assembly>
     <members>
-        <member name="T:CSharpCAD.Color">
-            <summary>Represent a color in a space efficient manner.</summary>
+        <member name="T:CSharpCAD.ValidationException">
+            <summary>Thrown by internal validation checks.</summary>
         </member>
-        <member name="F:CSharpCAD.Color.r">
-            <summary>Red</summary>
+        <member name="M:CSharpCAD.ValidationException.#ctor(System.String)">
+            
         </member>
-        <member name="F:CSharpCAD.Color.g">
-            <summary>Green</summary>
+        <member name="T:CSharpCAD.Geom2">
+            <summary>Represents a 2D geometry consisting of an array of sides.</summary>
         </member>
-        <member name="F:CSharpCAD.Color.b">
-            <summary>Blue</summary>
+        <member name="P:CSharpCAD.Geom2.Transforms">
+            
         </member>
-        <member name="F:CSharpCAD.Color.a">
-            <summary>Alpha range is 0-255, with 255 meaning opaque.</summary>
+        <member name="F:CSharpCAD.Geom2.Color">
+            
         </member>
-        <member name="M:CSharpCAD.Color.#ctor(System.Byte,System.Byte,System.Byte,System.Byte)">
-            <summary>Construct from 3 RGB bytes.</summary>
-            <remarks>With no arguments, construct the color "black".</remarks>
+        <member name="P:CSharpCAD.Geom2.Is2D">
+            <summary>Is this a 2D geometry object?</summary>
         </member>
-        <member name="M:CSharpCAD.Color.#ctor(System.String,System.Byte)">
-            <summary>Construct from a CSS extended name or a hex specification (begins with) repeated 3 times.</summary>
+        <member name="P:CSharpCAD.Geom2.Is3D">
+            <summary>Is this a 3D geometry object?</summary>
         </member>
-        <member name="M:CSharpCAD.Color.Equals(CSharpCAD.Color)">
-            <summary>Check if this Color is equal to the given Color.</summary>
+        <member name="M:CSharpCAD.Geom2.#ctor">
+            <summary>Empty constructor.</summary>
         </member>
-        <member name="M:CSharpCAD.Color.op_Equality(CSharpCAD.Color,CSharpCAD.Color)">
+        <member name="M:CSharpCAD.Geom2.#ctor(System.Collections.Generic.List{CSharpCAD.Vec2})">
+            <summary>Create a new 2D geometry from the given points.</summary>
+            <remarks>
+            The direction (rotation) of the points is not relevant,
+            as the points can define a convex or a concave polygon.
+            The geometry must not self intersect, i.e. the sides cannot cross.
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom2.#ctor(CSharpCAD.Vec2[])">
+            <summary>Create a new 2D geometry from the given points.</summary>
+            <remarks>
+            The direction (rotation) of the points is not relevant,
+            as the points can define a convex or a concave polygon.
+            The geometry must not self intersect, i.e. the sides cannot cross.
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom2.Equals(CSharpCAD.Geom2)">
+            <summary>Check if this geometry is equal to the given geometry.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.op_Equality(CSharpCAD.Geom2,CSharpCAD.Geom2)">
             <summary>Check if this vector is equal to the given vector.</summary>
         </member>
-        <member name="M:CSharpCAD.Color.op_Inequality(CSharpCAD.Color,CSharpCAD.Color)">
-            <summary>Check if this Color is not equal to the given Color.</summary>
+        <member name="M:CSharpCAD.Geom2.op_Inequality(CSharpCAD.Geom2,CSharpCAD.Geom2)">
+            <summary>Check if this vector is not equal to the given vector.</summary>
         </member>
-        <member name="M:CSharpCAD.Color.Equals(System.Object)">
+        <member name="M:CSharpCAD.Geom2.Equals(System.Object)">
             <summary>Standard C# override.</summary>
         </member>
-        <member name="M:CSharpCAD.Color.GetHashCode">
+        <member name="M:CSharpCAD.Geom2.GetHashCode">
             <summary>Standard C# override.</summary>
         </member>
-        <member name="M:CSharpCAD.Color.ToString">
+        <member name="M:CSharpCAD.Geom2.ToString">
             <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.IsNearlyEqual(CSharpCAD.Geom2)">
+            <summary>Used mostly for testing.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.ApplyTransforms">
+            <summary>Apply the transforms of the given geometry.</summary>
+            <remarks>NOTE: This function must be called BEFORE exposing any data. See ToSides().</remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom2.BoundingBox">
+            <summary>Measure the min and max bounds of the given (geom2) geometry.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.Clone">
+            <summary>Return a clone of this geometry.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.MeasureEpsilon">
+            <summary>Measure the epsilon of this geometry object.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.ToOutlines(System.Boolean)">
+            <summary>Create the outline(s) of the given geometry.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.Reverse">
+            <summary>Reverses the given geometry so that the sides are flipped in the opposite order.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom2.ToPoints">
+            <summary>Produces an array of points from the given geometry.</summary>
+            <remarks>
+            NOTE: The points returned do NOT define an order. Use toOutlines() for ordered points.
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom2.Transform(CSharpCAD.Mat4)">
+            <summary>Transform this geometry using the given matrix.</summary>
+            <remarks>
+            This is a lazy transform of the sides, as this function only adjusts the transforms.
+            The transforms are applied when accessing the sides via ToSides().
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom2.Validate">
+             <summary>Determine if this object is a valid geom2.</summary>
+             <remarks>
+             Checks for closedness, self-edges, and valid data points.
+            
+             **If the geometry is not valid, an exception will be thrown with details of the geometry error.**
+             </remarks>
+        </member>
+        <member name="T:CSharpCAD.Geom3">
+            <summary>Represents a new 3D geometry composed of polygons.</summary>
+        </member>
+        <member name="P:CSharpCAD.Geom3.Polygons">
+            
+        </member>
+        <member name="P:CSharpCAD.Geom3.Transforms">
+            
+        </member>
+        <member name="F:CSharpCAD.Geom3.Color">
+            
+        </member>
+        <member name="P:CSharpCAD.Geom3.Is2D">
+            <summary>Is this a 2D geometry object?</summary>
+        </member>
+        <member name="P:CSharpCAD.Geom3.Is3D">
+            <summary>Is this a 3D geometry object?</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.#ctor(System.Collections.Generic.List{System.Collections.Generic.List{CSharpCAD.Vec3}})">
+            <summary>Construct a new 3D geometry from a list of points.</summary>
+            <remarks>
+            The list of points should contain sub-arrays, each defining a single polygon of points.
+            In addition, the points should follow the right-hand rule for rotation in order to
+            define an external facing polygon.
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom3.#ctor">
+            <summary>Internal constructor. Public for testing use only.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.#ctor(CSharpCAD.Poly3[],CSharpCAD.Mat4,System.Nullable{CSharpCAD.CSCAD.Color},System.Boolean)">
+            <summary>Internal constructor. Public for testing use only.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.Equals(CSharpCAD.Geom3)">
+            <summary>Check if this geometry is equal to the given geometry.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.op_Equality(CSharpCAD.Geom3,CSharpCAD.Geom3)">
+            <summary>Check if this vector is equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.op_Inequality(CSharpCAD.Geom3,CSharpCAD.Geom3)">
+            <summary>Check if this vector is not equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.Equals(System.Object)">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.GetHashCode">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.ToString">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.IsNearlyEqual(CSharpCAD.Geom3)">
+            <summary>Used mostly for testing.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.ApplyTransforms">
+            <summary>Apply the transforms of the given geometry.</summary>
+            <remarks>NOTE: This function must be called BEFORE exposing any data. See toPolygons.</remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom3.MeasureEpsilon">
+            <summary>Measure the epsilon value for this geometry object.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.Clone">
+            <summary>Return a full clone of this geometry.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.Invert">
+            <summary>Invert this geometry, transposing solid and empty space.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.BoundingBox">
+            <summary>Return the (min, max) BoundingBox of this geometry.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.ToPoints">
+            <summary>Return this geometry as a list of points, after applying transforms.</summary>
+        </member>
+        <member name="M:CSharpCAD.Geom3.ToPolygons">
+            <summary>Produces an array of polygons from this geometry, after applying transforms.</summary>
+            <remarks>The returned array should not be modified as the polygons are shared with the geometry.</remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom3.Transform(CSharpCAD.Mat4)">
+            <summary>Add a transformation to this geometry.</summary>
+            <remarks>This is done in a lazy fashion, only affecting the internal transforms vector.</remarks>
+        </member>
+        <member name="M:CSharpCAD.Geom3.Validate">
+             <summary>Determine if the given object is a valid 3D geometry.</summary>
+             <remarks>
+             Checks for valid data structure, convex polygon faces, and manifold edges.
+            
+             **If the geometry is not valid, an exception will be thrown with details of the geometry error.**
+             </remarks>
+        </member>
+        <member name="T:CSharpCAD.Geometry">
+            <summary>Abstract class currently joining Geom2 and Geom3.</summary>
+        </member>
+        <member name="P:CSharpCAD.Geometry.Is2D">
+            <summary>Is this a 2D geometry object?</summary>
+        </member>
+        <member name="P:CSharpCAD.Geometry.Is3D">
+            <summary>Is this a 3D geometry object?</summary>
+        </member>
+        <member name="T:CSharpCAD.Poly3">
+            <summary>Represents a convex 3D polygon.</summary>
+            <remarks>The vertices used to initialize a polygon must be coplanar and form a convex shape.</remarks>
+        </member>
+        <member name="F:CSharpCAD.Poly3.vertices">
+            <summary>Sides made of tuples of (Vec2, Vec2)</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.#ctor(System.Collections.Generic.List{CSharpCAD.Vec3},System.Nullable{CSharpCAD.CSCAD.Color})">
+            <summary>Creates a new 3D polygon with initial values.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.#ctor(CSharpCAD.Vec3[],System.Nullable{CSharpCAD.CSCAD.Color})">
+            <summary>Internal constructor. Public for testing use only.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Equals(CSharpCAD.Poly3)">
+            <summary>Check if this polygon is equal to the given polygon.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.op_Equality(CSharpCAD.Poly3,CSharpCAD.Poly3)">
+            <summary>Check if this vector is equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.op_Inequality(CSharpCAD.Poly3,CSharpCAD.Poly3)">
+            <summary>Check if this vector is not equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Equals(System.Object)">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.GetHashCode">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.ToString">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.IsNearlyEqual(CSharpCAD.Poly3)">
+            <summary>Used mostly for testing.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Clone">
+            <summary>Create a deep clone of this polygon.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Invert">
+            <summary>Invert this polygon to face the opposite direction.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.IsConvex">
+            <summary>Check whether this polygon is convex.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.AreVerticesConvex(CSharpCAD.Vec3[])">
+            <summary>Check whether a set of vertices are convex.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.IsConvexPoint(CSharpCAD.Vec3,CSharpCAD.Vec3,CSharpCAD.Vec3,CSharpCAD.Vec3)">
+            <summary>Calculate whether three points form a convex corner.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Area">
+            <summary>Measure the area of this polygon.</summary>
+            <remarks>@see 2000 softSurfer http://geomalgorithms.com</remarks>
+        </member>
+        <member name="M:CSharpCAD.Poly3.BoundingBox">
+            <summary>Measure the bounding box of this polygon.</summary>
+            <returns>Tuple of (min, max)</returns>
+        </member>
+        <member name="M:CSharpCAD.Poly3.BoundingSphere">
+            <summary>Measure the bounding sphere of the given polygon.</summary>
+            <returns>Tuple of (center, radius)</returns>
+        </member>
+        <member name="M:CSharpCAD.Poly3.SignedVolume">
+            <summary>Measure the signed volume of the given polygon, which must be convex.</summary>
+            <remarks>
+            The volume is that formed by the tetrahedon connected to the axis [0,0,0],
+            and will be positive or negative based on the rotation of the vertices.
+            @see http://chenlab.ece.cornell.edu/Publication/Cha/icip01_Cha.pdf
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Plane">
+            <summary>The plane of this polygon.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.ToPoints">
+            <summary>Return the given polygon as a list of points.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Transform(CSharpCAD.Mat4)">
+            <summary>Transform the given polygon using the given matrix.</summary>
+        </member>
+        <member name="M:CSharpCAD.Poly3.Validate">
+             <summary>Determine if this object is a valid polygon.</summary>
+             <remarks>
+             Checks for valid data structure, convex polygons, and duplicate points.
+            
+             **If the geometry is not valid, an exception will be thrown with details of the geometry error.**
+             </remarks>
         </member>
         <member name="T:CSharpCAD.CSCAD">
             <summary>CSCAD contains the static methods most commonly used in producing geometries.</summary>
         </member>
-        <member name="M:CSharpCAD.CSCAD.Colorize(System.Object,CSharpCAD.Geometry)">
-            <summary>Assign the given color to the given objects.</summary>
-            <param name="rgbcolor">Has 3 formats:
-              A C# Tuple of RGB color values, where each value is between 0 and 255.
-              A string beginning with "#" followed by 6 hex digits representing RGB.
-              A string that s one of the extended CSS color names.
-            </param>
-            <param name="obj">A 2D or 3D geometry object.</param>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.ColorNameToRGB(System.String)">
-            <summary>Converts a CSS color name to RGB color.</summary>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.GetColorNames">
-            <summary>Get array of color names.</summary>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.GetColorNamesByRainbow">
-            <summary>Returns a tuple of names and colors sorted, but not really by rainbow.</summary>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.HexToRGB(System.String,System.Byte)">
-            <summary>Converts CSS color notations (string of hex values) to RGB values.</summary>
-        </member>
         <member name="M:CSharpCAD.CSCAD.SerializeToAMF(System.String,CSharpCAD.Geometry)">
             Serialize the give objects (geometry) to AMF source data (XML).
         </member>
-        <member name="M:CSharpCAD.CSCAD.SVGSerializer.SerializeToSVG(CSharpCAD.Geometry)">
+        <member name="M:CSharpCAD.CSCAD.SerializeToSVG(CSharpCAD.Geometry)">
             <summary>Serializer of JSCAD geometries to SVG source (XML).</summary>
             <remarks>
             The serialization of the following geometries are possible.
@@ -377,11 +600,11 @@
         </member>
         <member name="M:CSharpCAD.CSCAD.Circle(System.Double,System.Int32,System.Double,System.Double,System.Nullable{CSharpCAD.Vec2})">
             <summary>Construct a circle in two dimensional space where all points are at the same distance from the center.</summary>
-            <param name="center" default="(0,0)">Center of circle.</param>
             <param name="radius">Radius of circle.</param>
             <param name="segments">Number of segments in a full rotation of circle.</param>
             <param name="startAngle">Begining of the rotation of the circle (in radians).</param>
             <param name="endAngle">End of the rotation of the circle (in radians).</param>
+            <param name="center" default="(0,0)">Center of circle.</param>
         </member>
         <member name="M:CSharpCAD.CSCAD.Cube(System.Double,System.Nullable{CSharpCAD.Vec3})">
             <summary>Construct an axis-aligned solid cube in three dimensional space with six square faces.</summary>
@@ -462,9 +685,9 @@
                 new Path { 3, 4, 5, 6}
               };
             
-             var poly = Polygon(new Opts {{ "points", points}, {"paths", paths }});
+             var poly = Polygon(points: points, paths: paths);
         </member>
-        <member name="M:CSharpCAD.CSCAD.Polyhedron(System.Collections.Generic.List{CSharpCAD.Vec3},System.Collections.Generic.List{System.Collections.Generic.List{System.Int32}},System.Collections.Generic.List{CSharpCAD.Color},System.Boolean)">
+        <member name="M:CSharpCAD.CSCAD.Polyhedron(System.Collections.Generic.List{CSharpCAD.Vec3},System.Collections.Generic.List{System.Collections.Generic.List{System.Int32}},System.Collections.Generic.List{CSharpCAD.CSCAD.Color},System.Boolean)">
              Construct a polyhedron in three dimensional space from the given set of 3D points and faces.
              The faces can define outward or inward facing polygons (orientation).
              However, each face must define a counter clockwise rotation of points which follows the right hand rule.
@@ -601,314 +824,72 @@
              @example
              var myshape = triangle({type: "AAS", values: [degToRad(62), degToRad(35), 7]})
         </member>
+        <member name="T:CSharpCAD.CSCAD.Color">
+            <summary>Represent a color in a space efficient manner.</summary>
+        </member>
+        <member name="F:CSharpCAD.CSCAD.Color.r">
+            <summary>Red</summary>
+        </member>
+        <member name="F:CSharpCAD.CSCAD.Color.g">
+            <summary>Green</summary>
+        </member>
+        <member name="F:CSharpCAD.CSCAD.Color.b">
+            <summary>Blue</summary>
+        </member>
+        <member name="F:CSharpCAD.CSCAD.Color.a">
+            <summary>Alpha range is 0-255, with 255 meaning opaque.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Color.#ctor(System.Byte,System.Byte,System.Byte,System.Byte)">
+            <summary>Construct from 3 RGB bytes.</summary>
+            <remarks>With no arguments, construct the color "black".</remarks>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Color.#ctor(System.String,System.Byte)">
+            <summary>Construct from a CSS extended name or a hex specification (begins with) repeated 3 times.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Color.Equals(CSharpCAD.CSCAD.Color)">
+            <summary>Check if this Color is equal to the given Color.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Color.op_Equality(CSharpCAD.CSCAD.Color,CSharpCAD.CSCAD.Color)">
+            <summary>Check if this vector is equal to the given vector.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Color.op_Inequality(CSharpCAD.CSCAD.Color,CSharpCAD.CSCAD.Color)">
+            <summary>Check if this Color is not equal to the given Color.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Color.Equals(System.Object)">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Color.GetHashCode">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Color.ToString">
+            <summary>Standard C# override.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Colorize(System.Object,CSharpCAD.Geometry)">
+            <summary>Assign the given color to the given objects.</summary>
+            <param name="rgbcolor">Has 3 formats:
+              A C# Tuple of RGB color values, where each value is between 0 and 255.
+              A string beginning with "#" followed by 6 hex digits representing RGB.
+              A string that s one of the extended CSS color names.
+            </param>
+            <param name="obj">A 2D or 3D geometry object.</param>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ColorNameToRGB(System.String)">
+            <summary>Converts a CSS color name to RGB color.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.GetColorNames">
+            <summary>Get array of color names.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.GetColorNamesByRainbow">
+            <summary>Returns a tuple of names and colors sorted, but not really by rainbow.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.HexToRGB(System.String,System.Byte)">
+            <summary>Converts CSS color notations (string of hex values) to RGB values.</summary>
+        </member>
         <member name="M:CSharpCAD.CSCAD.Echo(System.Object[])">
             <summary>Print string representations of any object.</summary>
         </member>
         <member name="M:CSharpCAD.CSCAD.Save(System.String,CSharpCAD.Geometry,System.Boolean)">
             <summary>Save a geometry object in a file suitable for printing, etc.</summary>
-        </member>
-        <member name="T:CSharpCAD.ValidationException">
-            <summary>Thrown by internal validation checks.</summary>
-        </member>
-        <member name="M:CSharpCAD.ValidationException.#ctor(System.String)">
-            
-        </member>
-        <member name="T:CSharpCAD.Geom2">
-            <summary>Represents a 2D geometry consisting of an array of sides.</summary>
-        </member>
-        <member name="P:CSharpCAD.Geom2.Transforms">
-            
-        </member>
-        <member name="F:CSharpCAD.Geom2.Color">
-            
-        </member>
-        <member name="P:CSharpCAD.Geom2.Is2D">
-            <summary>Is this a 2D geometry object?</summary>
-        </member>
-        <member name="P:CSharpCAD.Geom2.Is3D">
-            <summary>Is this a 3D geometry object?</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.#ctor">
-            <summary>Empty constructor.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.#ctor(CSharpCAD.Geom2.Side[],CSharpCAD.Mat4,System.Nullable{CSharpCAD.Color})">
-            <summary>Internal constructor.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.#ctor(System.Collections.Generic.List{CSharpCAD.Vec2})">
-            <summary>Create a new 2D geometry from the given points.</summary>
-            <remarks>
-            The direction (rotation) of the points is not relevant,
-            as the points can define a convex or a concave polygon.
-            The geometry must not self intersect, i.e. the sides cannot cross.
-            </remarks>
-        </member>
-        <member name="M:CSharpCAD.Geom2.#ctor(CSharpCAD.Vec2[])">
-            <summary>Create a new 2D geometry from the given points.</summary>
-            <remarks>
-            The direction (rotation) of the points is not relevant,
-            as the points can define a convex or a concave polygon.
-            The geometry must not self intersect, i.e. the sides cannot cross.
-            </remarks>
-        </member>
-        <member name="M:CSharpCAD.Geom2.Equals(CSharpCAD.Geom2)">
-            <summary>Check if this geometry is equal to the given geometry.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.op_Equality(CSharpCAD.Geom2,CSharpCAD.Geom2)">
-            <summary>Check if this vector is equal to the given vector.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.op_Inequality(CSharpCAD.Geom2,CSharpCAD.Geom2)">
-            <summary>Check if this vector is not equal to the given vector.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.Equals(System.Object)">
-            <summary>Standard C# override.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.GetHashCode">
-            <summary>Standard C# override.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.ToString">
-            <summary>Standard C# override.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.IsNearlyEqual(CSharpCAD.Geom2)">
-            <summary>Used mostly for testing.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.ApplyTransforms">
-            <summary>Apply the transforms of the given geometry.</summary>
-            <remarks>NOTE: This function must be called BEFORE exposing any data. See toSides().</remarks>
-        </member>
-        <member name="M:CSharpCAD.Geom2.BoundingBox">
-            <summary>Measure the min and max bounds of the given (geom2) geometry.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.Clone">
-            <summary>Return a clone of this geometry.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.MeasureEpsilon">
-            <summary>Measure the epsilon of this geometry object.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.ToOutlines(System.Boolean)">
-            <summary>Create the outline(s) of the given geometry.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.Reverse">
-            <summary>Reverses the given geometry so that the sides are flipped in the opposite order.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.ToPoints">
-            <summary>Produces an array of points from the given geometry.</summary>
-            <remarks>
-            NOTE: The points returned do NOT define an order. Use toOutlines() for ordered points.
-            </remarks>
-        </member>
-        <member name="M:CSharpCAD.Geom2.ToSides">
-            <summary>Produces an array of sides from the given geometry.</summary>
-            <remarks>
-            The returned array should not be modified as the data is shared with the geometry.
-            NOTE: The sides returned do NOT define an order. Use toOutlines() for ordered points.
-            </remarks>
-        </member>
-        <member name="M:CSharpCAD.Geom2.Transform(CSharpCAD.Mat4)">
-            <summary>Transform this geometry using the given matrix.</summary>
-            <remarks>
-            This is a lazy transform of the sides, as this function only adjusts the transforms.
-            The transforms are applied when accessing the sides via toSides().
-            </remarks>
-        </member>
-        <member name="M:CSharpCAD.Geom2.Side.Equals(System.Object)">
-            <summary>Standard C# override.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.Side.GetHashCode">
-            <summary>Standard C# override.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.Side.ToString">
-            <summary>Standard C# override.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom2.Validate">
-             <summary>Determine if this object is a valid geom2.</summary>
-             <remarks>
-             Checks for closedness, self-edges, and valid data points.
-            
-             **If the geometry is not valid, an exception will be thrown with details of the geometry error.**
-             </remarks>
-        </member>
-        <member name="T:CSharpCAD.Geom3">
-            <summary>Represents a new 3D geometry composed of polygons.</summary>
-        </member>
-        <member name="P:CSharpCAD.Geom3.Polygons">
-            
-        </member>
-        <member name="P:CSharpCAD.Geom3.Transforms">
-            
-        </member>
-        <member name="F:CSharpCAD.Geom3.Color">
-            
-        </member>
-        <member name="P:CSharpCAD.Geom3.Is2D">
-            <summary>Is this a 2D geometry object?</summary>
-        </member>
-        <member name="P:CSharpCAD.Geom3.Is3D">
-            <summary>Is this a 3D geometry object?</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom3.#ctor(System.Collections.Generic.List{System.Collections.Generic.List{CSharpCAD.Vec3}})">
-            <summary>Construct a new 3D geometry from a list of points.</summary>
-            <remarks>
-            The list of points should contain sub-arrays, each defining a single polygon of points.
-            In addition, the points should follow the right-hand rule for rotation in order to
-            define an external facing polygon.
-            </remarks>
-        </member>
-        <member name="M:CSharpCAD.Geom3.#ctor">
-            <summary>Internal constructor. Public for testing use only.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom3.#ctor(CSharpCAD.Poly3[],CSharpCAD.Mat4,System.Nullable{CSharpCAD.Color},System.Boolean)">
-            <summary>Internal constructor. Public for testing use only.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom3.Equals(CSharpCAD.Geom3)">
-            <summary>Check if this geometry is equal to the given geometry.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom3.op_Equality(CSharpCAD.Geom3,CSharpCAD.Geom3)">
-            <summary>Check if this vector is equal to the given vector.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom3.op_Inequality(CSharpCAD.Geom3,CSharpCAD.Geom3)">
-            <summary>Check if this vector is not equal to the given vector.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom3.Equals(System.Object)">
-            <summary>Standard C# override.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom3.GetHashCode">
-            <summary>Standard C# override.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom3.ToString">
-            <summary>Standard C# override.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom3.IsNearlyEqual(CSharpCAD.Geom3)">
-            <summary>Used mostly for testing.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom3.ApplyTransforms">
-            <summary>Apply the transforms of the given geometry.</summary>
-            <remarks>NOTE: This function must be called BEFORE exposing any data. See toPolygons.</remarks>
-        </member>
-        <member name="M:CSharpCAD.Geom3.MeasureEpsilon">
-            <summary>Measure the epsilon value for this geometry object.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom3.Clone">
-            <summary>Return a full clone of this geometry.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom3.Invert">
-            <summary>Invert this geometry, transposing solid and empty space.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom3.BoundingBox">
-            <summary>Return the (min, max) BoundingBox of this geometry.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom3.ToPoints">
-            <summary>Return this geometry as a list of points, after applying transforms.</summary>
-        </member>
-        <member name="M:CSharpCAD.Geom3.ToPolygons">
-            <summary>Produces an array of polygons from this geometry, after applying transforms.</summary>
-            <remarks>The returned array should not be modified as the polygons are shared with the geometry.</remarks>
-        </member>
-        <member name="M:CSharpCAD.Geom3.Transform(CSharpCAD.Mat4)">
-            <summary>Add a transformation to this geometry.</summary>
-            <remarks>This is done in a lazy fashion, only affecting the internal transforms vector.</remarks>
-        </member>
-        <member name="M:CSharpCAD.Geom3.Validate">
-             <summary>Determine if the given object is a valid 3D geometry.</summary>
-             <remarks>
-             Checks for valid data structure, convex polygon faces, and manifold edges.
-            
-             **If the geometry is not valid, an exception will be thrown with details of the geometry error.**
-             </remarks>
-        </member>
-        <member name="T:CSharpCAD.Geometry">
-            <summary>Abstract class currently joining Geom2 and Geom3.</summary>
-        </member>
-        <member name="P:CSharpCAD.Geometry.Is2D">
-            <summary>Is this a 2D geometry object?</summary>
-        </member>
-        <member name="P:CSharpCAD.Geometry.Is3D">
-            <summary>Is this a 3D geometry object?</summary>
-        </member>
-        <member name="T:CSharpCAD.Poly3">
-            <summary>Represents a convex 3D polygon.</summary>
-            <remarks>The vertices used to initialize a polygon must be coplanar and form a convex shape.</remarks>
-        </member>
-        <member name="F:CSharpCAD.Poly3.vertices">
-            <summary>Sides made of tuples of (Vec2, Vec2)</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.#ctor(System.Collections.Generic.List{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Color})">
-            <summary>Creates a new 3D polygon with initial values.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.#ctor(CSharpCAD.Vec3[],System.Nullable{CSharpCAD.Color})">
-            <summary>Internal constructor. Public for testing use only.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.Equals(CSharpCAD.Poly3)">
-            <summary>Check if this polygon is equal to the given polygon.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.op_Equality(CSharpCAD.Poly3,CSharpCAD.Poly3)">
-            <summary>Check if this vector is equal to the given vector.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.op_Inequality(CSharpCAD.Poly3,CSharpCAD.Poly3)">
-            <summary>Check if this vector is not equal to the given vector.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.Equals(System.Object)">
-            <summary>Standard C# override.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.GetHashCode">
-            <summary>Standard C# override.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.ToString">
-            <summary>Standard C# override.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.IsNearlyEqual(CSharpCAD.Poly3)">
-            <summary>Used mostly for testing.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.Clone">
-            <summary>Create a deep clone of this polygon.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.Invert">
-            <summary>Invert this polygon to face the opposite direction.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.IsConvex">
-            <summary>Check whether this polygon is convex.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.AreVerticesConvex(CSharpCAD.Vec3[])">
-            <summary>Check whether a set of vertices are convex.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.IsConvexPoint(CSharpCAD.Vec3,CSharpCAD.Vec3,CSharpCAD.Vec3,CSharpCAD.Vec3)">
-            <summary>Calculate whether three points form a convex corner.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.Area">
-            <summary>Measure the area of this polygon.</summary>
-            <remarks>@see 2000 softSurfer http://geomalgorithms.com</remarks>
-        </member>
-        <member name="M:CSharpCAD.Poly3.BoundingBox">
-            <summary>Measure the bounding box of this polygon.</summary>
-            <returns>Tuple of (min, max)</returns>
-        </member>
-        <member name="M:CSharpCAD.Poly3.BoundingSphere">
-            <summary>Measure the bounding sphere of the given polygon.</summary>
-            <returns>Tuple of (center, radius)</returns>
-        </member>
-        <member name="M:CSharpCAD.Poly3.SignedVolume">
-            <summary>Measure the signed volume of the given polygon, which must be convex.</summary>
-            <remarks>
-            The volume is that formed by the tetrahedon connected to the axis [0,0,0],
-            and will be positive or negative based on the rotation of the vertices.
-            @see http://chenlab.ece.cornell.edu/Publication/Cha/icip01_Cha.pdf
-            </remarks>
-        </member>
-        <member name="M:CSharpCAD.Poly3.Plane">
-            <summary>The plane of this polygon.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.ToPoints">
-            <summary>Return the given polygon as a list of points.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.Transform(CSharpCAD.Mat4)">
-            <summary>Transform the given polygon using the given matrix.</summary>
-        </member>
-        <member name="M:CSharpCAD.Poly3.Validate">
-             <summary>Determine if this object is a valid polygon.</summary>
-             <remarks>
-             Checks for valid data structure, convex polygons, and duplicate points.
-            
-             **If the geometry is not valid, an exception will be thrown with details of the geometry error.**
-             </remarks>
         </member>
         <member name="T:CSharpCAD.C">
             <summary>Constants.</summary>
@@ -1513,25 +1494,8 @@
         <member name="M:CSharpCAD.Vec3.Transform(CSharpCAD.Mat4)">
             <summary>Transforms this vector using the given matrix.</summary>
         </member>
-        <member name="M:CSharpCAD.CSharpCADInternals.intersect(CSharpCAD.Vec2,CSharpCAD.Vec2,CSharpCAD.Vec2,CSharpCAD.Vec2)">
-            Calculate the intersect point of the two line segments (p1-p2 and p3-p4), end points included.
-            Note: If the line segments do NOT intersect then undefined is returned.
-            @see http://paulbourke.net/geometry/pointlineplane/
-            @param {vec2} p1 - first point of first line segment
-            @param {vec2} p2 - second point of first line segment
-            @param {vec2} p3 - first point of second line segment
-            @param {vec2} p4 - second point of second line segment
-            @returns {vec2} intersection point of the two line segments, or undefined
-            @alias module:modeling/maths/utils.intersect
-        </member>
         <member name="T:CSharpCAD.Slice">
             <summary>An advanced class, you need to understand "extrudeFromSlices.cs" before using.</summary>
-        </member>
-        <member name="M:CSharpCAD.Slice.#ctor(CSharpCAD.Slice.Edge[])">
-            <summary>Internal constructor.</summary>
-        </member>
-        <member name="M:CSharpCAD.Slice.#ctor(CSharpCAD.Geom2.Side[])">
-            <summary>Internal constructor.</summary>
         </member>
         <member name="M:CSharpCAD.Slice.#ctor(System.Collections.Generic.List{CSharpCAD.Vec2})">
             <summary>Create a slice from the given points.</summary>
@@ -1567,48 +1531,14 @@
         <member name="M:CSharpCAD.Slice.Reverse">
             <summary>Reverse the edges of the given slice.</summary>
         </member>
-        <member name="M:CSharpCAD.Slice.ToEdges">
-            <summary>Reverse the edges of the given slice.</summary>
-        </member>
         <member name="M:CSharpCAD.Slice.ToPolygons">
             <summary>Return a list of polygons which are enclosed by the slice.</summary>
         </member>
         <member name="M:CSharpCAD.Slice.Transform(CSharpCAD.Mat4)">
             <summary>Transform this slice using the given matrix.</summary>
         </member>
-        <member name="M:CSharpCAD.Slice.Edge.Equals(System.Object)">
-            <summary>Standard C# override.</summary>
-        </member>
-        <member name="M:CSharpCAD.Slice.Edge.GetHashCode">
-            <summary>Standard C# override.</summary>
-        </member>
-        <member name="M:CSharpCAD.Slice.Edge.ToString">
-            <summary>Standard C# override.</summary>
-        </member>
         <member name="M:CSharpCAD.Slice.RepairSlice">
             <summary>Mend gaps in a 2D slice to make it a closed polygon.</summary>
-        </member>
-        <member name="M:CSharpCAD.Modifiers.closestPoint(System.ValueTuple{CSharpCAD.Vec3,CSharpCAD.Vec3},CSharpCAD.Vec3)">
-            <summary>Determine the closest point on the given line to the given point.</summary>
-        </member>
-        <member name="M:CSharpCAD.Modifiers.generalize(CSharpCAD.Opts,CSharpCAD.Geometry)">
-            <summary>Apply various modifications in proper order to produce a generalized geometry.</summary>
-            <remarks>
-            @param {Object} options - options for modifications
-            @param {Boolean} [options.snap=false] the geometries should be snapped to epsilons
-            @param {Boolean} [options.simplify=false] the geometries should be simplified
-            @param {Boolean} [options.triangulate=false] the geometries should be triangulated
-            @param {Boolean} [options.repair=false] the geometries should be repaired
-            @param {...Object} geometries - the geometries to generalize
-            @return {Object|Array} the modified geometry, or a list of modified geometries
-            </remarks>
-        </member>
-        <member name="M:CSharpCAD.Modifiers.getTag(CSharpCAD.Vec3)">
-            All shapes (primitives or the results of operations) can be modified to correct issues, etc.
-            In all cases, these functions returns the results, and never changes the original geometry.
-            @module modeling/modifiers
-            @example
-            var { snap } = require('@jscad/modeling').modifiers
         </member>
         <member name="T:CSharpCAD.GlobalParams">
             <summary>Contains settings of global importance to the library.</summary>
@@ -1619,47 +1549,6 @@
         </member>
         <member name="F:CSharpCAD.GlobalParams.CheckingEnabled">
             <summary>Enables special (time consuming) debug checking like geometry validation.</summary>
-        </member>
-        <member name="T:CSharpCAD.Opts">
-            <summary>Opts</summary>
-        </member>
-        <member name="M:CSharpCAD.Opts.#ctor">
-            
-        </member>
-        <member name="M:CSharpCAD.Opts.#ctor(System.Int32)">
-            <summary>Opts</summary>
-            <param name="capacity" default="0">Capacity.</param>
-            <group>Util</group>
-        </member>
-        <member name="M:CSharpCAD.Opts.GetListOfListOfInt(System.String,System.Collections.Generic.List{System.Collections.Generic.List{System.Int32}})">
-            
-        </member>
-        <member name="M:CSharpCAD.Opts.GetListOfVec3(System.String,System.Collections.Generic.List{CSharpCAD.Vec3})">
-            
-        </member>
-        <member name="M:CSharpCAD.Opts.GetListOfVec2(System.String,System.Collections.Generic.List{CSharpCAD.Vec2})">
-            
-        </member>
-        <member name="M:CSharpCAD.Opts.GetListOfColor(System.String,System.Collections.Generic.List{CSharpCAD.Color})">
-            
-        </member>
-        <member name="M:CSharpCAD.Opts.GetInt(System.String,System.Int32)">
-            
-        </member>
-        <member name="M:CSharpCAD.Opts.GetBool(System.String,System.Boolean)">
-            
-        </member>
-        <member name="M:CSharpCAD.Opts.GetString(System.String,System.String)">
-            
-        </member>
-        <member name="M:CSharpCAD.Opts.GetDouble(System.String,System.Double)">
-            
-        </member>
-        <member name="M:CSharpCAD.Opts.GetVec2(System.String,System.ValueTuple{System.Double,System.Double})">
-            
-        </member>
-        <member name="M:CSharpCAD.Opts.GetVec3(System.String,System.ValueTuple{System.Double,System.Double,System.Double})">
-            
         </member>
     </members>
 </doc>

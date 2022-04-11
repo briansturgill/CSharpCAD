@@ -45,10 +45,10 @@ Save("/tmp/t.stl", Torus(innerRadius:5, outerRadius:8));
 
 */
 var watch = new Stopwatch();
-var circ1 = Circle(new Opts { { "radius", 5 }, { "segments", 100 } });
-var circ2 = Circle(new Opts { { "radius", 5 }, { "segments", 100 } });
-var circ3 = Circle(new Opts { { "radius", 5 }, { "segments", 100 } });
-var circ4 = Circle(new Opts { { "radius", 5 }, { "segments", 100 } });
+var circ1 = Circle(radius: 5, segments: 100);
+var circ2 = Circle(radius: 5 , segments: 100);
+var circ3 = Circle(radius: 5 , segments: 100);
+var circ4 = Circle(radius: 5 , segments: 100);
 var circs =  Union(
   Translate(new Vec3(2.5, 2.5, 0), circ1),
   Translate(new Vec3(2.5, 20+2.5, 0), circ2),

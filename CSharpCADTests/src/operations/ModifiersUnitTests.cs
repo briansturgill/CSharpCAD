@@ -16,7 +16,7 @@ public class ModifiersTests
         var geometry1 = Cuboid(size: (Math.PI, Math.PI / 2, Math.PI * 2), center: (0, 0, 0));
 
         // apply no modifications
-        var result = generalize(new Opts(), geometry1);
+        var result = generalize(geometry1);
         Assert.DoesNotThrow(() => ((Geom3)result).Validate());
         var pts = ((Geom3)result).ToPoints();
 
@@ -38,7 +38,7 @@ public class ModifiersTests
         Assert.AreEqual(pts, exp);
 
         // apply snap only
-        result = generalize(new Opts { { "snap", true } }, geometry1);
+        result = generalize(geometry1, snap: true);
         Assert.DoesNotThrow(() => ((Geom3)result).Validate());
         pts = ((Geom3)result).ToPoints();
         exp = new List<List<Vec3>> {
@@ -58,7 +58,7 @@ public class ModifiersTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // apply triangulate only
-        result = generalize(new Opts { { "triangulate", true } }, geometry1);
+        result = generalize(geometry1, triangulate: true);
         Assert.DoesNotThrow(() => ((Geom3)result).Validate());
         pts = ((Geom3)result).ToPoints();
         exp = new List<List<Vec3>> {
@@ -92,7 +92,7 @@ public class ModifiersTests
         var geometry2 = result; // save the triangles for another test
 
         // apply simplify only (triangles => quads)
-        result = generalize(new Opts { { "simplify", true } }, geometry2);
+        result = generalize(geometry2, simplify: true);
         Assert.DoesNotThrow(() => ((Geom3)result).Validate());
         pts = ((Geom3)result).ToPoints();
         exp = new List<List<Vec3>> {
@@ -112,7 +112,7 @@ public class ModifiersTests
         Assert.IsTrue(Helpers.CompareListOfLists(pts, exp));
 
         // apply repairs only (triangles)
-        result = generalize(new Opts { { "repair", true } }, geometry2);
+        result = generalize(geometry2, repair: true);
         Assert.DoesNotThrow(() => ((Geom3)result).Validate());
         pts = ((Geom3)result).ToPoints();
         exp = new List<List<Vec3>> {
@@ -152,7 +152,7 @@ public class ModifiersTests
           Cuboid(center: (0, 0, 4))
         );
         geometry1.ApplyTransforms();
-        var result = (Geom3)generalize(new Opts { { "repair", true } }, geometry1);
+        var result = (Geom3)generalize(geometry1, repair: true);
         Assert.DoesNotThrow(() => ((Geom3)result).Validate());
         var pts = result.ToPoints();
         var exp = new List<List<Vec3>> {
@@ -197,7 +197,7 @@ public class ModifiersTests
             new List<Vec3> {new Vec3(-1, 1, 1), new Vec3(-1, 0, 1), new Vec3(0, 0, 1)}
           });
 
-        var result = generalize(new Opts { { "snap", true }, { "triangulate", true } }, geometry1);
+        var result = generalize(geometry1, snap: true, triangulate: true);
         Assert.DoesNotThrow(() => ((Geom3)result).Validate());
         var pts = ((Geom3)result).ToPoints();
         var exp = new List<List<Vec3>> {

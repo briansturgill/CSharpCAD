@@ -5,13 +5,13 @@ public class Slice : IEquatable<Slice>
 {
     internal Edge[] edges;
 
-    /// <summary>Internal constructor.</summary>
+    // Internal constructor.
     private Slice(Edge[] edges)
     {
         this.edges = edges;
     }
 
-    /// <summary>Internal constructor.</summary>
+    // Internal constructor.
     internal Slice(Geom2.Side[] sides)
     {
         edges = new Edge[sides.Length];
@@ -201,7 +201,6 @@ public class Slice : IEquatable<Slice>
         return new Slice(newedges);
     }
 
-    /// <summary>Reverse the edges of the given slice.</summary>
     internal Edge[] ToEdges() => edges;
 
     private Poly3 toPolygon3D(Vec3 vector, Edge edge)
@@ -298,6 +297,7 @@ public class Slice : IEquatable<Slice>
             this.v0 = new Vec3();
             this.v1 = new Vec3();
         }
+
         public Edge(Vec3 v0, Vec3 v1)
         {
             this.v0 = v0;
@@ -320,7 +320,6 @@ public class Slice : IEquatable<Slice>
 
         public static bool operator !=(Edge a, Edge b) => !(a == b);
 
-        /// <summary>Standard C# override.</summary>
         public override bool Equals(object? obj)
         {
             if ((obj == null) || !this.GetType().Equals(obj.GetType()))
@@ -334,13 +333,11 @@ public class Slice : IEquatable<Slice>
             }
         }
 
-        /// <summary>Standard C# override.</summary>
         public override int GetHashCode()
         {
             return v0.GetHashCode() ^ v1.GetHashCode();
         }
 
-        /// <summary>Standard C# override.</summary>
         public override string ToString() => $"Edge({this.v0},{this.v1})";
 
         public Edge Complement()

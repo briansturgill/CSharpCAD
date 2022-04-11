@@ -12,7 +12,7 @@ public static partial class CSCAD
             throw new ArgumentException("STL Serialization only works on 3D objects.");
         }
         // convert to triangles
-        var object3d = (Geom3)Modifiers.generalize(new Opts { { "snap", true }, { "triangulate", true } }, g);
+        var object3d = (Geom3)Modifiers.generalize(g, snap: true, triangulate: true);
 
         var builder = new StringBuilder();
         builder.Append("solid CSCAD\n");

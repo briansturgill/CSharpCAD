@@ -2,14 +2,10 @@ namespace CSharpCAD;
 
 internal static partial class Modifiers
 {
-    private static Geom2 generalizeGeom2(Opts opts, Geom2 geometry) => geometry;
+    private static Geom2 generalizeGeom2(Geom2 geometry, bool snap, bool simplify, bool triangulate, bool repair) => geometry;
 
-    private static Geom3 generalizeGeom3(Opts opts, Geom3 geometry)
+    private static Geom3 generalizeGeom3(Geom3 geometry, bool snap, bool simplify, bool triangulate, bool repair)
     {
-        var snap = opts.GetBool("snap", false);
-        var simplify = opts.GetBool("simplify", false);
-        var triangulate = opts.GetBool("triangulate", false);
-        var repair = opts.GetBool("repair", false);
 
         var epsilon = geometry.MeasureEpsilon();
         var polygons = geometry.ToPolygons();
@@ -45,7 +41,7 @@ internal static partial class Modifiers
         return new Geom3(polygons, geometry.Transforms, geometry.Color);
     }
 
-    /**
+    /*
      * <summary>Apply various modifications in proper order to produce a generalized geometry.</summary>
      * <remarks>
      * @param {Object} options - options for modifications
@@ -57,14 +53,15 @@ internal static partial class Modifiers
      * @return {Object|Array} the modified geometry, or a list of modified geometries
      * </remarks>
      */
-    public static Geometry generalize(Opts opts, Geometry geometry)
+    internal static Geometry generalize(Geometry geometry, bool snap=false, bool simplify = false,
+        bool triangulate = false, bool repair = false)
     {
         switch (geometry)
         {
             case Geom2 g2:
-                return generalizeGeom2(opts, g2);
+                return generalizeGeom2(g2, snap, simplify, triangulate, repair);
             case Geom3 g3:
-                return generalizeGeom3(opts, g3);
+                return generalizeGeom3(g3, snap, simplify, triangulate, repair);
             default:
                 throw new ArgumentException("Invalid geometry");
         }

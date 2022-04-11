@@ -264,7 +264,7 @@ public class Geom3 : Geometry
         // check transforms
         this.transforms.Validate();
 
-        // TODO: check for self-intersecting
+        // LATER: check for self-intersecting
     }
 
     /*

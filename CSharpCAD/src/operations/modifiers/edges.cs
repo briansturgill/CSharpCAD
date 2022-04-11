@@ -3,7 +3,7 @@ namespace CSharpCAD;
 internal static partial class Modifiers
 {
 
-    public class Edge
+    internal class Edge
     {
         public Vec3 v1;
         public Vec3 v2;
@@ -57,7 +57,7 @@ internal static partial class Modifiers
      * Each edge has a list of associated polygons.
      * Edges with two polygons are complete, while edges with one polygon are open, i.e hole or t-junction..
      */
-    public static void addEdge(List<Edge> edges, Edge edge, Poly3 polygon)
+    internal static void addEdge(List<Edge> edges, Edge edge, Poly3 polygon)
     {
         var ei = findEdgeIndex(edges, edge);
         if (ei >= 0)
@@ -75,7 +75,7 @@ internal static partial class Modifiers
     /*
      * Remove the edge from the given list of edges.
      */
-    public static void removeEdge(List<Edge> edges, Edge edge)
+    internal static void removeEdge(List<Edge> edges, Edge edge)
     {
         edges.Remove(edge);
     }
@@ -83,7 +83,7 @@ internal static partial class Modifiers
     /*
      * Add all edges of the polygon to the given list of edges.
      */
-    public static void addPolygon(List<Edge> edges, Poly3 polygon)
+    internal static void addPolygon(List<Edge> edges, Poly3 polygon)
     {
         var vertices = polygon.Vertices;
         var nv = vertices.Length;
@@ -101,7 +101,7 @@ internal static partial class Modifiers
     /*
      * Remove all polygons associated with the old edge from the given list of edges.
      */
-    public static void removePolygons(List<Edge> edges, Edge oldedge)
+    internal static void removePolygons(List<Edge> edges, Edge oldedge)
     {
         // console.log('removePolygons',oldedge)
         var polygons = oldedge.polygons;
@@ -124,7 +124,7 @@ internal static partial class Modifiers
     /*
      * Split the polygon, ensuring one polygon includes the open edge.
      */
-    public static (Poly3, Poly3) splitPolygon(Edge openedge, Poly3 polygon, double eps)
+    internal static (Poly3, Poly3) splitPolygon(Edge openedge, Poly3 polygon, double eps)
     {
         // console.log('splitPolygon',openedge,polygon)
         var vertices = polygon.Vertices;
@@ -141,8 +141,8 @@ internal static partial class Modifiers
         return (polygon1, polygon2);
     }
 
-    /// <summary>Determine the closest point on the given line to the given point.</summary>
-    public static Vec3 closestPoint((Vec3, Vec3)line, Vec3 point)
+    // <summary>Determine the closest point on the given line to the given point.</summary>
+    internal static Vec3 closestPoint((Vec3, Vec3)line, Vec3 point)
     {
         var (lstart, lend) = line;
         var lpoint = lstart;
@@ -157,7 +157,7 @@ internal static partial class Modifiers
         return closestpoint;
     }
 
-    public static bool enclosedEdge(Edge openedge, Edge edge, double eps)
+    internal static bool enclosedEdge(Edge openedge, Edge edge, double eps)
     {
         if (openedge.distance < edge.distance)
         {
@@ -207,7 +207,7 @@ internal static partial class Modifiers
      * Split the edge if possible from the list of open edges.
      * Return a list of new polygons, or null if not possible
      */
-    public static (Poly3, Poly3)? splitEdge(List<Edge> openedges, Edge edge, double eps)
+    internal static (Poly3, Poly3)? splitEdge(List<Edge> openedges, Edge edge, double eps)
     {
         // console.log('splitEdge',edge)
         for (var i = 0; i < openedges.Count; i++)
@@ -227,7 +227,7 @@ internal static partial class Modifiers
     /*
      * Cull a list of open edges (see above) from the list of edges.
      */
-    public static List<Edge> cullOpenEdges(List<Edge> edges)
+    internal static List<Edge> cullOpenEdges(List<Edge> edges)
     {
         var openedges = new List<Edge>();
         foreach (var edge in edges)
@@ -249,7 +249,7 @@ internal static partial class Modifiers
     /*
      * Convert the list of edges into a list of polygons.
      */
-    public static List<Poly3> edgesToPolygons(List<Edge> edges)
+    internal static List<Poly3> edgesToPolygons(List<Edge> edges)
     {
         var polygons = new List<Poly3>();
         foreach (var edge in edges)
@@ -268,7 +268,7 @@ internal static partial class Modifiers
     /*
      * Convert the given list of polygons to a list of edges.
      */
-    public static List<Edge> polygonsToEdges(Poly3[] polygons)
+    internal static List<Edge> polygonsToEdges(Poly3[] polygons)
     {
         var edges = new List<Edge>(polygons.Length);
         foreach (var polygon in polygons)

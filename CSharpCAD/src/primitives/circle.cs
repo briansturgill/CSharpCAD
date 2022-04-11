@@ -3,11 +3,11 @@ namespace CSharpCAD;
 public static partial class CSCAD
 {
     /// <summary>Construct a circle in two dimensional space where all points are at the same distance from the center.</summary>
-    /// <param name="center" default="(0,0)">Center of circle.</param>
     /// <param name="radius">Radius of circle.</param>
     /// <param name="segments">Number of segments in a full rotation of circle.</param>
     /// <param name="startAngle">Begining of the rotation of the circle (in radians).</param>
     /// <param name="endAngle">End of the rotation of the circle (in radians).</param>
+    /// <param name="center" default="(0,0)">Center of circle.</param>
     public static Geom2 Circle(double radius = 1, int segments = 32,
         double startAngle = 0, double endAngle = (Math.PI * 2), Vec2? center = null)
     {

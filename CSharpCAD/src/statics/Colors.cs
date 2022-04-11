@@ -1,90 +1,90 @@
 namespace CSharpCAD;
 
-/// <summary>Represent a color in a space efficient manner.</summary>
-public readonly struct Color : IEquatable<Color>
-{
-    /// <summary>Red</summary>
-    public readonly byte r;
-    /// <summary>Green</summary>
-    public readonly byte g;
-    /// <summary>Blue</summary>
-    public readonly byte b;
-    /// <summary>Alpha range is 0-255, with 255 meaning opaque.</summary>
-    public readonly byte a;
-
-    /// <summary>Construct from 3 RGB bytes.</summary>
-    /// <remarks>With no arguments, construct the color "black".</remarks>
-    public Color(byte r, byte g, byte b, byte a = 255)
-    {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-        this.a = a;
-    }
-
-    /// <summary>Construct from a CSS extended name or a hex specification (begins with) repeated 3 times.</summary>
-    public Color(string color, byte alpha = (byte)255)
-    {
-        if (color[0] == '#')
-        {
-            (r, g, b) = CSCAD.HexToRGB(color);
-            a = alpha;
-        }
-        else
-        {
-            (r, g, b) = CSCAD.ColorNameToRGB(color);
-            a = alpha;
-        }
-    }
-
-    /// <summary>Check if this Color is equal to the given Color.</summary>
-    public bool Equals(Color gc)
-    {
-        return this.r == gc.r &&
-            this.g == gc.g &&
-            this.b == gc.b &&
-            this.a == gc.a;
-    }
-
-    /// <summary>Check if this vector is equal to the given vector.</summary>
-    public static bool operator ==(Color a, Color b)
-    {
-        return a.Equals(b);
-    }
-
-    /// <summary>Check if this Color is not equal to the given Color.</summary>
-    public static bool operator !=(Color a, Color b) => !(a == b);
-
-    /// <summary>Standard C# override.</summary>
-    public override bool Equals(object? obj)
-    {
-        if ((obj == null) || !this.GetType().Equals(obj.GetType()))
-        {
-            return false;
-        }
-        else
-        {
-            Vec3 v = (Vec3)obj;
-            return Equals(v);
-        }
-    }
-
-    /// <summary>Standard C# override.</summary>
-    public override int GetHashCode()
-    {
-        return r.GetHashCode() ^ g.GetHashCode() ^ b.GetHashCode() ^ a.GetHashCode();
-    }
-
-    /// <summary>Standard C# override.</summary>
-	public override string ToString()
-    {
-        return $"rgba({r},{g},{b},{a})";
-    }
-}
-
 /// <summary>CSCAD contains the static methods most commonly used in producing geometries.</summary>
 public static partial class CSCAD
 {
+
+    /// <summary>Represent a color in a space efficient manner.</summary>
+    public readonly struct Color : IEquatable<Color>
+    {
+        /// <summary>Red</summary>
+        public readonly byte r;
+        /// <summary>Green</summary>
+        public readonly byte g;
+        /// <summary>Blue</summary>
+        public readonly byte b;
+        /// <summary>Alpha range is 0-255, with 255 meaning opaque.</summary>
+        public readonly byte a;
+
+        /// <summary>Construct from 3 RGB bytes.</summary>
+        /// <remarks>With no arguments, construct the color "black".</remarks>
+        public Color(byte r, byte g, byte b, byte a = 255)
+        {
+            this.r = r;
+            this.g = g;
+            this.b = b;
+            this.a = a;
+        }
+
+        /// <summary>Construct from a CSS extended name or a hex specification (begins with) repeated 3 times.</summary>
+        public Color(string color, byte alpha = (byte)255)
+        {
+            if (color[0] == '#')
+            {
+                (r, g, b) = CSCAD.HexToRGB(color);
+                a = alpha;
+            }
+            else
+            {
+                (r, g, b) = CSCAD.ColorNameToRGB(color);
+                a = alpha;
+            }
+        }
+
+        /// <summary>Check if this Color is equal to the given Color.</summary>
+        public bool Equals(Color gc)
+        {
+            return this.r == gc.r &&
+                this.g == gc.g &&
+                this.b == gc.b &&
+                this.a == gc.a;
+        }
+
+        /// <summary>Check if this vector is equal to the given vector.</summary>
+        public static bool operator ==(Color a, Color b)
+        {
+            return a.Equals(b);
+        }
+
+        /// <summary>Check if this Color is not equal to the given Color.</summary>
+        public static bool operator !=(Color a, Color b) => !(a == b);
+
+        /// <summary>Standard C# override.</summary>
+        public override bool Equals(object? obj)
+        {
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                Vec3 v = (Vec3)obj;
+                return Equals(v);
+            }
+        }
+
+        /// <summary>Standard C# override.</summary>
+        public override int GetHashCode()
+        {
+            return r.GetHashCode() ^ g.GetHashCode() ^ b.GetHashCode() ^ a.GetHashCode();
+        }
+
+        /// <summary>Standard C# override.</summary>
+        public override string ToString()
+        {
+            return $"rgba({r},{g},{b},{a})";
+        }
+    }
 
     private static Geom2 colorGeom2(Color color, Geom2 g)
     {
