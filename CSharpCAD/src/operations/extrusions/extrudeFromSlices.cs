@@ -40,7 +40,7 @@ public static partial class CSCAD
      *   return slice
      * }
      */
-    internal static Geom3 ExtrudeFromSlices(Slice baseSlice, SliceGenerator? _generate = null,
+    public static Geom3 ExtrudeFromSlices(Slice baseSlice, SliceGenerator? _generate = null,
         int numberOfSlices = 2, bool capStart = true, bool capEnd = true, bool close = false, bool repair = true)
     {
         var generate = _generate ?? defaultCallback;

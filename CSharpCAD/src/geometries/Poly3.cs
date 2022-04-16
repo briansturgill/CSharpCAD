@@ -14,11 +14,11 @@ public class Poly3 : IEquatable<Poly3>
     public Poly3(List<Vec3> points, Color? Color = null)
     {
         this.vertices = points.ToArray();
-        this.Color = null;
+        this.Color = Color;
         this._plane = null;
     }
 
-    /// <summary>Internal constructor. Public for testing use only.</summary>
+    // <summary>Internal constructor.</summary>
     internal Poly3(Vec3[] vertices, Color? Color = null)
     {
         this.vertices = vertices;

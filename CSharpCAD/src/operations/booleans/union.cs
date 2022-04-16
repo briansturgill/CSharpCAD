@@ -9,7 +9,7 @@ public static partial class CSCAD
      * <param name="gobjs">At least 2 geometry objects, all of the same type. (All 2D or 3D).</param>
      * <returns>The new geometry formed the union of all the geometry objects.</returns>
      * <example>
-     * var myshape = Union(Rectangle(size: [5,5]), Rectangle(size: [5,5], center: [5,5]));
+     * ```
      *
      * +-------+            +-------+
      * |       |            |       |
@@ -19,6 +19,7 @@ public static partial class CSCAD
      *      |   B   |            |       |
      *      |       |            |       |
      *      +-------+            +-------+
+     * ```
      * </example>
      */
     public static Geometry Union(params Geometry[] gobjs)

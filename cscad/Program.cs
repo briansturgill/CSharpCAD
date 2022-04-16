@@ -67,3 +67,7 @@ watch.Stop();
 System.Console.WriteLine($"Hull time for {loops}: {watch.ElapsedMilliseconds}ms");
 System.Console.WriteLine($"Hull has {h.ToPoints().Length} points.");
 Save("/tmp/t.svg", h);
+
+var c = Cuboid(size:(10,20,5));
+var o = Colorize((128,128,0), circ4);
+Save("/tmp/t.svg", o);

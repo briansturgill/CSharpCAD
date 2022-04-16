@@ -212,9 +212,6 @@
         <member name="M:CSharpCAD.Poly3.#ctor(System.Collections.Generic.List{CSharpCAD.Vec3},System.Nullable{CSharpCAD.CSCAD.Color})">
             <summary>Creates a new 3D polygon with initial values.</summary>
         </member>
-        <member name="M:CSharpCAD.Poly3.#ctor(CSharpCAD.Vec3[],System.Nullable{CSharpCAD.CSCAD.Color})">
-            <summary>Internal constructor. Public for testing use only.</summary>
-        </member>
         <member name="M:CSharpCAD.Poly3.Equals(CSharpCAD.Poly3)">
             <summary>Check if this polygon is equal to the given polygon.</summary>
         </member>
@@ -291,19 +288,6 @@
         <member name="T:CSharpCAD.CSCAD">
             <summary>CSCAD contains the static methods most commonly used in producing geometries.</summary>
         </member>
-        <member name="M:CSharpCAD.CSCAD.SerializeToAMF(System.String,CSharpCAD.Geometry)">
-            Serialize the give objects (geometry) to AMF source data (XML).
-        </member>
-        <member name="M:CSharpCAD.CSCAD.SerializeToSVG(CSharpCAD.Geometry)">
-            <summary>Serializer of JSCAD geometries to SVG source (XML).</summary>
-            <remarks>
-            The serialization of the following geometries are possible.
-            - serialization of 2D geometry (geom2) to SVG path (a continous path containing the outlines of the geometry)
-            - serialization of 2D geometry (path2) to SVG path
-            Colors are added to SVG shapes when found on the geometry.
-            Special attributes (id and class) are added to SVG shapes when found on the geometry.
-            </remarks>
-        </member>
         <member name="M:CSharpCAD.CSCAD.Intersect(CSharpCAD.Geometry[])">
              <summary>Return a new geometry representing space in both the first geometry and
              all subsequent geometries.</summary>
@@ -318,18 +302,6 @@
                   |       |
                   +-------+
              </example>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Retessellate(CSharpCAD.Geom3)">
-            <summary>Public only for unit testing.</summary>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.InterpolateBetween2DPointsForY(CSharpCAD.Vec2,CSharpCAD.Vec2,System.Double)">
-            Get the X coordinate of a point with a certain Y coordinate, interpolated between two points.
-            Interpolation is robust even if the points have the same Y coordinate
-            @param {vec2} point1
-            @param {vec2} point2
-            @param {Number} y
-            @return {Array} X and Y of interpolated point
-            @alias module:modeling/maths/utils.interpolateBetween2DPointsForY
         </member>
         <member name="M:CSharpCAD.CSCAD.Subtract(CSharpCAD.Geometry[])">
              <summary>Return a new geometry representing space in the first geometry but
@@ -353,7 +325,7 @@
              <param name="gobjs">At least 2 geometry objects, all of the same type. (All 2D or 3D).</param>
              <returns>The new geometry formed the union of all the geometry objects.</returns>
              <example>
-             var myshape = Union(Rectangle(size: [5,5]), Rectangle(size: [5,5], center: [5,5]));
+             ```
             
              +-------+            +-------+
              |       |            |       |
@@ -363,6 +335,7 @@
                   |   B   |            |       |
                   |       |            |       |
                   +-------+            +-------+
+             ```
              </example>
         </member>
         <member name="T:CSharpCAD.CSCAD.Corners">
@@ -396,14 +369,6 @@
             <param name="delta">Delta of offset (+ to exterior, - from interior).</param>
             <param name="corners">Type of corner to create after offseting; edge, chamfer, round.</param>
             <param name="segments">Number of segments when creating round corners.</param>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.ArePointsInside(System.Collections.Generic.List{CSharpCAD.Vec2},System.Collections.Generic.List{CSharpCAD.Vec2})">
-             Determine if the given points are inside the given polygon.
-            
-             @param {Array} points - a list of points, where each point is an array with X and Y values
-             @param {poly2} polygon - a 2D polygon
-             @return {Integer} 1 if all points are inside, 0 if some or none are inside
-             @alias module:modeling/geometries/poly2.arePointsInside
         </member>
         <member name="T:CSharpCAD.CSCAD.SliceGenerator">
             <summary>Callback for use with ExtrudeFromSlices. For advanced users only.</summary>
@@ -599,7 +564,7 @@
             <returns>The translated geometry object.</returns>
         </member>
         <member name="M:CSharpCAD.CSCAD.Circle(System.Double,System.Int32,System.Double,System.Double,System.Nullable{CSharpCAD.Vec2})">
-            <summary>Construct a circle in two dimensional space where all points are at the same distance from the center.</summary>
+            <summary>Construct a circle in 2D space, by default centered at (0, 0).</summary>
             <param name="radius">Radius of circle.</param>
             <param name="segments">Number of segments in a full rotation of circle.</param>
             <param name="startAngle">Begining of the rotation of the circle (in radians).</param>
@@ -846,6 +811,15 @@
         <member name="M:CSharpCAD.CSCAD.Color.#ctor(System.String,System.Byte)">
             <summary>Construct from a CSS extended name or a hex specification (begins with) repeated 3 times.</summary>
         </member>
+        <member name="M:CSharpCAD.CSCAD.Color.op_Implicit(System.String)~CSharpCAD.CSCAD.Color">
+            <summary>Automatically convert a string to a Color.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Color.op_Implicit(System.ValueTuple{System.Byte,System.Byte,System.Byte,System.Byte})~CSharpCAD.CSCAD.Color">
+            <summary>Automatically convert a tuple of 4 bytes to a Color.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Color.op_Implicit(System.ValueTuple{System.Byte,System.Byte,System.Byte})~CSharpCAD.CSCAD.Color">
+            <summary>Automatically convert a tuple of 3 bytes to a Color.</summary>
+        </member>
         <member name="M:CSharpCAD.CSCAD.Color.Equals(CSharpCAD.CSCAD.Color)">
             <summary>Check if this Color is equal to the given Color.</summary>
         </member>
@@ -864,26 +838,29 @@
         <member name="M:CSharpCAD.CSCAD.Color.ToString">
             <summary>Standard C# override.</summary>
         </member>
-        <member name="M:CSharpCAD.CSCAD.Colorize(System.Object,CSharpCAD.Geometry)">
+        <member name="M:CSharpCAD.CSCAD.Colorize(CSharpCAD.CSCAD.Color,CSharpCAD.Geometry)">
             <summary>Assign the given color to the given objects.</summary>
-            <param name="rgbcolor">Has 3 formats:
-              A C# Tuple of RGB color values, where each value is between 0 and 255.
+            <param name="color">Has 3 formats:
+              A C# Tuple of RGB or RGBA color values, where each value is between 0 and 255.
               A string beginning with "#" followed by 6 hex digits representing RGB.
               A string that s one of the extended CSS color names.
             </param>
             <param name="obj">A 2D or 3D geometry object.</param>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.ColorNameToRGB(System.String)">
-            <summary>Converts a CSS color name to RGB color.</summary>
+            <example>
+            ```C#
+            Colorize((255, 0, 0), obj); // Colorizes obj brightest red. Fully opaque (alpha defaults to 255).
+            Colorize((255, 0, 0, 128), obj); // Colorizes obj brightest red, alpha at half opacity.
+            Colorize("#00FF00", obj); // Colorizes obj brightest green. Fully opaque (alpha defaults to "FF").
+            Colorize("#00FF0080", obj); // Colorizes obj brightest green, alpha at half opacity.
+            Colorize("salmon", obj); // Colorizes obj with the CSS color named "salmon". Fully opaque.
+            ```
+            </example>
         </member>
         <member name="M:CSharpCAD.CSCAD.GetColorNames">
             <summary>Get array of color names.</summary>
         </member>
         <member name="M:CSharpCAD.CSCAD.GetColorNamesByRainbow">
             <summary>Returns a tuple of names and colors sorted, but not really by rainbow.</summary>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.HexToRGB(System.String,System.Byte)">
-            <summary>Converts CSS color notations (string of hex values) to RGB values.</summary>
         </member>
         <member name="M:CSharpCAD.CSCAD.Echo(System.Object[])">
             <summary>Print string representations of any object.</summary>

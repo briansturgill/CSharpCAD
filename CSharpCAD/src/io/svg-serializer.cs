@@ -21,7 +21,7 @@ public static partial class CSCAD
         System.IO.File.WriteAllText(file, svg);
     }
 
-    /**
+    /*
      * <summary>Serializer of JSCAD geometries to SVG source (XML).</summary>
      * <remarks>
      * The serialization of the following geometries are possible.

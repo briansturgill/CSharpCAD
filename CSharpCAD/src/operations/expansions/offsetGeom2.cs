@@ -25,7 +25,7 @@ public static partial class CSCAD
         return new Geom2(allSides.ToArray());
     }
 
-    /**
+    /*
      * Determine if the given points are inside the given polygon.
      *
      * @param {Array} points - a list of points, where each point is an array with X and Y values

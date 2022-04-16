@@ -59,7 +59,7 @@ public static partial class CSCAD
             {
                 pts.Add(points[faces[i][j]]);
             }
-            polygons.Add(new Poly3(pts, (colors is not null && colors.Count != 0) ? colors[i] : null));
+            polygons.Add(new Poly3(pts, (colors is not null && colors.Count != 0) ? colors[i] : (Color?)null));
         }
 
         return new Geom3(polygons.ToArray());

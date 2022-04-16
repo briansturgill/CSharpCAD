@@ -462,7 +462,7 @@ public static partial class CSCAD
     }
 
 
-    /**
+    /*
      * Get the X coordinate of a point with a certain Y coordinate, interpolated between two points.
      * Interpolation is robust even if the points have the same Y coordinate
      * @param {vec2} point1

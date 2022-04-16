@@ -17,7 +17,7 @@ Notes:
 public static partial class CSCAD
 {
 
-    /// Serialize the give objects (geometry) to AMF source data (XML).
+    // Serialize the give objects (geometry) to AMF source data (XML).
     internal static void SerializeToAMF(string file, Geometry g)
     {
         string unit = GlobalParams.Units;

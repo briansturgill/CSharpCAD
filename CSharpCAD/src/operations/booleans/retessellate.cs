@@ -27,7 +27,6 @@ public static partial class CSCAD
       Polygons are split at each sweep line, and the fragments are joined horizontally and vertically into larger polygons
       (making sure that we will end up with convex polygons).
     */
-    /// <summary>Public only for unit testing.</summary>
     internal static Geom3 Retessellate(Geom3 geometry)
     {
         if (geometry.IsRetesselated)
