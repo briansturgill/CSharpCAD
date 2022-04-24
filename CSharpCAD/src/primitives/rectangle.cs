@@ -9,6 +9,7 @@ public static partial class CSCAD
      * @param {Array} [options.size=[2,2]] - dimension of rectangle, width and length
      * @returns {geom2} new 2D geometry
      * </remarks>
+     * <group>2D Primitives</group>
      */
     public static Geom2 Rectangle(Vec2? size = null, Vec2? center = null)
     {

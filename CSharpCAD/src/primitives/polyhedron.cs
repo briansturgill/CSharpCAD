@@ -18,6 +18,7 @@ public static partial class CSCAD
      * var mypoints = [ [10, 10, 0], [10, -10, 0], [-10, -10, 0], [-10, 10, 0], [0, 0, 10] ]
      * var myfaces = [ [0, 1, 4], [1, 2, 4], [2, 3, 4], [3, 0, 4], [1, 0, 3], [2, 1, 3] ]
      * var myshape = polyhedron({points: mypoint, faces: myfaces, orientation: "inward"})
+     * <group>3D Primitives</group>
      */
     public static Geom3 Polyhedron(List<Vec3> points, List<List<int>> faces,
         List<Color>? colors = null, bool orientationOutward = true)

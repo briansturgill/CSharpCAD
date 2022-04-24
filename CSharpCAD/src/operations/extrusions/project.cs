@@ -77,6 +77,7 @@ public static partial class CSCAD
      * <param name="axis">The axis of the plane. Default: [0,0,1] (the Z axis).</param>
      * <param name="origin">The origin of the plane. Default [0,0,0].</param>
      * <returns>The projected 2D geometry.</returns>
+     * <group>2D Primitives</group>
      */
     public static Geom2 Project(Geom3 obj, Vec3? axis = null, Vec3? origin = null)
     {

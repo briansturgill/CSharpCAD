@@ -1,6 +1,5 @@
 namespace CSharpCAD;
 
-/// <summary>CSCAD contains the static methods most commonly used in producing geometries.</summary>
 public static partial class CSCAD
 {
 
@@ -126,14 +125,13 @@ public static partial class CSCAD
      * </param>
      * <param name="obj">A 2D or 3D geometry object.</param>
      * <example>
-     * ```C#
      * Colorize((255, 0, 0), obj); // Colorizes obj brightest red. Fully opaque (alpha defaults to 255).
      * Colorize((255, 0, 0, 128), obj); // Colorizes obj brightest red, alpha at half opacity.
      * Colorize("#00FF00", obj); // Colorizes obj brightest green. Fully opaque (alpha defaults to "FF").
      * Colorize("#00FF0080", obj); // Colorizes obj brightest green, alpha at half opacity.
      * Colorize("salmon", obj); // Colorizes obj with the CSS color named "salmon". Fully opaque.
-     * ```
      * </example>
+     * <group>Miscellaneous</group>
      */
     public static Geometry Colorize(Color color, Geometry obj)
     {
@@ -163,34 +161,12 @@ public static partial class CSCAD
     private static Dictionary<string, (byte, byte, byte)> cssColors = new Dictionary<string, (byte, byte, byte)>();
 
     /// <summary>Get array of color names.</summary>
+    /// <group>Miscellaneous</group>
     public static string[] GetColorNames()
     {
         var n = cssColors.Keys.ToArray();
         Array.Sort(n);
         return n;
-    }
-
-    /// <summary>Returns a tuple of names and colors sorted, but not really by rainbow.</summary>
-    public static (string, (byte, byte, byte))[] GetColorNamesByRainbow()
-    {
-        var names = cssColors.Keys.ToArray();
-        var colors = cssColors.Values.ToArray();
-        var pairs = new List<(string, (byte, byte, byte))>();
-        for (var i = 0; i < names.Length; i++)
-        {
-            pairs.Add((names[i], colors[i]));
-        }
-        pairs.Sort((p1, p2) =>
-        {
-            var (n1, c1) = p1;
-            var (n2, c2) = p2;
-            var (r1, g1, b1) = c1;
-            var (r2, g2, b2) = c2;
-            var s1 = r1 + g1 + b1;
-            var s2 = r2 + g2 + b2;
-            return s1.CompareTo(s2);
-        });
-        return pairs.ToArray();
     }
 
     static CSCAD()

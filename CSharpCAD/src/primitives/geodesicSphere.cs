@@ -6,6 +6,7 @@ public static partial class CSCAD
      * <summary>Construct a geodesic sphere based on icosahedron symmetry.</summary>
      * <param name="radius">Target radius of sphere</param>
      * <param name="frequency">Subdivision frequency per face, must be multiple of 6.</param>
+     * <group>3D Primitives</group>
      */
     public static Geom3 GeodesicSphere(double radius = 1, int frequency = 6)
     {

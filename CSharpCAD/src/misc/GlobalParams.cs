@@ -1,5 +1,6 @@
 namespace CSharpCAD;
 /// <summary>Contains settings of global importance to the library.</summary>
+/// <static/>
 public static class GlobalParams
 {
     private static string _units = "mm";

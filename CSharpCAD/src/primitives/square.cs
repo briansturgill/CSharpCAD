@@ -13,6 +13,7 @@ public static partial class CSCAD
      *
      * @example
      * var myshape = square({size: 10})
+     * <group>2D Primitives</group>
      */
     public static Geom2 Square(double? size = null, Vec2? center = null)
     {

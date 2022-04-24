@@ -9,8 +9,6 @@ public static partial class CSCAD
      * <param name="gobjs">At least 2 geometry objects, all of the same type. (All 2D or 3D).</param>
      * <returns>The new geometry formed the union of all the geometry objects.</returns>
      * <example>
-     * ```
-     *
      * +-------+            +-------+
      * |       |            |       |
      * |   A   |            |       |
@@ -19,8 +17,8 @@ public static partial class CSCAD
      *      |   B   |            |       |
      *      |       |            |       |
      *      +-------+            +-------+
-     * ```
      * </example>
+     * <group>Boolean Operations</group>
      */
     public static Geometry Union(params Geometry[] gobjs)
     {

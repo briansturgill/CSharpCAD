@@ -3,6 +3,7 @@ namespace CSharpCAD;
 public static partial class CSCAD
 {
     /// <summary>Construct an axis-aligned solid cuboid in three dimensional space.</summary>
+    /// <group>3D Primitives</group>
     public static Geom3 Cuboid(Vec3? size = null, Vec3? center = null)
     {
         var _size = size ?? new Vec3(2.0, 2.0, 2.0);

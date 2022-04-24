@@ -2,7 +2,8 @@ namespace CSharpCAD;
 
 public static partial class CSCAD
 {
-    ///<summary>Print string representations of any object.</summary>
+    /// <summary>Print string representations of any object.</summary>
+    /// <group>Miscellaneous</group>
     public static void Echo(params object[] objs)
     {
         var first = true;
@@ -18,7 +19,8 @@ public static partial class CSCAD
         Console.WriteLine("");
     }
 
-    ///<summary>Save a geometry object in a file suitable for printing, etc.</summary>
+    /// <summary>Save a geometry object in a file suitable for printing, etc.</summary>
+    /// <group>Miscellaneous</group>
     public static void Save(string file, Geometry g, bool binary = true)
     {
         if (file.EndsWith(".svg"))

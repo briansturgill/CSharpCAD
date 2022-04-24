@@ -4,7 +4,6 @@ namespace CSharpCAD;
 /// <remarks>The vertices used to initialize a polygon must be coplanar and form a convex shape.</remarks>
 public class Poly3 : IEquatable<Poly3>
 {
-    /// <summary>Sides made of tuples of (Vec2, Vec2)</summary>
     private Vec3[] vertices;
     internal Vec3[] Vertices { get => vertices; }
     internal Color? Color;

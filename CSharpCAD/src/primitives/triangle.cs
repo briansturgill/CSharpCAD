@@ -132,6 +132,7 @@ public static partial class CSCAD
      *
      * @example
      * var myshape = triangle({type: "AAS", values: [degToRad(62), degToRad(35), 7]})
+     * <group>2D Primitives</group>
      */
     public static Geom2 Triangle(string type = "SSS", Vec3? values = null)
     {

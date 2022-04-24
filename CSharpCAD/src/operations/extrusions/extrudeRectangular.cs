@@ -11,6 +11,7 @@ public static partial class CSCAD
      * <param name="twistSteps">The resolution of the twist about the axis (if any).</param>
      * <param name="corners">Type of corner to create after expanding.</param>
      * <param name="segments">Number of segments when creating round corners.</param>
+     * <group>3D Primitives</group>
      */
     public static Geom3 ExtrudeRectangular(Geometry gobj, double size = 1, double height = 1,
             double twistAngle = 0, int twistSteps = 12, Corners corners = Corners.Edge, int segments = 16)

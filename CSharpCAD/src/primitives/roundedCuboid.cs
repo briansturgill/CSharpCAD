@@ -138,6 +138,7 @@ public static partial class CSCAD
      *
      * @example
      * var mycube = roundedCuboid({size: [10, 20, 10], roundRadius: 2, segments: 16})
+     * <group>3D Primitives</group>
      */
     public static Geom3 RoundedCuboid(Vec3? size = null, double roundRadius = 0.2,
         int segments = 32, Vec3? center = null)

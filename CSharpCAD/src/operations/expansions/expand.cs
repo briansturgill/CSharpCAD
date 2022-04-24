@@ -23,6 +23,7 @@ public static partial class CSCAD
      * <param name="delta">Delta (+/-) of expansion.</param>
      * <param name="corners">Type of corner to create after expanding.</param>
      * <param name="segments">Number of segments when creating round corners.</param>
+     * <group>Transformations</group>
      */
     public static Geometry Expand(Geometry gobj, double delta = 1, Corners corners = Corners.Edge, int segments = 16)
     {

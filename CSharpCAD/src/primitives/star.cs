@@ -43,6 +43,7 @@ public static partial class CSCAD
      * @example
      * var star1 = star({vertices: 8, outerRadius: 10}) // star with 8/2 density
      * var star2 = star({vertices: 12, outerRadius: 40, innerRadius: 20}) // star with given radius
+     * <group>2D Primitives</group>
      */
     public static Geom2 Star(double vertices = 5, double outerRadius = 1, double innerRadius = 0,
         double density = 2, double startAngle = 0, Vec2? center = null)

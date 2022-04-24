@@ -14,6 +14,7 @@ public static partial class CSCAD
      *
      * @example
      * var myshape = roundedRectangle({size: [10, 20], roundRadius: 2})
+     * <group>3D Primitives</group>
      */
     public static Geom2 RoundedRectangle(Vec2? size = null, double roundRadius = 0.2,
         int segments = 32, Vec2? center = null)

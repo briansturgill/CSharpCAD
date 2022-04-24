@@ -9,6 +9,7 @@ public static partial class CSCAD
      * <param name="delta">Delta of offset (+ to exterior, - from interior).</param>
      * <param name="corners">Type of corner to create after offseting; edge, chamfer, round.</param>
      * <param name="segments">Number of segments when creating round corners.</param>
+     * <group>Transformations</group>
      */
     public static Geometry Offset(Geometry gobj, double delta = 1, Corners corners = Corners.Edge, int segments = 16)
     {

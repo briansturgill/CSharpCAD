@@ -15,6 +15,7 @@ public static partial class CSCAD
      *
      * @example
      * var myshape = cylinder({height: 2, radius: 10})
+     * <group>3D Primitives</group>
      */
     public static Geom3 Cylinder(double radius = 1, double height = 2, int segments = 32, Vec3? center = null)
     {

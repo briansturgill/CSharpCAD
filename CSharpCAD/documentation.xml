@@ -4,12 +4,6 @@
         <name>CSharpCAD</name>
     </assembly>
     <members>
-        <member name="T:CSharpCAD.ValidationException">
-            <summary>Thrown by internal validation checks.</summary>
-        </member>
-        <member name="M:CSharpCAD.ValidationException.#ctor(System.String)">
-            
-        </member>
         <member name="T:CSharpCAD.Geom2">
             <summary>Represents a 2D geometry consisting of an array of sides.</summary>
         </member>
@@ -206,9 +200,6 @@
             <summary>Represents a convex 3D polygon.</summary>
             <remarks>The vertices used to initialize a polygon must be coplanar and form a convex shape.</remarks>
         </member>
-        <member name="F:CSharpCAD.Poly3.vertices">
-            <summary>Sides made of tuples of (Vec2, Vec2)</summary>
-        </member>
         <member name="M:CSharpCAD.Poly3.#ctor(System.Collections.Generic.List{CSharpCAD.Vec3},System.Nullable{CSharpCAD.CSCAD.Color})">
             <summary>Creates a new 3D polygon with initial values.</summary>
         </member>
@@ -286,508 +277,9 @@
              </remarks>
         </member>
         <member name="T:CSharpCAD.CSCAD">
-            <summary>CSCAD contains the static methods most commonly used in producing geometries.</summary>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Intersect(CSharpCAD.Geometry[])">
-             <summary>Return a new geometry representing space in both the first geometry and
-             all subsequent geometries.</summary>
-             <remarks>The given geometries should be of the same type, either geom2 or geom3.</remarks>
-            <example>
-             +-------+
-             |       |
-             |   A   |
-             |    +--+----+   =   +--+
-             +----+--+    |       +--+
-                  |   B   |
-                  |       |
-                  +-------+
-             </example>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Subtract(CSharpCAD.Geometry[])">
-             <summary>Return a new geometry representing space in the first geometry but
-             not in all subsequent geometries.</summary>
-             <remarks>The given geometries should be of the same type, either geom2 or geom3.</remarks>
-            <example>
-             +-------+            +-------+
-             |       |            |       |
-             |   A   |            |       |
-             |    +--+----+   =   |    +--+
-             +----+--+    |       +----+
-                  |   B   |
-                  |       |
-                  +-------+
-             </example>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Union(CSharpCAD.Geometry[])">
-             <summary>Return a new geometry representing the total space in the given geometries.</summary>
-             <remarks>The given geometries should be of the same type, either geom2 or geom3.</remarks>
-            
-             <param name="gobjs">At least 2 geometry objects, all of the same type. (All 2D or 3D).</param>
-             <returns>The new geometry formed the union of all the geometry objects.</returns>
-             <example>
-             ```
-            
-             +-------+            +-------+
-             |       |            |       |
-             |   A   |            |       |
-             |    +--+----+   =   |       +----+
-             +----+--+    |       +----+       |
-                  |   B   |            |       |
-                  |       |            |       |
-                  +-------+            +-------+
-             ```
-             </example>
-        </member>
-        <member name="T:CSharpCAD.CSCAD.Corners">
-            <summary>Specify handling of corners.</summary>
-        </member>
-        <member name="F:CSharpCAD.CSCAD.Corners.Edge">
-            <summary>Simple straight edge.</summary>
-        </member>
-        <member name="F:CSharpCAD.CSCAD.Corners.Chamfer">
-            <summary>Diagonal edge.</summary>
-        </member>
-        <member name="F:CSharpCAD.CSCAD.Corners.Round">
-            <summary>Rounded edge.</summary>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Expand(CSharpCAD.Geometry,System.Double,CSharpCAD.CSCAD.Corners,System.Int32)">
-             <summary>Expand the given geometry using the given options.</summary>
-             <remarks>
-             Both internal and external space is expanded for 2D and 3D shapes.
-            
-             Note: Contract is expand using a negative delta.
-             </remarks>
-             <param name="gobj">The geometry to expand.</param>
-             <param name="delta">Delta (+/-) of expansion.</param>
-             <param name="corners">Type of corner to create after expanding.</param>
-             <param name="segments">Number of segments when creating round corners.</param>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Offset(CSharpCAD.Geometry,System.Double,CSharpCAD.CSCAD.Corners,System.Int32)">
-            <summary>Create offset geometry from the given geometry.</summary>
-            <remarks>Offsets from internal and external space are created.</remarks>
-            <param name="gobj">2D geometry object to be offset.</param>
-            <param name="delta">Delta of offset (+ to exterior, - from interior).</param>
-            <param name="corners">Type of corner to create after offseting; edge, chamfer, round.</param>
-            <param name="segments">Number of segments when creating round corners.</param>
-        </member>
-        <member name="T:CSharpCAD.CSCAD.SliceGenerator">
-            <summary>Callback for use with ExtrudeFromSlices. For advanced users only.</summary>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.ExtrudeFromSlices(CSharpCAD.Slice,CSharpCAD.CSCAD.SliceGenerator,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
-             <summary>Extrude a solid from the slices as returned by the callback function.</summary>
-             @see slice
-            
-             @param {Object} options - options for extrude
-             @param {Integer} [options.numberOfSlices=2] the number of slices to be generated by the callback
-             @param {Boolean} [options.capStart=true] the solid should have a cap at the start
-             @param {Boolean} [options.capEnd=true] the solid should have a cap at the end
-             @param {Boolean} [options.close=false] the solid should have a closing section between start and end
-             @param {Function} [options.callback] the callback function that generates each slice
-             @param {Object} base - the base object which is used to create slices (see the example for callback information)
-             @return {geom3} the extruded shape
-             @alias module:modeling/extrusions.extrudeFromSlices
-            
-             @example
-             // Parameters:
-             //   progress : the percent complete [0..1]
-             //   index : the index of the current slice [0..numberOfSlices - 1]
-             //   base : the base object as given
-             // Return Value:
-             //   slice or null (to skip)
-             var callback = (progress, index, base) => {
-               ...
-               return slice
-             }
-        </member>
-        <member name="M:CSharpCAD.CSCAD.ExtrudeLinear(CSharpCAD.Geom2,System.Double,System.Double,System.Int32,System.Boolean)">
-            <summary>Extrude the given geometry in an upward linear direction using the given options.</summary>
-            <param name="obj">The geometries to extrude.</param>
-            <param name="height">The height of the extrusion.</param>
-            <param name="twistAngle">The final rotation (RADIANS) about the origin of the shape (if any).</param>
-            <param name="twistSteps">The resolution of the twist about the axis (if any).</param>
-            <param name="repair">Repair the slice to make it conformant.</param>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.ExtrudeRectangular(CSharpCAD.Geometry,System.Double,System.Double,System.Double,System.Int32,CSharpCAD.CSCAD.Corners,System.Int32)">
-            <summary>Extrude the given geometry by following the outline(s) with a rectangle.</summary>
-            <param name="gobj">2D geometry object to be extruded.</param>
-            <param name="size">Size of the rectangle.</param>
-            <param name="height">Height of the extrusion.</param>
-            <param name="twistAngle">The final rotation (RADIANS) about the origin of the shape (if any).</param>
-            <param name="twistSteps">The resolution of the twist about the axis (if any).</param>
-            <param name="corners">Type of corner to create after expanding.</param>
-            <param name="segments">Number of segments when creating round corners.</param>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.ExtrudeRotate(CSharpCAD.Geom2,System.Int32,System.Double,System.Double)">
-            <summary>Rotate extrude the given geometry using the given options.</summary>
-            <param name="geometry">The 2D geometry to extrude.</param>
-            <param name="angle">Angle of the extrusion (RADIANS). Default: PI*2</param>
-            <param name="startAngle">Start angle of the extrusion (RADIANS). Default: ((double)(0.0))</param>
-            <param name="segments">Number of segments of the extrusion. Default: 12</param>
-            <returns>The extruded 3D geometry</returns>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Project(CSharpCAD.Geom3,System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
-            Project the given 3D geometry onto the given plane.
-            <param name="obj">The given 3D geometry object.</param>
-            <param name="axis">The axis of the plane. Default: [0,0,1] (the Z axis).</param>
-            <param name="origin">The origin of the plane. Default [0,0,0].</param>
-            <returns>The projected 2D geometry.</returns>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Hull(CSharpCAD.Geometry[])">
-            <summary>Create a convex hull of the given geometries.</summary>
-            <remarks>Currently, the given geometries must be of type Geom2.</remarks>
-            <example>
-            +-------+           +-------+
-            |       |           |        \
-            |   A   |           |         \
-            |       |           |          \
-            +-------+           +           \
-                             =   \           \
-                  +-------+       \           +
-                  |       |        \          |
-                  |   B   |         \         |
-                  |       |          \        |
-                  +-------+           +-------+
-            </example>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Center(CSharpCAD.Geometry,System.Boolean,System.Boolean,System.Boolean,System.Nullable{CSharpCAD.Vec3})">
-            <summary>Center the given objects using the given options.</summary>
-            <param name="axisX">=Center along X axis. Default: true.</param>
-            <param name="axisY">=Center along Y axis. Default: true.</param>
-            <param name="axisZ">=Center along Z axis. Default: true.</param>
-            <param name="relativeTo">Centering occurs relative to this point. Default: Vec3(0,0,0)</param>
-            <param name="obj">The geometry object to center</param>
-            <remarks>The Z components are ignored for 2D geometry objects.</remarks>
-            <returns>The centered object.</returns>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.CenterX(CSharpCAD.Geometry)">
-            Center the given objects about the X axis.
-            @param {...Object} objects - the objects to center
-            @return {Object|Array} the centered object, or a list of centered objects
-            @alias module:modeling/transforms.centerX
-        </member>
-        <member name="M:CSharpCAD.CSCAD.CenterY(CSharpCAD.Geometry)">
-            Center the given objects about the Y axis.
-            @param {...Object} objects - the objects to center
-            @return {Object|Array} the centered object, or a list of centered objects
-            @alias module:modeling/transforms.centerY
-        </member>
-        <member name="M:CSharpCAD.CSCAD.CenterZ(CSharpCAD.Geometry)">
-            Center the given objects about the Z axis.
-            @param {...Object} objects - the objects to center
-            @return {Object|Array} the centered object, or a list of centered objects
-            @alias module:modeling/transforms.centerZ
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Mirror(CSharpCAD.Geometry,System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
-            <summary>Mirror the given object using the given options.</summary>
-            <param name="g">The object to mirror.</param>
-            <param name="origin">The origin of the plane. Default: new Vec3(0,0,0)</param>
-            <param name="normal">The normal vector of the plane. Default: new Vec3(0,0,1)</param>
-            <returns>The mirrored geometry.</returns>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.MirrorX(CSharpCAD.Geometry,System.Nullable{CSharpCAD.Vec3})">
-            <summary>Mirror the given ogeometry about the X axis.</summary>
-            <param name="g">The object to mirror.</param>
-            <param name="origin">The origin of the plane. Default: new Vec3(0,0,0)</param>
-            <returns>The mirrored geometry.</returns>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.MirrorY(CSharpCAD.Geometry,System.Nullable{CSharpCAD.Vec3})">
-            <summary>Mirror the given geometry about the Y axis.</summary>
-            <param name="g">The object to mirror.</param>
-            <param name="origin">The origin of the plane. Default: new Vec3(0,0,0)</param>
-            <returns>The mirrored geometry.</returns>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.MirrorZ(CSharpCAD.Geometry,System.Nullable{CSharpCAD.Vec3})">
-            <summary>Mirror the given geometry about the Z axis.</summary>
-            <param name="g">The object to mirror.</param>
-            <param name="origin">The origin of the plane. Default: new Vec3(0,0,0)</param>
-            <returns>The mirrored geometry.</returns>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Rotate(CSharpCAD.Vec3,CSharpCAD.Geometry)">
-            <summary>Rotate the given objects using the given options.</summary>
-            <param name="angles">The angle (RADIANS) of rotations about X, Y, and Z axis.</param>
-            <param name="g">The geometry object to rotate.</param>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.RotateX(System.Double,CSharpCAD.Geometry)">
-            <summary>Rotate the given objects about the X axis.</summary>
-            <param name="angle">The angle (RADIANS) of rotations about X.</param>
-            <param name="g">The geometry object to rotate.</param>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.RotateY(System.Double,CSharpCAD.Geometry)">
-            <summary>Rotate the given objects about the Y axis.</summary>
-            <param name="angle">The angle (RADIANS) of rotations about Y.</param>
-            <param name="g">The geometry object to rotate.</param>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.RotateZ(System.Double,CSharpCAD.Geometry)">
-            <summary>Rotate the given objects about the Z axis.</summary>
-            <param name="angle">The angle (RADIANS) of rotations about Z.</param>
-            <param name="g">The geometry object to rotate.</param>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Scale(CSharpCAD.Vec3,CSharpCAD.Geometry)">
-            <summary>Scale the given geometry object using the given factors.</summary>
-            <remarks>The Z point is ignored for 2d geometry objects.</remarks>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.ScaleX(System.Double,CSharpCAD.Geometry)">
-            <summary>Scale the given objects about the X axis using the given factor.</summary>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.ScaleY(System.Double,CSharpCAD.Geometry)">
-            <summary>Scale the given objects about the Y axis using the given factor.</summary>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.ScaleZ(System.Double,CSharpCAD.Geometry)">
-            <summary>Scale the given objects about the Z axis using the given factor.</summary>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Transform(CSharpCAD.Mat4,CSharpCAD.Geometry)">
-            <summary>Transform the geometry object using the given matrix.</summary>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Translate(CSharpCAD.Vec3,CSharpCAD.Geometry)">
-            @ingroup Transforms
-            <summary>Translate (move) the given geometry.</summary>
-            <param name="offset">The vector of offsets to applied to the object.</param>
-            <param name="g">The geometry object to translate.</param>
-            <returns>The translated geometry object.</returns>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.TranslateX(System.Double,CSharpCAD.Geometry)">
-            <summary>Translate the given objects along the X axis.</summary>
-            <param name="offset">X offset of which to translate the object.</param>
-            <param name="g">The geometry object to translate.</param>
-            <returns>The translated geometry object.</returns>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.TranslateY(System.Double,CSharpCAD.Geometry)">
-            <summary>Translate the given objects along the Y axis.</summary>
-            <param name="offset">Y offset of which to translate the object.</param>
-            <param name="g">The geometry object to translate.</param>
-            <returns>The translated geometry object.</returns>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.TranslateZ(System.Double,CSharpCAD.Geometry)">
-            <summary>Translate the given objects along the Z axis.</summary>
-            <param name="offset">Z offset of which to translate the object.</param>
-            <param name="g">The geometry object to translate.</param>
-            <returns>The translated geometry object.</returns>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Circle(System.Double,System.Int32,System.Double,System.Double,System.Nullable{CSharpCAD.Vec2})">
-            <summary>Construct a circle in 2D space, by default centered at (0, 0).</summary>
-            <param name="radius">Radius of circle.</param>
-            <param name="segments">Number of segments in a full rotation of circle.</param>
-            <param name="startAngle">Begining of the rotation of the circle (in radians).</param>
-            <param name="endAngle">End of the rotation of the circle (in radians).</param>
-            <param name="center" default="(0,0)">Center of circle.</param>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Cube(System.Double,System.Nullable{CSharpCAD.Vec3})">
-            <summary>Construct an axis-aligned solid cube in three dimensional space with six square faces.</summary>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Cuboid(System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
-            <summary>Construct an axis-aligned solid cuboid in three dimensional space.</summary>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Cylinder(System.Double,System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
-             <summary>Construct a Z axis-aligned cylinder in three dimensional space.</summary>
-             @see [cylinderElliptic]{@link module:modeling/primitives.cylinderElliptic} for more options
-             @param {Object} [options] - options for construction
-             @param {Array} [options.center=[0,0,0]] - center of cylinder
-             @param {Number} [options.height=2] - height of cylinder
-             @param {Number} [options.radius=1] - radius of cylinder (at both start and end)
-             @param {Number} [options.segments=32] - number of segments to create per full rotation
-             @returns {geom3} new geometry
-             @alias module:modeling/primitives.cylinder
-            
-             @example
-             var myshape = cylinder({height: 2, radius: 10})
-        </member>
-        <member name="M:CSharpCAD.CSCAD.CylinderElliptic(System.Double,System.Nullable{CSharpCAD.Vec2},System.Nullable{CSharpCAD.Vec2},System.Double,System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
-            <summary>Construct a Z axis-aligned elliptic cylinder in three dimensional space.</summary>
-            <remarks>
-            @param {Object} [options] - options for construction
-            @param {Array} [options.center=[0,0,0]] - center of cylinder
-            @param {Number} [options.height=2] - height of cylinder
-            @param {Array} [options.startRadius=[1,1]] - radius of rounded start, must be two dimensional array
-            @param {Number} [options.startAngle=0] - start angle of cylinder, in radians
-            @param {Array} [options.endRadius=[1,1]] - radius of rounded end, must be two dimensional array
-            @param {Number} [options.endAngle=(Math.PI * 2)] - end angle of cylinder, in radians
-            @param {Number} [options.segments=32] - number of segments to create per full rotation
-            </remarks>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Ellipse(System.Nullable{CSharpCAD.Vec2},System.Int32,System.Nullable{CSharpCAD.Vec2},System.Double,System.Double)">
-            <summary>Construct an axis-aligned ellipse in two dimensional space.</summary>
-            <remarks>
-            @see https://en.wikipedia.org/wiki/Ellipse
-            </remarks>
-            <param name="center">Center of Ellipse. Default: [0,0].</param>
-            <param name="radius">Radius of ellipse, along X and Y axes. Default:[1,1]</param>
-            <param name="startAngle">Start angle of ellipse, in radians</param>
-            <param name="endAngle">End angle of ellipse, in radians.</param>
-            <param name="segments">Number of segments to create per full rotation.</param>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Ellipsoid(System.Nullable{CSharpCAD.Vec3},System.Int32,System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
-            Construct an axis-aligned ellipsoid in three dimensional space.
-            <remarks>
-            @param {Object} [options] - options for construction
-            @param {Array} [options.center=[0,0,0]] - center of ellipsoid
-            @param {Array} [options.radius=[1,1,1]] - radius of ellipsoid, along X, Y and Z
-            @param {Number} [options.segments=32] - number of segements to create per full rotation
-            @param {Array} [options.axes] -  an array with three vectors for the x, y and z base vectors
-            @returns {geom3} new 3D geometry
-            </remarks>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.GeodesicSphere(System.Double,System.Int32)">
-            <summary>Construct a geodesic sphere based on icosahedron symmetry.</summary>
-            <param name="radius">Target radius of sphere</param>
-            <param name="frequency">Subdivision frequency per face, must be multiple of 6.</param>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Polygon(System.Collections.Generic.List{CSharpCAD.Vec2},System.Collections.Generic.List{System.Collections.Generic.List{System.Int32}})">
-             <summary>Construct a polygon in two dimensional space from a list of points, or a list of points and paths.</summary>
-             NOTE: The ordering of points is VERY IMPORTANT.
-             @param {Array} options.points - points of the polygon : list of 2D points
-             @param {Array} [options.paths] - paths of the polygon : list of list of point indexes
-             @returns {geom2} new 2D geometry
-            
-             @example
-             var points = new Points2 {
-               // roof
-               [10,11], [0,11], [5,20],
-               // wall
-               [0,0], [10,0], [10,10], [0,10]
-              };
-              var paths = new Paths {
-                new Path { 0, 1, 2},
-                new Path { 3, 4, 5, 6}
-              };
-            
-             var poly = Polygon(points: points, paths: paths);
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Polyhedron(System.Collections.Generic.List{CSharpCAD.Vec3},System.Collections.Generic.List{System.Collections.Generic.List{System.Int32}},System.Collections.Generic.List{CSharpCAD.CSCAD.Color},System.Boolean)">
-             Construct a polyhedron in three dimensional space from the given set of 3D points and faces.
-             The faces can define outward or inward facing polygons (orientation).
-             However, each face must define a counter clockwise rotation of points which follows the right hand rule.
-             @param {Object} options - options for construction
-             @param {Array} options.points - list of points in 3D space
-             @param {Array} options.faces - list of faces, where each face is a set of indexes into the points
-             @param {Array} [options.colors=undefined] - list of RGBA colors to apply to each face
-             @param {Array} [options.orientation="outward"] - orientation of faces
-             @returns {geom3} new 3D geometry
-             @alias module:modeling/primitives.polyhedron
-            
-             @example
-             var mypoints = [ [10, 10, 0], [10, -10, 0], [-10, -10, 0], [-10, 10, 0], [0, 0, 10] ]
-             var myfaces = [ [0, 1, 4], [1, 2, 4], [2, 3, 4], [3, 0, 4], [1, 0, 3], [2, 1, 3] ]
-             var myshape = polyhedron({points: mypoint, faces: myfaces, orientation: "inward"})
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Rectangle(System.Nullable{CSharpCAD.Vec2},System.Nullable{CSharpCAD.Vec2})">
-            <summary>Construct an axis-aligned rectangle in two dimensional space with four sides at right angles.</summary>
-            <remarks>
-            @param {Array} [options.center=[0,0]] - center of rectangle
-            @param {Array} [options.size=[2,2]] - dimension of rectangle, width and length
-            @returns {geom2} new 2D geometry
-            </remarks>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.RoundedCuboid(System.Nullable{CSharpCAD.Vec3},System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
-             Construct an axis-aligned solid cuboid in three dimensional space with rounded corners.
-             @param {Object} [options] - options for construction
-             @param {Array} [options.center=[0,0,0]] - center of rounded cube
-             @param {Array} [options.size=[2,2,2]] - dimension of rounded cube; width, depth, height
-             @param {Number} [options.roundRadius=0.2] - radius of rounded edges
-             @param {Number} [options.segments=32] - number of segments to create per full rotation
-             @returns {geom3} new 3D geometry
-             @alias module:modeling/primitives.roundedCuboid
-            
-             @example
-             var mycube = roundedCuboid({size: [10, 20, 10], roundRadius: 2, segments: 16})
-        </member>
-        <member name="M:CSharpCAD.CSCAD.RoundedCylinder(System.Double,System.Double,System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
-             Construct a Z axis-aligned solid cylinder in three dimensional space with rounded ends.
-             @param {Object} [options] - options for construction
-             @param {Array} [options.center=[0,0,0]] - center of cylinder
-             @param {Number} [options.height=2] - height of cylinder
-             @param {Number} [options.radius=1] - radius of cylinder
-             @param {Number} [options.roundRadius=0.2] - radius of rounded edges
-             @param {Number} [options.segments=32] - number of segments to create per full rotation
-             @returns {geom3} new 3D geometry
-             @alias module:modeling/primitives.roundedCylinder
-            
-             @example
-             var myshape = roundedCylinder({ height: 10, radius: 2, roundRadius: 0.5 })
-        </member>
-        <member name="M:CSharpCAD.CSCAD.RoundedRectangle(System.Nullable{CSharpCAD.Vec2},System.Double,System.Int32,System.Nullable{CSharpCAD.Vec2})">
-             Construct an axis-aligned rectangle in two dimensional space with rounded corners.
-             @param {Object} [options] - options for construction
-             @param {Array} [options.center=[0,0]] - center of rounded rectangle
-             @param {Array} [options.size=[2,2]] - dimension of rounded rectangle; width and length
-             @param {Number} [options.roundRadius=0.2] - round radius of corners
-             @param {Number} [options.segments=32] - number of segments to create per full rotation
-             @returns {geom2} new 2D geometry
-             @alias module:modeling/primitives.roundedRectangle
-            
-             @example
-             var myshape = roundedRectangle({size: [10, 20], roundRadius: 2})
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Sphere(System.Double,System.Nullable{CSharpCAD.Vec3},System.Int32,System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
-             Construct a sphere in three dimensional space where all points are at the same distance from the center.
-             @see [ellipsoid]{@link module:modeling/primitives.ellipsoid} for more options
-             @param {Object} [options] - options for construction
-             @param {Array} [options.center=[0,0,0]] - center of sphere
-             @param {Number} [options.radius=1] - radius of sphere
-             @param {Number} [options.segments=32] - number of segments to create per full rotation
-             @param {Array} [options.axes] -  an array with three vectors for the x, y and z base vectors
-             @returns {geom3} new 3D geometry
-             @alias module:modeling/primitives.sphere
-            
-             @example
-             var myshape = sphere({radius: 5})
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Square(System.Nullable{System.Double},System.Nullable{CSharpCAD.Vec2})">
-             Construct an axis-aligned square in two dimensional space with four equal sides at right angles.
-             @see [rectangle]{@link module:modeling/primitives.rectangle} for more options
-             @param {Object} [options] - options for construction
-             @param {Array} [options.center=[0,0]] - center of square
-             @param {Number} [options.size=2] - dimension of square
-             @returns {geom2} new 2D geometry
-             @alias module:modeling/primitives.square
-            
-             @example
-             var myshape = square({size: 10})
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Star(System.Double,System.Double,System.Double,System.Double,System.Double,System.Nullable{CSharpCAD.Vec2})">
-             Construct a star in two dimensional space.
-             @see https://en.wikipedia.org/wiki/Star_polygon
-             @param {Object} [options] - options for construction
-             @param {Array} [options.center=[0,0]] - center of star
-             @param {Number} [options.vertices=5] - number of vertices (P) on the star
-             @param {Number} [options.density=2] - density (Q) of star
-             @param {Number} [options.outerRadius=1] - outer radius of vertices
-             @param {Number} [options.innerRadius=0] - inner radius of vertices, or zero to calculate
-             @param {Number} [options.startAngle=0] - starting angle for first vertice, in radians
-             @returns {geom2} new 2D geometry
-             @alias module:modeling/primitives.star
-            
-             @example
-             var star1 = star({vertices: 8, outerRadius: 10}) // star with 8/2 density
-             var star2 = star({vertices: 12, outerRadius: 40, innerRadius: 20}) // star with given radius
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Torus(System.Double,System.Int32,System.Double,System.Int32,System.Double,System.Double,System.Double)">
-             <summary>Construct a torus by revolving a small circle (inner) about the circumference of a large (outer) circle.</summary>
-             @param {Object} [options] - options for construction
-             @param {Number} [options.innerRadius=1] - radius of small (inner) circle
-             @param {Number} [options.outerRadius=4] - radius of large (outer) circle
-             @param {Integer} [options.innerSegments=32] - number of segments to create per rotation
-             @param {Integer} [options.outerSegments=32] - number of segments to create per rotation
-             @param {Integer} [options.innerRotation=0] - rotation of small (inner) circle in radians
-             @param {Number} [options.outerRotation=(PI * 2)] - rotation (outer) of the torus (RADIANS)
-             @param {Number} [options.startAngle=0] - start angle of the torus (RADIANS)
-             @returns {geom3} new 3D geometry
-             @alias module:modeling/primitives.torus
-            
-             @example
-             var myshape = torus({ innerRadius: 10, outerRadius: 100 })
-        </member>
-        <member name="M:CSharpCAD.CSCAD.Triangle(System.String,System.Nullable{CSharpCAD.Vec3})">
-             <summary>Construct a triangle in two dimensional space from the given options.</summary>
-             The triangle is always constructed CCW from the origin, [0, 0, 0].
-             @see https://www.mathsisfun.com/algebra/trig-solving-triangles.html
-             @param {Object} [options] - options for construction
-             @param {String} [options.type="SSS" - type of triangle to construct; A ~ angle, S ~ side
-             @param {Array} [options.values=[1,1,1]] - angle (radians) of corners or length of sides
-             @returns {geom2} new 2D geometry
-             @alias module:modeling/primitives.triangle
-            
-             @example
-             var myshape = triangle({type: "AAS", values: [degToRad(62), degToRad(35), 7]})
+            <summary>Contains the methods most commonly used in producing geometries.</summary>
+            <static/>
+            <sortbygroup/>
         </member>
         <member name="T:CSharpCAD.CSCAD.Color">
             <summary>Represent a color in a space efficient manner.</summary>
@@ -847,26 +339,544 @@
             </param>
             <param name="obj">A 2D or 3D geometry object.</param>
             <example>
-            ```C#
             Colorize((255, 0, 0), obj); // Colorizes obj brightest red. Fully opaque (alpha defaults to 255).
             Colorize((255, 0, 0, 128), obj); // Colorizes obj brightest red, alpha at half opacity.
             Colorize("#00FF00", obj); // Colorizes obj brightest green. Fully opaque (alpha defaults to "FF").
             Colorize("#00FF0080", obj); // Colorizes obj brightest green, alpha at half opacity.
             Colorize("salmon", obj); // Colorizes obj with the CSS color named "salmon". Fully opaque.
-            ```
             </example>
+            <group>Miscellaneous</group>
         </member>
         <member name="M:CSharpCAD.CSCAD.GetColorNames">
             <summary>Get array of color names.</summary>
+            <group>Miscellaneous</group>
         </member>
-        <member name="M:CSharpCAD.CSCAD.GetColorNamesByRainbow">
-            <summary>Returns a tuple of names and colors sorted, but not really by rainbow.</summary>
+        <member name="M:CSharpCAD.CSCAD.Version">
+            <summary>Returns version string for CSCAD</summary>
+            <group>Miscellaneous</group>
         </member>
         <member name="M:CSharpCAD.CSCAD.Echo(System.Object[])">
             <summary>Print string representations of any object.</summary>
+            <group>Miscellaneous</group>
         </member>
         <member name="M:CSharpCAD.CSCAD.Save(System.String,CSharpCAD.Geometry,System.Boolean)">
             <summary>Save a geometry object in a file suitable for printing, etc.</summary>
+            <group>Miscellaneous</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Intersect(CSharpCAD.Geometry[])">
+             <summary>Return a new geometry representing space in both the first geometry and
+             all subsequent geometries.</summary>
+             <remarks>The given geometries should be of the same type, either geom2 or geom3.</remarks>
+            <pre>
+             +-------+
+             |       |
+             |   A   |
+             |    +--+----+   =   +--+
+             +----+--+    |       +--+
+                  |   B   |
+                  |       |
+                  +-------+
+             </pre>
+             <group>Boolean Operations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Subtract(CSharpCAD.Geometry[])">
+             <summary>Return a new geometry representing space in the first geometry but
+             not in all subsequent geometries.</summary>
+             <remarks>The given geometries should be of the same type, either geom2 or geom3.</remarks>
+            <example>
+             +-------+            +-------+
+             |       |            |       |
+             |   A   |            |       |
+             |    +--+----+   =   |    +--+
+             +----+--+    |       +----+
+                  |   B   |
+                  |       |
+                  +-------+
+             </example>
+             <group>Boolean Operations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Union(CSharpCAD.Geometry[])">
+             <summary>Return a new geometry representing the total space in the given geometries.</summary>
+             <remarks>The given geometries should be of the same type, either geom2 or geom3.</remarks>
+            
+             <param name="gobjs">At least 2 geometry objects, all of the same type. (All 2D or 3D).</param>
+             <returns>The new geometry formed the union of all the geometry objects.</returns>
+             <example>
+             +-------+            +-------+
+             |       |            |       |
+             |   A   |            |       |
+             |    +--+----+   =   |       +----+
+             +----+--+    |       +----+       |
+                  |   B   |            |       |
+                  |       |            |       |
+                  +-------+            +-------+
+             </example>
+             <group>Boolean Operations</group>
+        </member>
+        <member name="T:CSharpCAD.CSCAD.Corners">
+            <summary>Specify handling of corners.</summary>
+        </member>
+        <member name="F:CSharpCAD.CSCAD.Corners.Edge">
+            <summary>Simple straight edge.</summary>
+        </member>
+        <member name="F:CSharpCAD.CSCAD.Corners.Chamfer">
+            <summary>Diagonal edge.</summary>
+        </member>
+        <member name="F:CSharpCAD.CSCAD.Corners.Round">
+            <summary>Rounded edge.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Expand(CSharpCAD.Geometry,System.Double,CSharpCAD.CSCAD.Corners,System.Int32)">
+             <summary>Expand the given geometry using the given options.</summary>
+             <remarks>
+             Both internal and external space is expanded for 2D and 3D shapes.
+            
+             Note: Contract is expand using a negative delta.
+             </remarks>
+             <param name="gobj">The geometry to expand.</param>
+             <param name="delta">Delta (+/-) of expansion.</param>
+             <param name="corners">Type of corner to create after expanding.</param>
+             <param name="segments">Number of segments when creating round corners.</param>
+             <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Offset(CSharpCAD.Geometry,System.Double,CSharpCAD.CSCAD.Corners,System.Int32)">
+            <summary>Create offset geometry from the given geometry.</summary>
+            <remarks>Offsets from internal and external space are created.</remarks>
+            <param name="gobj">2D geometry object to be offset.</param>
+            <param name="delta">Delta of offset (+ to exterior, - from interior).</param>
+            <param name="corners">Type of corner to create after offseting; edge, chamfer, round.</param>
+            <param name="segments">Number of segments when creating round corners.</param>
+            <group>Transformations</group>
+        </member>
+        <member name="T:CSharpCAD.CSCAD.SliceGenerator">
+            <summary>Callback for use with ExtrudeFromSlices. For advanced users only.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ExtrudeLinear(CSharpCAD.Geom2,System.Double,System.Double,System.Int32,System.Boolean)">
+            <summary>Extrude the given geometry in an upward linear direction using the given options.</summary>
+            <param name="obj">The geometries to extrude.</param>
+            <param name="height">The height of the extrusion.</param>
+            <param name="twistAngle">The final rotation (RADIANS) about the origin of the shape (if any).</param>
+            <param name="twistSteps">The resolution of the twist about the axis (if any).</param>
+            <param name="repair">Repair the slice to make it conformant.</param>
+            <group>3D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ExtrudeRectangular(CSharpCAD.Geometry,System.Double,System.Double,System.Double,System.Int32,CSharpCAD.CSCAD.Corners,System.Int32)">
+            <summary>Extrude the given geometry by following the outline(s) with a rectangle.</summary>
+            <param name="gobj">2D geometry object to be extruded.</param>
+            <param name="size">Size of the rectangle.</param>
+            <param name="height">Height of the extrusion.</param>
+            <param name="twistAngle">The final rotation (RADIANS) about the origin of the shape (if any).</param>
+            <param name="twistSteps">The resolution of the twist about the axis (if any).</param>
+            <param name="corners">Type of corner to create after expanding.</param>
+            <param name="segments">Number of segments when creating round corners.</param>
+            <group>3D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ExtrudeRotate(CSharpCAD.Geom2,System.Int32,System.Double,System.Double)">
+            <summary>Rotate extrude the given geometry using the given options.</summary>
+            <param name="geometry">The 2D geometry to extrude.</param>
+            <param name="angle">Angle of the extrusion (RADIANS). Default: PI*2</param>
+            <param name="startAngle">Start angle of the extrusion (RADIANS). Default: ((double)(0.0))</param>
+            <param name="segments">Number of segments of the extrusion. Default: 12</param>
+            <returns>The extruded 3D geometry</returns>
+            <group>3D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Project(CSharpCAD.Geom3,System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
+            Project the given 3D geometry onto the given plane.
+            <param name="obj">The given 3D geometry object.</param>
+            <param name="axis">The axis of the plane. Default: [0,0,1] (the Z axis).</param>
+            <param name="origin">The origin of the plane. Default [0,0,0].</param>
+            <returns>The projected 2D geometry.</returns>
+            <group>2D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Hull(CSharpCAD.Geometry[])">
+            <summary>Create a convex hull of the given geometries.</summary>
+            <remarks>Currently, the given geometries must be of type Geom2.</remarks>
+            <example>
+            +-------+           +-------+
+            |       |           |        \
+            |   A   |           |         \
+            |       |           |          \
+            +-------+           +           \
+                             =   \           \
+                  +-------+       \           +
+                  |       |        \          |
+                  |   B   |         \         |
+                  |       |          \        |
+                  +-------+           +-------+
+            </example>
+            <group>2D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Center(CSharpCAD.Geometry,System.Boolean,System.Boolean,System.Boolean,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Center the given objects.</summary>
+            <param name="axisX">=Center along X axis.</param>
+            <param name="axisY">=Center along Y axis.</param>
+            <param name="axisZ">=Center along Z axis.</param>
+            <param name="relativeTo" default="(0,0,0)">Centering occurs relative to this point.</param>
+            <param name="obj">The geometry object to center</param>
+            <remarks>The Z coordiantes are ignored for 2D geometry objects.</remarks>
+            <returns>The centered object.</returns>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.CenterX(CSharpCAD.Geometry)">
+            <summary>Center the given objects about the X axis.</summary>
+            <param name="obj">The object to center.</param>
+            <returns>The centered object.</returns>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.CenterY(CSharpCAD.Geometry)">
+            <summary>Center the given objects about the Y axis.</summary>
+            <param name="obj">The object to center.</param>
+            <returns>The centered object.</returns>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.CenterZ(CSharpCAD.Geometry)">
+            <summary>Center the given object about the Z axis.</summary>
+            <param name="obj">The object to center.</param>
+            <returns>The centered object.</returns>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Mirror(CSharpCAD.Geometry,System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
+            <summary>Mirror the given object using the given options.</summary>
+            <param name="g">The object to mirror.</param>
+            <param name="origin" default="(0,0,0)">The origin of the plane.</param>
+            <param name="normal" default="(0,0,1)">The normal vector of the plane.</param>
+            <returns>The mirrored geometry.</returns>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.MirrorX(CSharpCAD.Geometry,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Mirror the given ogeometry about the X axis.</summary>
+            <param name="g">The object to mirror.</param>
+            <param name="origin" default="(0,0,0)">The origin of the plane.</param>
+            <returns>The mirrored geometry.</returns>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.MirrorY(CSharpCAD.Geometry,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Mirror the given geometry about the Y axis.</summary>
+            <param name="g">The object to mirror.</param>
+            <param name="origin" default="(0,0,0)">The origin of the plane.</param>
+            <returns>The mirrored geometry.</returns>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.MirrorZ(CSharpCAD.Geometry,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Mirror the given geometry about the Z axis.</summary>
+            <param name="g">The object to mirror.</param>
+            <param name="origin" default="(0,0,0)">The origin of the plane.</param>
+            <returns>The mirrored geometry.</returns>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Rotate(CSharpCAD.Vec3,CSharpCAD.Geometry)">
+            <summary>Rotate the given objects using the given options.</summary>
+            <param name="angles">The angle (RADIANS) of rotations about X, Y, and Z axis.</param>
+            <param name="g">The geometry object to rotate.</param>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.RotateX(System.Double,CSharpCAD.Geometry)">
+            <summary>Rotate the given objects about the X axis.</summary>
+            <param name="angle">The angle (RADIANS) of rotations about X.</param>
+            <param name="g">The geometry object to rotate.</param>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.RotateY(System.Double,CSharpCAD.Geometry)">
+            <summary>Rotate the given objects about the Y axis.</summary>
+            <param name="angle">The angle (RADIANS) of rotations about Y.</param>
+            <param name="g">The geometry object to rotate.</param>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.RotateZ(System.Double,CSharpCAD.Geometry)">
+            <summary>Rotate the given objects about the Z axis.</summary>
+            <param name="angle">The angle (RADIANS) of rotations about Z.</param>
+            <param name="g">The geometry object to rotate.</param>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Scale(CSharpCAD.Vec3,CSharpCAD.Geometry)">
+            <summary>Scale the given geometry object using the given factors.</summary>
+            <remarks>The Z point is ignored for 2d geometry objects.</remarks>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ScaleX(System.Double,CSharpCAD.Geometry)">
+            <summary>Scale the given objects about the X axis using the given factor.</summary>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ScaleY(System.Double,CSharpCAD.Geometry)">
+            <summary>Scale the given objects about the Y axis using the given factor.</summary>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.ScaleZ(System.Double,CSharpCAD.Geometry)">
+            <summary>Scale the given objects about the Z axis using the given factor.</summary>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Transform(CSharpCAD.Mat4,CSharpCAD.Geometry)">
+            <summary>Transform the geometry object using the given matrix.</summary>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Translate(CSharpCAD.Vec3,CSharpCAD.Geometry)">
+            <summary>Translate (move) the given geometry.</summary>
+            <param name="offset">The vector of offsets to applied to the object.</param>
+            <param name="g">The geometry object to translate.</param>
+            <returns>The translated geometry object.</returns>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.TranslateX(System.Double,CSharpCAD.Geometry)">
+            <summary>Translate the given objects along the X axis.</summary>
+            <param name="offset">X offset of which to translate the object.</param>
+            <param name="g">The geometry object to translate.</param>
+            <returns>The translated geometry object.</returns>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.TranslateY(System.Double,CSharpCAD.Geometry)">
+            <summary>Translate the given objects along the Y axis.</summary>
+            <param name="offset">Y offset of which to translate the object.</param>
+            <param name="g">The geometry object to translate.</param>
+            <returns>The translated geometry object.</returns>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.TranslateZ(System.Double,CSharpCAD.Geometry)">
+            <summary>Translate the given objects along the Z axis.</summary>
+            <param name="offset">Z offset of which to translate the object.</param>
+            <param name="g">The geometry object to translate.</param>
+            <returns>The translated geometry object.</returns>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Circle(System.Double,System.Int32,System.Double,System.Double,System.Nullable{CSharpCAD.Vec2})">
+            <summary>Construct a circle in 2D space, by default centered at (0, 0).</summary>
+            <param name="radius">Radius of circle.</param>
+            <param name="segments">Number of segments in a full rotation of circle.</param>
+            <param name="startAngle">Begining of the rotation of the circle (in radians).</param>
+            <param name="endAngle" default="Math.PI*2">End of the rotation of the circle (in radians).</param>
+            <param name="center" default="(0,0)">Center of circle.</param>
+            <group>2D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Cube(System.Double,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Construct an axis-aligned solid cube in three dimensional space with six square faces.</summary>
+            <group>3D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Cuboid(System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
+            <summary>Construct an axis-aligned solid cuboid in three dimensional space.</summary>
+            <group>3D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Cylinder(System.Double,System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
+             <summary>Construct a Z axis-aligned cylinder in three dimensional space.</summary>
+             @see [cylinderElliptic]{@link module:modeling/primitives.cylinderElliptic} for more options
+             @param {Object} [options] - options for construction
+             @param {Array} [options.center=[0,0,0]] - center of cylinder
+             @param {Number} [options.height=2] - height of cylinder
+             @param {Number} [options.radius=1] - radius of cylinder (at both start and end)
+             @param {Number} [options.segments=32] - number of segments to create per full rotation
+             @returns {geom3} new geometry
+             @alias module:modeling/primitives.cylinder
+            
+             @example
+             var myshape = cylinder({height: 2, radius: 10})
+             <group>3D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.CylinderElliptic(System.Double,System.Nullable{CSharpCAD.Vec2},System.Nullable{CSharpCAD.Vec2},System.Double,System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Construct a Z axis-aligned elliptic cylinder in 3D space.</summary>
+            <param name="height">Height of cylinder.</param>
+            <param name="startRadius" default="(1,1)">Radius of rounded start.</param>
+            <param name="endRadius" default="(1,1)">Radius of rounded end.</param>
+            <param name="segments">Number of segments to create per full rotation.</param>
+            <param name="startAngle">Start angle of cylinder, in radians.</param>
+            <param name="endAngle" default="Math.PI*2">End angle of cylinder, in radians.</param>
+            <param name="center" default="(0,0,0)">Center of cylinder.</param>
+            <group>2D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Ellipse(System.Nullable{CSharpCAD.Vec2},System.Int32,System.Nullable{CSharpCAD.Vec2},System.Double,System.Double)">
+            <summary>Construct an axis-aligned ellipse in two dimensional space.</summary>
+            <remarks>
+            @see https://en.wikipedia.org/wiki/Ellipse
+            </remarks>
+            <param name="center">Center of Ellipse. Default: [0,0].</param>
+            <param name="radius">Radius of ellipse, along X and Y axes. Default:[1,1]</param>
+            <param name="startAngle">Start angle of ellipse, in radians</param>
+            <param name="endAngle">End angle of ellipse, in radians.</param>
+            <param name="segments">Number of segments to create per full rotation.</param>
+            <group>2D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Ellipsoid(System.Nullable{CSharpCAD.Vec3},System.Int32,System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
+            Construct an axis-aligned ellipsoid in three dimensional space.
+            <remarks>
+            @param {Object} [options] - options for construction
+            @param {Array} [options.center=[0,0,0]] - center of ellipsoid
+            @param {Array} [options.radius=[1,1,1]] - radius of ellipsoid, along X, Y and Z
+            @param {Number} [options.segments=32] - number of segements to create per full rotation
+            @param {Array} [options.axes] -  an array with three vectors for the x, y and z base vectors
+            @returns {geom3} new 3D geometry
+            </remarks>
+            <group>3D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.GeodesicSphere(System.Double,System.Int32)">
+            <summary>Construct a geodesic sphere based on icosahedron symmetry.</summary>
+            <param name="radius">Target radius of sphere</param>
+            <param name="frequency">Subdivision frequency per face, must be multiple of 6.</param>
+            <group>3D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Polygon(System.Collections.Generic.List{CSharpCAD.Vec2},System.Collections.Generic.List{System.Collections.Generic.List{System.Int32}})">
+             <summary>Construct a polygon in two dimensional space from a list of points, or a list of points and paths.</summary>
+             NOTE: The ordering of points is VERY IMPORTANT.
+             @param {Array} options.points - points of the polygon : list of 2D points
+             @param {Array} [options.paths] - paths of the polygon : list of list of point indexes
+             @returns {geom2} new 2D geometry
+            
+             @example
+             var points = new Points2 {
+               // roof
+               [10,11], [0,11], [5,20],
+               // wall
+               [0,0], [10,0], [10,10], [0,10]
+              };
+              var paths = new Paths {
+                new Path { 0, 1, 2},
+                new Path { 3, 4, 5, 6}
+              };
+            
+             var poly = Polygon(points: points, paths: paths);
+             <group>2D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Polyhedron(System.Collections.Generic.List{CSharpCAD.Vec3},System.Collections.Generic.List{System.Collections.Generic.List{System.Int32}},System.Collections.Generic.List{CSharpCAD.CSCAD.Color},System.Boolean)">
+             Construct a polyhedron in three dimensional space from the given set of 3D points and faces.
+             The faces can define outward or inward facing polygons (orientation).
+             However, each face must define a counter clockwise rotation of points which follows the right hand rule.
+             @param {Object} options - options for construction
+             @param {Array} options.points - list of points in 3D space
+             @param {Array} options.faces - list of faces, where each face is a set of indexes into the points
+             @param {Array} [options.colors=undefined] - list of RGBA colors to apply to each face
+             @param {Array} [options.orientation="outward"] - orientation of faces
+             @returns {geom3} new 3D geometry
+             @alias module:modeling/primitives.polyhedron
+            
+             @example
+             var mypoints = [ [10, 10, 0], [10, -10, 0], [-10, -10, 0], [-10, 10, 0], [0, 0, 10] ]
+             var myfaces = [ [0, 1, 4], [1, 2, 4], [2, 3, 4], [3, 0, 4], [1, 0, 3], [2, 1, 3] ]
+             var myshape = polyhedron({points: mypoint, faces: myfaces, orientation: "inward"})
+             <group>3D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Rectangle(System.Nullable{CSharpCAD.Vec2},System.Nullable{CSharpCAD.Vec2})">
+            <summary>Construct an axis-aligned rectangle in two dimensional space with four sides at right angles.</summary>
+            <remarks>
+            @param {Array} [options.center=[0,0]] - center of rectangle
+            @param {Array} [options.size=[2,2]] - dimension of rectangle, width and length
+            @returns {geom2} new 2D geometry
+            </remarks>
+            <group>2D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.RoundedCuboid(System.Nullable{CSharpCAD.Vec3},System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
+             Construct an axis-aligned solid cuboid in three dimensional space with rounded corners.
+             @param {Object} [options] - options for construction
+             @param {Array} [options.center=[0,0,0]] - center of rounded cube
+             @param {Array} [options.size=[2,2,2]] - dimension of rounded cube; width, depth, height
+             @param {Number} [options.roundRadius=0.2] - radius of rounded edges
+             @param {Number} [options.segments=32] - number of segments to create per full rotation
+             @returns {geom3} new 3D geometry
+             @alias module:modeling/primitives.roundedCuboid
+            
+             @example
+             var mycube = roundedCuboid({size: [10, 20, 10], roundRadius: 2, segments: 16})
+             <group>3D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.RoundedCylinder(System.Double,System.Double,System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
+             Construct a Z axis-aligned solid cylinder in three dimensional space with rounded ends.
+             @param {Object} [options] - options for construction
+             @param {Array} [options.center=[0,0,0]] - center of cylinder
+             @param {Number} [options.height=2] - height of cylinder
+             @param {Number} [options.radius=1] - radius of cylinder
+             @param {Number} [options.roundRadius=0.2] - radius of rounded edges
+             @param {Number} [options.segments=32] - number of segments to create per full rotation
+             @returns {geom3} new 3D geometry
+             @alias module:modeling/primitives.roundedCylinder
+            
+             @example
+             var myshape = roundedCylinder({ height: 10, radius: 2, roundRadius: 0.5 })
+             <group>3D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.RoundedRectangle(System.Nullable{CSharpCAD.Vec2},System.Double,System.Int32,System.Nullable{CSharpCAD.Vec2})">
+             Construct an axis-aligned rectangle in two dimensional space with rounded corners.
+             @param {Object} [options] - options for construction
+             @param {Array} [options.center=[0,0]] - center of rounded rectangle
+             @param {Array} [options.size=[2,2]] - dimension of rounded rectangle; width and length
+             @param {Number} [options.roundRadius=0.2] - round radius of corners
+             @param {Number} [options.segments=32] - number of segments to create per full rotation
+             @returns {geom2} new 2D geometry
+             @alias module:modeling/primitives.roundedRectangle
+            
+             @example
+             var myshape = roundedRectangle({size: [10, 20], roundRadius: 2})
+             <group>3D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Sphere(System.Double,System.Nullable{CSharpCAD.Vec3},System.Int32,System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
+             Construct a sphere in three dimensional space where all points are at the same distance from the center.
+             @see [ellipsoid]{@link module:modeling/primitives.ellipsoid} for more options
+             @param {Object} [options] - options for construction
+             @param {Array} [options.center=[0,0,0]] - center of sphere
+             @param {Number} [options.radius=1] - radius of sphere
+             @param {Number} [options.segments=32] - number of segments to create per full rotation
+             @param {Array} [options.axes] -  an array with three vectors for the x, y and z base vectors
+             @returns {geom3} new 3D geometry
+             @alias module:modeling/primitives.sphere
+            
+             @example
+             var myshape = sphere({radius: 5})
+             <group>3D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Square(System.Nullable{System.Double},System.Nullable{CSharpCAD.Vec2})">
+             Construct an axis-aligned square in two dimensional space with four equal sides at right angles.
+             @see [rectangle]{@link module:modeling/primitives.rectangle} for more options
+             @param {Object} [options] - options for construction
+             @param {Array} [options.center=[0,0]] - center of square
+             @param {Number} [options.size=2] - dimension of square
+             @returns {geom2} new 2D geometry
+             @alias module:modeling/primitives.square
+            
+             @example
+             var myshape = square({size: 10})
+             <group>2D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Star(System.Double,System.Double,System.Double,System.Double,System.Double,System.Nullable{CSharpCAD.Vec2})">
+             Construct a star in two dimensional space.
+             @see https://en.wikipedia.org/wiki/Star_polygon
+             @param {Object} [options] - options for construction
+             @param {Array} [options.center=[0,0]] - center of star
+             @param {Number} [options.vertices=5] - number of vertices (P) on the star
+             @param {Number} [options.density=2] - density (Q) of star
+             @param {Number} [options.outerRadius=1] - outer radius of vertices
+             @param {Number} [options.innerRadius=0] - inner radius of vertices, or zero to calculate
+             @param {Number} [options.startAngle=0] - starting angle for first vertice, in radians
+             @returns {geom2} new 2D geometry
+             @alias module:modeling/primitives.star
+            
+             @example
+             var star1 = star({vertices: 8, outerRadius: 10}) // star with 8/2 density
+             var star2 = star({vertices: 12, outerRadius: 40, innerRadius: 20}) // star with given radius
+             <group>2D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Torus(System.Double,System.Int32,System.Double,System.Int32,System.Double,System.Double,System.Double)">
+             <summary>Construct a torus by revolving a small circle (inner) about the circumference of a large (outer) circle.</summary>
+             @param {Object} [options] - options for construction
+             @param {Number} [options.innerRadius=1] - radius of small (inner) circle
+             @param {Number} [options.outerRadius=4] - radius of large (outer) circle
+             @param {Integer} [options.innerSegments=32] - number of segments to create per rotation
+             @param {Integer} [options.outerSegments=32] - number of segments to create per rotation
+             @param {Integer} [options.innerRotation=0] - rotation of small (inner) circle in radians
+             @param {Number} [options.outerRotation=(PI * 2)] - rotation (outer) of the torus (RADIANS)
+             @param {Number} [options.startAngle=0] - start angle of the torus (RADIANS)
+             @returns {geom3} new 3D geometry
+             @alias module:modeling/primitives.torus
+            
+             @example
+             var myshape = torus({ innerRadius: 10, outerRadius: 100 })
+             <group>3D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Triangle(System.String,System.Nullable{CSharpCAD.Vec3})">
+             <summary>Construct a triangle in two dimensional space from the given options.</summary>
+             The triangle is always constructed CCW from the origin, [0, 0, 0].
+             @see https://www.mathsisfun.com/algebra/trig-solving-triangles.html
+             @param {Object} [options] - options for construction
+             @param {String} [options.type="SSS" - type of triangle to construct; A ~ angle, S ~ side
+             @param {Array} [options.values=[1,1,1]] - angle (radians) of corners or length of sides
+             @returns {geom2} new 2D geometry
+             @alias module:modeling/primitives.triangle
+            
+             @example
+             var myshape = triangle({type: "AAS", values: [degToRad(62), degToRad(35), 7]})
+             <group>2D Primitives</group>
         </member>
         <member name="T:CSharpCAD.C">
             <summary>Constants.</summary>
@@ -882,9 +892,6 @@
         </member>
         <member name="T:CSharpCAD.Mat4">
             <summary>A 4x4 matrix.</summary>
-        </member>
-        <member name="F:CSharpCAD.Mat4.d">
-            <summary>Data.</summary>
         </member>
         <member name="M:CSharpCAD.Mat4.D(System.Int32)">
             <summary>Readonly access to data array for this matrix.</summary>
@@ -1471,6 +1478,23 @@
         <member name="M:CSharpCAD.Vec3.Transform(CSharpCAD.Mat4)">
             <summary>Transforms this vector using the given matrix.</summary>
         </member>
+        <member name="T:CSharpCAD.ValidationException">
+            <summary>Thrown by internal validation checks.</summary>
+        </member>
+        <member name="M:CSharpCAD.ValidationException.#ctor(System.String)">
+            
+        </member>
+        <member name="T:CSharpCAD.GlobalParams">
+            <summary>Contains settings of global importance to the library.</summary>
+            <static/>
+        </member>
+        <member name="P:CSharpCAD.GlobalParams.Units">
+            <summary>Units in the library are representing this real world unit.</summary>
+            <returns>One of "mm" or "in" meaning millimeters or inches.</returns>
+        </member>
+        <member name="F:CSharpCAD.GlobalParams.CheckingEnabled">
+            <summary>Enables special (time consuming) debug checking like geometry validation.</summary>
+        </member>
         <member name="T:CSharpCAD.Slice">
             <summary>An advanced class, you need to understand "extrudeFromSlices.cs" before using.</summary>
         </member>
@@ -1516,16 +1540,6 @@
         </member>
         <member name="M:CSharpCAD.Slice.RepairSlice">
             <summary>Mend gaps in a 2D slice to make it a closed polygon.</summary>
-        </member>
-        <member name="T:CSharpCAD.GlobalParams">
-            <summary>Contains settings of global importance to the library.</summary>
-        </member>
-        <member name="P:CSharpCAD.GlobalParams.Units">
-            <summary>Units in the library are representing this real world unit.</summary>
-            <returns>One of "mm" or "in" meaning millimeters or inches.</returns>
-        </member>
-        <member name="F:CSharpCAD.GlobalParams.CheckingEnabled">
-            <summary>Enables special (time consuming) debug checking like geometry validation.</summary>
         </member>
     </members>
 </doc>

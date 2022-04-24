@@ -17,6 +17,7 @@ public static partial class CSCAD
      *      |       |
      *      +-------+
      * </example>
+     * <group>Boolean Operations</group>
      */
     public static Geometry Subtract(params Geometry[] gobjs)
     {

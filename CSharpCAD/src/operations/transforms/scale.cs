@@ -5,6 +5,7 @@ public static partial class CSCAD
 
     /// <summary>Scale the given geometry object using the given factors.</summary>
     /// <remarks>The Z point is ignored for 2d geometry objects.</remarks>
+    /// <group>Transformations</group>
     public static Geometry Scale(Vec3 factors, Geometry gobj)
     {
         if (gobj.Is2D && factors.z != 1)
@@ -30,12 +31,15 @@ public static partial class CSCAD
     }
 
     /// <summary>Scale the given objects about the X axis using the given factor.</summary>
+    /// <group>Transformations</group>
     public static Geometry ScaleX(double factor, Geometry gobj) => Scale(new Vec3(factor, 1, 1), gobj);
 
     /// <summary>Scale the given objects about the Y axis using the given factor.</summary>
+    /// <group>Transformations</group>
     public static Geometry ScaleY(double factor, Geometry gobj) => Scale(new Vec3(1, factor, 1), gobj);
 
     /// <summary>Scale the given objects about the Z axis using the given factor.</summary>
+    /// <group>Transformations</group>
     public static Geometry ScaleZ(double factor, Geometry gobj) => Scale(new Vec3(1, 1, factor), gobj);
 
 }

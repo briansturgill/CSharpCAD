@@ -6,8 +6,9 @@ public static partial class CSCAD
     /// <param name="radius">Radius of circle.</param>
     /// <param name="segments">Number of segments in a full rotation of circle.</param>
     /// <param name="startAngle">Begining of the rotation of the circle (in radians).</param>
-    /// <param name="endAngle">End of the rotation of the circle (in radians).</param>
+    /// <param name="endAngle" default="Math.PI*2">End of the rotation of the circle (in radians).</param>
     /// <param name="center" default="(0,0)">Center of circle.</param>
+    /// <group>2D Primitives</group>
     public static Geom2 Circle(double radius = 1, int segments = 32,
         double startAngle = 0, double endAngle = Math.PI * 2, Vec2? center = null)
     {

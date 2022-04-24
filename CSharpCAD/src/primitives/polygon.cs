@@ -22,6 +22,7 @@ public static partial class CSCAD
      *  };
      *
      * var poly = Polygon(points: points, paths: paths);
+     * <group>2D Primitives</group>
      */
     public static Geom2 Polygon(List<Vec2> points, List<List<int>>? paths = null)
     {

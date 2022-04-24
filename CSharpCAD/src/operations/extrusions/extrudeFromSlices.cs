@@ -14,7 +14,7 @@ public static partial class CSCAD
         return (progress == 0 || progress == 1) ? baseSlice.Transform(Mat4.FromTranslation(new Vec3(0, 0, progress))) : null;
     }
 
-    /**
+    /*
      * <summary>Extrude a solid from the slices as returned by the callback function.</summary>
      * @see slice
      *
@@ -40,7 +40,7 @@ public static partial class CSCAD
      *   return slice
      * }
      */
-    public static Geom3 ExtrudeFromSlices(Slice baseSlice, SliceGenerator? _generate = null,
+    internal static Geom3 ExtrudeFromSlices(Slice baseSlice, SliceGenerator? _generate = null,
         int numberOfSlices = 2, bool capStart = true, bool capEnd = true, bool close = false, bool repair = true)
     {
         var generate = _generate ?? defaultCallback;

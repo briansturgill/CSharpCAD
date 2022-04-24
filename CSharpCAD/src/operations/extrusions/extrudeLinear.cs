@@ -9,6 +9,7 @@ public static partial class CSCAD
      * <param name="twistAngle">The final rotation (RADIANS) about the origin of the shape (if any).</param>
      * <param name="twistSteps">The resolution of the twist about the axis (if any).</param>
      * <param name="repair">Repair the slice to make it conformant.</param>
+     * <group>3D Primitives</group>
      */
     public static Geom3 ExtrudeLinear(Geom2 obj, double height = 1, double twistAngle = 0, int twistSteps = 1, bool repair = true)
     {

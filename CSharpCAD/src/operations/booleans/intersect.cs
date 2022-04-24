@@ -2,12 +2,11 @@ namespace CSharpCAD;
 
 public static partial class CSCAD
 {
-
     /**
      * <summary>Return a new geometry representing space in both the first geometry and
      * all subsequent geometries.</summary>
      * <remarks>The given geometries should be of the same type, either geom2 or geom3.</remarks>
-     *<example>
+     *<pre>
      * +-------+
      * |       |
      * |   A   |
@@ -16,7 +15,8 @@ public static partial class CSCAD
      *      |   B   |
      *      |       |
      *      +-------+
-     * </example>
+     * </pre>
+     * <group>Boolean Operations</group>
      */
     public static Geometry Intersect(params Geometry[] gobjs)
     {

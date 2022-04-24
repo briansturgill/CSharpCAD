@@ -12,6 +12,7 @@ public static partial class CSCAD
      * @param {Array} [options.axes] -  an array with three vectors for the x, y and z base vectors
      * @returns {geom3} new 3D geometry
      * </remarks>
+     * <group>3D Primitives</group>
 */
     public static Geom3 Ellipsoid(Vec3? radius = null, int segments = 32, Vec3? center = null,
         Vec3? axes_x = null, Vec3? axes_y = null, Vec3? axes_z = null)

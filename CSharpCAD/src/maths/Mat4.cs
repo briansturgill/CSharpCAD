@@ -4,7 +4,7 @@ namespace CSharpCAD;
 
 public class Mat4 : IEquatable<Mat4>
 {
-    /// <summary>Data.</summary>
+    // <summary>Data.</summary>
     private readonly double[] d;
 
     /// <summary>Readonly access to data array for this matrix.</summary>

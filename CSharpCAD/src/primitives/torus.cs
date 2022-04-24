@@ -17,6 +17,7 @@ public static partial class CSCAD
      *
      * @example
      * var myshape = torus({ innerRadius: 10, outerRadius: 100 })
+     * <group>3D Primitives</group>
      */
     public static Geom3 Torus(double innerRadius = 1, int innerSegments = 32, double outerRadius = 4, int outerSegments = 32,
         double innerRotation = 0, double startAngle = 0, double outerRotation = Math.PI * 2)

@@ -18,6 +18,7 @@ public static partial class CSCAD
      *       |       |          \        |
      *       +-------+           +-------+
      * </example>
+     * <group>2D Primitives</group>
      */
     public static Geom2 Hull(params Geometry[] geometries)
     {

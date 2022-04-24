@@ -9,6 +9,7 @@ public static partial class CSCAD
      * <param name="startAngle">Start angle of the extrusion (RADIANS). Default: ((double)(0.0))</param>
      * <param name="segments">Number of segments of the extrusion. Default: 12</param>
      * <returns>The extruded 3D geometry</returns>
+     * <group>3D Primitives</group>
      */
     public static Geom3 ExtrudeRotate(Geom2 geometry, int segments = 12, double startAngle = ((double)(0.0)), double angle = ((double)(Math.PI * 2)))
     {

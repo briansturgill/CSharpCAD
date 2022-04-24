@@ -12,6 +12,7 @@ public static partial class CSCAD
      * <param name="startAngle">Start angle of ellipse, in radians</param>
      * <param name="endAngle">End angle of ellipse, in radians.</param>
      * <param name="segments">Number of segments to create per full rotation.</param>
+     * <group>2D Primitives</group>
      */
     public static Geom2 Ellipse(Vec2? radius = null, int segments = 32,
         Vec2? center = null, double startAngle = 0, double endAngle = (Math.PI * 2))

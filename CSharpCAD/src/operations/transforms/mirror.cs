@@ -7,9 +7,10 @@ public static partial class CSCAD
     /**
      * <summary>Mirror the given object using the given options.</summary>
      * <param name="g">The object to mirror.</param>
-     * <param name="origin">The origin of the plane. Default: new Vec3(0,0,0)</param>
-     * <param name="normal">The normal vector of the plane. Default: new Vec3(0,0,1)</param>
+     * <param name="origin" default="(0,0,0)">The origin of the plane.</param>
+     * <param name="normal" default="(0,0,1)">The normal vector of the plane.</param>
      * <returns>The mirrored geometry.</returns>
+     * <group>Transformations</group>
      */
     public static Geometry Mirror(Geometry g, Vec3? origin = null, Vec3? normal = null)
     {
@@ -31,24 +32,27 @@ public static partial class CSCAD
     /**
      * <summary>Mirror the given ogeometry about the X axis.</summary>
      * <param name="g">The object to mirror.</param>
-     * <param name="origin">The origin of the plane. Default: new Vec3(0,0,0)</param>
+     * <param name="origin" default="(0,0,0)">The origin of the plane.</param>
      * <returns>The mirrored geometry.</returns>
+     * <group>Transformations</group>
      */
     public static Geometry MirrorX(Geometry g, Vec3? origin = null) => Mirror(g, origin: origin, normal: new Vec3(1, 0, 0));
 
     /**
      * <summary>Mirror the given geometry about the Y axis.</summary>
      * <param name="g">The object to mirror.</param>
-     * <param name="origin">The origin of the plane. Default: new Vec3(0,0,0)</param>
+     * <param name="origin" default="(0,0,0)">The origin of the plane.</param>
      * <returns>The mirrored geometry.</returns>
+     * <group>Transformations</group>
      */
     public static Geometry MirrorY(Geometry g, Vec3? origin = null) => Mirror(g, origin: origin, normal: new Vec3(0, 1, 0));
 
     /**
      * <summary>Mirror the given geometry about the Z axis.</summary>
      * <param name="g">The object to mirror.</param>
-     * <param name="origin">The origin of the plane. Default: new Vec3(0,0,0)</param>
+     * <param name="origin" default="(0,0,0)">The origin of the plane.</param>
      * <returns>The mirrored geometry.</returns>
+     * <group>Transformations</group>
      */
     public static Geometry MirrorZ(Geometry g, Vec3? origin = null) => Mirror(g, origin: origin, normal: new Vec3(0, 0, 1));
 }

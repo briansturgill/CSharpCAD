@@ -15,6 +15,7 @@ public static partial class CSCAD
      *
      * @example
      * var myshape = sphere({radius: 5})
+     * <group>3D Primitives</group>
      */
     public static Geom3 Sphere(double radius = 1, Vec3? center = null, int segments = 32,
         Vec3? axes_x = null, Vec3? axes_y = null, Vec3? axes_z = null)
