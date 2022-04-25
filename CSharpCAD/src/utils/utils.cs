@@ -19,29 +19,29 @@ internal static partial class CSharpCADInternals
         return diff <= epsilon;
     }
 
-    public static bool GreaterThanOrEqualish(double a, double b) {
-        if (Equalish(a, b)) {
+    public static bool GreaterThanOrEqualish(double a, double b, double epsilon = C.EPS) {
+        if (Equalish(a, b, epsilon)) {
             return true;
         }
         return a >= b;
     }
 
-    public static bool GreaterThanish(double a, double b) {
-        if (Equalish(a, b)) {
+    public static bool GreaterThanish(double a, double b, double epsilon = C.EPS) {
+        if (Equalish(a, b, epsilon)) {
             return false;
         }
         return a > b;
     }
 
-    public static bool LessThanOrEqualish(double a, double b) {
-        if (Equalish(a, b)) {
+    public static bool LessThanOrEqualish(double a, double b, double epsilon = C.EPS) {
+        if (Equalish(a, b, epsilon)) {
             return true;
         }
         return a <= b;
     }
 
-    public static bool LessThanish(double a, double b) {
-        if (Equalish(a, b)) {
+    public static bool LessThanish(double a, double b, double epsilon = C.EPS) {
+        if (Equalish(a, b, epsilon)) {
             return false;
         }
         return a < b;
@@ -54,17 +54,5 @@ internal static partial class CSharpCADInternals
             return (int)a_ceil;
         }
         return (int)Math.Floor(a);
-    }
-
-    private static double rezero(double v) => Math.Abs(v) < C.NEPS ? 0 : v;
-
-    public static double xsin(double angle)
-    {
-        return rezero(Math.Sin(angle));
-    }
-
-    public static double xcos(double angle)
-    {
-        return rezero(Math.Cos(angle));
     }
 }
