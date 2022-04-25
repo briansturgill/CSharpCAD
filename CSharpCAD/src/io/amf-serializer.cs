@@ -122,13 +122,13 @@ public static partial class CSCAD
     {
         xml.WriteStartElement("coordinates");
         xml.WriteStartElement("x");
-        xml.WriteString($"{vertex.x}");
+        xml.WriteString($"{vertex.X}");
         xml.WriteEndElement(); // x
         xml.WriteStartElement("y");
-        xml.WriteString($"{vertex.y}");
+        xml.WriteString($"{vertex.Y}");
         xml.WriteEndElement(); // y
         xml.WriteStartElement("z");
-        xml.WriteString($"{vertex.z}");
+        xml.WriteString($"{vertex.Z}");
         xml.WriteEndElement(); // z
         xml.WriteEndElement(); // coordinates
     }

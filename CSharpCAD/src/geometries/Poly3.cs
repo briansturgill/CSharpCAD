@@ -177,9 +177,9 @@ public class Poly3 : IEquatable<Poly3>
         var normal = Plane().Normal;
 
         // determine direction of projection
-        var ax = Math.Abs(normal.x);
-        var ay = Math.Abs(normal.y);
-        var az = Math.Abs(normal.z);
+        var ax = Math.Abs(normal.X);
+        var ay = Math.Abs(normal.Y);
+        var az = Math.Abs(normal.Z);
 
         if (ax + ay + az == 0)
         {
@@ -210,11 +210,11 @@ public class Poly3 : IEquatable<Poly3>
                 {
                     h = i - 1;
                     j = (i + 1) % n;
-                    area += (vertices[i].y * (vertices[j].z - vertices[h].z));
+                    area += (vertices[i].Y * (vertices[j].Z - vertices[h].Z));
                 }
-                area += (vertices[0].y * (vertices[1].z - vertices[n - 1].z));
+                area += (vertices[0].Y * (vertices[1].Z - vertices[n - 1].Z));
                 // scale to get area
-                area /= (2 * normal.x);
+                area /= (2 * normal.X);
                 break;
 
             case 2: // ignore Y coordinates
@@ -223,11 +223,11 @@ public class Poly3 : IEquatable<Poly3>
                 {
                     h = i - 1;
                     j = (i + 1) % n;
-                    area += (vertices[i].z * (vertices[j].x - vertices[h].x));
+                    area += (vertices[i].Z * (vertices[j].X - vertices[h].X));
                 }
-                area += (vertices[0].z * (vertices[1].x - vertices[n - 1].x));
+                area += (vertices[0].Z * (vertices[1].X - vertices[n - 1].X));
                 // scale to get area
-                area /= (2 * normal.y);
+                area /= (2 * normal.Y);
                 break;
 
             case 3: // ignore Z coordinates
@@ -237,11 +237,11 @@ public class Poly3 : IEquatable<Poly3>
                 {
                     h = i - 1;
                     j = (i + 1) % n;
-                    area += (vertices[i].x * (vertices[j].y - vertices[h].y));
+                    area += (vertices[i].X * (vertices[j].Y - vertices[h].Y));
                 }
-                area += (vertices[0].x * (vertices[1].y - vertices[n - 1].y));
+                area += (vertices[0].X * (vertices[1].Y - vertices[n - 1].Y));
                 // scale to get area
-                area /= (2 * normal.z);
+                area /= (2 * normal.Z);
                 break;
         }
         return area;
@@ -368,7 +368,7 @@ public class Poly3 : IEquatable<Poly3>
         foreach (var vertex in this.vertices)
         {
             {
-                if (!double.IsFinite(vertex.x) || !double.IsFinite(vertex.y) || !double.IsFinite(vertex.z))
+                if (!double.IsFinite(vertex.X) || !double.IsFinite(vertex.Y) || !double.IsFinite(vertex.Z))
                 {
                     throw new ValidationException($"Poly3 has invalid vertex {vertex}");
                 }

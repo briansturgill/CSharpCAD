@@ -9,10 +9,10 @@ public static partial class CSCAD
     private static Poly3 To3DWall(double z0, double z1, Geom2.Side side, Color? color)
     {
         var points = new List<Vec3> {
-        new Vec3(side.v0.x, side.v0.y, z0),
-    new Vec3(side.v1.x, side.v1.y, z0),
-    new Vec3(side.v1.x, side.v1.y, z1),
-    new Vec3(side.v0.x, side.v0.y, z1)
+        new Vec3(side.v0.X, side.v0.Y, z0),
+    new Vec3(side.v1.X, side.v1.Y, z0),
+    new Vec3(side.v1.X, side.v1.Y, z1),
+    new Vec3(side.v0.X, side.v0.Y, z1)
   };
         return new Poly3(points, color);
     }

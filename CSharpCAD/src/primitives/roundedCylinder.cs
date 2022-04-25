@@ -36,7 +36,7 @@ public static partial class CSCAD
         if ((2 * roundRadius) > (length - C.EPS)) throw new ArgumentException("Option height must be larger than twice option roundRadius.");
 
         Vec3 defaultnormal;
-        if (Math.Abs(direction.x) > Math.Abs(direction.y))
+        if (Math.Abs(direction.X) > Math.Abs(direction.Y))
         {
             defaultnormal = new Vec3(0, 1, 0);
         }
@@ -70,7 +70,7 @@ public static partial class CSCAD
         for (var slice1 = 0; slice1 <= segments; slice1++)
         {
             var angle = (Math.PI * 2.0 * slice1) / segments;
-            var cylinderpoint = xvector.Scale(cos(angle)).Add(yvector.Scale(sin(angle)));
+            var cylinderpoint = xvector.Scale(Math.Cos(angle)).Add(yvector.Scale(Math.Sin(angle)));
             if (slice1 > 0)
             {
                 // cylinder wall
@@ -85,8 +85,8 @@ public static partial class CSCAD
                 for (var slice2 = 0; slice2 <= qsegments; slice2++)
                 {
                     var pitch = 0.5 * Math.PI * slice2 / (double)qsegments;
-                    var cospitch = cos(pitch);
-                    var sinpitch = sin(pitch);
+                    var cospitch = Math.Cos(pitch);
+                    var sinpitch = Math.Sin(pitch);
                     if (slice2 > 0)
                     {
                         // cylinder rounding, start

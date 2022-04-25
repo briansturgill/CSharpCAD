@@ -31,7 +31,7 @@ public static partial class CSCAD
             {
                 var point = side.v0;
                 uniquePoints.Add(point);
-                if (point.y < min.y || (point.y == min.y && point.x < min.x))
+                if (point.Y < min.Y || (point.Y == min.Y && point.X < min.X))
                 {
                     min = point;
                 }
@@ -54,8 +54,8 @@ public static partial class CSCAD
         {
             // Use of fakeAtan2 avoids use of Math.Atan2 which slows things down.
             // A simple timing test suggests it saves about 10% of total time.
-            var angle = fakeAtan2((v.y - min.y), (v.x - min.x));
-            //var angle = Math.Atan2((v.y - min.y), (v.x - min.x));
+            var angle = fakeAtan2((v.Y - min.Y), (v.X - min.X));
+            //var angle = Math.Atan2((v.Y - min.Y), (v.X - min.X));
             var distSq = min.SquaredDistance(v);
             points.Add(new pt(v, angle, distSq));
         }
@@ -63,7 +63,7 @@ public static partial class CSCAD
             pt1.distSq < pt2.distSq ? -1 : pt1.distSq > pt2.distSq ? 1 : 0);
 
         // ccw returns:  < 0 clockwise, 0 colinear, > 0 counter-clockwise.
-        double ccw(Vec2 v1, Vec2 v2, Vec2 v3) => (v2.x - v1.x) * (v3.y - v1.y) - (v2.y - v1.y) * (v3.x - v1.x);
+        double ccw(Vec2 v1, Vec2 v2, Vec2 v3) => (v2.X - v1.X) * (v3.Y - v1.Y) - (v2.Y - v1.Y) * (v3.X - v1.X);
         var stack = new List<Vec2>(); // Start with empty stack
         foreach (var point in points)
         {

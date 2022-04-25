@@ -20,11 +20,11 @@ public static partial class CSCAD
     // AAA is when three angles of a triangle, but no sides
     private static Geom2 solveAAA(Vec3 angles)
     {
-        var eps = Math.Abs(angles.x + angles.y + angles.z - Math.PI);
+        var eps = Math.Abs(angles.X + angles.Y + angles.Z - Math.PI);
         if (eps > CSharpCAD.C.NEPS) throw new ArgumentException("AAA triangles require angles that sum to PI");
 
-        var A = angles.x;
-        var B = angles.y;
+        var A = angles.X;
+        var B = angles.Y;
         var C = Math.PI - A - B;
 
         // Note: This is not 100% proper but...
@@ -39,13 +39,13 @@ public static partial class CSCAD
     // AAS is when two angles and one side are known, and the side is not between the angles
     private static Geom2 solveAAS(Vec3 values)
     {
-        var A = values.x;
-        var B = values.y;
+        var A = values.X;
+        var B = values.Y;
         var C = Math.PI + CSharpCAD.C.NEPS - A - B;
 
         if (C < CSharpCAD.C.NEPS) throw new ArgumentException("AAS triangles require angles that sum to PI");
 
-        var a = values.z;
+        var a = values.Z;
         var b = (a / Math.Sin(A)) * Math.Sin(B);
         var c = (a / Math.Sin(A)) * Math.Sin(C);
         return createTriangle(A, B, C, a, b, c);
@@ -54,13 +54,13 @@ public static partial class CSCAD
     // ASA is when two angles and the side between the angles are known
     private static Geom2 solveASA(Vec3 values)
     {
-        var A = values.x;
-        var B = values.z;
+        var A = values.X;
+        var B = values.Z;
         var C = Math.PI + CSharpCAD.C.NEPS - A - B;
 
         if (C < CSharpCAD.C.NEPS) throw new ArgumentException("ASA triangles require angles that sum to PI");
 
-        var c = values.y;
+        var c = values.Y;
         var a = (c / Math.Sin(C)) * Math.Sin(A);
         var b = (c / Math.Sin(C)) * Math.Sin(B);
         return createTriangle(A, B, C, a, b, c);
@@ -69,9 +69,9 @@ public static partial class CSCAD
     // SAS is when two sides and the angle between them are known
     private static Geom2 solveSAS(Vec3 values)
     {
-        var c = values.x;
-        var B = values.y;
-        var a = values.z;
+        var c = values.X;
+        var B = values.Y;
+        var a = values.Z;
 
         var b = solveSideFromSAS(c, B, a);
 
@@ -83,9 +83,9 @@ public static partial class CSCAD
     // SSA is when two sides and an angle that is not the angle between the sides are known
     private static Geom2 solveSSA(Vec3 values)
     {
-        var c = values.x;
-        var a = values.y;
-        var C = values.z;
+        var c = values.X;
+        var a = values.Y;
+        var C = values.Z;
 
         var A = Math.Asin(a * Math.Sin(C) / c);
         var B = Math.PI - A - C;
@@ -97,9 +97,9 @@ public static partial class CSCAD
     // SSS is when we know three sides of the triangle
     private static Geom2 solveSSS(Vec3 lengths)
     {
-        var a = lengths.y;
-        var b = lengths.z;
-        var c = lengths.x;
+        var a = lengths.Y;
+        var b = lengths.Z;
+        var c = lengths.X;
         if (((a + b) <= c) || ((b + c) <= a) || ((c + a) <= b))
         {
             throw new ArgumentException("SSS triangle is incorrect, as the longest side is longer than the sum of the other sides");
@@ -121,17 +121,16 @@ public static partial class CSCAD
     }
 
     /**
-     * <summary>Construct a triangle in two dimensional space from the given options.</summary>
+     * <summary>Construct a triangle in 2D space from the given options.</summary>
+     * <remarks>
      * The triangle is always constructed CCW from the origin, [0, 0, 0].
-     * @see https://www.mathsisfun.com/algebra/trig-solving-triangles.html
-     * @param {Object} [options] - options for construction
-     * @param {String} [options.type="SSS" - type of triangle to construct; A ~ angle, S ~ side
-     * @param {Array} [options.values=[1,1,1]] - angle (radians) of corners or length of sides
-     * @returns {geom2} new 2D geometry
-     * @alias module:modeling/primitives.triangle
-     *
-     * @example
-     * var myshape = triangle({type: "AAS", values: [degToRad(62), degToRad(35), 7]})
+     * https://www.mathsisfun.com/algebra/trig-solving-triangles.html
+     * </remarks>
+     * <param name="type">Type of triangle to construct: A ~ angle, S ~ side.</param>
+     * <param name="values" default="(1,1,1)">Angle (RADIANS) of corners or length of sides.</param>
+     * <example>
+     * var myshape = Triangle(type: "AAS", values: (DegToRad(62), DegToRad(35), 7));
+     * </example>
      * <group>2D Primitives</group>
      */
     public static Geom2 Triangle(string type = "SSS", Vec3? values = null)
@@ -143,7 +142,7 @@ public static partial class CSCAD
               (type[1] == 'A' || type[1] == 'S') &&
               (type[2] == 'A' || type[2] == 'S'))) throw new ArgumentException("Triangle type must contain three letters: A or S");
 
-        if (_values.x < 0 || _values.y < 0 || _values.z < 0) throw new ArgumentException("Triangle values must be greater than zero.");
+        if (_values.X < 0 || _values.Y < 0 || _values.Z < 0) throw new ArgumentException("Triangle values must be greater than zero.");
 
         switch (type)
         {

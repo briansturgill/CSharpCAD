@@ -7,7 +7,7 @@ public static partial class CSCAD
      * <summary>Return a new geometry representing space in the first geometry but
      * not in all subsequent geometries.</summary>
      * <remarks>The given geometries should be of the same type, either geom2 or geom3.</remarks>
-     *<example>
+     *<pre>
      * +-------+            +-------+
      * |       |            |       |
      * |   A   |            |       |
@@ -16,6 +16,9 @@ public static partial class CSCAD
      *      |   B   |
      *      |       |
      *      +-------+
+     * </pre>
+     * <example>
+     * var oPartMissing = Subtract(o1, o2, o3);
      * </example>
      * <group>Boolean Operations</group>
      */

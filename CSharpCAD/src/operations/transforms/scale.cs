@@ -8,12 +8,12 @@ public static partial class CSCAD
     /// <group>Transformations</group>
     public static Geometry Scale(Vec3 factors, Geometry gobj)
     {
-        if (gobj.Is2D && factors.z != 1)
+        if (gobj.Is2D && factors.Z != 1)
         {
-            factors = new Vec3(factors.x, factors.y, 1);
+            factors = new Vec3(factors.X, factors.Y, 1);
         }
 
-        if (factors.x <= 0 || factors.y <= 0 || factors.z <= 0)
+        if (factors.X <= 0 || factors.Y <= 0 || factors.Z <= 0)
         {
             throw new ArgumentException("Argument factors must be positive.");
         }

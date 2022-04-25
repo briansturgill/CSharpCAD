@@ -6,8 +6,8 @@ public static partial class CSCAD
 
 
     // Compare two normals (unit vectors) for equality.
-    private static bool AboutEqualNormals(Vec3 a, Vec3 b) => (Math.Abs(a.x - b.x) <= C.NEPS &&
-      Math.Abs(a.y - b.y) <= C.NEPS && Math.Abs(a.z - b.z) <= C.NEPS);
+    private static bool AboutEqualNormals(Vec3 a, Vec3 b) => (Math.Abs(a.X - b.X) <= C.NEPS &&
+      Math.Abs(a.Y - b.Y) <= C.NEPS && Math.Abs(a.Z - b.Z) <= C.NEPS);
 
     private static bool Coplanar(Plane plane1, Plane plane2)
     {

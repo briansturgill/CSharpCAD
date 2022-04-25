@@ -50,17 +50,17 @@ public static partial class CSCAD
             var normal = polygon.Plane().Normal;
             for (var i = 0; i < numvertices - 2; i++)
             {
-                binW.Write((float)normal.x);
-                binW.Write((float)normal.y);
-                binW.Write((float)normal.z);
+                binW.Write((float)normal.X);
+                binW.Write((float)normal.Y);
+                binW.Write((float)normal.Z);
                 // STL requires triangular polygons. If our polygon has more vertices, create multiple triangles:
                 for (var v = 0; v < 3; v++)
                 {
                     var vv = v + ((v > 0) ? i : 0);
                     var vertex = vertices[vv];
-                    binW.Write((float)vertex.x);
-                    binW.Write((float)vertex.y);
-                    binW.Write((float)vertex.z);
+                    binW.Write((float)vertex.X);
+                    binW.Write((float)vertex.Y);
+                    binW.Write((float)vertex.Z);
                 }
                 binW.Write((ushort)0); // A not used by us attribute value.
             }

@@ -3,15 +3,16 @@ namespace CSharpCAD;
 public static partial class CSCAD
 {
     /**
-     * Construct an axis-aligned ellipsoid in three dimensional space.
-     * <remarks>
-     * @param {Object} [options] - options for construction
-     * @param {Array} [options.center=[0,0,0]] - center of ellipsoid
-     * @param {Array} [options.radius=[1,1,1]] - radius of ellipsoid, along X, Y and Z
-     * @param {Number} [options.segments=32] - number of segements to create per full rotation
-     * @param {Array} [options.axes] -  an array with three vectors for the x, y and z base vectors
-     * @returns {geom3} new 3D geometry
-     * </remarks>
+     * <summary>Construct an axis-aligned ellipsoid in three dimensional space.</summary>
+     * <param> name="radius" default="(1,1,1)">Radius of ellipsoid, along X, Y and Z.</param>
+     * <param> name="segments">Number of segments to create per full rotation.</param>
+     * <param> name="axes_x" default=(1,0,0)">The X base vector.</param>
+     * <param> name="axes_y" default=(0,-1,0)">The Y base vector.</param>
+     * <param> name="axes_z" default=(0,0,1)">The Z base vector.</param>
+     * <param> name="center" default="(0,0,0)">Center of ellipsoid.</param>
+     * <example>
+     * var g = Ellipsoid(radius: (10, 5, 20), segments: 50);
+     * </example>
      * <group>3D Primitives</group>
 */
     public static Geom3 Ellipsoid(Vec3? radius = null, int segments = 32, Vec3? center = null,
@@ -23,12 +24,12 @@ public static partial class CSCAD
         var _axes_y = axes_y ?? new Vec3(0.0, -1.0, 0.0);
         var _axes_z = axes_z ?? new Vec3(0.0, 0.0, 1.0);
 
-        if (_radius.x <= 0 || _radius.y <= 0 || _radius.z <= 0) throw new ArgumentException("Option radius values must be greater than zero.");
+        if (_radius.X <= 0 || _radius.Y <= 0 || _radius.Z <= 0) throw new ArgumentException("Option radius values must be greater than zero.");
         if (segments < 4) throw new ArgumentException("Option segments must be four or more.");
 
-        var xvector = _axes_x.Normalize().Scale(_radius.x);
-        var yvector = _axes_y.Normalize().Scale(_radius.y);
-        var zvector = _axes_z.Normalize().Scale(_radius.z);
+        var xvector = _axes_x.Normalize().Scale(_radius.X);
+        var yvector = _axes_y.Normalize().Scale(_radius.Y);
+        var zvector = _axes_z.Normalize().Scale(_radius.Z);
 
         var qsegments = segments / 4;
         var prevcylinderpoint = new Vec3();
@@ -36,7 +37,7 @@ public static partial class CSCAD
         for (var slice1 = 0; slice1 <= segments; slice1++)
         {
             var angle = Math.PI * 2.0 * slice1 / segments;
-            var cylinderpoint = xvector.Scale(cos(angle)).Add(yvector.Scale(sin(angle)));
+            var cylinderpoint = xvector.Scale(Math.Cos(angle)).Add(yvector.Scale(Math.Sin(angle)));
             if (slice1 > 0)
             {
                 double prevcospitch = 0.0;
@@ -44,8 +45,8 @@ public static partial class CSCAD
                 for (var slice2 = 0; slice2 <= qsegments; slice2++)
                 {
                     var pitch = 0.5 * Math.PI * slice2 / (double)qsegments;
-                    var cospitch = cos(pitch);
-                    var sinpitch = sin(pitch);
+                    var cospitch = Math.Cos(pitch);
+                    var sinpitch = Math.Sin(pitch);
                     if (slice2 > 0)
                     {
                         var points = new List<Vec3>();

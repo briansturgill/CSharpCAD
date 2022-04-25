@@ -25,7 +25,7 @@ internal static partial class CSharpCADInternals
                 if (list is not null) queue.Add(GetLeftmost(list));
             }
 
-            queue.Sort((Node a, Node b) => (int)(a.x - b.x)); // compare X
+            queue.Sort((Node a, Node b) => (int)(a.X - b.X)); // compare X
 
             // process holes from left to right
             for (var i = 0; i < queue.Count; i++)
@@ -66,8 +66,8 @@ internal static partial class CSharpCADInternals
         internal static Node? FindHoleBridge(Node hole, Node outerNode)
         {
             var p = outerNode;
-            var hx = hole.x;
-            var hy = hole.y;
+            var hx = hole.X;
+            var hy = hole.Y;
             var qx = Double.NegativeInfinity;
             Node? m = null;
 
@@ -76,19 +76,19 @@ internal static partial class CSharpCADInternals
             do
             {
                 if (p is null || p.next is null) break;
-                if (hy <= p.y && hy >= p.next.y && p.next.y != p.y)
+                if (hy <= p.Y && hy >= p.next.Y && p.next.Y != p.Y)
                 {
-                    var x = p.x + (hy - p.y) * (p.next.x - p.x) / (p.next.y - p.y);
+                    var x = p.X + (hy - p.Y) * (p.next.X - p.X) / (p.next.Y - p.Y);
                     if (x <= hx && x > qx)
                     {
                         qx = x;
                         if (x == hx)
                         {
-                            if (hy == p.y) return p;
-                            if (hy == p.next.y) return p.next;
+                            if (hy == p.Y) return p;
+                            if (hy == p.next.Y) return p.next;
                         }
 
-                        m = p.x < p.next.x ? p : p.next;
+                        m = p.X < p.next.X ? p : p.next;
                     }
                 }
                 p = p.next;
@@ -103,19 +103,19 @@ internal static partial class CSharpCADInternals
             // otherwise choose the point of the minimum angle with the ray as connection point
 
             var stop = m;
-            var mx = m.x;
-            var my = m.y;
+            var mx = m.X;
+            var my = m.Y;
             var tanMin = Double.PositiveInfinity;
             p = m;
 
             do
             {
-                if (hx >= p.x && p.x >= mx && hx != p.x &&
-                    PointInTriangle(hy < my ? hx : qx, hy, mx, my, hy < my ? qx : hx, hy, p.x, p.y))
+                if (hx >= p.X && p.X >= mx && hx != p.X &&
+                    PointInTriangle(hy < my ? hx : qx, hy, mx, my, hy < my ? qx : hx, hy, p.X, p.Y))
                 {
-                    var tan = Math.Abs(hy - p.y) / (hx - p.x); // tangential
+                    var tan = Math.Abs(hy - p.Y) / (hx - p.X); // tangential
 
-                    if (LocallyInside(p, hole) && (tan < tanMin || (tan == tanMin && (p.x > m.x || (p.x == m.x && SectorContainsSector(m, p))))))
+                    if (LocallyInside(p, hole) && (tan < tanMin || (tan == tanMin && (p.X > m.X || (p.X == m.X && SectorContainsSector(m, p))))))
                     {
                         m = p;
                         tanMin = tan;
@@ -141,7 +141,7 @@ internal static partial class CSharpCADInternals
             var leftmost = start;
             do
             {
-                if (p.x < leftmost.x || (p.x == leftmost.x && p.y < leftmost.y)) leftmost = p;
+                if (p.X < leftmost.X || (p.X == leftmost.X && p.Y < leftmost.Y)) leftmost = p;
                 p = p.next;
             } while (p is not null && p != start);
 

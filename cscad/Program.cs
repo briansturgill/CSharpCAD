@@ -1,5 +1,6 @@
 ﻿using CSharpCAD;
 using static CSharpCAD.CSCAD;
+using Path = CSharpCAD.CSCAD.Path;
 
 using System.Diagnostics;
 // See https://aka.ms/new-console-template for more information
@@ -46,14 +47,14 @@ Save("/tmp/t.stl", Torus(innerRadius:5, outerRadius:8));
 */
 var watch = new Stopwatch();
 var circ1 = Circle(radius: 5, segments: 100);
-var circ2 = Circle(radius: 5 , segments: 100);
-var circ3 = Circle(radius: 5 , segments: 100);
-var circ4 = Circle(radius: 5 , segments: 100);
-var circs =  Union(
+var circ2 = Circle(radius: 5, segments: 100);
+var circ3 = Circle(radius: 5, segments: 100);
+var circ4 = Circle(radius: 5, segments: 100);
+var circs = Union(
   Translate(new Vec3(2.5, 2.5, 0), circ1),
-  Translate(new Vec3(2.5, 20+2.5, 0), circ2),
-  Translate(new Vec3(30+2.5, 2.5, 0), circ3),
-  Translate(new Vec3(30+2.5, 20+2.5, 0), circ4)
+  Translate(new Vec3(2.5, 20 + 2.5, 0), circ2),
+  Translate(new Vec3(30 + 2.5, 2.5, 0), circ3),
+  Translate(new Vec3(30 + 2.5, 20 + 2.5, 0), circ4)
 );
 var loops = 10000;
 Geom2 h = new Geom2();
@@ -68,6 +69,31 @@ System.Console.WriteLine($"Hull time for {loops}: {watch.ElapsedMilliseconds}ms"
 System.Console.WriteLine($"Hull has {h.ToPoints().Length} points.");
 Save("/tmp/t.svg", h);
 
-var c = Cuboid(size:(10,20,5));
-var o = Colorize((128,128,0), circ4);
+var c = Cuboid(size: (10, 20, 5));
+var o = Colorize((128, 128, 0), circ4);
 Save("/tmp/t.svg", o);
+
+var g = CylinderElliptic(height: 30, startRadius: (5, 3), endRadius: (3, 5));
+g = Ellipsoid(radius: (10, 5, 20), segments: 50);
+Save("/tmp/t.stl", g);
+
+var points = new Points2 {
+        // roof
+        (10,11), (0,11), (5,20),
+        // wall
+        (0,0), (10,0), (10,10), (0,10)
+       };
+var paths = new Paths {
+         new Path { 0, 1, 2},
+         new Path { 3, 4, 5, 6}
+       };
+
+var poly = Polygon(points: points, paths: paths);
+     poly.Validate(); // Will throw an exception with explanatory message if polygon is bad
+Save("/tmp/t.svg", poly);
+var mypoints = new Points3 { (10, 10, 0), (10, -10, 0), (-10, -10, 0), (-10, 10, 0), (0, 0, 10) };
+var myfaces = new Faces { new Face {0, 1, 4}, new Face { 1, 2, 4 },
+    new Face {2, 3, 4}, new Face{3, 0, 4}, new Face {1, 0, 3}, new Face{2, 1, 3} };
+var myshape = Polyhedron(points: mypoints, faces: myfaces, orientationOutward: false);
+
+Save("/tmp/t.stl", myshape);

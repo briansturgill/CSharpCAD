@@ -12,6 +12,9 @@ public static partial class CSCAD
      * <param name="startAngle">Start angle of ellipse, in radians</param>
      * <param name="endAngle">End angle of ellipse, in radians.</param>
      * <param name="segments">Number of segments to create per full rotation.</param>
+     * <example>
+     * var g = CylinderElliptic(radius: (10, 5), segments: 50);
+     * </example>
      * <group>2D Primitives</group>
      */
     public static Geom2 Ellipse(Vec2? radius = null, int segments = 32,
@@ -38,14 +41,14 @@ public static partial class CSCAD
             rotation = endAngle + ((Math.PI * 2) - startAngle);
         }
 
-        var minradius = Math.Min(_radius.x, _radius.y);
+        var minradius = Math.Min(_radius.X, _radius.Y);
         var minangle = Math.Acos(((minradius * minradius) + (minradius * minradius) - (C.EPS * C.EPS)) /
                                   (2 * minradius * minradius));
         if (rotation < minangle) throw new ArgumentException("startAngle and endAngle do not define a significant rotation");
 
         segments = Floorish(segments * (rotation / (Math.PI * 2)));
 
-        var centerv = new Vec2(_center.x, _center.y);
+        var centerv = new Vec2(_center.X, _center.Y);
         var step = rotation / (double)segments; // radians per segment
 
         var points = new List<Vec2>(segments);
@@ -53,7 +56,7 @@ public static partial class CSCAD
         for (var i = 0; i < segments; i++)
         {
             var angle = (step * i) + startAngle;
-            var point = new Vec2(_radius.x * Math.Cos(angle), _radius.y * Math.Sin(angle));
+            var point = new Vec2(_radius.X * Math.Cos(angle), _radius.Y * Math.Sin(angle));
             point = centerv.Add(point);
             points.Add(point);
         }

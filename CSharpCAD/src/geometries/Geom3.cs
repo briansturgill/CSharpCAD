@@ -174,8 +174,8 @@ public class Geom3 : Geometry
     {
         var total = 0.0;
         var (min, max) = this.BoundingBox();
-        total += max.x + max.y + max.z;
-        total -= min.x + min.y + min.z;
+        total += max.X + max.Y + max.Z;
+        total -= min.X + min.Y + min.Z;
         return C.EPS * total / 3; /*dimensions*/
     }
 

@@ -9,7 +9,7 @@ public class Plane : IEquatable<Plane>
     /// <summary>Mysterious entity, akin to + C in integrals.</summary>
     /// <remarks>
     ///   More seriously, W seems to just be any point in the plane, not colinear with normal.
-    ///   We could call it NonColinearPoint, that would make things too easy.
+    ///   We could call it NonColinearPoint, but that would make things too easy.
     /// </remarks>
     public readonly double W;
 
@@ -191,9 +191,6 @@ public class Plane : IEquatable<Plane>
         return new Plane(normal, w);
     }
 
-    /// <summary>Used by Mat4.</summary>
-    public (double, double, double, double) Points => (this.Normal.x, this.Normal.y, this.Normal.z, this.W);
-
     /**
      * Project the given point on to the this plane.
      *
@@ -204,11 +201,11 @@ public class Plane : IEquatable<Plane>
      */
     public Vec3 ProjectionOfPoint(Vec3 point)
     {
-        var a = point.x * this.Normal.x + point.y * this.Normal.y + point.z * this.Normal.z - this.W;
+        var a = point.X * this.Normal.X + point.Y * this.Normal.Y + point.Z * this.Normal.Z - this.W;
         return new Vec3(
-          point.x - a * this.Normal.x,
-          point.y - a * this.Normal.y,
-          point.z - a * this.Normal.z
+          point.X - a * this.Normal.X,
+          point.Y - a * this.Normal.Y,
+          point.Z - a * this.Normal.Z
         );
     }
 

@@ -26,6 +26,6 @@ public static class GlobalParams
         }
     }
     ///<summary>Enables special (time consuming) debug checking like geometry validation.</summary>
-    public static bool CheckingEnabled = false; // LATER should default to false
+    public static bool CheckingEnabled = false;
 }
 

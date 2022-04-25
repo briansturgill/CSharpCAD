@@ -6,6 +6,9 @@ public static partial class CSCAD
      * <summary>Construct a geodesic sphere based on icosahedron symmetry.</summary>
      * <param name="radius">Target radius of sphere</param>
      * <param name="frequency">Subdivision frequency per face, must be multiple of 6.</param>
+     * <example>
+     * var g = GeodesicSphere(radius: 5);
+     * </example>
      * <group>3D Primitives</group>
      */
     public static Geom3 GeodesicSphere(double radius = 1, int frequency = 6)
@@ -41,12 +44,12 @@ public static partial class CSCAD
 
         // Note the switch over of frequency from int to double here is intentional.
         // Frequency is truly used as a double in this subroutine.
-        (List<Vec3>, List<List<int>>, int) geodesicSubDivide((Vec3, Vec3, Vec3) p, double frequency, int offset)
+        (Points3, Faces, int) geodesicSubDivide((Vec3, Vec3, Vec3) p, double frequency, int offset)
         {
             var (p1, p2, p3) = p;
             var n = offset;
-            var c = new List<Vec3>();
-            var f = new List<List<int>>();
+            var c = new Points3();
+            var f = new Faces();
 
             //           p3
             //           /\
@@ -61,9 +64,9 @@ public static partial class CSCAD
             {
                 var _f = 1 - f;
                 return new Vec3(
-                  a.x * _f + b.x * f,
-                  a.y * _f + b.y * f,
-                  a.z * _f + b.z * f
+                  a.X * _f + b.X * f,
+                  a.Y * _f + b.Y * f,
+                  a.Z * _f + b.Z * f
                 );
             }
 
@@ -85,14 +88,14 @@ public static partial class CSCAD
                     // -- normalize
                     for (var k = 0; k < 3; k++)
                     {
-                        var r = Vec3.Hypot(q[k].x, q[k].y, q[k].z);
-                        q[k] = new Vec3(q[k].x / r, q[k].y / r, q[k].z / r);
+                        var r = Vec3.Hypot(q[k].X, q[k].Y, q[k].Z);
+                        q[k] = new Vec3(q[k].X / r, q[k].Y / r, q[k].Z / r);
                     }
                     for (var l = 0; l < 3; l++)
                     {
                         c.Add(q[l]);
                     }
-                    f.Add(new List<int> { n, n + 1, n + 2 }); n += 3;
+                    f.Add(new Face { n, n + 1, n + 2 }); n += 3;
 
                     if (j < frequency - i - 1)
                     {
@@ -104,14 +107,14 @@ public static partial class CSCAD
                         // -- normalize
                         for (var k = 0; k < 3; k++)
                         {
-                            var r = Vec3.Hypot(q[k].x, q[k].y, q[k].z);
-                            q[k] = new Vec3(q[k].x / r, q[k].y / r, q[k].z / r);
+                            var r = Vec3.Hypot(q[k].X, q[k].Y, q[k].Z);
+                            q[k] = new Vec3(q[k].X / r, q[k].Y / r, q[k].Z / r);
                         }
                         for (var l = 0; l < 3; l++)
                         {
                             c.Add(q[l]);
                         }
-                        f.Add(new List<int> { n, n + 1, n + 2 }); n += 3;
+                        f.Add(new Face { n, n + 1, n + 2 }); n += 3;
                     }
                 }
             }
@@ -119,13 +122,13 @@ public static partial class CSCAD
             return (c, f, n);
         }
 
-        var points = new List<Vec3>();
-        var faces = new List<List<int>>();
+        var points = new Points3();
+        var faces = new Faces();
         var offset = 0;
 
         for (var i = 0; i < ti.Length; i++)
         {
-            var g = geodesicSubDivide((ci[(int)ti[i].x], ci[(int)ti[i].y], ci[(int)ti[i].z]), frequency, offset);
+            var g = geodesicSubDivide((ci[(int)ti[i].X], ci[(int)ti[i].Y], ci[(int)ti[i].Z]), frequency, offset);
             var (p, f, o) = g;
             points.AddRange(p);
             faces.AddRange(f);

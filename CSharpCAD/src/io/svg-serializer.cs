@@ -47,8 +47,8 @@ public static partial class CSCAD
         var (min, max) = geom2.BoundingBox();
 
 
-        var width = Math.Round(max.x - min.x, 5);
-        var height = Math.Round(max.y - min.y, 5);
+        var width = Math.Round(max.X - min.X, 5);
+        var height = Math.Round(max.Y - min.Y, 5);
 
         var svg = new StringBuilder();
         svg.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -76,8 +76,8 @@ public static partial class CSCAD
     private static void ConvertGeom2(StringBuilder svg, Geom2 g, Vec2 min, Vec2 max)
     {
         var offset = new Vec2(
-            0 - min.x, // offset to X=0
-            0 - max.y // offset to Y=0
+            0 - min.X, // offset to X=0
+            0 - max.Y // offset to Y=0
         );
 
         var outlines = g.ToOutlines();
@@ -105,10 +105,10 @@ public static partial class CSCAD
             var pointindexwrapped = pointindex;
             if (pointindexwrapped >= points.Count) pointindexwrapped -= points.Count;
             var point = points[pointindexwrapped];
-            var offpoint = new Vec2(point.x + offset.x, point.y + offset.y);
-            var svgpoint = Reflect(offpoint.x, offpoint.y, 0, 0);
-            var x = Math.Round(svgpoint.x, 5);
-            var y = Math.Round(svgpoint.y, 5);
+            var offpoint = new Vec2(point.X + offset.X, point.Y + offset.Y);
+            var svgpoint = Reflect(offpoint.X, offpoint.Y, 0, 0);
+            var x = Math.Round(svgpoint.X, 5);
+            var y = Math.Round(svgpoint.Y, 5);
             if (pointindex > 0)
             {
                 svg.Append($"L{x} {y}");

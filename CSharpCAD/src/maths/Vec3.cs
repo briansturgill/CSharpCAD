@@ -5,35 +5,35 @@ namespace CSharpCAD;
 public readonly struct Vec3 : IEquatable<Vec3>
 {
     /// <summary>Coordinate.</summary>
-    public readonly double x;
+    public readonly double X;
     /// <summary>Coordinate.</summary>
-    public readonly double y;
+    public readonly double Y;
     /// <summary>Coordinate.</summary>
-    public readonly double z;
+    public readonly double Z;
 
     /// <summary>Construct from 3 coordinates.</summary>
     /// <remarks>With no arguments, construct a zero vector.</remarks>
     public Vec3(double x, double y, double z)
     {
-        this.x = x; this.y = y; this.z = z;
+        this.X = x; this.Y = y; this.Z = z;
     }
 
     /// <summary>Construct from the x and y of the Vec2 and the z argument.</summary>
     public Vec3(Vec2 v, double z)
     {
-        this.x = v.x; this.y = v.y; this.z = z;
+        this.X = v.X; this.Y = v.Y; this.Z = z;
     }
 
     /// <summary>Construct from a scalar repeated 3 times.</summary>
     public Vec3(double scalar)
     {
-        this.x = scalar; this.y = scalar; this.z = scalar;
+        this.X = scalar; this.Y = scalar; this.Z = scalar;
     }
 
     /// <summary>Check if this vector is equal to the given vector.</summary>
     public bool Equals(Vec3 gv)
     {
-        return this.x == gv.x && this.y == gv.y && this.z == gv.z;
+        return this.X == gv.X && this.Y == gv.Y && this.Z == gv.Z;
     }
 
     /// <summary>Check if this vector is equal to the given vector.</summary>
@@ -69,28 +69,28 @@ public readonly struct Vec3 : IEquatable<Vec3>
     /// <summary>Standard C# override.</summary>
     public override int GetHashCode()
     {
-        return x.GetHashCode() ^ y.GetHashCode() ^ z.GetHashCode();
+        return X.GetHashCode() ^ Y.GetHashCode() ^ Z.GetHashCode();
     }
 
     /// <summary>Standard C# override.</summary>
-	public override string ToString() => $"Vec3({this.x},{this.y},{this.z})";
+	public override string ToString() => $"Vec3({this.X},{this.Y},{this.Z})";
 
     /// <summary>Used mostly for testing.</summary>
     public bool IsNearlyEqual(Vec3 b)
     {
-        if (double.IsNaN(this.x) || double.IsNaN(this.y) || double.IsNaN(this.z) ||
-            double.IsNaN(b.x) || double.IsNaN(b.y) || double.IsNaN(b.z))
+        if (double.IsNaN(this.X) || double.IsNaN(this.Y) || double.IsNaN(this.Z) ||
+            double.IsNaN(b.X) || double.IsNaN(b.Y) || double.IsNaN(b.Z))
         {
             return false;
         }
-        if (double.IsInfinity(this.x) || double.IsInfinity(this.y) || double.IsInfinity(this.z) ||
-            double.IsInfinity(b.x) || double.IsInfinity(b.y) || double.IsInfinity(b.z))
+        if (double.IsInfinity(this.X) || double.IsInfinity(this.Y) || double.IsInfinity(this.Z) ||
+            double.IsInfinity(b.X) || double.IsInfinity(b.Y) || double.IsInfinity(b.Z))
         {
             return false;
         }
-        if (Math.Abs(this.x - b.x) >= C.EPS ||
-            Math.Abs(this.y - b.y) >= C.EPS ||
-            Math.Abs(this.z - b.z) >= C.EPS)
+        if (Math.Abs(this.X - b.X) >= C.EPS ||
+            Math.Abs(this.Y - b.Y) >= C.EPS ||
+            Math.Abs(this.Z - b.Z) >= C.EPS)
         {
             return false;
         }
@@ -118,24 +118,24 @@ public readonly struct Vec3 : IEquatable<Vec3>
     /// <summary>Returns the vector of the absolute value of this vector's coordinates.</summary>
     public Vec3 Abs()
     {
-        return new Vec3(Math.Abs(this.x),
-            Math.Abs(this.y),
-            Math.Abs(this.z));
+        return new Vec3(Math.Abs(this.X),
+            Math.Abs(this.Y),
+            Math.Abs(this.Z));
     }
 
     /// <summary>Returns the addition of this vector with the given vector.</summary>
     public Vec3 Add(Vec3 gv)
     {
-        return new Vec3(this.x + gv.x,
-            this.y + gv.y,
-            this.z + gv.z);
+        return new Vec3(this.X + gv.X,
+            this.Y + gv.Y,
+            this.Z + gv.Z);
     }
 
     /// <summary>Returns the angle between this and the given vector in radians.</summary>
     public double Angle(Vec3 gv)
     {
-        var mag1 = Hypot(this.x, this.y, this.z);
-        var mag2 = Hypot(gv.x, gv.y, gv.z);
+        var mag1 = Hypot(this.X, this.Y, this.Z);
+        var mag2 = Hypot(gv.X, gv.Y, gv.Z);
         var mag = mag1 * mag2;
         double cosine = mag == 0.0 ? 0.0 : (this.Dot(gv) / mag);
         return Math.Acos(Math.Min(Math.Max(cosine, -1.0), 1.0));
@@ -144,94 +144,94 @@ public readonly struct Vec3 : IEquatable<Vec3>
     /// <summary>Returns the cross product of this and the given vector.</summary>
     public Vec3 Cross(Vec3 gv)
     {
-        var _x = this.y * gv.z - this.z * gv.y;
-        var _y = this.z * gv.x - this.x * gv.z;
-        var _z = this.x * gv.y - this.y * gv.x;
+        var _x = this.Y * gv.Z - this.Z * gv.Y;
+        var _y = this.Z * gv.X - this.X * gv.Z;
+        var _z = this.X * gv.Y - this.Y * gv.X;
         return new Vec3(_x, _y, _z);
     }
 
     /// <summary>Returns the Euclidian distance between this and the given vector.</summary>
     public double Distance(Vec3 gv)
     {
-        var _x = gv.x - this.x;
-        var _y = gv.y - this.y;
-        var _z = gv.z - this.z;
+        var _x = gv.X - this.X;
+        var _y = gv.Y - this.Y;
+        var _z = gv.Z - this.Z;
         return Hypot(_x, _y, _z);
     }
 
     /// <summary>Returns the vector containing the division of this vector by the given vector.</summary>
     public Vec3 Divide(Vec3 gv)
     {
-        return new Vec3(this.x / gv.x,
-            this.y / gv.y,
-            this.z / gv.z);
+        return new Vec3(this.X / gv.X,
+            this.Y / gv.Y,
+            this.Z / gv.Z);
     }
 
     /// <summary>Returns the dot product of this and the given vector.</summary>
-    public double Dot(Vec3 gv) => this.x * gv.x + this.y * gv.y + this.z * gv.z;
+    public double Dot(Vec3 gv) => this.X * gv.X + this.Y * gv.Y + this.Z * gv.Z;
 
     /// <summary>Returns the length of a vector.</summary>
     public double Length()
     {
-        return Hypot(x, y, z);
+        return Hypot(X, Y, Z);
     }
 
     /// <summary>Returns a linear interpolation between this and the given vector.</summary>
     public Vec3 Lerp(Vec3 gv, double interpolant)
     {
-        return new Vec3(this.x + interpolant * (gv.x - this.x),
-            this.y + interpolant * (gv.y - this.y),
-            this.z + interpolant * (gv.z - this.z));
+        return new Vec3(this.X + interpolant * (gv.X - this.X),
+            this.Y + interpolant * (gv.Y - this.Y),
+            this.Z + interpolant * (gv.Z - this.Z));
     }
 
     /// <summary>Returns the maximum coordinates of this and the given vector.</summary>
     public Vec3 Max(Vec3 gv)
     {
-        return new Vec3(Math.Max(this.x, gv.x),
-            Math.Max(this.y, gv.y),
-            Math.Max(this.z, gv.z));
+        return new Vec3(Math.Max(this.X, gv.X),
+            Math.Max(this.Y, gv.Y),
+            Math.Max(this.Z, gv.Z));
     }
 
     /// <summary>Returns the minimum coordinates of this and the given vector.</summary>
     public Vec3 Min(Vec3 gv)
     {
-        return new Vec3(Math.Min(this.x, gv.x),
-            Math.Min(this.y, gv.y),
-            Math.Min(this.z, gv.z));
+        return new Vec3(Math.Min(this.X, gv.X),
+            Math.Min(this.Y, gv.Y),
+            Math.Min(this.Z, gv.Z));
     }
 
     /// <summary>Returns the vector containing the multiplication of this vector by the given vector.</summary>
     public Vec3 Multiply(Vec3 gv)
     {
-        return new Vec3(this.x * gv.x,
-            this.y * gv.y,
-            this.z * gv.z);
+        return new Vec3(this.X * gv.X,
+            this.Y * gv.Y,
+            this.Z * gv.Z);
     }
 
     /// <summary>Returns the vector containing the negation of this vector.</summary>
     public Vec3 Negate()
     {
-        return new Vec3(-this.x, -this.y, -this.z);
+        return new Vec3(-this.X, -this.Y, -this.Z);
     }
 
     /// <summary>Returns the vector containing the normalization of this vector.</summary>
     public Vec3 Normalize()
     {
-        var len = x * x + y * y + z * z;
+        var len = X * X + Y * Y + Z * Z;
         if (len > 0.0)
         {
             len = 1 / Math.Sqrt(len);
         }
-        return new Vec3(this.x * len, this.y * len, this.z * len);
+        return new Vec3(this.X * len, this.Y * len, this.Z * len);
     }
 
     /// <summary>Create a vector orthogonal to this one.</summary>
     public Vec3 Orthogonal()
     {
         var bV = this.Abs();
-        var _x = 0 + Convert.ToDouble((bV.x < bV.y) && (bV.x < bV.z));
-        var _y = 0 + Convert.ToDouble((bV.y <= bV.x) && (bV.y < bV.z));
-        var _z = 0 + Convert.ToDouble((bV.z <= bV.x) && (bV.z <= bV.y));
+        var _x = 0 + Convert.ToDouble((bV.X < bV.Y) && (bV.X < bV.Z));
+        var _y = 0 + Convert.ToDouble((bV.Y <= bV.X) && (bV.Y < bV.Z));
+        var _z = 0 + Convert.ToDouble((bV.Z <= bV.X) && (bV.Z <= bV.Y));
 
         return Cross(new Vec3(_x, _y, _z));
     }
@@ -240,21 +240,21 @@ public readonly struct Vec3 : IEquatable<Vec3>
     public Vec3 RotateX(Vec3 origin, double radians)
     {
         // translate point to the origin
-        var p = new Vec3(this.x - origin.x,
-            this.y - origin.y,
-            this.z - origin.z
+        var p = new Vec3(this.X - origin.X,
+            this.Y - origin.Y,
+            this.Z - origin.Z
         );
 
         // perform rotation
-        var r = new Vec3(p.x,
-            p.y * Math.Cos(radians) - p.z * Math.Sin(radians),
-            p.y * Math.Sin(radians) + p.z * Math.Cos(radians)
+        var r = new Vec3(p.X,
+            p.Y * Math.Cos(radians) - p.Z * Math.Sin(radians),
+            p.Y * Math.Sin(radians) + p.Z * Math.Cos(radians)
         );
 
         // translate to correct position
-        return new Vec3(r.x + origin.x,
-            r.y + origin.y,
-            r.z + origin.z
+        return new Vec3(r.X + origin.X,
+            r.Y + origin.Y,
+            r.Z + origin.Z
         );
     }
 
@@ -263,21 +263,21 @@ public readonly struct Vec3 : IEquatable<Vec3>
     {
 
         // translate point to the origin
-        var p = new Vec3(this.x - origin.x,
-            this.y - origin.y,
-            this.z - origin.z
+        var p = new Vec3(this.X - origin.X,
+            this.Y - origin.Y,
+            this.Z - origin.Z
         );
 
         // perform rotation
-        var r = new Vec3(p.z * Math.Sin(radians) + p.x * Math.Cos(radians),
-            p.y,
-            p.z * Math.Cos(radians) - p.x * Math.Sin(radians)
+        var r = new Vec3(p.Z * Math.Sin(radians) + p.X * Math.Cos(radians),
+            p.Y,
+            p.Z * Math.Cos(radians) - p.X * Math.Sin(radians)
         );
 
         // translate to correct position
-        return new Vec3(r.x + origin.x,
-            r.y + origin.y,
-            r.z + origin.z
+        return new Vec3(r.X + origin.X,
+            r.Y + origin.Y,
+            r.Z + origin.Z
         );
     }
 
@@ -285,46 +285,46 @@ public readonly struct Vec3 : IEquatable<Vec3>
     public Vec3 RotateZ(Vec3 origin, double radians)
     {
         // Translate point to the origin
-        var p = new Vec2(this.x - origin.x,
-            this.y - origin.y
+        var p = new Vec2(this.X - origin.X,
+            this.Y - origin.Y
         );
 
         // perform rotation
-        var r = new Vec2((p.x * Math.Cos(radians)) - (p.y * Math.Sin(radians)),
-            (p.x * Math.Sin(radians)) + (p.y * Math.Cos(radians))
+        var r = new Vec2((p.X * Math.Cos(radians)) - (p.Y * Math.Sin(radians)),
+            (p.X * Math.Sin(radians)) + (p.Y * Math.Cos(radians))
         );
 
         // translate to correct position
-        return new Vec3(r.x + origin.x,
-            r.y + origin.y,
-            this.z
+        return new Vec3(r.X + origin.X,
+            r.Y + origin.Y,
+            this.Z
         );
     }
 
     /// <summary>Scales the coordinates of this vector by a scalar number.</summary>
     public Vec3 Scale(double amount)
     {
-        return new Vec3(this.x * amount,
-            this.y * amount,
-            this.z * amount
+        return new Vec3(this.X * amount,
+            this.Y * amount,
+            this.Z * amount
         );
     }
 
     /// <summary>Snaps the coordinates of this vector to the given epsilon.</summary>
     public Vec3 Snap(double epsilon)
     {
-        return new Vec3(Math.Round(this.x / epsilon) * epsilon + 0,
-            Math.Round(this.y / epsilon) * epsilon + 0,
-            Math.Round(this.z / epsilon) * epsilon + 0
+        return new Vec3(Math.Round(this.X / epsilon) * epsilon + 0,
+            Math.Round(this.Y / epsilon) * epsilon + 0,
+            Math.Round(this.Z / epsilon) * epsilon + 0
         );
     }
 
     /// <summary>Calculates the squared distance between two vectors.</summary>
     public double SquaredDistance(Vec3 gv)
     {
-        var x = gv.x - this.x;
-        var y = gv.y - this.y;
-        var z = gv.z - this.z;
+        var x = gv.X - this.X;
+        var y = gv.Y - this.Y;
+        var z = gv.Z - this.Z;
 
         return x * x + y * y + z * z;
     }
@@ -332,9 +332,9 @@ public readonly struct Vec3 : IEquatable<Vec3>
     /// <summary>Calculates the squared length of the given vector.</summary>
     public double SquaredLength()
     {
-        var x = this.x;
-        var y = this.y;
-        var z = this.z;
+        var x = this.X;
+        var y = this.Y;
+        var z = this.Z;
 
         return x * x + y * y + z * z;
     }
@@ -342,23 +342,23 @@ public readonly struct Vec3 : IEquatable<Vec3>
     /// <summary>Subtracts the coordinates of this vector and the given vector.</summary>
     public Vec3 Subtract(Vec3 gv)
     {
-        return new Vec3(this.x - gv.x,
-            this.y - gv.y,
-            this.z - gv.z
+        return new Vec3(this.X - gv.X,
+            this.Y - gv.Y,
+            this.Z - gv.Z
         );
     }
 
     /// <summary>Transforms this vector using the given matrix.</summary>
     public Vec3 Transform(Mat4 gm)
     {
-        var w = gm.D(3) * x + gm.D(7) * y + gm.D(11) * z + gm.D(15);
+        var w = gm.D(3) * X + gm.D(7) * Y + gm.D(11) * Z + gm.D(15);
         if (w == 0.0)
         {
             w = 1.0;
         }
         return new Vec3(
-            (gm.D(0) * x + gm.D(4) * y + gm.D(8) * z + gm.D(12)) / w,
-            (gm.D(1) * x + gm.D(5) * y + gm.D(9) * z + gm.D(13)) / w,
-            (gm.D(2) * x + gm.D(6) * y + gm.D(10) * z + gm.D(14)) / w);
+            (gm.D(0) * X + gm.D(4) * Y + gm.D(8) * Z + gm.D(12)) / w,
+            (gm.D(1) * X + gm.D(5) * Y + gm.D(9) * Z + gm.D(13)) / w,
+            (gm.D(2) * X + gm.D(6) * Y + gm.D(10) * Z + gm.D(14)) / w);
     }
 }

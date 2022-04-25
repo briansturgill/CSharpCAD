@@ -18,14 +18,14 @@ public class Vec3Tests
     [Test]
     public void TestConstructor()
     {
-        Assert.IsTrue(ZeroVec.x == 0, "x should be 0");
-        Assert.IsTrue(ZeroVec.y == 0, "y should be 0");
-        Assert.IsTrue(ZeroVec.z == 0, "z should be 0");
+        Assert.IsTrue(ZeroVec.X == 0, "x should be 0");
+        Assert.IsTrue(ZeroVec.Y == 0, "y should be 0");
+        Assert.IsTrue(ZeroVec.Z == 0, "z should be 0");
 
         Vec3 v = new Vec3(1, 2, 3);
-        Assert.IsTrue(v.x == 1, "x should be 1");
-        Assert.IsTrue(v.y == 2, "y should be 2");
-        Assert.IsTrue(v.z == 3, "z should be 3");
+        Assert.IsTrue(v.X == 1, "x should be 1");
+        Assert.IsTrue(v.Y == 2, "y should be 2");
+        Assert.IsTrue(v.Z == 3, "z should be 3");
     }
 
     [Test]
@@ -189,9 +189,9 @@ public class Vec3Tests
     public void TestDivide()
     {
         var z = ZeroVec.Divide(ZeroVec);
-        Assert.IsTrue(double.IsNaN(z.x));
-        Assert.IsTrue(double.IsNaN(z.y));
-        Assert.IsTrue(double.IsNaN(z.z));
+        Assert.IsTrue(double.IsNaN(z.X));
+        Assert.IsTrue(double.IsNaN(z.Y));
+        Assert.IsTrue(double.IsNaN(z.Z));
         Assert.IsTrue(new Vec3(0, 0, 0) == (new Vec3(0, 0, 0).Divide(new Vec3(1, 2, 3))));
         Assert.IsTrue(new Vec3(6, 3, 2) == (new Vec3(6, 6, 6).Divide(new Vec3(1, 2, 3))));
         Assert.IsTrue(new Vec3(-6, -3, -2) == (new Vec3(-6, -6, -6).Divide(new Vec3(1, 2, 3))));

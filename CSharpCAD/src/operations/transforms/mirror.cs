@@ -19,7 +19,7 @@ public static partial class CSCAD
 
         var planeOfMirror = new Plane(_normal, _origin);
         // verify the plane, i.e. check that the given normal was valid
-        if (double.IsNaN(planeOfMirror.Normal.x))
+        if (double.IsNaN(planeOfMirror.Normal.X))
         {
             throw new ArgumentException("The given origin and normal do not define a proper plane");
         }

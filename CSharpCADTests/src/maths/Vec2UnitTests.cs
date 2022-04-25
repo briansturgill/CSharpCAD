@@ -162,7 +162,7 @@ public class Vec2Tests
     public void TestDivide()
     {
         var ret1 = new Vec2().Divide(new Vec2());
-        Assert.IsTrue(double.IsNaN(ret1.x) && double.IsNaN(ret1.y));
+        Assert.IsTrue(double.IsNaN(ret1.X) && double.IsNaN(ret1.Y));
 
         var ret2 = new Vec2().Divide(new Vec2(1, 2));
         Assert.IsTrue(ret2 == new Vec2());

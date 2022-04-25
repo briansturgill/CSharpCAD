@@ -4,19 +4,16 @@ public static partial class CSCAD
 {
     /**
      * <summary>Construct a torus by revolving a small circle (inner) about the circumference of a large (outer) circle.</summary>
-     * @param {Object} [options] - options for construction
-     * @param {Number} [options.innerRadius=1] - radius of small (inner) circle
-     * @param {Number} [options.outerRadius=4] - radius of large (outer) circle
-     * @param {Integer} [options.innerSegments=32] - number of segments to create per rotation
-     * @param {Integer} [options.outerSegments=32] - number of segments to create per rotation
-     * @param {Integer} [options.innerRotation=0] - rotation of small (inner) circle in radians
-     * @param {Number} [options.outerRotation=(PI * 2)] - rotation (outer) of the torus (RADIANS)
-     * @param {Number} [options.startAngle=0] - start angle of the torus (RADIANS)
-     * @returns {geom3} new 3D geometry
-     * @alias module:modeling/primitives.torus
-     *
-     * @example
-     * var myshape = torus({ innerRadius: 10, outerRadius: 100 })
+     * <param name="innerRadius">Radius of small (inner) circle.</param>
+     * <param name="outerRadius">Radius of large (outer) circle.</param>
+     * <param name="innerSegments">Number of segments to create per rotation.</param>
+     * <param name="outerSegments">Number of segments to create per rotation.</param>
+     * <param name="innerRotation">Rotation of small (inner) circle (RADIANS).</param>
+     * <param name="outerRotation" default="(Math.PI*2)">Rotation (outer) of the torus (RADIANS).</param>
+     * <param name="startAngle">Start angle of the torus (RADIANS).</param>
+     * <example>
+     * var myshape = Torus(innerRadius: 10, outerRadius: 100);
+     * </example>
      * <group>3D Primitives</group>
      */
     public static Geom3 Torus(double innerRadius = 1, int innerSegments = 32, double outerRadius = 4, int outerSegments = 32,

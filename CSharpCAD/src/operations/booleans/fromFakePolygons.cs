@@ -18,7 +18,7 @@ public static partial class CSCAD
         for (var i = 0; i < len; i++)
         {
             var vertex = vertices[i];
-            if (vertex.z > 0) {
+            if (vertex.Z > 0) {
               points3D.Add(vertex);
               vert1Indices.Add(i);
             }
@@ -33,8 +33,8 @@ public static partial class CSCAD
 
         foreach (var v3 in points3D)
         {
-            var x = Math.Round(v3.x / epsilon) * epsilon + 0; // no more -0
-            var y = Math.Round(v3.y / epsilon) * epsilon + 0; // no more -0
+            var x = Math.Round(v3.X / epsilon) * epsilon + 0; // no more -0
+            var y = Math.Round(v3.Y / epsilon) * epsilon + 0; // no more -0
 
             points2D.Add(new Vec2(x, y));
         }

@@ -4,17 +4,20 @@ public static partial class CSCAD
 {
     /**
      * <summary>Construct a polygon in two dimensional space from a list of points, or a list of points and paths.</summary>
+     * <remarks>
      * NOTE: The ordering of points is VERY IMPORTANT.
-     * @param {Array} options.points - points of the polygon : list of 2D points
-     * @param {Array} [options.paths] - paths of the polygon : list of list of point indexes
-     * @returns {geom2} new 2D geometry
-     *
-     * @example
+     * Polygon points must be in counter-clockwise order, convex shape, all points coplanar.
+     * Use the ".Validate()" method on the resulting method to check if the data is good.
+     * If "paths" is omitted, all points will be used in a single polygon in the order given.
+     * </remarks>
+     * <param name="points">Points of the polygon : list of 2D points.</param>
+     * <param name="paths">Paths of the polygon : list of list of point indexes.</param>
+     * <example>
      * var points = new Points2 {
      *   // roof
-     *   [10,11], [0,11], [5,20],
+     *   (10,11), (0,11), (5,20),
      *   // wall
-     *   [0,0], [10,0], [10,10], [0,10]
+     *   (0,0), (10,0), (10,10), (0,10)
      *  };
      *  var paths = new Paths {
      *    new Path { 0, 1, 2},
@@ -22,9 +25,11 @@ public static partial class CSCAD
      *  };
      *
      * var poly = Polygon(points: points, paths: paths);
+     * poly.Validate(); // Will throw an exception with explanatory message if polygon is bad.
+     * </example>
      * <group>2D Primitives</group>
      */
-    public static Geom2 Polygon(List<Vec2> points, List<List<int>>? paths = null)
+    public static Geom2 Polygon(Points2 points, Paths? paths = null)
     {
         var listofpolys = points;
 
@@ -36,12 +41,12 @@ public static partial class CSCAD
             }
         }
 
-        List<List<int>> listofpaths;
+        Paths listofpaths;
         if (paths is null || paths.Count == 0)
         {
             // create a list of paths based on the points
-            listofpaths = new List<List<int>>(1);
-            listofpaths.Add(new List<int>(listofpolys.Count));
+            listofpaths = new Paths(1);
+            listofpaths.Add(new Path(listofpolys.Count));
             for (int i = 0; i < listofpolys.Count; i++)
             {
                 listofpaths[0].Add(i);

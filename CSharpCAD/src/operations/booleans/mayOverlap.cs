@@ -21,12 +21,12 @@ public static partial class CSCAD
         var (min1, max1) = geometry1.BoundingBox();
 
         var (min2, max2) = geometry2.BoundingBox();
-        if ((min2.x - max1.x) > C.EPS) return false;
-        if ((min1.x - max2.x) > C.EPS) return false;
-        if ((min2.y - max1.y) > C.EPS) return false;
-        if ((min1.y - max2.y) > C.EPS) return false;
-        if ((min2.z - max1.z) > C.EPS) return false;
-        if ((min1.z - max2.z) > C.EPS) return false;
+        if ((min2.X - max1.X) > C.EPS) return false;
+        if ((min1.X - max2.X) > C.EPS) return false;
+        if ((min2.Y - max1.Y) > C.EPS) return false;
+        if ((min1.Y - max2.Y) > C.EPS) return false;
+        if ((min2.Z - max1.Z) > C.EPS) return false;
+        if ((min1.Z - max2.Z) > C.EPS) return false;
         return true;
     }
 }

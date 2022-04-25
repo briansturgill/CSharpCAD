@@ -4,15 +4,15 @@ public static partial class CSCAD
 {
     /**
      * Construct an axis-aligned square in two dimensional space with four equal sides at right angles.
-     * @see [rectangle]{@link module:modeling/primitives.rectangle} for more options
-     * @param {Object} [options] - options for construction
-     * @param {Array} [options.center=[0,0]] - center of square
-     * @param {Number} [options.size=2] - dimension of square
-     * @returns {geom2} new 2D geometry
-     * @alias module:modeling/primitives.square
-     *
-     * @example
-     * var myshape = square({size: 10})
+     * <remarks>
+     * The default center point is selected such that the bottom left
+     * corner of the square is (0,0). (The square is entirely in the first quadrant.)
+     * </remarks>
+     * <param  name="size">Dimension of square.</param>
+     * <param name="center" default="(0,0)">Center of square.</param>
+     * <example>
+     * var myshape = Square(size: 10);
+     * </example>
      * <group>2D Primitives</group>
      */
     public static Geom2 Square(double? size = null, Vec2? center = null)

@@ -11,9 +11,9 @@ public static partial class CSCAD
      */
     public static Geometry Rotate(Vec3 angles, Geometry g)
     {
-        var yaw = angles.z;
-        var pitch = angles.y;
-        var roll = angles.x;
+        var yaw = angles.Z;
+        var pitch = angles.Y;
+        var roll = angles.X;
 
         var matrix = Mat4.FromTaitBryanRotation(yaw, pitch, roll);
 

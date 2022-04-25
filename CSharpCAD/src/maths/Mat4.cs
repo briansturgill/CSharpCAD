@@ -163,9 +163,9 @@ public class Mat4 : IEquatable<Mat4>
       **/
     public static Mat4 FromRotation(double rad, Vec3 axis)
     {
-        var x = axis.x;
-        var y = axis.y;
-        var z = axis.z;
+        var x = axis.X;
+        var y = axis.Y;
+        var z = axis.Z;
         var len = axis.Length();
 
         if (Math.Abs(len) < C.EPS)
@@ -220,17 +220,17 @@ public class Mat4 : IEquatable<Mat4>
     public static Mat4 FromScaling(Vec3 v)
     {
         return new Mat4(
-          v.x,
+          v.X,
           0,
           0,
           0,
           0,
-          v.y,
+          v.Y,
           0,
           0,
           0,
           0,
-          v.z,
+          v.Z,
           0,
           0,
           0,
@@ -312,9 +312,9 @@ public class Mat4 : IEquatable<Mat4>
           0,
           1,
           0,
-          vec.x,
-          vec.y,
-          vec.z,
+          vec.X,
+          vec.Y,
+          vec.Z,
           1);
     }
 
@@ -344,19 +344,19 @@ public class Mat4 : IEquatable<Mat4>
         var k = 1 / (1 + cosA);
 
         return new Mat4(
-          (axis.x * axis.x * k) + cosA,
-          (axis.y * axis.x * k) - axis.z,
-          (axis.z * axis.x * k) + axis.y,
+          (axis.X * axis.X * k) + cosA,
+          (axis.Y * axis.X * k) - axis.Z,
+          (axis.Z * axis.X * k) + axis.Y,
           0,
 
-          (axis.x * axis.y * k) + axis.z,
-          (axis.y * axis.y * k) + cosA,
-          (axis.z * axis.y * k) - axis.x,
+          (axis.X * axis.Y * k) + axis.Z,
+          (axis.Y * axis.Y * k) + cosA,
+          (axis.Z * axis.Y * k) - axis.X,
           0,
 
-          (axis.x * axis.z * k) - axis.y,
-          (axis.y * axis.z * k) + axis.x,
-          (axis.z * axis.z * k) + cosA,
+          (axis.X * axis.Z * k) - axis.Y,
+          (axis.Y * axis.Z * k) + axis.X,
+          (axis.Z * axis.Z * k) + cosA,
           0,
 
           0,
@@ -563,8 +563,8 @@ public class Mat4 : IEquatable<Mat4>
     /// <summary>Multiply the input matrix by a Vector2.</summary>
     public Vec2 LeftMultiplyVec2(Vec2 v)
     {
-        var v0 = v.x;
-        var v1 = v.y;
+        var v0 = v.X;
+        var v1 = v.Y;
         var v2 = 0;
         var v3 = 1;
         var x = v0 * this.d[0] + v1 * this.d[4] + v2 * this.d[8] + v3 * this.d[12];
@@ -585,9 +585,9 @@ public class Mat4 : IEquatable<Mat4>
     /// <summary>Multiply the input matrix by a Vector3.</summary>
     public Vec3 LeftMultiplyVec3(Vec3 v)
     {
-        var v0 = v.x;
-        var v1 = v.y;
-        var v2 = v.z;
+        var v0 = v.X;
+        var v1 = v.Y;
+        var v2 = v.Z;
         var v3 = 1;
         var x = v0 * this.d[0] + v1 * this.d[4] + v2 * this.d[8] + v3 * this.d[12];
         var y = v0 * this.d[1] + v1 * this.d[5] + v2 * this.d[9] + v3 * this.d[13];
@@ -608,7 +608,10 @@ public class Mat4 : IEquatable<Mat4>
     /// <summary>Create a matrix for mirroring about the given plane.</summary>
     public static Mat4 MirrorByPlane(Plane plane)
     {
-        var (nx, ny, nz, w) = plane.Points;
+        var nx = plane.Normal.X;
+        var ny = plane.Normal.Y;
+        var nz = plane.Normal.Z;
+        var w = plane.W;
 
         return new Mat4(
           (1.0 - 2.0 * nx * nx),
@@ -633,9 +636,9 @@ public class Mat4 : IEquatable<Mat4>
     /// <summary>Create an affine matrix for mirroring into an arbitrary plane.</summary>
     public Mat4 Mirror(Vec3 vector)
     {
-        var x = vector.x;
-        var y = vector.y;
-        var z = vector.z;
+        var x = vector.X;
+        var y = vector.Y;
+        var z = vector.Z;
 
         return new Mat4(
           this.d[0] * x,
@@ -720,8 +723,8 @@ public class Mat4 : IEquatable<Mat4>
     /// <summary>Multiply a 2D vector by a matrix.</summary>
     public Vec2 RightMultiplyVec2(Vec2 vector)
     {
-        var v0 = vector.x;
-        var v1 = vector.y;
+        var v0 = vector.X;
+        var v1 = vector.Y;
         var v2 = 0;
         var v3 = 1;
         var x = v0 * this.d[0] + v1 * this.d[1] + v2 * this.d[2] + v3 * this.d[3];
@@ -741,9 +744,9 @@ public class Mat4 : IEquatable<Mat4>
     /// <summary>Multiply a 3D vector by a matrix</summary>
     public Vec3 RightMultiplyVec3(Vec3 vector)
     {
-        var v0 = vector.x;
-        var v1 = vector.y;
-        var v2 = vector.z;
+        var v0 = vector.X;
+        var v1 = vector.Y;
+        var v2 = vector.Z;
         var v3 = 1;
         var x = v0 * this.d[0] + v1 * this.d[1] + v2 * this.d[2] + v3 * this.d[3];
         var y = v0 * this.d[4] + v1 * this.d[5] + v2 * this.d[6] + v3 * this.d[7];
@@ -764,9 +767,9 @@ public class Mat4 : IEquatable<Mat4>
     /// <summary>Rotates this matrix by the given angle about the given axis.</summary>
     public Mat4 Rotate(double radians, Vec3 axis)
     {
-        var x = axis.x;
-        var y = axis.y;
-        var z = axis.z;
+        var x = axis.X;
+        var y = axis.Y;
+        var z = axis.Z;
         var len = axis.Length();
         var ret = new Mat4();
 
@@ -951,9 +954,9 @@ public class Mat4 : IEquatable<Mat4>
     /// <summary>Scales the matrix by the given dimensions Vec3.</summary>
     public Mat4 Scale(Vec3 dimensions)
     {
-        var x = dimensions.x;
-        var y = dimensions.y;
-        var z = dimensions.z;
+        var x = dimensions.X;
+        var y = dimensions.Y;
+        var z = dimensions.Z;
         var ret = new Mat4();
 
         ret.d[0] = this.d[0] * x;
@@ -1001,9 +1004,9 @@ public class Mat4 : IEquatable<Mat4>
     /// <summary>Translate the matrix by the given offset vector.</summary>
     public Mat4 Translate(Vec3 offsets)
     {
-        var x = offsets.x;
-        var y = offsets.y;
-        var z = offsets.z;
+        var x = offsets.X;
+        var y = offsets.Y;
+        var z = offsets.Z;
         var ret = new Mat4();
         double a00;
         double a01;

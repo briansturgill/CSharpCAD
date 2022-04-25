@@ -138,7 +138,7 @@ internal static partial class CSharpCADInternals
 
             while (p != ear.prev)
             {
-                if (PointInTriangle(a.x, a.y, b.x, b.y, c.x, c.y, p.x, p.y) && AreaOfT(p.prev, p, p.next) >= 0)
+                if (PointInTriangle(a.X, a.Y, b.X, b.Y, c.X, c.Y, p.X, p.Y) && AreaOfT(p.prev, p, p.next) >= 0)
                 {
                     return false;
                 }
@@ -157,10 +157,10 @@ internal static partial class CSharpCADInternals
             if (AreaOfT(a, b, c) >= 0) return false; // reflex, can't be an ear
 
             // triangle bbox; min & max are calculated like this for speed
-            var minTX = a.x < b.x ? (a.x < c.x ? a.x : c.x) : (b.x < c.x ? b.x : c.x);
-            var minTY = a.y < b.y ? (a.y < c.y ? a.y : c.y) : (b.y < c.y ? b.y : c.y);
-            var maxTX = a.x > b.x ? (a.x > c.x ? a.x : c.x) : (b.x > c.x ? b.x : c.x);
-            var maxTY = a.y > b.y ? (a.y > c.y ? a.y : c.y) : (b.y > c.y ? b.y : c.y);
+            var minTX = a.X < b.X ? (a.X < c.X ? a.X : c.X) : (b.X < c.X ? b.X : c.X);
+            var minTY = a.Y < b.Y ? (a.Y < c.Y ? a.Y : c.Y) : (b.Y < c.Y ? b.Y : c.Y);
+            var maxTX = a.X > b.X ? (a.X > c.X ? a.X : c.X) : (b.X > c.X ? b.X : c.X);
+            var maxTY = a.Y > b.Y ? (a.Y > c.Y ? a.Y : c.Y) : (b.Y > c.Y ? b.Y : c.Y);
 
             // z-order range for the current triangle bbox
             var minZ = ZOrder(minTX, minTY, minX, minY, invSize);
@@ -171,26 +171,26 @@ internal static partial class CSharpCADInternals
             var n = ear.nextZ;
 
             // look for points inside the triangle in both directions
-            while (p is not null && p.z >= minZ && n is not null && n.z <= maxZ)
+            while (p is not null && p.Z >= minZ && n is not null && n.Z <= maxZ)
             {
                 if (p != ear.prev && p != ear.next &&
-                  PointInTriangle(a.x, a.y, b.x, b.y, c.x, c.y, p.x, p.y) &&
+                  PointInTriangle(a.X, a.Y, b.X, b.Y, c.X, c.Y, p.X, p.Y) &&
                   AreaOfT(p.prev, p, p.next) >= 0) return false;
 
                 p = p.prevZ;
 
                 if (n != ear.prev && n != ear.next &&
-                  PointInTriangle(a.x, a.y, b.x, b.y, c.x, c.y, n.x, n.y) &&
+                  PointInTriangle(a.X, a.Y, b.X, b.Y, c.X, c.Y, n.X, n.Y) &&
                   AreaOfT(n.prev, n, n.next) >= 0) return false;
 
                 n = n.nextZ;
             }
 
             // look for remaining points in decreasing z-order
-            while (p is not null && p.z >= minZ)
+            while (p is not null && p.Z >= minZ)
             {
                 if (p != ear.prev && p != ear.next &&
-                  PointInTriangle(a.x, a.y, b.x, b.y, c.x, c.y, p.x, p.y) &&
+                  PointInTriangle(a.X, a.Y, b.X, b.Y, c.X, c.Y, p.X, p.Y) &&
                   AreaOfT(p.prev, p, p.next) >= 0) return false;
 
                 p = p.prevZ;
@@ -198,10 +198,10 @@ internal static partial class CSharpCADInternals
             }
 
             // look for remaining points in increasing z-order
-            while (n is not null && n.z <= maxZ)
+            while (n is not null && n.Z <= maxZ)
             {
                 if (n != ear.prev && n != ear.next &&
-                  PointInTriangle(a.x, a.y, b.x, b.y, c.x, c.y, n.x, n.y) &&
+                  PointInTriangle(a.X, a.Y, b.X, b.Y, c.X, c.Y, n.X, n.Y) &&
                   AreaOfT(n.prev, n, n.next) >= 0) return false;
 
                 n = n.nextZ;
@@ -251,7 +251,7 @@ internal static partial class CSharpCADInternals
             var p = start;
             do
             {
-                if (p.z == null) p.z = ZOrder(p.x, p.y, minX, minY, invSize);
+                if (p.Z == null) p.Z = ZOrder(p.X, p.Y, minX, minY, invSize);
                 p.prevZ = p.prev;
                 p.nextZ = p.next;
                 p = p.next;
@@ -260,7 +260,7 @@ internal static partial class CSharpCADInternals
             if (p.prevZ is not null) p.prevZ.nextZ = null;
             p.prevZ = null;
 
-            SortLinked(p, (p) => p.z ?? 0);
+            SortLinked(p, (p) => p.Z ?? 0);
         }
 
         /*

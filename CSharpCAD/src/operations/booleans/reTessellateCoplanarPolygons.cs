@@ -86,7 +86,7 @@ public static partial class CSCAD
                     var pos2d = orthobasis.To2D(poly3d.Vertices[i]);
                     // perform binning of y coordinates: If we have multiple vertices very
                     // close to each other, give them the same y coordinate:
-                    var ycoordinatebin = Math.Floor(pos2d.y * ycoordinateBinningFactor);
+                    var ycoordinatebin = Math.Floor(pos2d.Y * ycoordinateBinningFactor);
                     double newy;
                     if (ycoordinatebins.ContainsKey(ycoordinatebin))
                     {
@@ -102,12 +102,12 @@ public static partial class CSCAD
                     }
                     else
                     {
-                        newy = pos2d.y;
-                        ycoordinatebins[ycoordinatebin] = pos2d.y;
+                        newy = pos2d.Y;
+                        ycoordinatebins[ycoordinatebin] = pos2d.Y;
                     }
-                    pos2d = new Vec2(pos2d.x, newy);
+                    pos2d = new Vec2(pos2d.X, newy);
                     vertices2d.Add(pos2d);
-                    var y = pos2d.y;
+                    var y = pos2d.Y;
                     if ((i == 0) || (y < miny))
                     {
                         miny = y;
@@ -193,12 +193,12 @@ public static partial class CSCAD
                     {
                         var nextleftvertexindex = newleftvertexindex + 1;
                         if (nextleftvertexindex >= numvertices) nextleftvertexindex = 0;
-                        if (vertices2d[nextleftvertexindex].y != ycoordinate) break;
+                        if (vertices2d[nextleftvertexindex].Y != ycoordinate) break;
                         newleftvertexindex = nextleftvertexindex;
                     }
                     var nextrightvertexindex = newrightvertexindex - 1;
                     if (nextrightvertexindex < 0) nextrightvertexindex = numvertices - 1;
-                    if (vertices2d[nextrightvertexindex].y == ycoordinate)
+                    if (vertices2d[nextrightvertexindex].Y == ycoordinate)
                     {
                         newrightvertexindex = nextrightvertexindex;
                     }
@@ -250,7 +250,7 @@ public static partial class CSCAD
                     {
                         var i = topleftvertexindex + 1;
                         if (i >= numvertices) i = 0;
-                        if (vertices2d[i].y != ycoordinate) break;
+                        if (vertices2d[i].Y != ycoordinate) break;
                         if (i == topvertexindex) break; // should not happen, but just to prevent endless loops
                         topleftvertexindex = i;
                     }
@@ -259,7 +259,7 @@ public static partial class CSCAD
                     {
                         var i = toprightvertexindex - 1;
                         if (i < 0) i = numvertices - 1;
-                        if (vertices2d[i].y != ycoordinate) break;
+                        if (vertices2d[i].Y != ycoordinate) break;
                         if (i == topleftvertexindex) break; // should not happen, but just to prevent endless loops
                         toprightvertexindex = i;
                     }
@@ -347,11 +347,11 @@ public static partial class CSCAD
                                     // Now check if the joined polygon would remain convex:
                                     var v1 = line2_direction(thispolygon.leftline);
                                     var v2 = line2_direction(prevpolygon.leftline);
-                                    var d1 = v1.x - v2.x;
+                                    var d1 = v1.X - v2.X;
 
                                     var v3 = line2_direction(thispolygon.rightline);
                                     var v4 = line2_direction(prevpolygon.rightline);
-                                    var d2 = v3.x - v4.x;
+                                    var d2 = v3.X - v4.X;
 
                                     var leftlinecontinues = Math.Abs(d1) < C.EPS;
                                     var rightlinecontinues = Math.Abs(d2) < C.EPS;
@@ -473,8 +473,8 @@ public static partial class CSCAD
      */
     private static double InterpolateBetween2DPointsForY(Vec2 point1, Vec2 point2, double y)
     {
-        var f1 = y - point1.y;
-        var f2 = point2.y - point1.y;
+        var f1 = y - point1.Y;
+        var f2 = point2.Y - point1.Y;
         if (f2 < 0)
         {
             f1 = -f1;
@@ -497,7 +497,7 @@ public static partial class CSCAD
         {
             t = f1 / f2;
         }
-        return point1.x + t * (point2.x - point1.x);
+        return point1.X + t * (point2.X - point1.X);
     }
 
     private static Vec2 line2_direction((Vec2, Vec2) line)

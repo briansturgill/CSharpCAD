@@ -28,21 +28,18 @@ public static partial class CSCAD
     }
 
     /**
-     * Construct a star in two dimensional space.
-     * @see https://en.wikipedia.org/wiki/Star_polygon
-     * @param {Object} [options] - options for construction
-     * @param {Array} [options.center=[0,0]] - center of star
-     * @param {Number} [options.vertices=5] - number of vertices (P) on the star
-     * @param {Number} [options.density=2] - density (Q) of star
-     * @param {Number} [options.outerRadius=1] - outer radius of vertices
-     * @param {Number} [options.innerRadius=0] - inner radius of vertices, or zero to calculate
-     * @param {Number} [options.startAngle=0] - starting angle for first vertice, in radians
-     * @returns {geom2} new 2D geometry
-     * @alias module:modeling/primitives.star
-     *
-     * @example
-     * var star1 = star({vertices: 8, outerRadius: 10}) // star with 8/2 density
-     * var star2 = star({vertices: 12, outerRadius: 40, innerRadius: 20}) // star with given radius
+     * <summary>Construct a star in two dimensional space.</summary>
+     * <remarks>https://en.wikipedia.org/wiki/Star_polygon</remarks>
+     * <param name="vertices">Number of vertices (P) on the star.</param>
+     * <param name="density">Density (Q) of star.</param>
+     * <param name="outerRadius">Outer radius of vertices.</param>
+     * <param name="innerRadius">Inner radius of vertices, or zero to calculate.</param>
+     * <param name="startAngle">Starting angle for first vertice, in radians.</param>
+     * <param name="center" default="(0,0)">Center of star.</param>
+     * <example>
+     * var star1 = Star(vertices: 8, outerRadius: 10); // Star with 8/2 density.
+     * var star2 = Star(vertices: 12, outerRadius: 40, innerRadius: 20); // Star with given radius.
+     * </example>
      * <group>2D Primitives</group>
      */
     public static Geom2 Star(double vertices = 5, double outerRadius = 1, double innerRadius = 0,

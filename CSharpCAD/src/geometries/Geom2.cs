@@ -261,8 +261,8 @@ public class Geom2 : Geometry
     {
         var total = 0.0;
         var (min, max) = this.BoundingBox();
-        total += max.x + max.y;
-        total -= min.x + min.y;
+        total += max.X + max.Y;
+        total -= min.X + min.Y;
         return C.EPS * total / 2; /*dimensions*/
     }
 

@@ -176,9 +176,9 @@ public class OrthoNormalBasis
     public Mat4 GetProjectionMatrix()
     {
         return new Mat4(
-          this.u.x, this.v.x, this.plane.Normal.x, 0,
-          this.u.y, this.v.y, this.plane.Normal.y, 0,
-          this.u.z, this.v.z, this.plane.Normal.z, 0,
+          this.u.X, this.v.X, this.plane.Normal.X, 0,
+          this.u.Y, this.v.Y, this.plane.Normal.Y, 0,
+          this.u.Z, this.v.Z, this.plane.Normal.Z, 0,
           0, 0, -this.plane.W, 1
         );
     }
@@ -188,10 +188,10 @@ public class OrthoNormalBasis
     {
         var p = this.plane.Normal.Scale(this.plane.W);
         return new Mat4(
-            this.u.x, this.u.y, this.u.z, 0,
-            this.v.x, this.v.y, this.v.z, 0,
-            this.plane.Normal.x, this.plane.Normal.y, this.plane.Normal.z, 0,
-            p.x, p.y, p.z, 1
+            this.u.X, this.u.Y, this.u.Z, 0,
+            this.v.X, this.v.Y, this.v.Z, 0,
+            this.plane.Normal.X, this.plane.Normal.Y, this.plane.Normal.Z, 0,
+            p.X, p.Y, p.Z, 1
           );
     }
 
@@ -204,8 +204,8 @@ public class OrthoNormalBasis
     /// <summary>Use the ONB to translate a 2D point to 3D.</summary>
     public Vec3 To3D(Vec2 point)
     {
-        var v1 = this.u.Scale(point.x);
-        var v2 = this.v.Scale(point.y);
+        var v1 = this.u.Scale(point.X);
+        var v2 = this.v.Scale(point.Y);
         var v3 = v1.Add(this.planeorigin);
         var v4 = v2.Add(v3);
         return v4;

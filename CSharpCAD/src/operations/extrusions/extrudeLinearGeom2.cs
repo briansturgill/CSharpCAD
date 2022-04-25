@@ -19,7 +19,7 @@ public static partial class CSCAD
         if (baseSides.Length == 0) throw new ArgumentException("The given geometry object cannot be empty.");
 
         var baseSlice = new Slice(baseSides);
-        if (offsetv.z < 0) baseSlice = baseSlice.Reverse();
+        if (offsetv.Z < 0) baseSlice = baseSlice.Reverse();
 
         Slice? createTwist(double progress, int index, Slice baseSlice)
         {

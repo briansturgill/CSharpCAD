@@ -5,8 +5,8 @@ private static Geometry centerGeometry(Geom2 obj, bool axisX, bool axisY, Vec3 r
   var (min, max) = obj.BoundingBox();
   var offset_x = 0.0;
   var offset_y = 0.0;
-  if (axisX) offset_x = relativeTo.x - (min.x + ((max.x - min.x) / 2));
-  if (axisY) offset_y = relativeTo.y - (min.y + ((max.y - min.y) / 2));
+  if (axisX) offset_x = relativeTo.X - (min.X + ((max.X - min.X) / 2));
+  if (axisY) offset_y = relativeTo.Y - (min.Y + ((max.Y - min.Y) / 2));
   return Translate(new Vec3(offset_x, offset_y, 0), obj);
 }
 
@@ -15,9 +15,9 @@ private static Geometry centerGeometry(Geom3 obj, bool axisX, bool axisY, bool a
   var offset_x = 0.0;
   var offset_y = 0.0;
   var offset_z = 0.0;
-  if (axisX) offset_x = relativeTo.x - (min.x + ((max.x - min.x) / 2));
-  if (axisY) offset_y = relativeTo.y - (min.y + ((max.y - min.y) / 2));
-  if (axisZ) offset_z = relativeTo.z - (min.z + ((max.z - min.z) / 2));
+  if (axisX) offset_x = relativeTo.X - (min.X + ((max.X - min.X) / 2));
+  if (axisY) offset_y = relativeTo.Y - (min.Y + ((max.Y - min.Y) / 2));
+  if (axisZ) offset_z = relativeTo.Z - (min.Z + ((max.Z - min.Z) / 2));
   return Translate(new Vec3(offset_x, offset_y, offset_z), obj);
 }
 

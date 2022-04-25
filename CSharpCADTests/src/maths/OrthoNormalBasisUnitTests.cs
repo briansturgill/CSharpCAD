@@ -32,8 +32,8 @@ public class OrthoNormalBasisTests
                             var orthobasis = OrthoNormalBasis.GetCartesian(axis1name, axis2name);
                             var test1 = orthobasis.To3D(new Vec2(1, 0));
                             var test2 = orthobasis.To3D(new Vec2(0, 1));
-                            var expected1 = new Vec3(axis1vector.x, axis1vector.y, axis1vector.z);
-                            var expected2 = new Vec3(axis2vector.x, axis2vector.y, axis2vector.z);
+                            var expected1 = new Vec3(axis1vector.X, axis1vector.Y, axis1vector.Z);
+                            var expected2 = new Vec3(axis2vector.X, axis2vector.Y, axis2vector.Z);
                             var d1 = test1.Distance(expected1);
                             var d2 = test2.Distance(expected2);
                             if ((d1 > 0.01) || (d2 > 0.01))

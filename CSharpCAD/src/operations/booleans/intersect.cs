@@ -16,6 +16,9 @@ public static partial class CSCAD
      *      |       |
      *      +-------+
      * </pre>
+     * <example>
+     * var oCommon = Intersect(o1, o2);
+     * </example>
      * <group>Boolean Operations</group>
      */
     public static Geometry Intersect(params Geometry[] gobjs)

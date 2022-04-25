@@ -11,9 +11,9 @@ internal static partial class CSharpCADInternals
             internal Node? prev;
             internal Node? next;
             internal int i;
-            internal double x;
-            internal double y;
-            internal int? z;
+            internal double X;
+            internal double Y;
+            internal int? Z;
             internal Node? prevZ;
             internal Node? nextZ;
             internal bool steiner;
@@ -24,15 +24,15 @@ internal static partial class CSharpCADInternals
                 this.i = i;
 
                 // vertex coordinates
-                this.x = x;
-                this.y = y;
+                this.X = x;
+                this.Y = y;
 
                 // previous and next vertex nodes in a polygon ring
                 this.prev = null;
                 this.next = null;
 
                 // z-order curve value
-                this.z = null;
+                this.Z = null;
 
                 // previous and next nodes in z-order
                 this.prevZ = null;

@@ -11,6 +11,9 @@ public static partial class CSCAD
      * <param name="startAngle">Start angle of cylinder, in radians.</param>
      * <param name="endAngle" default="Math.PI*2">End angle of cylinder, in radians.</param>
      * <param name="center" default="(0,0,0)">Center of cylinder.</param>
+     * <example>
+     * var g = CylinderElliptic(height: 30, startRadius: (5,3), endRadius: (3,5));
+     * </example>
      * <group>2D Primitives</group>
      */
     public static Geom3 CylinderElliptic(double height = 2.0, Vec2? startRadius = null,
@@ -22,9 +25,9 @@ public static partial class CSCAD
         var _endRadius = endRadius ?? new Vec2(1.0, 1.0);
 
         if (height <= 0.0) throw new ArgumentException("Option height must be greater then zero.");
-        if (_startRadius.x < 0 || _startRadius.y <= 0) throw new ArgumentException("Option startRadius values must be positive.");
-        if (_endRadius.x <= 0 || _endRadius.y <= 0) throw new ArgumentException("Option endRadius values must be positive.");
-        if (_endRadius.x == 0 && _endRadius.y == 0) throw new ArgumentException("At least one of option endRadius values must be positive.");
+        if (_startRadius.X < 0 || _startRadius.Y <= 0) throw new ArgumentException("Option startRadius values must be positive.");
+        if (_endRadius.X <= 0 || _endRadius.Y <= 0) throw new ArgumentException("Option endRadius values must be positive.");
+        if (_endRadius.X == 0 && _endRadius.Y == 0) throw new ArgumentException("At least one of option endRadius values must be positive.");
         if (startAngle < 0) throw new ArgumentException("Option startAngle must be positive.");
         if (endAngle < 0) throw new ArgumentException("Option endAngle must be positive.");
         if (segments < 4) throw new ArgumentException("Option segments must be four or more.");
@@ -42,7 +45,7 @@ public static partial class CSCAD
             rotation = endAngle + ((Math.PI * 2) - startAngle);
         }
 
-        var minradius = Math.Min(Math.Min(_startRadius.x, _startRadius.y), Math.Min(_endRadius.x, _endRadius.y));
+        var minradius = Math.Min(Math.Min(_startRadius.X, _startRadius.Y), Math.Min(_endRadius.X, _endRadius.Y));
         var minangle = Math.Acos(((minradius * minradius) + (minradius * minradius) - (C.EPS * C.EPS)) /
                                   (2 * minradius * minradius));
         if (rotation < minangle) throw new ArgumentException("Options startAngle and endAngle do not define a significant rotation.");
@@ -63,8 +66,8 @@ public static partial class CSCAD
         Vec3 point(double stack, double slice, Vec2 radius)
         {
             var angle = slice * rotation + startAngle;
-            v1 = axisX.Scale(radius.x * cos(angle));
-            v2 = axisY.Scale(radius.y * sin(angle));
+            v1 = axisX.Scale(radius.X * Math.Cos(angle));
+            v2 = axisY.Scale(radius.Y * Math.Sin(angle));
             v1 = v1.Add(v2);
 
             v3 = ray.Scale(stack);
@@ -89,7 +92,7 @@ public static partial class CSCAD
             var t0 = i / (double)slices;
             var t1 = (i + 1) / (double)slices;
 
-            if (_endRadius.x == _startRadius.x && _endRadius.y == _startRadius.y)
+            if (_endRadius.X == _startRadius.X && _endRadius.Y == _startRadius.Y)
             {
                 polygons.Add(fromPoints(start, point(0, t1, _endRadius), point(0, t0, _endRadius)));
                 polygons.Add(fromPoints(point(0, t1, _endRadius), point(1, t1, _endRadius), point(1, t0, _endRadius), point(0, t0, _endRadius)));
@@ -97,25 +100,25 @@ public static partial class CSCAD
             }
             else
             {
-                if (_startRadius.x > 0 && _startRadius.y > 0)
+                if (_startRadius.X > 0 && _startRadius.Y > 0)
                 {
                     polygons.Add(fromPoints(start, point(0, t1, _startRadius), point(0, t0, _startRadius)));
                 }
-                if (_startRadius.x > 0 || _startRadius.y > 0)
+                if (_startRadius.X > 0 || _startRadius.Y > 0)
                 {
                     polygons.Add(fromPoints(point(0, t0, _startRadius), point(0, t1, _startRadius), point(1, t0, _endRadius)));
                 }
-                if (_endRadius.x > 0 && _endRadius.y > 0)
+                if (_endRadius.X > 0 && _endRadius.Y > 0)
                 {
                     polygons.Add(fromPoints(end, point(1, t0, _endRadius), point(1, t1, _endRadius)));
                 }
-                if (_endRadius.x > 0 || _endRadius.y > 0)
+                if (_endRadius.X > 0 || _endRadius.Y > 0)
                 {
                     polygons.Add(fromPoints(point(1, t0, _endRadius), point(0, t1, _startRadius), point(1, t1, _endRadius)));
                 }
             }
         }
-        if (rotation < (Math.PI * 2))
+        if (LessThanish(rotation, (Math.PI * 2)))
         {
             polygons.Add(fromPoints(start, point(0, 0, _startRadius), end));
             polygons.Add(fromPoints(point(0, 0, _startRadius), point(1, 0, _endRadius), end));

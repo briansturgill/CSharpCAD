@@ -35,7 +35,7 @@ public static partial class CSCAD
         }
     }
 
-    private static string Vector3DtoStlString(Vec3 v) => $"{v.x} {v.y} {v.z}";
+    private static string Vector3DtoStlString(Vec3 v) => $"{v.X} {v.Y} {v.Z}";
 
     private static string VertextoStlString(Vec3 vertex) => $"vertex {Vector3DtoStlString(vertex)}";
 

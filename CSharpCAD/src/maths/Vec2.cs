@@ -5,21 +5,21 @@ namespace CSharpCAD;
 public readonly struct Vec2 : IEquatable<Vec2>
 {
     /// <summary>Coordinate.</summary>
-    public readonly double x;
+    public readonly double X;
     /// <summary>Coordinate.</summary>
-    public readonly double y;
+    public readonly double Y;
 
     /// <summary>Construct from 2 coordinates.</summary>
     /// <remarks>With no arguments, construct a zero vector.</remarks>
     public Vec2(double x, double y)
     {
-        this.x = x; this.y = y;
+        this.X = x; this.Y = y;
     }
 
     ///
     public bool Equals(Vec2 gv)
     {
-        return this.x == gv.x && this.y == gv.y;
+        return this.X == gv.X && this.Y == gv.Y;
     }
 
     ///
@@ -54,27 +54,27 @@ public readonly struct Vec2 : IEquatable<Vec2>
     /// <summary>Standard C# override.</summary>
     public override int GetHashCode()
     {
-        return x.GetHashCode() ^ y.GetHashCode();
+        return X.GetHashCode() ^ Y.GetHashCode();
     }
 
     /// <summary>Standard C# override.</summary>
-    public override string ToString() => $"Vec2({this.x:F5},{this.y:F5})";
+    public override string ToString() => $"Vec2({this.X:F5},{this.Y:F5})";
 
     /// <summary>Used mostly for testing.</summary>
     public bool IsNearlyEqual(Vec2 b)
     {
-        if (double.IsNaN(this.x) || double.IsNaN(this.y) ||
-            double.IsNaN(b.x) || double.IsNaN(b.y))
+        if (double.IsNaN(this.X) || double.IsNaN(this.Y) ||
+            double.IsNaN(b.X) || double.IsNaN(b.Y))
         {
             return false;
         }
-        if (double.IsInfinity(this.x) || double.IsInfinity(this.y) ||
-            double.IsInfinity(b.x) || double.IsInfinity(b.y))
+        if (double.IsInfinity(this.X) || double.IsInfinity(this.Y) ||
+            double.IsInfinity(b.X) || double.IsInfinity(b.Y))
         {
             return false;
         }
-        if (Math.Abs(this.x - b.x) >= C.EPS ||
-            Math.Abs(this.y - b.y) >= C.EPS)
+        if (Math.Abs(this.X - b.X) >= C.EPS ||
+            Math.Abs(this.Y - b.Y) >= C.EPS)
         {
             return false;
         }
@@ -100,8 +100,8 @@ public readonly struct Vec2 : IEquatable<Vec2>
     public Vec2 Abs()
     {
         return new Vec2(
-          Math.Abs(this.x),
-          Math.Abs(this.y)
+          Math.Abs(this.X),
+          Math.Abs(this.Y)
         );
     }
 
@@ -109,8 +109,8 @@ public readonly struct Vec2 : IEquatable<Vec2>
     public Vec2 Add(Vec2 gv)
     {
         return new Vec2(
-          this.x + gv.x,
-          this.y + gv.y
+          this.X + gv.X,
+          this.Y + gv.Y
         );
     }
 
@@ -118,7 +118,7 @@ public readonly struct Vec2 : IEquatable<Vec2>
     public double AngleDegrees() => this.AngleRadians() * 57.29577951308232;
 
     /// <summary>Calculate the angle of the given vector in radians.</summary>
-    public double AngleRadians() => Math.Atan2(this.y, this.x); // y=sin, x=cos
+    public double AngleRadians() => Math.Atan2(this.Y, this.X); // y=sin, x=cos
 
     /// <summary>Computes the cross product (3D) of this and the given vector.</summary>
     public Vec3 Cross(Vec2 gv)
@@ -126,15 +126,15 @@ public readonly struct Vec2 : IEquatable<Vec2>
         return new Vec3(
           0,
           0,
-          this.x * gv.y - this.y * gv.x
+          this.X * gv.Y - this.Y * gv.X
         );
     }
 
     /// <summary>Calculates the distance between this and the given vector.</summary>
     public double Distance(Vec2 gv)
     {
-        var x = gv.x - this.x;
-        var y = gv.y - this.y;
+        var x = gv.X - this.X;
+        var y = gv.Y - this.Y;
         return Hypot(x, y);
     }
 
@@ -142,13 +142,13 @@ public readonly struct Vec2 : IEquatable<Vec2>
     public Vec2 Divide(Vec2 gv)
     {
         return new Vec2(
-          this.x / gv.x,
-          this.y / gv.y
+          this.X / gv.X,
+          this.Y / gv.Y
         );
     }
 
     /// <summary>Calculates the dot product of two vectors.</summary>
-    public double Dot(Vec2 gv) => this.x * gv.x + this.y * gv.y;
+    public double Dot(Vec2 gv) => this.X * gv.X + this.Y * gv.Y;
 
 
     /// <summary>Create a new vector in the direction of the given angle.</summary>
@@ -173,16 +173,16 @@ public readonly struct Vec2 : IEquatable<Vec2>
     }
 
     /// <summary>Calculates the length of this vector.</summary>
-    public double Length() => Hypot(this.x, this.y);
+    public double Length() => Hypot(this.X, this.Y);
 
     /// <summary>Performs a linear interpolation between this and the given vector.</summary>
     public Vec2 Lerp(Vec2 gv, double t)
     {
-        var ax = this.x;
-        var ay = this.y;
+        var ax = this.X;
+        var ay = this.Y;
         return new Vec2(
-          ax + t * (gv.x - ax),
-          ay + t * (gv.y - ay)
+          ax + t * (gv.X - ax),
+          ay + t * (gv.Y - ay)
         );
     }
 
@@ -190,16 +190,16 @@ public readonly struct Vec2 : IEquatable<Vec2>
     public Vec2 Max(Vec2 gv)
     {
         return new Vec2(
-            Math.Max(this.x, gv.x),
-            Math.Max(this.y, gv.y));
+            Math.Max(this.X, gv.X),
+            Math.Max(this.Y, gv.Y));
     }
 
     /// <summary>Returns the minimum coordinates of this and a given vector.</summary>
     public Vec2 Min(Vec2 gv)
     {
         return new Vec2(
-            Math.Min(this.x, gv.x),
-            Math.Min(this.y, gv.y));
+            Math.Min(this.X, gv.X),
+            Math.Min(this.Y, gv.Y));
     }
 
 
@@ -207,25 +207,25 @@ public readonly struct Vec2 : IEquatable<Vec2>
     public Vec2 Multiply(Vec2 gv)
     {
         return new Vec2(
-          this.x * gv.x,
-          this.y * gv.y
+          this.X * gv.X,
+          this.Y * gv.Y
         );
     }
 
     /// <summary>Negates the coordinates of this vector.</summary>
-    public Vec2 Negate() { return new Vec2(-this.x, -this.y); }
+    public Vec2 Negate() { return new Vec2(-this.X, -this.Y); }
 
     /// <summary>Normalize this vector.</summary>
     public Vec2 Normalize()
     {
-        var len = x * x + y * y;
+        var len = X * X + Y * Y;
         if (len > 0)
         {
             len = 1 / Math.Sqrt(len);
         }
         return new Vec2(
-          x * len,
-          y * len
+          X * len,
+          Y * len
         );
     }
 
@@ -237,14 +237,14 @@ public readonly struct Vec2 : IEquatable<Vec2>
     /// <summary>Rotates the given vector by the given angle.</summary>
     public Vec2 Rotate(Vec2 origin, double radians)
     {
-        var x = this.x - origin.x;
-        var y = this.y - origin.y;
+        var x = this.X - origin.X;
+        var y = this.Y - origin.Y;
         var c = Math.Cos(radians);
         var s = Math.Sin(radians);
 
         return new Vec2(
-          x * c - y * s + origin.x,
-          x * s + y * c + origin.y
+          x * c - y * s + origin.X,
+          x * s + y * c + origin.Y
         );
     }
 
@@ -252,8 +252,8 @@ public readonly struct Vec2 : IEquatable<Vec2>
     public Vec2 Scale(double amount)
     {
         return new Vec2(
-          this.x * amount,
-          this.y * amount
+          this.X * amount,
+          this.Y * amount
         );
     }
 
@@ -261,24 +261,24 @@ public readonly struct Vec2 : IEquatable<Vec2>
     public Vec2 Snap(double epsilon)
     {
         return new Vec2(
-          Math.Round(this.x / epsilon) * epsilon + 0,
-          Math.Round(this.y / epsilon) * epsilon + 0
+          Math.Round(this.X / epsilon) * epsilon + 0,
+          Math.Round(this.Y / epsilon) * epsilon + 0
         );
     }
 
     /// <summary>Calculates the squared distance between this and the given vector.</summary>
     public double SquaredDistance(Vec2 gv)
     {
-        var x = gv.x - this.x;
-        var y = gv.y - this.y;
+        var x = gv.X - this.X;
+        var y = gv.Y - this.Y;
         return x * x + y * y;
     }
 
     /// <summary>Calculates the squared length of the given vector.</summary>
     public double SquaredLength()
     {
-        var x = this.x;
-        var y = this.y;
+        var x = this.X;
+        var y = this.Y;
         return x * x + y * y;
     }
 
@@ -286,8 +286,8 @@ public readonly struct Vec2 : IEquatable<Vec2>
     public Vec2 Subtract(Vec2 gv)
     {
         return new Vec2(
-          this.x - gv.x,
-          this.y - gv.y
+          this.X - gv.X,
+          this.Y - gv.Y
         );
     }
 
@@ -296,8 +296,8 @@ public readonly struct Vec2 : IEquatable<Vec2>
     public Vec2 Transform(Mat4 matrix)
     {
         return new Vec2(
-          matrix.D(0) * this.x + matrix.D(4) * this.y + matrix.D(12),
-          matrix.D(1) * this.x + matrix.D(5) * this.y + matrix.D(13)
+          matrix.D(0) * this.X + matrix.D(4) * this.Y + matrix.D(12),
+          matrix.D(1) * this.X + matrix.D(5) * this.Y + matrix.D(13)
         );
     }
 }

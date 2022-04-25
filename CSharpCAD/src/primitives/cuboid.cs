@@ -3,13 +3,22 @@ namespace CSharpCAD;
 public static partial class CSCAD
 {
     /// <summary>Construct an axis-aligned solid cuboid in three dimensional space.</summary>
+    /// <remarks>
+    /// The default center point is selected such that the bottom left
+    /// corner of the cuboid is (0,0,0). (The cuboid is entirely in the first quadrant.)
+    /// </remarks>
+    /// <param name="size">A vector of the length of each dimension.</param>
+    /// <param name="center" default="(size.X/2,size.Y/2,size.Z/2)">The center point of the cube.</param>
+    /// <example>
+    /// var g = Cuboid(size: (10,20,10));
+    /// </example>
     /// <group>3D Primitives</group>
     public static Geom3 Cuboid(Vec3? size = null, Vec3? center = null)
     {
         var _size = size ?? new Vec3(2.0, 2.0, 2.0);
-        var _center = center ?? new Vec3(_size.x/2.0, _size.y/2.0, _size.z/2.0);
+        var _center = center ?? new Vec3(_size.X/2.0, _size.Y/2.0, _size.Z/2.0);
 
-        if (_size.x <= 0 || _size.y <= 0 || _size.z <= 0)
+        if (_size.X <= 0 || _size.Y <= 0 || _size.Z <= 0)
         {
             throw new ArgumentException("All values in \"size\" must be greater than zero");
         }
@@ -33,9 +42,9 @@ public static partial class CSCAD
             foreach (var i in info)
             {
                 points.Add(new Vec3(
-                  _center.x + (_size.x / 2) * (2 * cjsi(i & 1) - 1),
-                  _center.y + (_size.y / 2) * (2 * cjsi(i & 2) - 1),
-                  _center.z + (_size.z / 2) * (2 * cjsi(i & 4) - 1)
+                  _center.X + (_size.X / 2) * (2 * cjsi(i & 1) - 1),
+                  _center.Y + (_size.Y / 2) * (2 * cjsi(i & 2) - 1),
+                  _center.Z + (_size.Z / 2) * (2 * cjsi(i & 4) - 1)
                 ));
             }
             polygons.Add(points);

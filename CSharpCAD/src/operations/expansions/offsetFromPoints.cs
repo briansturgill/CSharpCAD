@@ -121,7 +121,7 @@ internal static partial class CSharpCADInternals
             foreach (var corner in newCorners)
             {
                 var ip = IntersectPointOfLines(corner.s0[0], corner.s0[1], corner.s1[0], corner.s1[1]);
-                if (double.IsFinite(ip.x) && double.IsFinite(ip.y))
+                if (double.IsFinite(ip.X) && double.IsFinite(ip.Y))
                 {
                     var p0 = corner.s0[1];
                     var i = pointIndex[p0];
@@ -136,7 +136,7 @@ internal static partial class CSharpCADInternals
                     newPoints[i] = new Vec2(double.NaN, double.NaN);
                 }
             }
-            newPoints = newPoints.Where((p) => !(double.IsNaN(p.x) && double.IsNaN(p.y))).ToList();
+            newPoints = newPoints.Where((p) => !(double.IsNaN(p.X) && double.IsNaN(p.Y))).ToList();
         }
 
         if (corners == Corners.Round)
@@ -201,8 +201,8 @@ internal static partial class CSharpCADInternals
         for (var i = 0; i < len; i++)
         {
             var j = (i + 1) % len;
-            area += points[i].x * points[j].y;
-            area -= points[j].x * points[i].y;
+            area += points[i].X * points[j].Y;
+            area -= points[j].X * points[i].Y;
         }
         return (area / 2.0);
     }
@@ -221,12 +221,12 @@ internal static partial class CSharpCADInternals
     private static Vec2? intersect(Vec2 p1, Vec2 p2, Vec2 p3, Vec2 p4)
     {
         // Check if none of the lines are of length 0
-        if ((p1.x == p2.x && p1.y == p2.y) || (p3.x == p4.x && p3.y == p4.y))
+        if ((p1.X == p2.X && p1.Y == p2.Y) || (p3.X == p4.X && p3.Y == p4.Y))
         {
             return null;
         }
 
-        var denominator = ((p4.y - p3.y) * (p2.x - p1.x) - (p4.x - p3.x) * (p2.y - p1.y));
+        var denominator = ((p4.Y - p3.Y) * (p2.X - p1.X) - (p4.X - p3.X) * (p2.Y - p1.Y));
 
         // Lines are parallel
         if (Math.Abs(denominator) < double.MinValue)
@@ -234,8 +234,8 @@ internal static partial class CSharpCADInternals
             return null;
         }
 
-        var ua = ((p4.x - p3.x) * (p1.y - p3.y) - (p4.y - p3.y) * (p1.x - p3.x)) / denominator;
-        var ub = ((p2.x - p1.x) * (p1.y - p3.y) - (p2.y - p1.y) * (p1.x - p3.x)) / denominator;
+        var ua = ((p4.X - p3.X) * (p1.Y - p3.Y) - (p4.Y - p3.Y) * (p1.X - p3.X)) / denominator;
+        var ub = ((p2.X - p1.X) * (p1.Y - p3.Y) - (p2.Y - p1.Y) * (p1.X - p3.X)) / denominator;
 
         // is the intersection along the segments
         if (ua < 0 || ua > 1 || ub < 0 || ub > 1)
@@ -244,8 +244,8 @@ internal static partial class CSharpCADInternals
         }
 
         // Return the x and y coordinates of the intersection
-        var x = p1.x + ua * (p2.x - p1.x);
-        var y = p1.y + ua * (p2.y - p1.y);
+        var x = p1.X + ua * (p2.X - p1.X);
+        var y = p1.Y + ua * (p2.Y - p1.Y);
 
         return new Vec2(x, y);
     }
@@ -267,6 +267,6 @@ internal static partial class CSharpCADInternals
         var line0_dist = line00.Dot(line0_vec);
         var line1_vec = line11.Subtract(line10).Normal().Normalize();
         var line1_dist = line10.Dot(line1_vec);
-        return Solve2Linear(line0_vec.x, line0_vec.y, line1_vec.x, line1_vec.y, line0_dist, line1_dist);
+        return Solve2Linear(line0_vec.X, line0_vec.Y, line1_vec.X, line1_vec.Y, line0_dist, line1_dist);
     }
 }

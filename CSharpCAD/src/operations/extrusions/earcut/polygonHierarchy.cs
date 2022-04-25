@@ -71,8 +71,8 @@ internal static partial class CSharpCADInternals
                 else
                 {
                     Console.WriteLine("Warning: point not in original slice");
-                    var v1 = this.u.Scale(vector2.x);
-                    var v2 = this.v.Scale(vector2.y);
+                    var v1 = this.u.Scale(vector2.X);
+                    var v2 = this.v.Scale(vector2.Y);
 
                     var planeOrigin = plane.Normal.Scale(plane.W);
                     var v3 = v1.Add(planeOrigin);

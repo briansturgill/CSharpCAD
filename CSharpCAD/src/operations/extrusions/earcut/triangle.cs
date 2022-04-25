@@ -21,7 +21,7 @@ internal static partial class CSharpCADInternals
         public static double AreaOfT(Node? p, Node? q, Node? r)
         {
             if (p is null || q is null || r is null) return 0;
-            return (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
+            return (q.Y - p.Y) * (r.X - q.X) - (q.X - p.X) * (r.Y - q.Y);
         }
     }
 }

@@ -10,15 +10,15 @@ public static partial class CSCAD
 
         var layersegments = segments - slice;
         var layerradius = radius * cospitch;
-        var layeroffset = size.z - (radius - (radius * sinpitch));
-        if (!positive) layeroffset = (radius - (radius * sinpitch)) - size.z;
+        var layeroffset = size.Z - (radius - (radius * sinpitch));
+        if (!positive) layeroffset = (radius - (radius * sinpitch)) - size.Z;
 
         layerradius = layerradius > C.EPS ? layerradius : 0;
 
-        var corner0 = center.Add(new Vec3(size.x - radius, size.y - radius, layeroffset));
-        var corner1 = center.Add(new Vec3(radius - size.x, size.y - radius, layeroffset));
-        var corner2 = center.Add(new Vec3(radius - size.x, radius - size.y, layeroffset));
-        var corner3 = center.Add(new Vec3(size.x - radius, radius - size.y, layeroffset));
+        var corner0 = center.Add(new Vec3(size.X - radius, size.Y - radius, layeroffset));
+        var corner1 = center.Add(new Vec3(radius - size.X, size.Y - radius, layeroffset));
+        var corner2 = center.Add(new Vec3(radius - size.X, radius - size.Y, layeroffset));
+        var corner3 = center.Add(new Vec3(size.X - radius, radius - size.Y, layeroffset));
         var corner0Points = new List<Vec3>();
         var corner1Points = new List<Vec3>();
         var corner2Points = new List<Vec3>();
@@ -28,7 +28,7 @@ public static partial class CSCAD
             var radians = layersegments > 0 ? Math.PI / 2 * i / layersegments : 0;
             var point2d = Vec2.FromAngleRadians(radians);
             point2d = point2d.Scale(layerradius);
-            var point3d = new Vec3(point2d.x, point2d.y, 0);
+            var point3d = new Vec3(point2d.X, point2d.Y, 0);
             corner0Points.Add(corner0.Add(point3d));
             point3d = point3d.RotateZ(new Vec3(0, 0, 0), (Math.PI / 2));
             corner1Points.Add(corner1.Add(point3d));
@@ -128,33 +128,32 @@ public static partial class CSCAD
 
     /**
      * Construct an axis-aligned solid cuboid in three dimensional space with rounded corners.
-     * @param {Object} [options] - options for construction
-     * @param {Array} [options.center=[0,0,0]] - center of rounded cube
-     * @param {Array} [options.size=[2,2,2]] - dimension of rounded cube; width, depth, height
-     * @param {Number} [options.roundRadius=0.2] - radius of rounded edges
-     * @param {Number} [options.segments=32] - number of segments to create per full rotation
-     * @returns {geom3} new 3D geometry
-     * @alias module:modeling/primitives.roundedCuboid
-     *
-     * @example
-     * var mycube = roundedCuboid({size: [10, 20, 10], roundRadius: 2, segments: 16})
+     * The default center point is selected such that the bottom left corner of
+     * the cuboid is (0,0,0). (The cuboid is entirely in the first quadrant.)
+     * <param name="size" default="(2,2,2)">Dimension of rounded cube: width, depth, height.</param>
+     * <param name="roundRadius">Radius of rounded edges.</param>
+     * <param name="segments">Number of segments to create per full rotation.</param>
+     * <param name="center" default="(size.X/2,size.Y/2,size.Z/2)">Center of rounded cube.</param>
+     * <example>
+     * var mycube = RoundedCuboid(size: (10, 20, 10), roundRadius: 2, segments: 16);
+     * </example>
      * <group>3D Primitives</group>
      */
     public static Geom3 RoundedCuboid(Vec3? size = null, double roundRadius = 0.2,
         int segments = 32, Vec3? center = null)
     {
         var _size = size ?? new Vec3(2.0, 2.0, 2.0);
-        var _center = center ?? new Vec3(_size.x/2, _size.y/2, _size.z/2);
+        var _center = center ?? new Vec3(_size.X/2, _size.Y/2, _size.Z/2);
 
-        if (_size.x <= 0 || _size.y <= 0 || _size.z <= 0) throw new ArgumentException("Option size values must be greater than zero.");
+        if (_size.X <= 0 || _size.Y <= 0 || _size.Z <= 0) throw new ArgumentException("Option size values must be greater than zero.");
         if (roundRadius <= 0) throw new ArgumentException("Option roundRadius must be greater than zero.");
         if (segments < 4) throw new ArgumentException("Option segments must be four or more.");
 
-        _size = new Vec3(_size.x / 2, _size.y / 2, _size.z / 2); // convert to radius;
+        _size = new Vec3(_size.X / 2, _size.Y / 2, _size.Z / 2); // convert to radius;
 
-        if (roundRadius > (_size.x - C.EPS) ||
-            roundRadius > (_size.y - C.EPS) ||
-            roundRadius > (_size.z - C.EPS)) throw new ArgumentException("Option roundRadius must be smaller then the radius of all dimensions.");
+        if (roundRadius > (_size.X - C.EPS) ||
+            roundRadius > (_size.Y - C.EPS) ||
+            roundRadius > (_size.Z - C.EPS)) throw new ArgumentException("Option roundRadius must be smaller then the radius of all dimensions.");
 
         segments = segments / 4;
 

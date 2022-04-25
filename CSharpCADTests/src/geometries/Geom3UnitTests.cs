@@ -50,12 +50,12 @@ public class Geom3Tests
     {
         var g = makeGeom3(new Vec3[] { new Vec3(5, 10, 15), new Vec3(4, 11, 15), new Vec3(5, 11, 16) });
         var (min, max) = g.BoundingBox();
-        Assert.IsTrue(min.x == 4);
-        Assert.IsTrue(min.y == 10);
-        Assert.IsTrue(min.z == 15);
-        Assert.IsTrue(max.x == 5);
-        Assert.IsTrue(max.y == 11);
-        Assert.IsTrue(max.z == 16);
+        Assert.IsTrue(min.X == 4);
+        Assert.IsTrue(min.Y == 10);
+        Assert.IsTrue(min.Z == 15);
+        Assert.IsTrue(max.X == 5);
+        Assert.IsTrue(max.Y == 11);
+        Assert.IsTrue(max.Z == 16);
     }
 
     [Test]

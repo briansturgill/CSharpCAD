@@ -34,7 +34,7 @@ public static partial class CSCAD
             endAngle = x;
         }
         var totalRotation = endAngle - startAngle;
-        if (totalRotation <= (double)0.0 || Equalish(totalRotation, (double)0.0)) totalRotation = (Math.PI * 2);
+        if (LessThanOrEqualish(totalRotation, 0.0)) totalRotation = (Math.PI * 2);
 
         if (Math.Abs(totalRotation) < (Math.PI * 2))
         {
@@ -68,7 +68,7 @@ public static partial class CSCAD
         for (var i = 0; i < shapeSides.Length; i++)
         {
             var s = shapeSides[i];
-            if (s.v0.x < 0)
+            if (s.v0.X < 0)
             {
                 pointsWithNegativeX.Add(s);
             }
@@ -91,8 +91,8 @@ public static partial class CSCAD
                     var side = shapeSides[i];
                     var point0 = side.v0;
                     var point1 = side.v1;
-                    point0 = new Vec2(Math.Min(point0.x, 0), point0.y);
-                    point1 = new Vec2(Math.Min(point1.x, 0), point1.y);
+                    point0 = new Vec2(Math.Min(point0.X, 0), point0.Y);
+                    point1 = new Vec2(Math.Min(point1.X, 0), point1.Y);
                     shapeSides[i] = new Geom2.Side(point0, point1);
                 }
                 // recreate the geometry from the (-) capped points
@@ -106,8 +106,8 @@ public static partial class CSCAD
                     var side = shapeSides[i];
                     var point0 = side.v0;
                     var point1 = side.v1;
-                    point0 = new Vec2(Math.Max(point0.x, 0), point0.y);
-                    point1 = new Vec2(Math.Max(point1.x, 0), point1.y);
+                    point0 = new Vec2(Math.Max(point0.X, 0), point0.Y);
+                    point1 = new Vec2(Math.Max(point1.X, 0), point1.Y);
                     shapeSides[i] = new Geom2.Side(point0, point1);
                 }
                 // recreate the geometry from the (+) capped points

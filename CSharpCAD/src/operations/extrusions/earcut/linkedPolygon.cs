@@ -128,12 +128,12 @@ internal static bool MiddleInside(Node a, Node b)
         {
             var p = a;
             var inside = false;
-            var px = (a.x + b.x) / 2;
-            var py = (a.y + b.y) / 2;
+            var px = (a.X + b.X) / 2;
+            var py = (a.Y + b.Y) / 2;
             do
             {
-                if (((p.y > py) != (p.next.y > py)) && p.next.y != p.y &&
-                    (px < (p.next.x - p.x) * (py - p.y) / (p.next.y - p.y) + p.x)) { inside = !inside; }
+                if (((p.Y > py) != (p.next.Y > py)) && p.next.Y != p.Y &&
+                    (px < (p.next.X - p.X) * (py - p.Y) / (p.next.Y - p.Y) + p.X)) { inside = !inside; }
                 p = p.next;
             } while (p != a);
 
@@ -146,8 +146,8 @@ internal static bool MiddleInside(Node a, Node b)
          */
         internal static Node SplitPolygon(Node a, Node b)
         {
-            var a2 = new Node(a.i, a.x, a.y);
-            var b2 = new Node(b.i, b.x, b.y);
+            var a2 = new Node(a.i, a.X, a.Y);
+            var b2 = new Node(b.i, b.X, b.Y);
             var an = a.next;
             var bp = b.prev;
 
@@ -201,8 +201,8 @@ internal static bool MiddleInside(Node a, Node b)
         /*
          * for colinear points p, q, r, check if point q lies on segment pr
          */
-        internal static bool OnSegment(Node p, Node q, Node r) => q.x <= Math.Max(p.x, r.x) &&
-            q.x >= Math.Min(p.x, r.x) && q.y <= Math.Max(p.y, r.y) && q.y >= Math.Min(p.y, r.y);
+        internal static bool OnSegment(Node p, Node q, Node r) => q.X <= Math.Max(p.X, r.X) &&
+            q.X >= Math.Min(p.X, r.X) && q.Y <= Math.Max(p.Y, r.Y) && q.Y >= Math.Min(p.Y, r.Y);
 
 
         internal static double SignedArea(double[] data, int start, int end, int dim)
@@ -222,7 +222,7 @@ internal static bool MiddleInside(Node a, Node b)
          */
         internal static bool Equals(Node p1, Node p2) {
           if (p1 is null || p2 is null) return false;
-          return p1.x == p2.x && p1.y == p2.y;
+          return p1.X == p2.X && p1.Y == p2.Y;
         }
 #nullable enable
     }

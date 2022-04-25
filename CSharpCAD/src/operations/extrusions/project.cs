@@ -7,8 +7,8 @@ public static partial class CSCAD
     {
         // create a plane from the options, and verify
         var projplane = new Plane(axis, origin);
-        if (double.IsNaN(projplane.Normal.x) || double.IsNaN(projplane.Normal.y)
-          || double.IsNaN(projplane.Normal.z) || double.IsNaN(projplane.W))
+        if (double.IsNaN(projplane.Normal.X) || double.IsNaN(projplane.Normal.Y)
+          || double.IsNaN(projplane.Normal.Z) || double.IsNaN(projplane.W))
         {
             throw new ArgumentException("project: invalid axis or origin arguments.");
         }
@@ -55,7 +55,7 @@ public static partial class CSCAD
             var outList = new List<Vec2>(inList.Count);
             foreach (var v in inList)
             {
-                outList.Add(new Vec2(v.x, v.y)); // Tossing the z.
+                outList.Add(new Vec2(v.X, v.Y)); // Tossing the z.
             }
             return outList;
         }
@@ -74,8 +74,8 @@ public static partial class CSCAD
     /**
      * Project the given 3D geometry onto the given plane.
      * <param name="obj">The given 3D geometry object.</param>
-     * <param name="axis">The axis of the plane. Default: [0,0,1] (the Z axis).</param>
-     * <param name="origin">The origin of the plane. Default [0,0,0].</param>
+     * <param name="axis" default="(0,0,1)">The axis of the plane. Default is the Z axis.</param>
+     * <param name="origin" default="(0,0,0)">The origin of the plane.</param>
      * <returns>The projected 2D geometry.</returns>
      * <group>2D Primitives</group>
      */

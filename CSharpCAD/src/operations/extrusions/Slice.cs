@@ -19,7 +19,7 @@ public class Slice : IEquatable<Slice>
         for (var i = 0; i < sides.Length; i++)
         {
             var side = sides[i];
-            edges[i] = new Edge(new Vec3(side.v0.x, side.v0.y, 0), new Vec3(side.v1.x, side.v1.y, 0));
+            edges[i] = new Edge(new Vec3(side.v0.X, side.v0.Y, 0), new Vec3(side.v1.X, side.v1.Y, 0));
         }
     }
     /// <summary>Create a slice from the given points.</summary>
@@ -32,7 +32,7 @@ public class Slice : IEquatable<Slice>
         for (int i = 0; i < points.Count; i++)
         {
             var point = points[i];
-            this.edges[i] = new Edge(new Vec3(prevpoint.x, prevpoint.y, 0), new Vec3(point.x, point.y, 0));
+            this.edges[i] = new Edge(new Vec3(prevpoint.X, prevpoint.Y, 0), new Vec3(point.X, point.Y, 0));
             prevpoint = point;
         }
     }
@@ -248,15 +248,15 @@ public class Slice : IEquatable<Slice>
             var data = new double[len * 2];
             foreach (var v in solid)
             {
-                data[data_index++] = v.x;
-                data[data_index++] = v.y;
+                data[data_index++] = v.X;
+                data[data_index++] = v.Y;
             }
             foreach (var hole in holes)
             {
                 foreach (var v in hole)
                 {
-                    data[data_index++] = v.x;
-                    data[data_index++] = v.y;
+                    data[data_index++] = v.X;
+                    data[data_index++] = v.Y;
                 }
             }
 
@@ -386,7 +386,7 @@ public class Slice : IEquatable<Slice>
             Vec3 bestReplacement = new Vec3(double.NaN, double.NaN, double.NaN);
             foreach (var v2 in missingOut)
             {
-                var distance = Vec2.Hypot(v1.x - v2.x, v1.y - v2.y);
+                var distance = Vec2.Hypot(v1.X - v2.X, v1.Y - v2.Y);
                 if (distance < bestDistance)
                 {
                     bestDistance = distance;

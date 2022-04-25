@@ -16,7 +16,7 @@ public class ReTessellateCoplanerPolygonsTests
 
     private static Poly3 rotatePoly3(Vec3 angles, Poly3 polygon)
     {
-        var matrix = Mat4.FromTaitBryanRotation((angles.x * 0.017453292519943295), (angles.y * 0.017453292519943295), (angles.z * 0.017453292519943295));
+        var matrix = Mat4.FromTaitBryanRotation((angles.X * 0.017453292519943295), (angles.Y * 0.017453292519943295), (angles.Z * 0.017453292519943295));
         return polygon.Transform(matrix);
     }
 

@@ -195,7 +195,7 @@ internal static partial class Modifiers
     public const double NEPS = 1e-13;
 
     // Compare two normals (unit vectors) for equality.
-    public static bool AboutEqualNormals(Vec3 a, Vec3 b) => (Math.Abs(a.x - b.x) <= NEPS && Math.Abs(a.y - b.y) <= NEPS && Math.Abs(a.z - b.z) <= NEPS);
+    public static bool AboutEqualNormals(Vec3 a, Vec3 b) => (Math.Abs(a.X - b.X) <= NEPS && Math.Abs(a.Y - b.Y) <= NEPS && Math.Abs(a.Z - b.Z) <= NEPS);
 
     public static bool Coplanar(Plane plane1, Plane plane2)
     {

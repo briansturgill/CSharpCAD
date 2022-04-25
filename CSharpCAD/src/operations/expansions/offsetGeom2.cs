@@ -66,13 +66,13 @@ public static partial class CSCAD
     {
         var numverts = polygon.Count;
 
-        var tx = point.x;
-        var ty = point.y;
+        var tx = point.X;
+        var ty = point.Y;
 
         var vtx0 = polygon[numverts - 1];
         var vtx1 = polygon[0];
 
-        var yflag0 = (vtx0.y > ty);
+        var yflag0 = (vtx0.Y > ty);
 
         var insideFlag = 0;
 
@@ -83,15 +83,15 @@ public static partial class CSCAD
              * check if Y endpoints straddle (are on opposite sides) of point's Y
              * if so, +X ray could intersect this edge.
              */
-            var yflag1 = (vtx1.y > ty);
+            var yflag1 = (vtx1.Y > ty);
             if (yflag0 != yflag1)
             {
                 /*
                  * check if X endpoints are on same side of the point's X
                  * if so, it's easy to test if edge hits or misses.
                  */
-                var xflag0 = (vtx0.x > tx);
-                var xflag1 = (vtx1.x > tx);
+                var xflag0 = (vtx0.X > tx);
+                var xflag1 = (vtx1.X > tx);
                 if (xflag0 && xflag1)
                 {
                     /* if edge's X values are both right of the point, then the point must be inside */
@@ -104,7 +104,7 @@ public static partial class CSCAD
                      * the compute intersection of polygon edge with +X ray
                      * if intersection >= point's X then the +X ray hits it.
                      */
-                    if ((vtx1.x - (vtx1.y - ty) * (vtx0.x - vtx1.x) / (vtx0.y - vtx1.y)) >= tx)
+                    if ((vtx1.X - (vtx1.Y - ty) * (vtx0.X - vtx1.X) / (vtx0.Y - vtx1.Y)) >= tx)
                     {
                         insideFlag = insideFlag == 0 ? 1 : 0;
                     }
@@ -122,5 +122,5 @@ public static partial class CSCAD
      * = 0 : p2 is on the line p0 -> p1
      * < 0 : p2 is right of the line p0 -> p1
      */
-    internal static double IsLeft(Vec2 p0, Vec2 p1, Vec2 p2) => (p1.x - p0.x) * (p2.y - p0.y) - (p2.x - p0.x) * (p1.y - p0.y);
+    internal static double IsLeft(Vec2 p0, Vec2 p1, Vec2 p2) => (p1.X - p0.X) * (p2.Y - p0.Y) - (p2.X - p0.X) * (p1.Y - p0.Y);
 }
