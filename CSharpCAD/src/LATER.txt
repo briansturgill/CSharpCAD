@@ -1,5 +1,4 @@
 Need to remove usages of new Exception... make them specialized.
-Need to do Hulls! Make sure to get new code!
 
 JSCAD is working with these three viewers...
 There is some progress in the prototype of jscad that is able to run 3 different 3D engines:
@@ -14,4 +13,15 @@ Why does Prusa Slicer think I am using inches?
 Need to do something about polygon color.
 Also, what happens with union, etc.
 
-Get Colors By Rainbox needs work.
+Changes have been made in extrudeRotate, createSlice:
+Added:
+            // Fix rounding error when rotating 2 * PI radians.
+            if (Equalish(totalRotation, Math.PI * 2) && index == segments)
+            {
+                Zrotation = startAngle;
+            }
+
+I believe this to be an improper way to achieve the desired goal.
+
+Substantial changes have been made in project.js.
+I am not sure about them. project.cs should reviewed.

@@ -44,11 +44,6 @@ public static partial class CSCAD
             if (Math.Abs(totalRotation) > (segments * anglePerSegment)) segments++;
         }
 
-        // console.log("startAngle: "+startAngle)
-        // console.log("endAngle: "+endAngle)
-        // console.log(totalRotation)
-        // console.log(segments)
-
         // convert geometry to an array of sides, easier to deal with
         var shapeSides = geometry.ToSides();
         if (shapeSides.Length == 0) throw new ArgumentException("The given geometry cannot be empty.");
