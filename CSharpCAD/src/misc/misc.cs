@@ -117,4 +117,16 @@ public static partial class CSCAD
         ///
         public Face(int s) : base(s) { }
     }
+
+    /// <summary>Cosine of angle in degrees.</summary>
+    public static double Cos(double angleInDegrees)
+    {
+        return RadToDeg(Math.Cos(DegToRad(angleInDegrees)));
+    }
+
+    /// <summary>Sine of angle in degrees.</summary>
+    public static double Sin(double angleInDegrees)
+    {
+        return RadToDeg(Math.Sin(DegToRad(angleInDegrees)));
+    }
 }

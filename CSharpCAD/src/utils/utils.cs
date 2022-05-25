@@ -55,4 +55,13 @@ internal static partial class CSharpCADInternals
         }
         return (int)Math.Floor(a);
     }
+
+    public static double DegToRad(double angleInDegrees)
+    {
+        return angleInDegrees * (Math.PI / 180);
+    }
+    public static double RadToDeg(double angleInRadians)
+    {
+        return angleInRadians * (180/Math.PI);
+    }
 }

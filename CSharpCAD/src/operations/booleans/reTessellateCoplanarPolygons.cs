@@ -46,6 +46,16 @@ public static partial class CSCAD
         public Vec2 topright;
         public Vec2 bottomleft;
         public Vec2 bottomright;
+        public ActivePolygon()
+        {
+            topleft = new Vec2();
+            topright = new Vec2();
+            bottomleft = new Vec2();
+            bottomright = new Vec2();
+            polygonindex = 0;
+            leftvertexindex = 0;
+            rightvertexindex = 0;
+        }
     };
 
     /*

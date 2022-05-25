@@ -252,7 +252,7 @@ public class Geom3 : Geometry
      * **If the geometry is not valid, an exception will be thrown with details of the geometry error.**
      * </remarks>
      */
-    public void Validate()
+    public override void Validate()
     {
         // check polygons
         foreach (var polygon in polygons)

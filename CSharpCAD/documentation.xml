@@ -196,6 +196,9 @@
         <member name="P:CSharpCAD.Geometry.Is3D">
             <summary>Is this a 3D geometry object?</summary>
         </member>
+        <member name="M:CSharpCAD.Geometry.Validate">
+            <summary>Validate this geometry object.</summary>
+        </member>
         <member name="T:CSharpCAD.Poly3">
             <summary>Represents a convex 3D polygon.</summary>
             <remarks>The vertices used to initialize a polygon must be coplanar and form a convex shape.</remarks>
@@ -433,6 +436,12 @@
         <member name="M:CSharpCAD.CSCAD.Face.#ctor(System.Int32)">
             
         </member>
+        <member name="M:CSharpCAD.CSCAD.Cos(System.Double)">
+            <summary>Cosine of angle in degrees.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Sin(System.Double)">
+            <summary>Sine of angle in degrees.</summary>
+        </member>
         <member name="M:CSharpCAD.CSCAD.Intersect(CSharpCAD.Geometry[])">
              <summary>Return a new geometry representing space in both the first geometry and
              all subsequent geometries.</summary>
@@ -531,7 +540,7 @@
         </member>
         <member name="M:CSharpCAD.CSCAD.ExtrudeLinear(CSharpCAD.Geom2,System.Double,System.Double,System.Int32,System.Boolean)">
             <summary>Extrude the given geometry in an upward linear direction using the given options.</summary>
-            <param name="obj">The geometries to extrude.</param>
+            <param name="gobj">The geometries to extrude.</param>
             <param name="height">The height of the extrusion.</param>
             <param name="twistAngle">The final rotation (RADIANS) about the origin of the shape (if any).</param>
             <param name="twistSteps">The resolution of the twist about the axis (if any).</param>

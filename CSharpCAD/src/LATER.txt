@@ -25,3 +25,5 @@ I believe this to be an improper way to achieve the desired goal.
 
 Substantial changes have been made in project.js.
 I am not sure about them. project.cs should reviewed.
+
+Full Math set using degrees.

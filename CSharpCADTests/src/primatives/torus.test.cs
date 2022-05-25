@@ -54,6 +54,7 @@ public class TorusTests
         var obs = Torus(innerSegments: 4, outerSegments: 4, innerRotation: Math.PI / 2);
         Assert.DoesNotThrow(() => obs.Validate());
         var (min, max) = obs.BoundingBox();
-        Assert.IsTrue(min == new Vec3(-5, -5, -1) && max == new Vec3(5, 5, 1));
+        Console.WriteLine($"{min}, {max}");
+        Assert.IsTrue(min.IsNearlyEqual(new Vec3(-5, -5, -1)) && max.IsNearlyEqual(new Vec3(5, 5, 1)));
     }
 }

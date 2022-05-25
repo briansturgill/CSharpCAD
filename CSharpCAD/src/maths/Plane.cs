@@ -14,7 +14,7 @@ public class Plane : IEquatable<Plane>
     public readonly double W;
 
     ///<summary>Construct an empty Plane.</summary>
-    public Plane() { }
+    public Plane() { this.Normal = new Vec3(); }
 
     /// <summary>Create a new plane from the given normal and origin values.</summary>
     public Plane(Vec3 normal, Vec3 origin)

@@ -8,7 +8,7 @@ namespace CSharpCADTests;
 [TestFixture]
 public class Vec3Tests
 {
-    private Vec3 ZeroVec;
+    private Vec3 ZeroVec = new Vec3();
     [SetUp]
     public void Setup()
     {

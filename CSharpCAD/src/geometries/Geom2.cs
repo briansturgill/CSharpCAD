@@ -493,7 +493,7 @@ public class Geom2 : Geometry
      * **If the geometry is not valid, an exception will be thrown with details of the geometry error.**
      * </remarks>
      */
-    public void Validate()
+    public override void Validate()
     {
         // check for closedness
         this.ToOutlines(false);
