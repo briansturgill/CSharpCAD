@@ -8,7 +8,7 @@ public static partial class CSCAD
      * <param name="outerRadius">Radius of large (outer) circle.</param>
      * <param name="innerSegments">Number of segments to create per rotation.</param>
      * <param name="outerSegments">Number of segments to create per rotation.</param>
-     * <param name="innerRotation">Rotation of small (inner) circle (RADIANS).</param>
+     * <param name="innerRotation">Rotation of small (inner) circle (DEGREES).</param>
      * <param name="outerRotation" default="(Math.PI*2)">Rotation (outer) of the torus (RADIANS).</param>
      * <param name="startAngle">Start angle of the torus (RADIANS).</param>
      * <example>

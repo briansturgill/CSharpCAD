@@ -51,7 +51,7 @@ public class TorusTests
     [Test]
     public void TestTorusSquareBySquare()
     {
-        var obs = Torus(innerSegments: 4, outerSegments: 4, innerRotation: Math.PI / 2);
+        var obs = Torus(innerSegments: 4, outerSegments: 4, innerRotation: 360);
         Assert.DoesNotThrow(() => obs.Validate());
         var (min, max) = obs.BoundingBox();
         Console.WriteLine($"{min}, {max}");

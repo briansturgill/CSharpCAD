@@ -14,13 +14,13 @@ public class RotateTests
         var geometry = new Geom2(new List<Vec2> { new Vec2(0, 0), new Vec2(1, 0), new Vec2(0, 1) });
 
         // rotate about Z
-        var rotated = (Geom2)Rotate(new Vec3(0, 0, -Math.PI / 2), geometry);
+        var rotated = (Geom2)Rotate(new Vec3(0, 0, -90), geometry);
         Assert.DoesNotThrow(() => rotated.Validate());
         var obs = rotated.ToPoints();
         var exp = new Vec2[] { new Vec2(0, 0), new Vec2(0, -1), new Vec2(1, 0) };
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
-        rotated = (Geom2)RotateZ(-Math.PI / 2, geometry);
+        rotated = (Geom2)RotateZ(-90, geometry);
         Assert.DoesNotThrow(() => rotated.Validate());
         obs = rotated.ToPoints();
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
@@ -40,7 +40,7 @@ public class RotateTests
         var geometry = new Geom3(points);
 
         // rotate about X
-        var rotated = (Geom3)Rotate(new Vec3(Math.PI / 2, 0, 0), geometry);
+        var rotated = (Geom3)Rotate(new Vec3(90, 0, 0), geometry);
         Assert.DoesNotThrow(() => rotated.Validate());
         var obs = rotated.ToPoints();
         var exp = new List<List<Vec3>> {
@@ -59,13 +59,13 @@ public class RotateTests
         };
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
-        rotated = (Geom3)RotateX(Math.PI / 2, geometry);
+        rotated = (Geom3)RotateX(90, geometry);
         Assert.DoesNotThrow(() => rotated.Validate());
         obs = rotated.ToPoints();
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
         // rotate about Y
-        rotated = (Geom3)Rotate(new Vec3(0, -Math.PI / 2, 0), geometry);
+        rotated = (Geom3)Rotate(new Vec3(0, -90, 0), geometry);
         Assert.DoesNotThrow(() => rotated.Validate());
         obs = rotated.ToPoints();
         exp = new List<List<Vec3>> {
@@ -84,13 +84,13 @@ public class RotateTests
         };
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
-        rotated = (Geom3)RotateY(-Math.PI / 2, geometry);
+        rotated = (Geom3)RotateY(-90, geometry);
         Assert.DoesNotThrow(() => rotated.Validate());
         obs = rotated.ToPoints();
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
         // rotate about Z
-        rotated = (Geom3)Rotate(new Vec3(0, 0, Math.PI), geometry);
+        rotated = (Geom3)Rotate(new Vec3(0, 0, 180), geometry);
         Assert.DoesNotThrow(() => rotated.Validate());
         obs = rotated.ToPoints();
         exp = new List<List<Vec3>> {
@@ -109,7 +109,7 @@ public class RotateTests
         };
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
-        rotated = (Geom3)RotateZ(Math.PI, geometry);
+        rotated = (Geom3)RotateZ(180, geometry);
         Assert.DoesNotThrow(() => rotated.Validate());
         obs = rotated.ToPoints();
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
@@ -120,7 +120,7 @@ public class RotateTests
     {
         var geometry2 = new Geom2(new List<Vec2> { new Vec2(-5, -5), new Vec2(0, 5), new Vec2(10, -5) });
 
-        var rotated = (Geom2)Rotate(new Vec3(0, 0, Math.PI / 2), geometry2);
+        var rotated = (Geom2)Rotate(new Vec3(0, 0, 90), geometry2);
         Assert.DoesNotThrow(() => rotated.Validate());
 
         var obs2 = rotated.ToPoints();
