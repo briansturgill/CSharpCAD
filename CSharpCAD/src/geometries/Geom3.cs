@@ -182,7 +182,7 @@ public class Geom3 : Geometry
     /// <summary>Return a full clone of this geometry.</summary>
     public Geom3 Clone()
     {
-        // There is no need to copy each polygon, transform matrix or Color as they are immutable.
+        // There is no need to copy the transform matrix or Color as they are immutable.
         return new Geom3(this.polygons.ToArray(), this.transforms, this.Color);
     }
 
