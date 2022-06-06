@@ -22,12 +22,12 @@ internal static partial class CSharpCADInternals
         var newParts = new List<Geom2>();
         foreach (var outline in outlines)
         {
-            if (area(outline) < 0) outline.Reverse();
+            if (AreaVec2(outline) < 0) outline.Reverse();
             var points = outline;
             MakePointsLikePath2(points);
             var external = OffsetFromPoints(points, delta: size, corners: corners, segments: segments, closed: true);
             var @internal = OffsetFromPoints(points, delta: -size, corners: corners, segments: segments, closed: true);
-            if (area(external) < 0)
+            if (AreaVec2(external) < 0)
             {
                 external.Reverse();
             }

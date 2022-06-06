@@ -442,6 +442,18 @@
         <member name="M:CSharpCAD.CSCAD.Sin(System.Double)">
             <summary>Sine of angle in degrees.</summary>
         </member>
+        <member name="M:CSharpCAD.CSCAD.Acos(System.Double)">
+            <summary>ArcCosine of cosVal returning angle in degrees.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Asin(System.Double)">
+            <summary>ArcSine of sinVal returning angle in degrees.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.DegToRad(System.Double)">
+            <summary>Convert degrees to radians.</summary>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.RadToDeg(System.Double)">
+            <summary>Convert radians to degrees.</summary>
+        </member>
         <member name="M:CSharpCAD.CSCAD.Intersect(CSharpCAD.Geometry[])">
              <summary>Return a new geometry representing space in both the first geometry and
              all subsequent geometries.</summary>
@@ -577,7 +589,6 @@
         </member>
         <member name="M:CSharpCAD.CSCAD.Hull(CSharpCAD.Geometry[])">
             <summary>Create a convex hull of the given geometries.</summary>
-            <remarks>Currently, the given geometries must be of type Geom2.</remarks>
             <example>
             +-------+           +-------+
             |       |           |        \
@@ -591,7 +602,104 @@
                   |       |          \        |
                   +-------+           +-------+
             </example>
-            <group>2D Primitives</group>
+            <group>Transformations</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.HullChain(CSharpCAD.Geometry[])">
+            <summary>Create a chain of hulled geometries from the given geometries.</summary>
+            <remarks>
+            Essentially hull A+B, B+C, C+D, etc., then union the results.
+            The given geometries should be of the same type, either geom2 or geom3.
+            </remarks>
+            <example>
+            var newshape = HullChain(Rectangle(center: (-5,-5)), Circle(center: (0,0)), Rectangle(center: (5,5)));
+            </example>
+            <pre>
+            +-------+   +-------+     +-------+   +------+
+            |       |   |       |     |        \ /       |
+            |   A   |   |   C   |     |         |        |
+            |       |   |       |     |                  |
+            +-------+   +-------+     +                  +
+                                  =   \                 /
+                  +-------+            \               /
+                  |       |             \             /
+                  |   B   |              \           /
+                  |       |               \         /
+                  +-------+                +-------+
+            </pre>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.QHFace.ConnectHalfEdges(CSharpCAD.CSCAD.QHHalfEdge,CSharpCAD.CSCAD.QHHalfEdge)">
+             @private
+            
+             Connects two edges assuming that prev.Head().point == next.Tail().point
+            
+             @param {HalfEdge} prev
+             @param {HalfEdge} next
+        </member>
+        <member name="M:CSharpCAD.CSCAD.QHVertexList.InsertBefore(CSharpCAD.CSCAD.QHVertex,CSharpCAD.CSCAD.QHVertex)">
+             Inserts a `node` before `target`, it's assumed that
+             `target` belongs to this doubly linked list
+            
+             @param {*} target
+             @param {*} node
+        </member>
+        <member name="M:CSharpCAD.CSCAD.QHVertexList.InsertAfter(CSharpCAD.CSCAD.QHVertex,CSharpCAD.CSCAD.QHVertex)">
+             Inserts a `node` after `target`, it's assumed that
+             `target` belongs to this doubly linked list
+            
+             @param {Vertex} target
+             @param {Vertex} node
+        </member>
+        <member name="M:CSharpCAD.CSCAD.QHVertexList.Add(CSharpCAD.CSCAD.QHVertex)">
+             Appends a `node` to the end of this doubly linked list
+             Note: `node.next` will be unlinked from `node`
+             Note: if `node` is part of another linked list call `addAll` instead
+            
+             @param {*} node
+        </member>
+        <member name="M:CSharpCAD.CSCAD.QHVertexList.AddAll(CSharpCAD.CSCAD.QHVertex)">
+             Appends a chain of nodes where `node` is the head,
+             the difference with `add` is that it correctly sets the position
+             of the node list `tail` property
+            
+             @param {*} node
+        </member>
+        <member name="M:CSharpCAD.CSCAD.QHVertexList.Remove(CSharpCAD.CSCAD.QHVertex)">
+             Deletes a `node` from this linked list, it's assumed that `node` is a
+             member of this linked list
+            
+             @param {*} node
+        </member>
+        <member name="M:CSharpCAD.CSCAD.QHVertexList.RemoveChain(CSharpCAD.CSCAD.QHVertex,CSharpCAD.CSCAD.QHVertex)">
+             Removes a chain of nodes whose head is `a` and whose tail is `b`,
+             it's assumed that `a` and `b` belong to this list and also that `a`
+             comes before `b` in the linked list
+            
+             @param {*} a
+             @param {*} b
+        </member>
+        <member name="T:CSharpCAD.CSCAD.AM">
+            <summary>Alignment modes for the "Align" function.</summary>
+            <remarks>
+            A 3 character sequence specifiying the mode for X, Y, and Z axes.
+              C - Center
+              X - Maximum
+              N - Minimum
+              U - Unaligned
+            </remarks>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Align(CSharpCAD.Geometry,CSharpCAD.CSCAD.AM,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Align the boundaries of the given geometry using the given options.</summary>
+            <param name="gobj">The geometry object to be aligned.</param>
+            <param name="modes">A value from the AM enumeration, which consists of 3 letters (one for each of X, Y, Z): C - center, X - Max, N-Min, U-unaligned</param>
+            <param name="relativeTo" default="(0,0,0)">The point one each axis on which to align the geometry upon.</param>
+            <remarks>
+            C# syntax makes the porting of JSCAD's "align" difficult. We had to simplify.
+            1) There is no "grouped" option... you can get the same effect by using Union on the geometries, then aligning the resulting object.
+            2) The relativeTo option does not allow an X, Y, or Z coordinate to be null. You'll have to find the values from a bounding box yourself.
+            </remarks>
+            <example>
+            var alignedGeometry = Align(gobj, AM.NCU, relativeTo: (10, 0, 10]);
+            </example>
         </member>
         <member name="M:CSharpCAD.CSCAD.Center(CSharpCAD.Geometry,System.Boolean,System.Boolean,System.Boolean,System.Nullable{CSharpCAD.Vec3})">
             <summary>Center the given objects.</summary>
@@ -974,7 +1082,7 @@
             <param name="outerRadius">Radius of large (outer) circle.</param>
             <param name="innerSegments">Number of segments to create per rotation.</param>
             <param name="outerSegments">Number of segments to create per rotation.</param>
-            <param name="innerRotation">Rotation of small (inner) circle (RADIANS).</param>
+            <param name="innerRotation">Rotation of small (inner) circle (DEGREES).</param>
             <param name="outerRotation" default="(Math.PI*2)">Rotation (outer) of the torus (RADIANS).</param>
             <param name="startAngle">Start angle of the torus (RADIANS).</param>
             <example>

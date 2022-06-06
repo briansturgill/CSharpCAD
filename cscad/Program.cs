@@ -62,7 +62,7 @@ System.Console.WriteLine("Starting");
 watch.Start();
 for (var i = 0; i < loops; i++)
 {
-    h = Hull(circs);
+    h = (Geom2)Hull(circs);
 }
 watch.Stop();
 System.Console.WriteLine($"Hull time for {loops}: {watch.ElapsedMilliseconds}ms");

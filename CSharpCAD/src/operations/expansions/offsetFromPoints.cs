@@ -31,7 +31,7 @@ internal static partial class CSharpCADInternals
     {
         if (Math.Abs(delta) < C.EPS) return points;
 
-        var rotation = closed ? area(points) : 1.0; // + counter clockwise, - clockwise
+        var rotation = closed ? AreaVec2(points) : 1.0; // + counter clockwise, - clockwise
         if (rotation == 0) rotation = 1.0;
 
         // use right hand normal?
@@ -192,19 +192,6 @@ internal static partial class CSharpCADInternals
             }
         }
         return newPoints;
-    }
-
-    private static double area(List<Vec2> points)
-    {
-        var area = ((double)0.0);
-        var len = points.Count;
-        for (var i = 0; i < len; i++)
-        {
-            var j = (i + 1) % len;
-            area += points[i].X * points[j].Y;
-            area -= points[j].X * points[i].Y;
-        }
-        return (area / 2.0);
     }
 
     /*

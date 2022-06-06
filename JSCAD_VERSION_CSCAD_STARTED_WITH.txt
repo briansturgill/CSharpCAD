@@ -1,0 +1,3 @@
+The original version used in the CSCAD translation was:
+@jscad/modeling@2.9.2
+@jscad/io@2.3.1

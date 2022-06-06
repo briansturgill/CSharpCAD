@@ -339,7 +339,7 @@ public class Poly3 : IEquatable<Poly3>
         // check for empty polygon
         if (this.vertices.Length < 3)
         {
-            throw new ValidationException($"Poly3 has less than three vertices {this.vertices.Length}.");
+            throw new ValidationException($"Poly3 has less than three vertices: {this.vertices.Length}.");
         }
         // check area
         if (this.Area() <= 0)
@@ -354,14 +354,14 @@ public class Poly3 : IEquatable<Poly3>
             var v1 = this.vertices[(i + 1) % this.vertices.Length];
             if (v1 == v0)
             {
-                throw new ValidationException($"Poly3 has duplicate vertex {this.vertices[i]}");
+                throw new ValidationException($"Poly3 has duplicate vertex: {this.vertices[i]}.");
             }
         }
 
         // check convexity
         if (!this.IsConvex())
         {
-            throw new ValidationException("Poly3 must be convex");
+            throw new ValidationException("Poly3 must be convex.");
         }
 
         // check for infinity, nan
@@ -370,7 +370,20 @@ public class Poly3 : IEquatable<Poly3>
             {
                 if (!double.IsFinite(vertex.X) || !double.IsFinite(vertex.Y) || !double.IsFinite(vertex.Z))
                 {
-                    throw new ValidationException($"Poly3 has invalid vertex {vertex}");
+                    throw new ValidationException($"Poly3 has invalid vertex: {vertex}.");
+                }
+            }
+        }
+        // check that points are co-planar
+        if (this.vertices.Length > 3)
+        {
+            var normal = this.Plane();
+            foreach (var vertex in this.vertices)
+            {
+                var dist = Math.Abs(normal.SignedDistanceToPoint(vertex));
+                if (dist > C.NEPS)
+                {
+                    throw new ValidationException($"Poly3 must be coplanar: vertex {vertex} distance {dist}.");
                 }
             }
         }

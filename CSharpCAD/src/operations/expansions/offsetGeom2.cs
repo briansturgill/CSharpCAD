@@ -40,12 +40,13 @@ public static partial class CSCAD
         var vertices = polygon;
         if (vertices.Count < 3) return 0; // nothing can be inside an empty polygon
 
-        /* Should not be necessary.
-                if (measureArea(polygon) < 0)
-                {
-                    polygon = flip(polygon); // CCW is required
-                }
-        */
+/*
+        if (AreaVec2(polygon) < 0)
+        {
+            polygon.Reverse(); // CCW is required
+        }
+*/
+        
         var sum = 0;
         foreach (var point in points)
         {

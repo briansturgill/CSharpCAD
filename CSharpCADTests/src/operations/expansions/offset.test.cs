@@ -25,6 +25,7 @@ public class OffsetTests
             new Vec2(-3, 5),
             new Vec2(-5, 5)
           });
+        Assert.DoesNotThrow(() => ((Geom2)geometry).Validate());
 
         // empty
         var empty = new Geom2();
@@ -32,6 +33,7 @@ public class OffsetTests
         var pts = obs.ToPoints();
         var exp = new Vec2[] { };
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
+        Assert.DoesNotThrow(() => ((Geom2)obs).Validate());
 
         // expand +
         obs = (Geom2)Offset(geometry, delta: 1, corners: Corners.Round, segments:0);
@@ -53,6 +55,7 @@ public class OffsetTests
           new Vec2(-6, -5)
         };
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
+        Assert.DoesNotThrow(() => ((Geom2)obs).Validate());
 
         // contract -
         obs = (Geom2)Offset(geometry, delta: -0.5, corners: Corners.Round, segments:0);
@@ -70,6 +73,7 @@ public class OffsetTests
           new Vec2(-4.5, 4.5)
       };
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
+        Assert.DoesNotThrow(() => ((Geom2)obs).Validate());
 
         // segments 1 - sharp points at corner
         obs = (Geom2)Offset(geometry, delta: 1, corners: Corners.Edge);
@@ -85,6 +89,7 @@ public class OffsetTests
           new Vec2(-6, -6)
         };
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
+        Assert.DoesNotThrow(() => ((Geom2)obs).Validate());
 
         // segments 16 - rounded corners
         obs = (Geom2)Offset(geometry, delta: -0.5, corners: Corners.Round);
@@ -108,6 +113,7 @@ public class OffsetTests
           new Vec2(-4.5, 4.5)
         };
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
+        Assert.DoesNotThrow(() => ((Geom2)obs).Validate());
     }
 
     [Test]
@@ -135,6 +141,7 @@ public class OffsetTests
           new Geom2.Side(new Vec2(2, -19), new Vec2(2, -15)),
           new Geom2.Side(new Vec2(2, -15), new Vec2(-2, -15))
         });
+        Assert.DoesNotThrow(() => ((Geom2)geometry).Validate());
 
         // expand +
         var obs = (Geom2)Offset(geometry, delta: 2, corners: Corners.Edge);
@@ -163,6 +170,7 @@ public class OffsetTests
         };
         Assert.AreEqual(pts.Length, 20);
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
+        Assert.DoesNotThrow(() => ((Geom2)obs).Validate());
     }
 
     [Test]
@@ -186,6 +194,7 @@ public class OffsetTests
             new Vec2(7.07107, -7.07107),
             new Vec2(9.23880, -3.82683)
         });
+        Assert.DoesNotThrow(() => ((Geom2)geometry).Validate());
 
         var obs = (Geom2)Offset(geometry, delta: -0.5, corners: Corners.Round);
         var pts = obs.ToPoints();
@@ -209,5 +218,6 @@ public class OffsetTests
         };
         Assert.AreEqual(pts.Length, exp.Length);
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
+        Assert.DoesNotThrow(() => ((Geom2)obs).Validate());
     }
 }

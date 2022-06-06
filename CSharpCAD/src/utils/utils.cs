@@ -19,29 +19,37 @@ internal static partial class CSharpCADInternals
         return diff <= epsilon;
     }
 
-    public static bool GreaterThanOrEqualish(double a, double b, double epsilon = C.EPS) {
-        if (Equalish(a, b, epsilon)) {
+    public static bool GreaterThanOrEqualish(double a, double b, double epsilon = C.EPS)
+    {
+        if (Equalish(a, b, epsilon))
+        {
             return true;
         }
         return a >= b;
     }
 
-    public static bool GreaterThanish(double a, double b, double epsilon = C.EPS) {
-        if (Equalish(a, b, epsilon)) {
+    public static bool GreaterThanish(double a, double b, double epsilon = C.EPS)
+    {
+        if (Equalish(a, b, epsilon))
+        {
             return false;
         }
         return a > b;
     }
 
-    public static bool LessThanOrEqualish(double a, double b, double epsilon = C.EPS) {
-        if (Equalish(a, b, epsilon)) {
+    public static bool LessThanOrEqualish(double a, double b, double epsilon = C.EPS)
+    {
+        if (Equalish(a, b, epsilon))
+        {
             return true;
         }
         return a <= b;
     }
 
-    public static bool LessThanish(double a, double b, double epsilon = C.EPS) {
-        if (Equalish(a, b, epsilon)) {
+    public static bool LessThanish(double a, double b, double epsilon = C.EPS)
+    {
+        if (Equalish(a, b, epsilon))
+        {
             return false;
         }
         return a < b;
@@ -50,18 +58,23 @@ internal static partial class CSharpCADInternals
     public static int Floorish(double a, double epsilon = C.EPS)
     {
         var a_ceil = Math.Ceiling(a);
-        if (Equalish(a, a_ceil, epsilon)) {
+        if (Equalish(a, a_ceil, epsilon))
+        {
             return (int)a_ceil;
         }
         return (int)Math.Floor(a);
     }
 
-    public static double DegToRad(double angleInDegrees)
+    internal static double AreaVec2(List<Vec2> points)
     {
-        return angleInDegrees * (Math.PI / 180);
-    }
-    public static double RadToDeg(double angleInRadians)
-    {
-        return angleInRadians * (180/Math.PI);
+        var area = ((double)0.0);
+        var len = points.Count;
+        for (var i = 0; i < len; i++)
+        {
+            var j = (i + 1) % len;
+            area += points[i].X * points[j].Y;
+            area -= points[j].X * points[i].Y;
+        }
+        return (area / 2.0);
     }
 }
