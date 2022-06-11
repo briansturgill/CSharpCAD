@@ -381,7 +381,7 @@ public class Poly3 : IEquatable<Poly3>
             foreach (var vertex in this.vertices)
             {
                 var dist = Math.Abs(normal.SignedDistanceToPoint(vertex));
-                if (dist > C.NEPS)
+                if (dist > C.EPS)
                 {
                     throw new ValidationException($"Poly3 must be coplanar: vertex {vertex} distance {dist}.");
                 }
