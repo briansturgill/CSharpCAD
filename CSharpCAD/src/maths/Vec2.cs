@@ -83,7 +83,6 @@ public readonly struct Vec2 : IEquatable<Vec2>
     }
 
     /// <summary>Returns the hypotenuse of the two points. Intentionally optimizing for speed.</summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double Hypot(double x, double y)
     {
         return Math.Sqrt(x * x + y * y);
@@ -124,7 +123,6 @@ public readonly struct Vec2 : IEquatable<Vec2>
     }
 
     /// <summary>Calculates the distance between this and the given vector.</summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public double Distance(Vec2 gv)
     {
         var x = gv.X - this.X;
@@ -181,7 +179,6 @@ public readonly struct Vec2 : IEquatable<Vec2>
     }
 
     /// <summary>Returns the maximum coordinates of this and a given vector.</summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Vec2 Max(Vec2 gv)
     {
         return new Vec2(
@@ -190,7 +187,6 @@ public readonly struct Vec2 : IEquatable<Vec2>
     }
 
     /// <summary>Returns the minimum coordinates of this and a given vector.</summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Vec2 Min(Vec2 gv)
     {
         return new Vec2(
