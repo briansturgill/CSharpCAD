@@ -872,6 +872,36 @@
             </example>
             <group>3D Primitives</group>
         </member>
+        <member name="M:CSharpCAD.CSCAD.Cutter2D(System.Double,System.Double,System.Nullable{CSharpCAD.Vec2})">
+            <summary>Construct a "cutter", a negative geometry object, suitable to cut a "pie slice" out of a circlular 2d object of radius r.</summary>
+            <remarks>
+            This object would normally be used as a second argument to "Subtract".
+            To use with an elliptical object, specify radius as the largest radius of the elliptical.
+            </remarks>
+            <param name="radius">Radius that matches the circle you want to cut.</param>
+            <param name="angle" default="90">Angle formed by the cut (in degrees).</param>
+            <param name="center" default="(0,0)">Center that coincides with the center of the circular target.</param>
+            <example>
+            // Cuts the fourth quadrant of the circle away.
+            var g = Subtract(Circle(radius: 5), Rotate((0, 0, 90), Cutter2D(radius: 6, angle: 90)));
+            </example>
+            <group>2D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Cutter3D(System.Double,System.Nullable{System.Double},System.Double,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Construct a "cutter", a negative geometry object, suitable to cut a "pie slice" out of a circlular 3D object of radius r.</summary>
+            <remarks>
+            This object would normally be used as a second argument to "Subtract".
+            To use with an elliptical object, specify radius as the largest radius of the elliptical.
+            </remarks>
+            <param name="radius">Radius that matches the circular 3D object you want to cut.</param>
+            <param name="height" default="radius*2+2">Height that matches the cylinder or other circular 3D object you want to cut.</param>
+            <param name="angle" default="90">Angle formed by the cut (in degrees).</param>
+            <param name="center" default="(0,0,0)">Center that coincides with the center of the circular target.</param>
+            <example>
+            var g = Subtract(Cylinder(height: 10, radius: 5), Cutter3D(radius: 5, height: 10, angle: 90));
+            </example>
+            <group>3D Primitives</group>
+        </member>
         <member name="M:CSharpCAD.CSCAD.Cylinder(System.Double,System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
             <summary>Construct a Z axis-aligned cylinder in three dimensional space.</summary>
             <param name="height">Height of the cylinder</param>
@@ -902,8 +932,8 @@
             <remarks>
             @see https://en.wikipedia.org/wiki/Ellipse
             </remarks>
-            <param name="center">Center of Ellipse. Default: [0,0].</param>
-            <param name="radius">Radius of ellipse, along X and Y axes. Default:[1,1]</param>
+            <param name="center" default="(0,0)">Center of Ellipse.</param>
+            <param name="radius" default="(1,1)">Radius of ellipse, along X and Y axes.</param>
             <param name="startAngle">Start angle of ellipse, in radians</param>
             <param name="endAngle">End angle of ellipse, in radians.</param>
             <param name="segments">Number of segments to create per full rotation.</param>

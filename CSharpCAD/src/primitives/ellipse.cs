@@ -7,8 +7,8 @@ public static partial class CSCAD
      * <remarks>
      * @see https://en.wikipedia.org/wiki/Ellipse
      * </remarks>
-     * <param name="center">Center of Ellipse. Default: [0,0].</param>
-     * <param name="radius">Radius of ellipse, along X and Y axes. Default:[1,1]</param>
+     * <param name="center" default="(0,0)">Center of Ellipse.</param>
+     * <param name="radius" default="(1,1)">Radius of ellipse, along X and Y axes.</param>
      * <param name="startAngle">Start angle of ellipse, in radians</param>
      * <param name="endAngle">End angle of ellipse, in radians.</param>
      * <param name="segments">Number of segments to create per full rotation.</param>
