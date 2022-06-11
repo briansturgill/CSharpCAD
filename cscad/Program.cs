@@ -3,12 +3,13 @@ using static CSharpCAD.CSCAD;
 using Path = CSharpCAD.CSCAD.Path;
 
 using System.Diagnostics;
+
+/*
 var loops = 100;
 var watch = new Stopwatch();
 var g2 = new Geom2();
 var g3 = new Geom3();
 
-/*
 System.Console.WriteLine("Starting");
 watch.Start();
 for (var i = 0; i < loops; i++)
@@ -173,7 +174,6 @@ static int vCount(Geom3 g)
 Console.WriteLine($"Sphere(32) {vCount(Sphere(radius: 10, segments: 32))}");
 Console.WriteLine($"Sphere(64) {vCount(Sphere(radius: 10, segments: 64))}");
 Console.WriteLine($"Sphere(128) {vCount(Sphere(radius: 10, segments: 128))}");
-*/
 
 loops = 1;
 var maxp2 = Math.Pow(2, 17);
@@ -208,3 +208,4 @@ for (var i = 32; i <= maxp2; i *= 2)
 {
     Console.WriteLine($"CylinderElliptic({i}) {vCount(CylinderElliptic(startRadius: (10, 10), endRadius: (10, 10), segments: i))}");
 }
+*/

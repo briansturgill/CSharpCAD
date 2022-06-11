@@ -102,7 +102,7 @@
         <member name="T:CSharpCAD.Geom3">
             <summary>Represents a new 3D geometry composed of polygons.</summary>
         </member>
-        <member name="P:CSharpCAD.Geom3.Polygons">
+        <member name="F:CSharpCAD.Geom3.polygons">
             
         </member>
         <member name="P:CSharpCAD.Geom3.Transforms">
@@ -128,7 +128,7 @@
         <member name="M:CSharpCAD.Geom3.#ctor">
             <summary>Internal constructor. Public for testing use only.</summary>
         </member>
-        <member name="M:CSharpCAD.Geom3.#ctor(CSharpCAD.Poly3[],CSharpCAD.Mat4,System.Nullable{CSharpCAD.CSCAD.Color},System.Boolean)">
+        <member name="M:CSharpCAD.Geom3.#ctor(CSharpCAD.Poly3[],CSharpCAD.Mat4,System.Nullable{CSharpCAD.CSCAD.Color},System.Boolean,System.Boolean)">
             <summary>Internal constructor. Public for testing use only.</summary>
         </member>
         <member name="M:CSharpCAD.Geom3.Equals(CSharpCAD.Geom3)">
