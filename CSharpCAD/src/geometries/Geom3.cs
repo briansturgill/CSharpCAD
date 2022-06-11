@@ -177,7 +177,7 @@ public class Geom3 : Geometry
         this.needsTransform = false;
         return this;
     }
-    
+
     /// <summary>Measure the epsilon value for this geometry object.</summary>
     public double MeasureEpsilon()
     {
@@ -213,20 +213,32 @@ public class Geom3 : Geometry
     {
         if (this.boundingBox is not null) return ((Vec3, Vec3))this.boundingBox;
         this.ApplyTransforms();
-        var min = new Vec3();
-        var max = new Vec3();
-        if (this.polygons.Length > 0)
+        if (this.polygons.Length == 0)
         {
-            min = this.polygons[0].ToPoints()[0];
+            return (new Vec3(), new Vec3());
         }
-        max = min;
+        var v0 = polygons[0].Vertices[0];
+        var min_x = v0.X;
+        var min_y = v0.Y;
+        var min_z = v0.Z;
+        var max_x = min_x;
+        var max_y = min_y;
+        var max_z = min_z;
+
         foreach (var p in this.polygons)
         {
-            var (n, x) = p.BoundingBox();
-            min = min.Min(n);
-            max = max.Max(x);
+            //var (n, x) = p.BoundingBox();
+            foreach (var v in p.Vertices)
+            {
+                if (v.X < min_x) min_x = v.X;
+                if (v.Y < min_y) min_y = v.Y;
+                if (v.Z < min_z) min_z = v.Z;
+                if (v.X > max_x) max_x = v.X;
+                if (v.Y > max_y) max_y = v.Y;
+                if (v.Z > max_z) max_z = v.Z;
+            }
         }
-        var bb = (min, max);
+        var bb = (new Vec3(min_x, min_y, min_z), new Vec3(max_x, max_y, max_z));
         this.boundingBox = bb;
         return bb;
     }

@@ -256,16 +256,26 @@ public class Poly3 : IEquatable<Poly3>
         if (this.boundingBox is not null) return ((Vec3, Vec3))this.boundingBox;
         var vertices = this.vertices;
         var numvertices = vertices.Length;
-        var min = numvertices == 0 ? new Vec3() : vertices[0];
-        var max = min;
+        if (numvertices == 0) return (new Vec3(), new Vec3());
+        var v0 = vertices[0];
+        var min_x = v0.X;
+        var min_y = v0.Y;
+        var min_z = v0.Z;
+        var max_x = min_x;
+        var max_y = min_y;
+        var max_z = min_z;
 
-        for (var i = 1; i < numvertices; i++)
+        foreach (var v in vertices)
         {
-            min = min.Min(vertices[i]);
-            max = max.Max(vertices[i]);
+            if (v.X < min_x) min_x = v.X;
+            if (v.Y < min_y) min_y = v.Y;
+            if (v.Z < min_z) min_z = v.Z;
+            if (v.X > max_x) max_x = v.X;
+            if (v.Y > max_y) max_y = v.Y;
+            if (v.Z > max_z) max_z = v.Z;
         }
 
-        var bb = (min, max);
+        var bb = (new Vec3(min_x, min_y, min_z), new Vec3(max_x, max_y, max_z));
         this.boundingBox = bb;
         return bb;
     }

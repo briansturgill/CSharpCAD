@@ -244,20 +244,21 @@ public class Geom2 : Geometry
             return (new Vec2(), new Vec2());
         }
         var p = sides[0].v0;
-        var minpoint = p;
-        var maxpoint = p;
+        var min_x = p.X;
+        var min_y = p.Y;
+        var max_x = min_x;
+        var max_y = min_y;
 
         foreach (var side in this.sides)
         {
             var p0 = side.v0;
-            var p1 = side.v1;
-            minpoint = minpoint.Min(p0); // LATER why are we checking both points in a side?
-            minpoint = minpoint.Min(p1);
-            maxpoint = maxpoint.Max(p0);
-            maxpoint = maxpoint.Max(p1);
+            if(p0.X < min_x) min_x = p0.X;
+            if(p0.Y < min_y) min_y = p0.Y;
+            if(p0.X > max_x) max_x = p0.X;
+            if(p0.Y > max_y) max_y = p0.Y;
         }
 
-        var bb = (minpoint, maxpoint);
+        var bb = (new Vec2(min_x, min_y), new Vec2(max_x, max_y));
         this.boundingBox = bb;
         return bb;
     }
