@@ -251,7 +251,7 @@ public class Geom2 : Geometry
         {
             var p0 = side.v0;
             var p1 = side.v1;
-            minpoint = minpoint.Min(p0);
+            minpoint = minpoint.Min(p0); // LATER why are we checking both points in a side?
             minpoint = minpoint.Min(p1);
             maxpoint = maxpoint.Max(p0);
             maxpoint = maxpoint.Max(p1);

@@ -97,22 +97,11 @@ public readonly struct Vec3 : IEquatable<Vec3>
         return true;
     }
 
-    /// <summary>Returns the hypotenuse of the three points, avoiding unnecessary underflow/overflow.</summary>
-    public static double Hypot(double _x, double _y, double _z)
+    /// <summary>Returns the hypotenuse of the three points. Intentionally optimizing for speed.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static double Hypot(double x, double y, double z)
     {
-        var x = _x < 0.0 ? -_x : _x;
-        var y = _y < 0.0 ? -_y : _y;
-        var z = _z < 0.0 ? -_z : _z;
-        var m = x > y ? x : y;
-        m = m > z ? m : z;
-        if (m == 0.0)
-        {
-            return 0.0;
-        }
-        x /= m;
-        y /= m;
-        z /= m;
-        return m * Math.Sqrt(x * x + y * y + z * z);
+        return Math.Sqrt(x * x + y * y + z * z);
     }
 
     /// <summary>Returns the vector of the absolute value of this vector's coordinates.</summary>
@@ -124,6 +113,7 @@ public readonly struct Vec3 : IEquatable<Vec3>
     }
 
     /// <summary>Returns the addition of this vector with the given vector.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Vec3 Add(Vec3 gv)
     {
         return new Vec3(this.X + gv.X,
@@ -151,6 +141,7 @@ public readonly struct Vec3 : IEquatable<Vec3>
     }
 
     /// <summary>Returns the Euclidian distance between this and the given vector.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public double Distance(Vec3 gv)
     {
         var _x = gv.X - this.X;
@@ -171,6 +162,7 @@ public readonly struct Vec3 : IEquatable<Vec3>
     public double Dot(Vec3 gv) => this.X * gv.X + this.Y * gv.Y + this.Z * gv.Z;
 
     /// <summary>Returns the length of a vector.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public double Length()
     {
         return Hypot(X, Y, Z);
@@ -185,6 +177,7 @@ public readonly struct Vec3 : IEquatable<Vec3>
     }
 
     /// <summary>Returns the maximum coordinates of this and the given vector.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Vec3 Max(Vec3 gv)
     {
         return new Vec3(Math.Max(this.X, gv.X),
@@ -193,6 +186,7 @@ public readonly struct Vec3 : IEquatable<Vec3>
     }
 
     /// <summary>Returns the minimum coordinates of this and the given vector.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Vec3 Min(Vec3 gv)
     {
         return new Vec3(Math.Min(this.X, gv.X),
@@ -302,6 +296,7 @@ public readonly struct Vec3 : IEquatable<Vec3>
     }
 
     /// <summary>Scales the coordinates of this vector by a scalar number.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Vec3 Scale(double amount)
     {
         return new Vec3(this.X * amount,

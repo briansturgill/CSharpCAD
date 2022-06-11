@@ -89,18 +89,6 @@ public class Vec3Tests
         var vec5b = new Vec3(1, 1, 0);
         var angle5 = vec5a.Angle(vec5b);
         Helpers.NearlyEqual(angle5, 0.785398, C.EPS);
-
-        // tiny values
-        var vec6a = new Vec3(1, 0, 0);
-        var vec6b = new Vec3(1e-200, 1e-200, 0);
-        var angle6 = vec6a.Angle(vec6b);
-        Helpers.NearlyEqual(angle6, 0.785398, C.EPS);
-
-        // huge values
-        var vec7a = new Vec3(1, 0, 0);
-        var vec7b = new Vec3(1e200, 1e200, 0);
-        var angle7 = vec7a.Angle(vec7b);
-        Helpers.NearlyEqual(angle7, 0.785398, C.EPS);
     }
 
     [Test]
@@ -261,16 +249,6 @@ public class Vec3Tests
         var vec9 = new Vec3(-1, 2, -3);
         var length9 = vec9.Length();
         Helpers.NearlyEqual(length9, 3.74165, C.EPS);
-
-        // huge vector
-        var vec10 = new Vec3(1e200, 0, 1e200);
-        var length10 = vec10.Length();
-        Helpers.NearlyEqual(length10, Math.Sqrt(2.0) * 1e200, C.EPS);
-
-        // tiny vector
-        var vec11 = new Vec3(1e-200, 0, 1e-200);
-        var length11 = vec11.Length();
-        Helpers.NearlyEqual(length11, Math.Sqrt(2.0) * 1e-200, C.EPS);
     }
 
     [Test]

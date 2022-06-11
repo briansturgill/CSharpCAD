@@ -1528,7 +1528,7 @@
             <summary>Used mostly for testing.</summary>
         </member>
         <member name="M:CSharpCAD.Vec2.Hypot(System.Double,System.Double)">
-            <summary>Returns the hypotenuse of the three points, avoiding unnecessary underflow/overflow.</summary>
+            <summary>Returns the hypotenuse of the two points. Intentionally optimizing for speed.</summary>
         </member>
         <member name="M:CSharpCAD.Vec2.Abs">
             <summary>Calculates the absolute coordinates of the given vector.</summary>
@@ -1656,7 +1656,7 @@
             <summary>Used mostly for testing.</summary>
         </member>
         <member name="M:CSharpCAD.Vec3.Hypot(System.Double,System.Double,System.Double)">
-            <summary>Returns the hypotenuse of the three points, avoiding unnecessary underflow/overflow.</summary>
+            <summary>Returns the hypotenuse of the three points. Intentionally optimizing for speed.</summary>
         </member>
         <member name="M:CSharpCAD.Vec3.Abs">
             <summary>Returns the vector of the absolute value of this vector's coordinates.</summary>

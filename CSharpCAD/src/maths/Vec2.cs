@@ -32,7 +32,8 @@ public readonly struct Vec2 : IEquatable<Vec2>
     public static bool operator !=(Vec2 a, Vec2 b) => !(a == b);
 
     /// <summary>Automatically convert a tuple of 2 doubles to a Vec2.</summary>
-    public static implicit operator Vec2((double, double) tuple) {
+    public static implicit operator Vec2((double, double) tuple)
+    {
         var (x, y) = tuple;
         return new Vec2(x, y);
     }
@@ -81,19 +82,11 @@ public readonly struct Vec2 : IEquatable<Vec2>
         return true;
     }
 
-    /// <summary>Returns the hypotenuse of the three points, avoiding unnecessary underflow/overflow.</summary>
-    public static double Hypot(double _x, double _y)
+    /// <summary>Returns the hypotenuse of the two points. Intentionally optimizing for speed.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static double Hypot(double x, double y)
     {
-        var x = _x < 0.0 ? -_x : _x;
-        var y = _y < 0.0 ? -_y : _y;
-        var m = x > y ? x : y;
-        if (m == 0.0)
-        {
-            return 0.0;
-        }
-        x /= m;
-        y /= m;
-        return m * Math.Sqrt(x * x + y * y);
+        return Math.Sqrt(x * x + y * y);
     }
 
     /// <summary>Calculates the absolute coordinates of the given vector.</summary>
@@ -131,6 +124,7 @@ public readonly struct Vec2 : IEquatable<Vec2>
     }
 
     /// <summary>Calculates the distance between this and the given vector.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public double Distance(Vec2 gv)
     {
         var x = gv.X - this.X;
@@ -187,6 +181,7 @@ public readonly struct Vec2 : IEquatable<Vec2>
     }
 
     /// <summary>Returns the maximum coordinates of this and a given vector.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Vec2 Max(Vec2 gv)
     {
         return new Vec2(
@@ -195,6 +190,7 @@ public readonly struct Vec2 : IEquatable<Vec2>
     }
 
     /// <summary>Returns the minimum coordinates of this and a given vector.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Vec2 Min(Vec2 gv)
     {
         return new Vec2(

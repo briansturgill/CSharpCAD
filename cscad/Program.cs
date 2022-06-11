@@ -209,3 +209,5 @@ for (var i = 32; i <= maxp2; i *= 2)
     Console.WriteLine($"CylinderElliptic({i}) {vCount(CylinderElliptic(startRadius: (10, 10), endRadius: (10, 10), segments: i))}");
 }
 */
+
+Console.WriteLine("Hello, World!");

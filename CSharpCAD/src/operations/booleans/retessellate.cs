@@ -29,7 +29,7 @@ public static partial class CSCAD
     */
     internal static Geom3 Retessellate(Geom3 geometry)
     {
-        if (geometry.IsRetesselated)
+        if (geometry.IsRetesselated || geometry.polygons.Length == 0)
         {
             return geometry;
         }

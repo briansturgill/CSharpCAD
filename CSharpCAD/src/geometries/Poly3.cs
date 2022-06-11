@@ -258,6 +258,7 @@ public class Poly3 : IEquatable<Poly3>
         var numvertices = vertices.Length;
         var min = numvertices == 0 ? new Vec3() : vertices[0];
         var max = min;
+
         for (var i = 1; i < numvertices; i++)
         {
             min = min.Min(vertices[i]);
