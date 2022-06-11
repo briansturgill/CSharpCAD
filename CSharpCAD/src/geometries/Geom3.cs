@@ -4,9 +4,10 @@ namespace CSharpCAD;
 public class Geom3 : Geometry
 {
     ///
-    public Poly3[] Polygons { get => this.polygons; }
-    private Poly3[] polygons;
+    internal Poly3[] polygons;
     private Mat4 transforms;
+    private (Vec3, Vec3)? boundingBox;
+    private bool needsTransform;
     ///
     public Mat4 Transforms { get => this.transforms; }
     ///
@@ -38,6 +39,8 @@ public class Geom3 : Geometry
         this.Color = null;
         this.transforms = new Mat4();
         this.IsRetesselated = false;
+        this.boundingBox = null;
+        this.needsTransform = false;
         if (GlobalParams.CheckingEnabled)
         {
             this.Validate();
@@ -51,15 +54,19 @@ public class Geom3 : Geometry
         this.transforms = new Mat4();
         this.Color = null;
         this.IsRetesselated = false;
+        this.boundingBox = null;
+        this.needsTransform = false;
     }
 
     /// <summary>Internal constructor. Public for testing use only.</summary>
-    public Geom3(Poly3[] polygons, Mat4? transforms = null, Color? Color = null, bool isRetesselated = false)
+    public Geom3(Poly3[] polygons, Mat4? transforms = null, Color? Color = null, bool isRetesselated = false, bool needsTransform = false)
     {
         this.polygons = polygons;
         this.transforms = transforms ?? new Mat4();
         this.Color = Color;
         this.IsRetesselated = isRetesselated;
+        this.boundingBox = null;
+        this.needsTransform = needsTransform;
         if (GlobalParams.CheckingEnabled)
         {
             this.Validate();
@@ -156,6 +163,7 @@ public class Geom3 : Geometry
     /// <remarks>NOTE: This function must be called BEFORE exposing any data. See toPolygons.</remarks>
     public Geom3 ApplyTransforms()
     {
+        if (!this.needsTransform) return this;
         if (this.transforms.IsIdentity()) return this;
 
         // apply transforms to each polygon
@@ -166,6 +174,7 @@ public class Geom3 : Geometry
             polygons[i] = polygons[i].Transform(this.transforms);
         }
         this.transforms = new Mat4();
+        this.needsTransform = false;
         return this;
     }
     
@@ -183,7 +192,7 @@ public class Geom3 : Geometry
     public Geom3 Clone()
     {
         // There is no need to copy the transform matrix or Color as they are immutable.
-        return new Geom3(this.polygons.ToArray(), this.transforms, this.Color);
+        return new Geom3(this.polygons.ToArray(), this.transforms, this.Color, this.IsRetesselated, this.needsTransform);
     }
 
     /// <summary>Invert this geometry, transposing solid and empty space.</summary>
@@ -202,6 +211,7 @@ public class Geom3 : Geometry
     /// <summary>Return the (min, max) BoundingBox of this geometry.</summary>
     public (Vec3, Vec3) BoundingBox()
     {
+        if (this.boundingBox is not null) return ((Vec3, Vec3))this.boundingBox;
         this.ApplyTransforms();
         var min = new Vec3();
         var max = new Vec3();
@@ -216,7 +226,9 @@ public class Geom3 : Geometry
             min = min.Min(n);
             max = max.Max(x);
         }
-        return (min, max);
+        var bb = (min, max);
+        this.boundingBox = bb;
+        return bb;
     }
 
     /// <summary>Return this geometry as a list of points, after applying transforms.</summary>
@@ -241,7 +253,7 @@ public class Geom3 : Geometry
     public Geom3 Transform(Mat4 matrix)
     {
         var transforms = matrix.Multiply(this.transforms);
-        return new Geom3(this.polygons.ToArray(), transforms, Color);
+        return new Geom3(this.polygons.ToArray(), transforms, Color, needsTransform: true);
     }
 
     /**

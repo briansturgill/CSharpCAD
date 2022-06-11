@@ -5,6 +5,8 @@ public class Geom2 : Geometry
 {
     private Side[] sides;
     private Mat4 transforms;
+    private (Vec2, Vec2)? boundingBox;
+    private bool needsTransform;
     ///
     public Mat4 Transforms { get => this.transforms; }
     ///
@@ -22,14 +24,18 @@ public class Geom2 : Geometry
         this.sides = new Side[0];
         this.transforms = new Mat4();
         this.Color = null;
+        this.needsTransform = false;
+        this.boundingBox = null;
     }
 
     // Internal constructor.
-    internal Geom2(Side[] sides, Mat4? transforms = null, Color? Color = null)
+    internal Geom2(Side[] sides, Mat4? transforms = null, Color? Color = null, bool needsTransform = false)
     {
         this.sides = sides;
         this.transforms = transforms ?? new Mat4();
         this.Color = Color;
+        this.needsTransform = needsTransform;
+        this.boundingBox = null;
         if (GlobalParams.CheckingEnabled)
         {
             this.Validate();
@@ -67,6 +73,8 @@ public class Geom2 : Geometry
         this.sides = sides;
         this.Color = null;
         this.transforms = new Mat4();
+        this.needsTransform = false;
+        this.boundingBox = null;
         if (GlobalParams.CheckingEnabled)
         {
             this.Validate();
@@ -207,6 +215,7 @@ public class Geom2 : Geometry
     /// <remarks>NOTE: This function must be called BEFORE exposing any data. See ToSides().</remarks>
     public Geom2 ApplyTransforms()
     {
+        if (!this.needsTransform) return this;
         if (this.transforms.IsIdentity())
         {
             return this;
@@ -221,12 +230,14 @@ public class Geom2 : Geometry
             this.sides[i] = new Side(p0, p1);
         }
         this.transforms = new Mat4();
+        this.needsTransform = false;
         return this;
     }
 
     /// <summary>Measure the min and max bounds of the given (geom2) geometry.</summary>
     public (Vec2, Vec2) BoundingBox()
     {
+        if (this.boundingBox is not null) return ((Vec2, Vec2))this.boundingBox;
         this.ApplyTransforms();
         if (sides.Length == 0)
         {
@@ -246,14 +257,16 @@ public class Geom2 : Geometry
             maxpoint = maxpoint.Max(p1);
         }
 
-        return (minpoint, maxpoint);
+        var bb = (minpoint, maxpoint);
+        this.boundingBox = bb;
+        return bb;
     }
 
     /// <summary>Return a clone of this geometry.</summary>
     public Geom2 Clone()
     {
         // Sides, transforms and Color are immutable, so don't need to be explicitly copied.
-        return new Geom2(this.sides.ToArray(), this.transforms, this.Color);
+        return new Geom2(this.sides.ToArray(), this.transforms, this.Color, this.needsTransform);
     }
 
     /// <summary>Measure the epsilon of this geometry object.</summary>
@@ -427,7 +440,7 @@ public class Geom2 : Geometry
     public Geom2 Transform(Mat4 matrix)
     {
         var transforms = matrix.Multiply(this.transforms);
-        return new Geom2(this.sides.ToArray(), transforms, this.Color);
+        return new Geom2(this.sides.ToArray(), transforms, this.Color, needsTransform: true);
     }
 
     // Internal class.

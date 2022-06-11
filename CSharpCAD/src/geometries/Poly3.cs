@@ -8,6 +8,8 @@ public class Poly3 : IEquatable<Poly3>
     internal Vec3[] Vertices { get => vertices; }
     internal Color? Color;
     private CSharpCAD.Plane? _plane; // Cached Plane
+    private (Vec3, Vec3)? boundingBox = null;
+    private (Vec3, double)? boundingSphere = null;
 
     /// <summary>Creates a new 3D polygon with initial values.</summary>
     public Poly3(List<Vec3> points, Color? Color = null)
@@ -251,6 +253,7 @@ public class Poly3 : IEquatable<Poly3>
     /// <returns>Tuple of (min, max)</returns>
     public (Vec3, Vec3) BoundingBox()
     {
+        if (this.boundingBox is not null) return ((Vec3, Vec3))this.boundingBox;
         var vertices = this.vertices;
         var numvertices = vertices.Length;
         var min = numvertices == 0 ? new Vec3() : vertices[0];
@@ -260,19 +263,25 @@ public class Poly3 : IEquatable<Poly3>
             min = min.Min(vertices[i]);
             max = max.Max(vertices[i]);
         }
-        return (min, max);
+
+        var bb = (min, max);
+        this.boundingBox = bb;
+        return bb;
     }
 
     /// <summary>Measure the bounding sphere of the given polygon.</summary>
     /// <returns>Tuple of (center, radius)</returns>
     public (Vec3, double) BoundingSphere()
     {
+        if (this.boundingSphere is not null) return ((Vec3, double))this.boundingSphere;
         var (box_0, box_1) = this.BoundingBox();
         var center = box_0;
         center = box_0.Add(box_1);
         center = center.Scale(0.5);
         var radius = center.Distance(box_1);
-        return (center, radius);
+        var bs = (center, radius);
+        this.boundingSphere = bs;
+        return bs;
     }
 
     /**

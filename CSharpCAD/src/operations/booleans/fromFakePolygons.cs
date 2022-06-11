@@ -18,9 +18,10 @@ public static partial class CSCAD
         for (var i = 0; i < len; i++)
         {
             var vertex = vertices[i];
-            if (vertex.Z > 0) {
-              points3D.Add(vertex);
-              vert1Indices.Add(i);
+            if (vertex.Z > 0)
+            {
+                points3D.Add(vertex);
+                vert1Indices.Add(i);
             }
         }
 

@@ -59,7 +59,7 @@ public static partial class CSCAD
             destpolygons.AddRange(retesselayedpolygons);
         }
 
-        var result = new Geom3(destpolygons.ToArray(), new Mat4(), geometry.Color, true);
+        var result = new Geom3(destpolygons.ToArray(), new Mat4(), geometry.Color, isRetesselated: true);
 
         return result;
     }
