@@ -3,10 +3,10 @@ namespace CSharpCAD;
 /// <summary>An advanced class, you need to understand "extrudeFromSlices.cs" before using.</summary>
 public class Slice : IEquatable<Slice>
 {
-    internal Edge[] edges;
+    internal List<Edge> edges;
 
     // Internal constructor.
-    private Slice(Edge[] edges)
+    private Slice(List<Edge> edges)
     {
         this.edges = edges;
     }
@@ -14,12 +14,12 @@ public class Slice : IEquatable<Slice>
     // Internal constructor.
     internal Slice(Geom2.Side[] sides)
     {
-        edges = new Edge[sides.Length];
+        edges = new List<Edge>(sides.Length);
         // create a list of edges from the sides
         for (var i = 0; i < sides.Length; i++)
         {
             var side = sides[i];
-            edges[i] = new Edge(new Vec3(side.v0.X, side.v0.Y, 0), new Vec3(side.v1.X, side.v1.Y, 0));
+            edges.Add(new Edge(new Vec3(side.v0.X, side.v0.Y, 0), new Vec3(side.v1.X, side.v1.Y, 0)));
         }
     }
     /// <summary>Create a slice from the given points.</summary>
@@ -27,12 +27,12 @@ public class Slice : IEquatable<Slice>
     {
         if (points.Count < 3) throw new ArgumentException("The given points must contain THREE or more points.");
 
-        this.edges = new Edge[points.Count];
+        this.edges = new List <Edge>(points.Count);
         var prevpoint = points[points.Count - 1];
         for (int i = 0; i < points.Count; i++)
         {
             var point = points[i];
-            this.edges[i] = new Edge(new Vec3(prevpoint.X, prevpoint.Y, 0), new Vec3(point.X, point.Y, 0));
+            this.edges.Add(new Edge(new Vec3(prevpoint.X, prevpoint.Y, 0), new Vec3(point.X, point.Y, 0)));
             prevpoint = point;
         }
     }
@@ -42,12 +42,12 @@ public class Slice : IEquatable<Slice>
     {
         if (points.Count < 3) throw new ArgumentException("The given points must contain THREE or more points.");
 
-        this.edges = new Edge[points.Count];
+        this.edges = new List<Edge>(points.Count);
         var prevpoint = points[points.Count - 1];
         for (int i = 0; i < points.Count; i++)
         {
             var point = points[i];
-            this.edges[i] = new Edge(prevpoint, point);
+            this.edges.Add(new Edge(prevpoint, point));
             prevpoint = point;
         }
     }
@@ -62,12 +62,12 @@ public class Slice : IEquatable<Slice>
         var aedges = this.edges;
         var bedges = gs.edges;
 
-        if (aedges.Length != bedges.Length)
+        if (aedges.Count != bedges.Count)
         {
             return false;
         }
 
-        for (var i = 0; i < aedges.Length; i++)
+        for (var i = 0; i < aedges.Count; i++)
         {
             if (aedges[i] != bedges[i])
             {
@@ -130,12 +130,12 @@ public class Slice : IEquatable<Slice>
         var aedges = this.edges;
         var bedges = gs.edges;
 
-        if (aedges.Length != bedges.Length)
+        if (aedges.Count != bedges.Count)
         {
             return false;
         }
 
-        for (var i = 0; i < aedges.Length; i++)
+        for (var i = 0; i < aedges.Count; i++)
         {
             var aedge = aedges[i];
             var bedge = bedges[i];
@@ -155,7 +155,7 @@ public class Slice : IEquatable<Slice>
     public Plane CalculatePlane()
     {
         var edges = this.edges;
-        if (edges.Length < 3) throw new ArgumentException("Slices must have 3 or more edges to calculate a plane.");
+        if (edges.Count < 3) throw new ArgumentException("Slices must have 3 or more edges to calculate a plane.");
 
         // find the midpoint of the slice, which will lie on the plane by definition
         var midpoint = new Vec3();
@@ -163,7 +163,7 @@ public class Slice : IEquatable<Slice>
         {
             midpoint = edge.v0.Add(midpoint);
         }
-        midpoint = midpoint.Scale(1 / edges.Length);
+        midpoint = midpoint.Scale(1 / edges.Count);
 
         // find the farthest edge from the midpoint, which will be on an outside edge
         Edge farthestEdge = new Edge();
@@ -181,7 +181,7 @@ public class Slice : IEquatable<Slice>
             }
         }
         // find the before edge
-        var beforeEdge = Array.Find(edges, (Edge edge) => edge.v1 == farthestEdge.v0);
+        var beforeEdge = edges.Find((Edge edge) => edge.v1 == farthestEdge.v0);
         if (beforeEdge is null)
         {
             throw new InvalidDataException("Faulty edge set.");
@@ -193,15 +193,15 @@ public class Slice : IEquatable<Slice>
     public Slice Reverse()
     {
         // reverse the edges
-        var newedges = new Edge[edges.Length];
-        for (int i = 0; i < edges.Length; i++)
+        var newedges = new List<Edge>(edges.Count);
+        for (int i = 0; i < edges.Count; i++)
         {
-            newedges[i] = new Edge(edges[i].v1, edges[i].v0);
+            newedges.Add(new Edge(edges[i].v1, edges[i].v0));
         }
         return new Slice(newedges);
     }
 
-    internal Edge[] ToEdges() => edges;
+    internal List<Edge> ToEdges() => edges;
 
     private Poly3 toPolygon3D(Vec3 vector, Edge edge)
     {
@@ -278,11 +278,11 @@ public class Slice : IEquatable<Slice>
     /// <summary>Transform this slice using the given matrix.</summary>
     public Slice Transform(Mat4 matrix)
     {
-        var newedges = new Edge[edges.Length];
-        for (var i = 0; i < edges.Length; i++)
+        var newedges = new List<Edge>(edges.Count);
+        for (var i = 0; i < edges.Count; i++)
         {
             var edge = edges[i];
-            newedges[i] = new Edge(edge.v0.Transform(matrix), edge.v1.Transform(matrix));
+            newedges.Add(new Edge(edge.v0.Transform(matrix), edge.v1.Transform(matrix)));
         }
         return new Slice(newedges);
     }
@@ -349,7 +349,7 @@ public class Slice : IEquatable<Slice>
     /// <summary>Mend gaps in a 2D slice to make it a closed polygon.</summary>
     public void RepairSlice()
     {
-        if (edges.Length == 0) return;
+        if (edges.Count == 0) return;
         var edgeCount = new Dictionary<Vec3, int>(); // count of (in - out) edges
         foreach (var edge in edges)
         {
@@ -402,6 +402,6 @@ public class Slice : IEquatable<Slice>
             }
         }
         // Remove self-edges
-        edges = edges.Where((Edge e) => e.v0 != e.v1).ToArray();
+        edges = edges.Where((Edge e) => e.v0 != e.v1).ToList();
     }
 }

@@ -17,10 +17,10 @@ public static partial class CSCAD
 
     // Return a set of edges that encloses the same area by splitting
     // the given edges to have newlength total edges.
-    private static Slice.Edge[] repartitionEdges(int newlength, Slice.Edge[] edges)
+    private static List<Slice.Edge> repartitionEdges(int newlength, List<Slice.Edge> edges)
     {
         // NOTE: This implementation splits each edge evenly.
-        var multiple = newlength / edges.Length;
+        var multiple = newlength / edges.Count;
         if (multiple == 1)
         {
             return edges;
@@ -43,7 +43,7 @@ public static partial class CSCAD
                 prev = next;
             }
         }
-        return newEdges.ToArray();
+        return newEdges;
     }
 
     private static readonly double EPSAREA = (C.EPS * C.EPS / 2) * Math.Sin(Math.PI / 3);
@@ -57,16 +57,16 @@ public static partial class CSCAD
         var edges0 = slice0.ToEdges();
         var edges1 = slice1.ToEdges();
 
-        if (edges0.Length != edges1.Length)
+        if (edges0.Count != edges1.Count)
         {
             // different shapes, so adjust one or both to the same number of edges
-            var newlength = lcm(edges0.Length, edges1.Length);
-            if (newlength != edges0.Length) edges0 = repartitionEdges(newlength, edges0);
-            if (newlength != edges1.Length) edges1 = repartitionEdges(newlength, edges1);
+            var newlength = lcm(edges0.Count, edges1.Count);
+            if (newlength != edges0.Count) edges0 = repartitionEdges(newlength, edges0);
+            if (newlength != edges1.Count) edges1 = repartitionEdges(newlength, edges1);
         }
 
         var walls = new List<Poly3>();
-        for (var i = 0; i < edges0.Length; i++)
+        for (var i = 0; i < edges0.Count; i++)
         {
             var edge0 = edges0[i];
             var edge1 = edges1[i];

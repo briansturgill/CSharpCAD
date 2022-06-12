@@ -67,7 +67,7 @@ public static partial class CSCAD
             {
 
                 var edges = currentSlice.ToEdges();
-                if (edges.Length == 0) throw new ArgumentException("The callback function must return slices with one or more edges");
+                if (edges.Count == 0) throw new ArgumentException("The callback function must return slices with one or more edges");
 
 
                 if (prevSlice is not null)

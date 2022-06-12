@@ -33,9 +33,9 @@ internal static partial class CSharpCADInternals
                 this.basisMap = new Dictionary<Vec2, Vec3>();
 
                 // project slice onto 2D plane
-                var len = slice.edges.Length;
+                var len = slice.edges.Count;
                 var projected = new Geom2.Side[len];
-                for (var i = 0; i < slice.edges.Length; i++)
+                for (var i = 0; i < slice.edges.Count; i++)
                 {
                     var edge = slice.edges[i];
                     var v0 = this.To2D(edge.v0);
