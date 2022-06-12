@@ -259,4 +259,33 @@ for (var i = 0; i < loops; i++)
 }
 watch.Stop();
 System.Console.WriteLine($"Builting Poly3 Bounding Box 2 loops: {loops}: {watch.ElapsedMilliseconds}ms");
+
+loops = 1000000;
+var g = new Geom2();
+var g2 = new Geom2();
+watch.Start();
+for (var i = 0; i < loops; i++)
+{
+    g2 = SemiCircle(radius: 50, segments: 100, endAngle: 359);
+}
+watch.Stop();
+System.Console.WriteLine($"SemiCircle loops: {loops}: {watch.ElapsedMilliseconds}ms");
+watch.Reset();
+watch.Start();
+for (var i = 0; i < loops; i++)
+{
+    g = Circle(radius: 50, segments: 100);
+}
+watch.Stop();
+System.Console.WriteLine($"Circle loops: {loops}: {watch.ElapsedMilliseconds}ms");
+g.Validate();
+g2.Validate();
+System.Console.WriteLine($"{g.ToPoints().Length}, {g2.ToPoints().Length}, {g == g2}");
+Save("/tmp/semi.svg", g2);
 */
+
+var g = Cuboid(size: (10, 5, 8));
+foreach (var p in g.ToPolygons())
+{
+    Console.WriteLine(p);
+}

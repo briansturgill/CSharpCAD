@@ -136,7 +136,6 @@ public class Plane : IEquatable<Plane>
             var a = vertices[index];
             var b = vertices[(index + 1) % len];
             var c = vertices[(index + 2) % len];
-            var ba = b.Subtract(a); // ba = b - a
             return b.Subtract(a).Cross(c.Subtract(a)).Normalize(); // ba = ba x ca
         }
 

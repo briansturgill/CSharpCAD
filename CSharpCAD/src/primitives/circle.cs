@@ -14,7 +14,6 @@ public static partial class CSCAD
     {
         if (radius <= 0.0) throw new ArgumentException("Radius value must be postive.");
         if (segments < 3) throw new ArgumentException("Segments must be at least 3.");
-        var _center = center ?? new Vec2(0, 0);
 
         var step = (Math.PI * 2) / segments; // radians per segment
 
@@ -23,8 +22,15 @@ public static partial class CSCAD
         for (var i = 0; i < segments; i++)
         {
             var angle = step * i;
-            var point = new Vec2(radius * Math.Cos(angle), radius * Math.Sin(angle));
-            points[i] = _center.Add(point);
+            points[i] = new Vec2(radius * Math.Cos(angle), radius * Math.Sin(angle));
+        }
+
+        if (center is not null && !(((Vec2)center).X == 0 && ((Vec2)center).Y == 0))
+        {
+            for (var i = 0; i < segments; i++)
+            {
+                points[i] = ((Vec2)center).Add(points[i]);
+            }
         }
 
         return new Geom2(points);
@@ -52,8 +58,6 @@ public static partial class CSCAD
         var rotation = endAngle - startAngle;
         if (GreaterThanOrEqualish(rotation, 360)) throw new ArgumentException("Total rotation must be less than 360 degrees.");
 
-        var _center = center ?? new Vec2(0, 0);
-
         // Starting here, everything is in radians.
         rotation = DegToRad(rotation);
         startAngle = DegToRad(startAngle);
@@ -61,17 +65,24 @@ public static partial class CSCAD
         var minangle = Math.Acos(((2 * radius * radius) - (C.EPS * C.EPS)) / (2 * radius * radius));
         if (rotation < minangle) throw new ArgumentException("Argments startAngle and endAngle do not define a significant rotation.");
 
-        var step = rotation / (double)(segments-1); // radians per segment
+        var step = rotation / (double)(segments - 1); // radians per segment
 
         var points = new Vec2[segments + 1];
         int i;
         for (i = 0; i < segments; i++)
         {
             var angle = (step * i) + startAngle;
-            var point = new Vec2(radius * Math.Cos(angle), radius * Math.Sin(angle));
-            points[i] = _center.Add(point);
+            points[i] = new Vec2(radius * Math.Cos(angle), radius * Math.Sin(angle));
         }
-        points[i] = _center;
+
+        if (center is not null && !(((Vec2)center).X == 0 && ((Vec2)center).Y == 0))
+        {
+            for (i = 0; i < segments; i++)
+            {
+                points[i] = ((Vec2)center).Add(points[i]);
+            }
+        }
+        points[i] = center ?? new Vec2();
         return new Geom2(points);
     }
 }

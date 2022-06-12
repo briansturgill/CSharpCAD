@@ -832,15 +832,25 @@
             <returns>The translated geometry object.</returns>
             <group>Transformations</group>
         </member>
-        <member name="M:CSharpCAD.CSCAD.Circle(System.Double,System.Int32,System.Double,System.Double,System.Nullable{CSharpCAD.Vec2})">
-            <summary>Construct a circle in 2D space, by default centered at (0, 0).</summary>
+        <member name="M:CSharpCAD.CSCAD.Circle(System.Double,System.Int32,System.Nullable{CSharpCAD.Vec2})">
+            <summary>Construct a circle in 2D space.</summary>
             <param name="radius">Radius of circle.</param>
             <param name="segments">Number of segments in a full rotation of circle.</param>
-            <param name="startAngle">Begining of the rotation of the circle (in radians).</param>
-            <param name="endAngle" default="Math.PI*2">End of the rotation of the circle (in radians).</param>
             <param name="center" default="(0,0)">Center of circle.</param>
             <example>
             var g = Circle(radius: 5, segments: 50));
+            </example>
+            <group>2D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.SemiCircle(System.Double,System.Int32,System.Double,System.Double,System.Nullable{CSharpCAD.Vec2})">
+            <summary>Construct a partial circle in 2D space.</summary>
+            <param name="radius">Radius of circle.</param>
+            <param name="segments">Number of segments within the rotation (endAngle-startAngle) of the partial circle.</param>
+            <param name="startAngle">Begining of the rotation of the circle (in degrees).</param>
+            <param name="endAngle">End of the rotation of the circle (in degrees).</param>
+            <param name="center" default="(0,0)">Center of circle.</param>
+            <example>
+            var g = SemiCircle(radius: 5, segments: 50, startAngle: 90, endAngle: 135);
             </example>
             <group>2D Primitives</group>
         </member>
