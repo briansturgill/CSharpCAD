@@ -186,7 +186,7 @@ public class Slice : IEquatable<Slice>
         {
             throw new InvalidDataException("Faulty edge set.");
         }
-        return Plane.FromPoints(new Vec3[] { beforeEdge.v0, farthestEdge.v0, farthestEdge.v1 });
+        return Plane.From3Points(beforeEdge.v0, farthestEdge.v0, farthestEdge.v1);
     }
 
     /// <summary>Reverse the edges of the given slice.</summary>
