@@ -139,16 +139,11 @@ public class Plane : IEquatable<Plane>
             return b.Subtract(a).Cross(c.Subtract(a)).Normalize(); // ba = ba x ca
         }
 
-        var ret = new Vec3();
-        if (len == 3)
+        var ret = vertexNormal(0); // optimization for triangles, which are always coplanar
+        if (len > 3)
         {
-            // optimization for triangles, which are always coplanar
-            ret = vertexNormal(0);
-        }
-        else
-        {
-            // sum of vertex normals
-            for (var i = 0; i < len; i++)
+            // sum of vertex normals - start at 1, 0 above
+            for (var i = 1; i < len; i++)
             {
                 ret = ret.Add(vertexNormal(i));
             }
@@ -156,7 +151,6 @@ public class Plane : IEquatable<Plane>
             ret = ret.Normalize();
         }
         return new Plane(ret, ret.Dot(vertices[0]));
-
     }
 
     /**
