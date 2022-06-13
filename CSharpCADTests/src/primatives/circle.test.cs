@@ -95,7 +95,7 @@ public class CircleTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // test startAngle
-        geometry = SemiCircle(radius: 3.5, startAngle: 90, endAngle: 360, segments: 13);
+        geometry = SemiCircle(radius: 3.5, startAngle: 90, endAngle: 360, segments: 16);
         Assert.DoesNotThrow(() => geometry.Validate());
         pts = ((Geom2)geometry).ToPoints();
         exp = new Vec2[] {
@@ -119,7 +119,7 @@ public class CircleTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // test endAngle
-        geometry = SemiCircle(radius: 3.5, endAngle: 90, segments: 5);
+        geometry = SemiCircle(radius: 3.5, endAngle: 90, segments: 16);
         Assert.DoesNotThrow(() => geometry.Validate());
         pts = ((Geom2)geometry).ToPoints();
         exp = new Vec2[] {

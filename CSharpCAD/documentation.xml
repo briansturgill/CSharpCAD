@@ -835,7 +835,7 @@
         <member name="M:CSharpCAD.CSCAD.Circle(System.Double,System.Int32,System.Nullable{CSharpCAD.Vec2})">
             <summary>Construct a circle in 2D space.</summary>
             <param name="radius">Radius of circle.</param>
-            <param name="segments">Number of segments in a full rotation of circle.</param>
+            <param name="segments">Number of segments in a full circle.</param>
             <param name="center" default="(0,0)">Center of circle.</param>
             <example>
             var g = Circle(radius: 5, segments: 50));
@@ -845,7 +845,7 @@
         <member name="M:CSharpCAD.CSCAD.SemiCircle(System.Double,System.Int32,System.Double,System.Double,System.Nullable{CSharpCAD.Vec2})">
             <summary>Construct a partial circle in 2D space.</summary>
             <param name="radius">Radius of circle.</param>
-            <param name="segments">Number of segments within the rotation (endAngle-startAngle) of the partial circle.</param>
+            <param name="segments">Number of segments in a full circle.</param>
             <param name="startAngle">Begining of the rotation of the circle (in degrees).</param>
             <param name="endAngle">End of the rotation of the circle (in degrees).</param>
             <param name="center" default="(0,0)">Center of circle.</param>

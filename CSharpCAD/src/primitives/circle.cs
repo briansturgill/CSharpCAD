@@ -4,7 +4,7 @@ public static partial class CSCAD
 {
     /// <summary>Construct a circle in 2D space.</summary>
     /// <param name="radius">Radius of circle.</param>
-    /// <param name="segments">Number of segments in a full rotation of circle.</param>
+    /// <param name="segments">Number of segments in a full circle.</param>
     /// <param name="center" default="(0,0)">Center of circle.</param>
     /// <example>
     /// var g = Circle(radius: 5, segments: 50));
@@ -38,7 +38,7 @@ public static partial class CSCAD
 
     /// <summary>Construct a partial circle in 2D space.</summary>
     /// <param name="radius">Radius of circle.</param>
-    /// <param name="segments">Number of segments within the rotation (endAngle-startAngle) of the partial circle.</param>
+    /// <param name="segments">Number of segments in a full circle.</param>
     /// <param name="startAngle">Begining of the rotation of the circle (in degrees).</param>
     /// <param name="endAngle">End of the rotation of the circle (in degrees).</param>
     /// <param name="center" default="(0,0)">Center of circle.</param>
@@ -58,6 +58,8 @@ public static partial class CSCAD
         var rotation = endAngle - startAngle;
         if (GreaterThanOrEqualish(rotation, 360)) throw new ArgumentException("Total rotation must be less than 360 degrees.");
 
+        segments = Floorish(segments * (rotation / 360.0)) + 1; // +1 is to match JSCAD behavior.
+        if (segments < 3) segments = 3;
         // Starting here, everything is in radians.
         rotation = DegToRad(rotation);
         startAngle = DegToRad(startAngle);
