@@ -1,0 +1,5 @@
+(cd ..; dotnet clean; dotnet build -c Release)
+dotnet clean; dotnet build -c Release
+echo Sleeping
+sleep 5
+dotnet run -c Release >cscad_perf_`date +%F`.txt
