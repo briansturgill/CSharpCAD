@@ -17,7 +17,6 @@ public static partial class CSCAD
     /// <group>3D Primitives</group>
     public static Geom3 Cube(double size = 2.0, Vec3? center = null)
     {
-        var _center = center ?? new Vec3(size / 2, size / 2, size / 2);
-        return Cuboid(size: (size, size, size), center: _center);
+        return Cuboid(size: new Vec3(size, size, size), center: center);
     }
 }
