@@ -284,8 +284,8 @@ System.Console.WriteLine($"{g.ToPoints().Length}, {g2.ToPoints().Length}, {g == 
 Save("/tmp/semi.svg", g2);
 */
 
-var g = Cuboid(size: (10, 5, 8));
-foreach (var p in g.ToPolygons())
-{
-    Console.WriteLine(p);
-}
+var g2 = Rectangle(size: (5, 8));
+g2.Validate();
+var g3 = ExtrudeSimple(g2, height: 10);
+Save("/tmp/cy_el.stl", g3);
+g3.Validate();

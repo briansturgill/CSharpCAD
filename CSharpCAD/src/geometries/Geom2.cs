@@ -252,10 +252,10 @@ public class Geom2 : Geometry
         foreach (var side in this.sides)
         {
             var p0 = side.v0;
-            if(p0.X < min_x) min_x = p0.X;
-            if(p0.Y < min_y) min_y = p0.Y;
-            if(p0.X > max_x) max_x = p0.X;
-            if(p0.Y > max_y) max_y = p0.Y;
+            if (p0.X < min_x) min_x = p0.X;
+            if (p0.Y < min_y) min_y = p0.Y;
+            if (p0.X > max_x) max_x = p0.X;
+            if (p0.Y > max_y) max_y = p0.Y;
         }
 
         var bb = (new Vec2(min_x, min_y), new Vec2(max_x, max_y));
@@ -269,6 +269,9 @@ public class Geom2 : Geometry
         // Sides, transforms and Color are immutable, so don't need to be explicitly copied.
         return new Geom2(this.sides.ToArray(), this.transforms, this.Color, this.needsTransform);
     }
+
+    /// <summary>Check that this geometry has only one connected path. (No cutouts.)</summary> 
+    public bool HasOnlyOnePath { get => sides[0].v0 == sides[sides.Length - 1].v1; }
 
     /// <summary>Measure the epsilon of this geometry object.</summary>
     public double MeasureEpsilon()

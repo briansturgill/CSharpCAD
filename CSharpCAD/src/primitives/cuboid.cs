@@ -7,7 +7,7 @@ public static partial class CSCAD
     /// The default center point is selected such that the bottom left
     /// corner of the cuboid is (0,0,0). (The cuboid is entirely in the first quadrant.)
     /// </remarks>
-    /// <param name="size">A vector of the length of each dimension.</param>
+    /// <param name="size" default="(2,2,2)">A vector of the length of each dimension.</param>
     /// <param name="center" default="(size.X/2,size.Y/2,size.Z/2)">The center point of the cube.</param>
     /// <example>
     /// var g = Cuboid(size: (10,20,10));
@@ -16,39 +16,19 @@ public static partial class CSCAD
     public static Geom3 Cuboid(Vec3? size = null, Vec3? center = null)
     {
         var _size = size ?? new Vec3(2.0, 2.0, 2.0);
-        var _center = center ?? new Vec3(_size.X/2.0, _size.Y/2.0, _size.Z/2.0);
+        Vec2? v2center = null;
+        double? center_z = null;
+        if (center is not null)
+        {
+            v2center = new Vec2(((Vec3)center).X, ((Vec3)center).Y);
+            center_z = ((Vec3)center).Z;
+        }
 
         if (_size.X <= 0 || _size.Y <= 0 || _size.Z <= 0)
         {
             throw new ArgumentException("All values in \"size\" must be greater than zero");
         }
 
-        // adjust a basic shape to size
-        var shape = new (int[], int[])[] {
-          (new int[] {0, 4, 6, 2}, new int[] {-1, 0, 0}),
-          (new int[] {1, 3, 7, 5}, new int[] {+1, 0, 0}),
-          (new int[] {0, 1, 5, 4}, new int[] {0, -1, 0}),
-          (new int[] {2, 6, 7, 3}, new int[] {0, +1, 0}),
-          (new int[] {0, 2, 3, 1}, new int[] {0, 0, -1}),
-          (new int[] {4, 5, 7, 6}, new int[] {0, 0, +1})
-        };
-
-        int cjsi(int expr) => expr != 0 ? 1 : 0; // cjsi == Crazy Javascript idiom, the meaning of !! in front of an expr
-
-        var polygons = new List<List<Vec3>>(6);
-        foreach (var (info, _) in shape)
-        {
-            var points = new List<Vec3>(4);
-            foreach (var i in info)
-            {
-                points.Add(new Vec3(
-                  _center.X + (_size.X / 2) * (2 * cjsi(i & 1) - 1),
-                  _center.Y + (_size.Y / 2) * (2 * cjsi(i & 2) - 1),
-                  _center.Z + (_size.Z / 2) * (2 * cjsi(i & 4) - 1)
-                ));
-            }
-            polygons.Add(points);
-        }
-        return new Geom3(polygons);
+        return InternalExtrudeSimple(InternalRectangle(new Vec2(_size.X, _size.Y), v2center), _size.Z, center_z);
     }
 }

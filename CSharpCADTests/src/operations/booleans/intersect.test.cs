@@ -3,6 +3,8 @@ namespace CSharpCADTests;
 [TestFixture]
 public class IntersectTests
 {
+    static bool WriteTests = false;
+
     [SetUp]
     public void Setup()
     {
@@ -63,6 +65,7 @@ public class IntersectTests
         var result1 = (Geom3)Intersect(geometry1);
         Assert.DoesNotThrow(() => result1.Validate());
         var obs = result1.ToPoints();
+        if(WriteTests) TestData.Make("IntersectGeom3Exp1", obs);
         var exp = UnitTestData.IntersectGeom3Exp1;
         Assert.AreEqual(obs.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
@@ -84,6 +87,7 @@ public class IntersectTests
         Assert.DoesNotThrow(() => result3.Validate());
         obs = result3.ToPoints();
 
+        if(WriteTests) TestData.Make("IntersectGeom3Exp2", obs);
         exp = UnitTestData.IntersectGeom3Exp2;
 
         Assert.AreEqual(obs.Count, exp.Count);

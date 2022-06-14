@@ -3,7 +3,7 @@ namespace CSharpCADTests;
 using NUnit.Framework;
 
 public static partial class UnitTestData {
-  public static List<List<Vec3>> IntersectGeom3Exp1 = new List<List<Vec3>> {
+  public static List<List<Vec3>> SubtractTransformGeom3Exp1 = new List<List<Vec3>> {
       new List<Vec3> {
         new Vec3(2, 0, 0),
         new Vec3(1.4142135623730951, -1.414213562373095, 0),

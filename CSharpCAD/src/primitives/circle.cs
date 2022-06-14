@@ -12,6 +12,11 @@ public static partial class CSCAD
     /// <group>2D Primitives</group>
     public static Geom2 Circle(double radius = 1, int segments = 32, Vec2? center = null)
     {
+        return new Geom2(InternalCircle(radius, segments, center));
+    }
+
+    internal static Vec2[] InternalCircle(double radius, int segments, Vec2? center)
+    {
         if (radius <= 0.0) throw new ArgumentException("Radius value must be postive.");
         if (segments < 3) throw new ArgumentException("Segments must be at least 3.");
 
@@ -33,7 +38,7 @@ public static partial class CSCAD
             }
         }
 
-        return new Geom2(points);
+        return points;
     }
 
     /// <summary>Construct a partial circle in 2D space.</summary>
@@ -47,6 +52,12 @@ public static partial class CSCAD
     /// </example>
     /// <group>2D Primitives</group>
     public static Geom2 SemiCircle(double radius = 1, int segments = 32,
+        double startAngle = 0, double endAngle = 90, Vec2? center = null)
+    {
+        return new Geom2(InternalSemiCircle(radius, segments, startAngle, endAngle, center));
+    }
+
+    internal static Vec2[] InternalSemiCircle(double radius = 1, int segments = 32,
         double startAngle = 0, double endAngle = 90, Vec2? center = null)
     {
         if (radius <= 0.0) throw new ArgumentException("Radius value must be postive.");
@@ -85,6 +96,6 @@ public static partial class CSCAD
             }
         }
         points[i] = center ?? new Vec2();
-        return new Geom2(points);
+        return points;
     }
 }

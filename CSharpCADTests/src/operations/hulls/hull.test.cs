@@ -3,6 +3,8 @@ namespace CSharpCADTests;
 [TestFixture]
 public class HullTests
 {
+    static bool WriteTests = false;
+
     [SetUp]
     public void Setup()
     {
@@ -180,14 +182,8 @@ public class HullTests
 
         var obs = (Geom3)Hull(geometry1, geometry1); // same
         var pts = obs.ToPoints();
-        var exp = new List<List<Vec3>> {
-          new List<Vec3>{new Vec3(-1, 1, -1), new Vec3(-1, 1, 1), new Vec3(1, 1, 1), new Vec3(1, 1, -1)},
-          new List<Vec3>{new Vec3(-1, 1, -1), new Vec3(1, 1, -1), new Vec3(1, -1, -1), new Vec3(-1, -1, -1)},
-          new List<Vec3>{new Vec3(-1, 1, -1), new Vec3(-1, -1, -1), new Vec3(-1, -1, 1), new Vec3(-1, 1, 1)},
-          new List<Vec3>{new Vec3(1, -1, 1), new Vec3(1, -1, -1), new Vec3(1, 1, -1), new Vec3(1, 1, 1)},
-          new List<Vec3>{new Vec3(1, -1, 1), new Vec3(1, 1, 1), new Vec3(-1, 1, 1), new Vec3(-1, -1, 1)},
-          new List<Vec3>{new Vec3(1, -1, 1), new Vec3(-1, -1, 1), new Vec3(-1, -1, -1), new Vec3(1, -1, -1)}
-          };
+        if (WriteTests) TestData.Make("HullMultipleGeom3Exp1", pts);
+        var exp = UnitTestData.HullMultipleGeom3Exp1;
 
         Assert.DoesNotThrow(() => obs.Validate());
         Assert.AreEqual(pts.Count, 6);
@@ -197,20 +193,8 @@ public class HullTests
 
         obs = (Geom3)Hull(geometry1, geometry2);
         pts = obs.ToPoints();
-        exp = new List<List<Vec3>> {
-          new List<Vec3>{new Vec3(1, -1, -1), new Vec3(6.5, 3.5, 3.5), new Vec3(6.5, 3.5, 6.5), new Vec3(1, -1, 1)},
-          new List<Vec3>{new Vec3(-1, -1, 1), new Vec3(-1, -1, -1), new Vec3(1, -1, -1), new Vec3(1, -1, 1)},
-          new List<Vec3>{new Vec3(-1, -1, 1), new Vec3(1, -1, 1), new Vec3(6.5, 3.5, 6.5), new Vec3(3.5, 3.5, 6.5)},
-          new List<Vec3>{new Vec3(-1, -1, 1), new Vec3(3.5, 3.5, 6.5), new Vec3(3.5, 6.5, 6.5), new Vec3(-1, 1, 1)},
-          new List<Vec3>{new Vec3(-1, 1, -1), new Vec3(-1, 1, 1), new Vec3(3.5, 6.5, 6.5), new Vec3(3.5, 6.5, 3.5)},
-          new List<Vec3>{new Vec3(-1, 1, -1), new Vec3(-1, -1, -1), new Vec3(-1, -1, 1), new Vec3(-1, 1, 1)},
-          new List<Vec3>{new Vec3(6.5, 6.5, 6.5), new Vec3(6.5, 3.5, 6.5), new Vec3(6.5, 3.5, 3.5), new Vec3(6.5, 6.5, 3.5)},
-          new List<Vec3>{new Vec3(6.5, 6.5, 6.5), new Vec3(6.5, 6.5, 3.5), new Vec3(3.5, 6.5, 3.5), new Vec3(3.5, 6.5, 6.5)},
-          new List<Vec3>{new Vec3(6.5, 6.5, 6.5), new Vec3(3.5, 6.5, 6.5), new Vec3(3.5, 3.5, 6.5), new Vec3(6.5, 3.5, 6.5)},
-          new List<Vec3>{new Vec3(1, 1, -1), new Vec3(1, -1, -1), new Vec3(-1, -1, -1), new Vec3(-1, 1, -1)},
-          new List<Vec3>{new Vec3(1, 1, -1), new Vec3(-1, 1, -1), new Vec3(3.5, 6.5, 3.5), new Vec3(6.5, 6.5, 3.5)},
-          new List<Vec3>{new Vec3(1, 1, -1), new Vec3(6.5, 6.5, 3.5), new Vec3(6.5, 3.5, 3.5), new Vec3(1, -1, -1)}
-          };
+        if (WriteTests) TestData.Make("HullMultipleGeom3Exp2", pts);
+        exp = UnitTestData.HullMultipleGeom3Exp2;
 
         Assert.DoesNotThrow(() => obs.Validate());
         Assert.AreEqual(pts.Count, 12);

@@ -7,6 +7,8 @@ namespace CSharpCADTests;
 [TestFixture]
 public class CubeTests
 {
+    static bool WriteTests = false;
+
     [SetUp]
     public void Setup()
     {
@@ -30,33 +32,21 @@ public class CubeTests
         // test center
         var obs = Cube(size: 7, center: (6.5, 6.5, 6.5));
         Assert.DoesNotThrow(() => obs.Validate());
-        var pts = ((Geom3)obs).ToPolygons();
-        var exp = new Poly3[] {
-          new Poly3(new Vec3[] { new Vec3(3, 3, 3), new Vec3(3, 3, 10), new Vec3(3, 10, 10), new Vec3(3, 10, 3)}),
-          new Poly3(new Vec3[] { new Vec3(10, 3, 3), new Vec3(10, 10, 3), new Vec3(10, 10, 10), new Vec3(10, 3, 10)}),
-          new Poly3(new Vec3[] { new Vec3(3, 3, 3), new Vec3(10, 3, 3), new Vec3(10, 3, 10), new Vec3(3, 3, 10)}),
-          new Poly3(new Vec3[] { new Vec3(3, 10, 3), new Vec3(3, 10, 10), new Vec3(10, 10, 10), new Vec3(10, 10, 3)}),
-          new Poly3(new Vec3[] { new Vec3(3, 3, 3), new Vec3(3, 10, 3), new Vec3(10, 10, 3), new Vec3(10, 3, 3)}),
-          new Poly3(new Vec3[] { new Vec3(3, 3, 10), new Vec3(10, 3, 10), new Vec3(10, 10, 10), new Vec3(3, 10, 10)})
-        };
+        var pts = ((Geom3)obs).ToPoints();
+        if (WriteTests) TestData.Make("CubeOptionsExp1", pts);
+        var exp = UnitTestData.CubeOptionsExp1;
 
-        Assert.AreEqual(pts.Length, 6);
-        Assert.IsTrue(Helpers.CompareArrays(pts, exp));
+        Assert.AreEqual(pts.Count, 6);
+        Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test size
         obs = Cube(size: 7, center: (0,0, 0));
         Assert.DoesNotThrow(() => obs.Validate());
-        pts = ((Geom3)obs).ToPolygons();
-        exp = new Poly3[] {
-          new Poly3(new Vec3[] { new Vec3(-3.5, -3.5, -3.5), new Vec3(-3.5, -3.5, 3.5), new Vec3(-3.5, 3.5, 3.5), new Vec3(-3.5, 3.5, -3.5)}),
-          new Poly3(new Vec3[] { new Vec3(3.5, -3.5, -3.5), new Vec3(3.5, 3.5, -3.5), new Vec3(3.5, 3.5, 3.5), new Vec3(3.5, -3.5, 3.5)}),
-          new Poly3(new Vec3[] { new Vec3(-3.5, -3.5, -3.5), new Vec3(3.5, -3.5, -3.5), new Vec3(3.5, -3.5, 3.5), new Vec3(-3.5, -3.5, 3.5)}),
-          new Poly3(new Vec3[] { new Vec3(-3.5, 3.5, -3.5), new Vec3(-3.5, 3.5, 3.5), new Vec3(3.5, 3.5, 3.5), new Vec3(3.5, 3.5, -3.5)}),
-          new Poly3(new Vec3[] { new Vec3(-3.5, -3.5, -3.5), new Vec3(-3.5, 3.5, -3.5), new Vec3(3.5, 3.5, -3.5), new Vec3(3.5, -3.5, -3.5)}),
-          new Poly3(new Vec3[] { new Vec3(-3.5, -3.5, 3.5), new Vec3(3.5, -3.5, 3.5), new Vec3(3.5, 3.5, 3.5), new Vec3(-3.5, 3.5, 3.5)})
-        };
+        pts = ((Geom3)obs).ToPoints();
+        if (WriteTests) TestData.Make("CubeOptionsExp2", pts);
+        exp = UnitTestData.CubeOptionsExp2;
 
-        Assert.AreEqual(pts.Length, 6);
-        Assert.IsTrue(Helpers.CompareArrays(pts, exp));
+        Assert.AreEqual(pts.Count, 6);
+        Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
     }
 }

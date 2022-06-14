@@ -11,8 +11,11 @@ public static partial class CSCAD
      * <param name="repair">Repair the slice to make it conformant.</param>
      * <group>3D Primitives</group>
      */
-    public static Geom3 ExtrudeLinear(Geom2 gobj, double height = 1, double twistAngle = 0, int twistSteps = 1, bool repair = true)
+    public static Geom3 ExtrudeLinear(Geometry gobj, double height = 1, double twistAngle = 0, int twistSteps = 1, bool repair = true)
     {
-        return ExtrudeLinearGeom2(gobj, new Vec3(0, 0, height), twistAngle, twistSteps, repair);
+        if (!gobj.Is2D) throw new ArgumentException("Only 2D geometry objects can be extruded.");
+        var _gobj = (Geom2)gobj;
+        if (twistAngle == 0 &&_gobj.HasOnlyOnePath) return ExtrudeSimple(_gobj, height);
+        return ExtrudeLinearGeom2(_gobj, new Vec3(0, 0, height), twistAngle, twistSteps, repair);
     }
 }

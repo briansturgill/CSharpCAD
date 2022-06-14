@@ -222,4 +222,9 @@ static class Helpers
             Console.WriteLine($"{tag}[{i}]: {l1[i]}, {l2[i]}");
         }
     }
+
+    public static void Log(string msg)
+    {
+        NUnit.Framework.TestContext.Out.WriteLine(msg);
+    }
 }
