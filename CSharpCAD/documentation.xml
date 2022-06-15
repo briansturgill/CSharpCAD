@@ -928,10 +928,25 @@
         </member>
         <member name="M:CSharpCAD.CSCAD.Cylinder(System.Double,System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
             <summary>Construct a Z axis-aligned cylinder in three dimensional space.</summary>
-            <param name="height">Height of the cylinder</param>
-            <param name="radius">Radius of the cylinder (at both start and end).</param>
-            <param name="segments">Number of segments to create per full rotation.</param>
-            <param name="center" default="(0,0,0)">Center of cylinder</param>
+            <remarks>The default center places the cylinder's base at (0,0,0).</remarks>
+            <param name="radius">Radius of the cylinder.</param>
+            <param name="height">Height of the cylinder.</param>
+            <param name="segments">Number of segments in the X, Y circular part of the cylinder.</param>
+            <param name="center" default="(0,0,height/2)">Center of cylinder</param>
+            <example>
+            var g = Cylinder(height: 2, radius: 10);
+            </example>
+            <group>3D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Semicylinder(System.Double,System.Double,System.Int32,System.Double,System.Double,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Construct a Z axis-aligned cylinder in three dimensional space.</summary>
+            <remarks>The default center places the cylinder's base at (0,0,0).</remarks>
+            <param name="radius">Radius of the cylinder.</param>
+            <param name="height">Height of the cylinder.</param>
+            <param name="segments">Number of segments in the X, Y circular part of the cylinder.</param>
+            <param name="startAngle">Begining of the rotation of the circular part (in degrees).</param>
+            <param name="endAngle">End of the rotation of the circular part (in degrees).</param>
+            <param name="center" default="(0,0,height/2)">Center of cylinder</param>
             <example>
             var g = Cylinder(height: 2, radius: 10);
             </example>
@@ -964,7 +979,7 @@
             </example>
             <group>2D Primitives</group>
         </member>
-        <member name="M:CSharpCAD.CSCAD.Semiellipse(System.Nullable{CSharpCAD.Vec2},System.Int32,System.Nullable{CSharpCAD.Vec2},System.Double,System.Double)">
+        <member name="M:CSharpCAD.CSCAD.Semiellipse(System.Nullable{CSharpCAD.Vec2},System.Int32,System.Double,System.Double,System.Nullable{CSharpCAD.Vec2})">
             <summary>Construct an axis-aligned ellipse in two dimensional space.</summary>
             <remarks>
             @see https://en.wikipedia.org/wiki/Ellipse

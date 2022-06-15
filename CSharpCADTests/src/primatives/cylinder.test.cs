@@ -7,6 +7,8 @@ namespace CSharpCADTests;
 [TestFixture]
 public class CylinderTests
 {
+    static bool WriteTests = false;
+
     [SetUp]
     public void Setup()
     {
@@ -19,7 +21,7 @@ public class CylinderTests
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
 
-        Assert.AreEqual(pts.Count, 96);
+        Assert.AreEqual(pts.Count, 34);
     }
 
 
@@ -29,60 +31,20 @@ public class CylinderTests
         var obs = Cylinder(height: 10, radius: 4, segments: 5);
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
-        var exp = new List<List<Vec3>> {
-          new List<Vec3> {new Vec3(0, 0, -5), new Vec3(1.2360679774997898, 3.804226065180614, -5), new Vec3(4, 0, -5)},
-          new List<Vec3> {new Vec3(1.2360679774997898, 3.804226065180614, -5), new Vec3(1.2360679774997898, 3.804226065180614, 5),
-            new Vec3(4, 0, 5), new Vec3(4, 0, -5)},
-          new List<Vec3> {new Vec3(0, 0, 5), new Vec3(4, 0, 5), new Vec3(1.2360679774997898, 3.804226065180614, 5)},
-          new List<Vec3> {new Vec3(0, 0, -5), new Vec3(-3.2360679774997894, 2.351141009169893, -5), new Vec3(1.2360679774997898, 3.804226065180614, -5)},
-          new List<Vec3> {new Vec3(-3.2360679774997894, 2.351141009169893, -5), new Vec3(-3.2360679774997894, 2.351141009169893, 5),
-            new Vec3(1.2360679774997898, 3.804226065180614, 5), new Vec3(1.2360679774997898, 3.804226065180614, -5)},
-          new List<Vec3> {new Vec3(0, 0, 5), new Vec3(1.2360679774997898, 3.804226065180614, 5), new Vec3(-3.2360679774997894, 2.351141009169893, 5)},
-          new List<Vec3> {new Vec3(0, 0, -5), new Vec3(-3.23606797749979, -2.351141009169892, -5), new Vec3(-3.2360679774997894, 2.351141009169893, -5)},
-          new List<Vec3> {new Vec3(-3.23606797749979, -2.351141009169892, -5), new Vec3(-3.23606797749979, -2.351141009169892, 5),
-            new Vec3(-3.2360679774997894, 2.351141009169893, 5), new Vec3(-3.2360679774997894, 2.351141009169893, -5)},
-          new List<Vec3> {new Vec3(0, 0, 5), new Vec3(-3.2360679774997894, 2.351141009169893, 5), new Vec3(-3.23606797749979, -2.351141009169892, 5)},
-          new List<Vec3> {new Vec3(0, 0, -5), new Vec3(1.236067977499789, -3.8042260651806146, -5), new Vec3(-3.23606797749979, -2.351141009169892, -5)},
-          new List<Vec3> {new Vec3(1.236067977499789, -3.8042260651806146, -5), new Vec3(1.236067977499789, -3.8042260651806146, 5),
-            new Vec3(-3.23606797749979, -2.351141009169892, 5), new Vec3(-3.23606797749979, -2.351141009169892, -5)},
-          new List<Vec3> {new Vec3(0, 0, 5), new Vec3(-3.23606797749979, -2.351141009169892, 5), new Vec3(1.236067977499789, -3.8042260651806146, 5)},
-          new List<Vec3> {new Vec3(0, 0, -5), new Vec3(4, -9.797174393178826e-16, -5), new Vec3(1.236067977499789, -3.8042260651806146, -5)},
-          new List<Vec3> {new Vec3(4, -9.797174393178826e-16, -5), new Vec3(4, -9.797174393178826e-16, 5),
-            new Vec3(1.236067977499789, -3.8042260651806146, 5), new Vec3(1.236067977499789, -3.8042260651806146, -5)},
-          new List<Vec3> {new Vec3(0, 0, 5), new Vec3(1.236067977499789, -3.8042260651806146, 5), new Vec3(4, -9.797174393178826e-16, 5)}
-        };
+        if(WriteTests) TestData.Make("CylinderOptsExp1", pts);
+        var exp = UnitTestData.CylinderOptsExp1;
 
-        Assert.AreEqual(pts.Count, 15);
+        Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test center
         obs = Cylinder(center: (-5, -5, -5), segments: 5);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
-        exp = new List<List<Vec3>> {
-          new List<Vec3> {new Vec3(-5, -5, -6), new Vec3(-4.6909830056250525, -4.048943483704846, -6), new Vec3(-4, -5, -6)},
-          new List<Vec3> {new Vec3(-4.6909830056250525, -4.048943483704846, -6), new Vec3(-4.6909830056250525, -4.048943483704846, -4),
-            new Vec3(-4, -5, -4), new Vec3(-4, -5, -6)},
-          new List<Vec3> {new Vec3(-5, -5, -4), new Vec3(-4, -5, -4), new Vec3(-4.6909830056250525, -4.048943483704846, -4)},
-          new List<Vec3> {new Vec3(-5, -5, -6), new Vec3(-5.8090169943749475, -4.412214747707527, -6), new Vec3(-4.6909830056250525, -4.048943483704846, -6)},
-          new List<Vec3> {new Vec3(-5.8090169943749475, -4.412214747707527, -6), new Vec3(-5.8090169943749475, -4.412214747707527, -4),
-            new Vec3(-4.6909830056250525, -4.048943483704846, -4), new Vec3(-4.6909830056250525, -4.048943483704846, -6)},
-          new List<Vec3> {new Vec3(-5, -5, -4), new Vec3(-4.6909830056250525, -4.048943483704846, -4), new Vec3(-5.8090169943749475, -4.412214747707527, -4)},
-          new List<Vec3> {new Vec3(-5, -5, -6), new Vec3(-5.8090169943749475, -5.587785252292473, -6), new Vec3(-5.8090169943749475, -4.412214747707527, -6)},
-          new List<Vec3> {new Vec3(-5.8090169943749475, -5.587785252292473, -6), new Vec3(-5.8090169943749475, -5.587785252292473, -4),
-            new Vec3(-5.8090169943749475, -4.412214747707527, -4), new Vec3(-5.8090169943749475, -4.412214747707527, -6)},
-          new List<Vec3> {new Vec3(-5, -5, -4), new Vec3(-5.8090169943749475, -4.412214747707527, -4), new Vec3(-5.8090169943749475, -5.587785252292473, -4)},
-          new List<Vec3> {new Vec3(-5, -5, -6), new Vec3(-4.6909830056250525, -5.951056516295154, -6), new Vec3(-5.8090169943749475, -5.587785252292473, -6)},
-          new List<Vec3> {new Vec3(-4.6909830056250525, -5.951056516295154, -6), new Vec3(-4.6909830056250525, -5.951056516295154, -4),
-            new Vec3(-5.8090169943749475, -5.587785252292473, -4), new Vec3(-5.8090169943749475, -5.587785252292473, -6)},
-          new List<Vec3> {new Vec3(-5, -5, -4), new Vec3(-5.8090169943749475, -5.587785252292473, -4), new Vec3(-4.6909830056250525, -5.951056516295154, -4)},
-          new List<Vec3> {new Vec3(-5, -5, -6), new Vec3(-4, -5, -6), new Vec3(-4.6909830056250525, -5.951056516295154, -6)},
-          new List<Vec3> {new Vec3(-4, -5, -6), new Vec3(-4, -5, -4),
-            new Vec3(-4.6909830056250525, -5.951056516295154, -4), new Vec3(-4.6909830056250525, -5.951056516295154, -6)},
-          new List<Vec3> {new Vec3(-5, -5, -4), new Vec3(-4.6909830056250525, -5.951056516295154, -4), new Vec3(-4, -5, -4)}
-        };
+        if(WriteTests) TestData.Make("CylinderOptsExp2", pts);
+        exp = UnitTestData.CylinderOptsExp2;
 
-        Assert.AreEqual(pts.Count, 15);
+        Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
     }
 }

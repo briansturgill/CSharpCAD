@@ -17,24 +17,24 @@ public static class Program
     public static void Main()
     {
 #if PERFS
-        Centers.Init();
+        //Centers.Init();
         Circles.Init();
         Cylinders.Init();
-        Expands.Init();
-        ExtrudeLinears.Init();
-        ExtrudeRectangulars.Init();
-        ExtrudeRotates.Init();
-        Hulls.Init();
-        Intersects.Init();
-        MeasurePolyBoundingSphere.Init();
-        Projects.Init();
-        RoundedCuboids.Init();
-        RoundedCylinders.Init();
-        RoundedRectangles.Init();
-        Spheres.Init();
-        Subtracts.Init();
-        Transforms.Init();
-        Unions.Init();
+        //Expands.Init();
+        //ExtrudeLinears.Init();
+        //ExtrudeRectangulars.Init();
+        //ExtrudeRotates.Init();
+        //Hulls.Init();
+        //Intersects.Init();
+        //MeasurePolyBoundingSphere.Init();
+        //Projects.Init();
+        //RoundedCuboids.Init();
+        //RoundedCylinders.Init();
+        //RoundedRectangles.Init();
+        //Spheres.Init();
+        //Subtracts.Init();
+        //Transforms.Init();
+        //Unions.Init();
 #endif
         var maxsamples = 1000;
         var watch = new Stopwatch();

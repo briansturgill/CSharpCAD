@@ -291,7 +291,7 @@ Save("/tmp/cy_el.stl", g3);
 g3.Validate();
 
 var c1 = Cuboid(size: (10, 10, 10));
-var c2 = (Geom3)Translate((1, 1, -1), Cuboid(size: (8, 8, 12)));
+var c2 = (Geom3)Translate((1, 1, 1), Cuboid(size: (8, 8, 9)));
 var g = (Geom3)Subtract(c1, c2);
 
 var polys_c1 = c1.ToPolygons();
@@ -303,6 +303,7 @@ foreach (var p in polys_c1)
     var v = p.SignedVolume();
     sum += v;
     Console.WriteLine($"c1 {v}");
+    Console.WriteLine($"c1 pts {p}");
 }
 Console.WriteLine($"c1 total {sum}");
 sum = 0.0;
@@ -322,3 +323,6 @@ foreach (var p in polys_g)
 }
 Console.WriteLine($"g total {sum}");
 sum = 0.0;
+Save("/tmp/a.stl", g);
+
+Save("/tmp/a.stl", Cylinder(radius: 10, height: 30));
