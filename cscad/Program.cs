@@ -325,4 +325,4 @@ Console.WriteLine($"g total {sum}");
 sum = 0.0;
 Save("/tmp/a.stl", g);
 
-Save("/tmp/a.stl", Cylinder(radius: 10, height: 30));
+Save("/tmp/a.stl", SemiellipticCylinder(radius: (10, 15), height: 30, startAngle: 45));

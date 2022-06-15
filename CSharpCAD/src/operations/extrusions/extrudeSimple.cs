@@ -24,6 +24,7 @@ public static partial class CSCAD
 
     internal static Geom3 InternalExtrudeSimple(Vec2[] v_in, double height, double? center_z)
     {
+        if (Equalish(height, 0.0)) throw new ArgumentException("Height cannot be zero.");
         var len = v_in.Length;
         var top = new Vec3[len];
         var bottom = new Vec3[len];

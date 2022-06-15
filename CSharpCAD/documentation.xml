@@ -1019,17 +1019,17 @@
             </example>
             <group>3D Primitives</group>
         </member>
-        <member name="M:CSharpCAD.CSCAD.SemiellipticCylinder(System.Double,System.Double,System.Int32,System.Double,System.Double,System.Nullable{CSharpCAD.Vec3})">
-            <summary>Construct a Z axis-aligned cylinder in three dimensional space.</summary>
-            <remarks>The default center places the cylinder's base at (0,0,0).</remarks>
-            <param name="radius">Radius of the cylinder.</param>
-            <param name="height">Height of the cylinder.</param>
-            <param name="segments">Number of segments in the X, Y circular part of the cylinder.</param>
-            <param name="startAngle">Begining of the rotation of the circular part (in degrees).</param>
+        <member name="M:CSharpCAD.CSCAD.SemiellipticCylinder(System.Nullable{CSharpCAD.Vec2},System.Double,System.Int32,System.Double,System.Double,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Construct a Z axis-aligned elliptic cylinder in three dimensional space.</summary>
+            <remarks>The default center places the elliptic cylinder's base at (0,0,0).</remarks>
+            <param name="radius" default="(1,1)">Radius of the elliptic cylinder.</param>
+            <param name="height">Height of the elliptic cylinder.</param>
+            <param name="segments">Number of segments in the X, Y elliptical part of the cylinder.</param>
+            <param name="startAngle">Begining of the rotation of the elliptical part (in degrees).</param>
             <param name="endAngle">End of the rotation of the circular part (in degrees).</param>
-            <param name="center" default="(0,0,height/2)">Center of cylinder</param>
+            <param name="center" default="(0,0,height/2)">Center of elliptic cylinder</param>
             <example>
-            var g = EllipticCylinder(height: 2, radius: 10);
+            var g = EllipticCylinder(height: 2, radius: 10, startAngle: 90, endAngle: 135);
             </example>
             <group>3D Primitives</group>
         </member>
