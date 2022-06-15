@@ -38,7 +38,7 @@ public static partial class CSCAD
      * <param name="endAngle">End of the rotation of the circular part (in degrees).</param>
      * <param name="center" default="(0,0,height/2)">Center of cylinder</param>
      * <example>
-     * var g = Cylinder(height: 2, radius: 10);
+     * var g = Semicylinder(height: 2, radius: 10, startAngle: 90, endAngle: 135);
      * </example>
      * <group>3D Primitives</group>
      */
