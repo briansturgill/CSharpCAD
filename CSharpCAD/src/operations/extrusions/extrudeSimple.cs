@@ -58,7 +58,6 @@ public static partial class CSCAD
             var next_top_p = new Vec3(next_v, top_most_p);
             bottom[bottom_i] = bottom_p;
             top[i] = top_p;
-            Console.WriteLine($"{bottom_p}, {next_bottom_p}, {next_top_p}, {top_p}");
             polys[polys_i++] = new Poly3(new Vec3[] { bottom_p, next_bottom_p, next_top_p, top_p });
             bottom_p = next_bottom_p;
             top_p = next_top_p;

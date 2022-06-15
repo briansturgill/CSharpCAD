@@ -289,3 +289,36 @@ g2.Validate();
 var g3 = ExtrudeSimple(g2, height: 10);
 Save("/tmp/cy_el.stl", g3);
 g3.Validate();
+
+var c1 = Cuboid(size: (10, 10, 10));
+var c2 = (Geom3)Translate((1, 1, -1), Cuboid(size: (8, 8, 12)));
+var g = (Geom3)Subtract(c1, c2);
+
+var polys_c1 = c1.ToPolygons();
+var polys_c2 = c2.ToPolygons();
+var polys_g = g.ToPolygons();
+var sum = 0.0;
+foreach (var p in polys_c1)
+{
+    var v = p.SignedVolume();
+    sum += v;
+    Console.WriteLine($"c1 {v}");
+}
+Console.WriteLine($"c1 total {sum}");
+sum = 0.0;
+foreach (var p in polys_c2)
+{
+    var v = p.SignedVolume();
+    sum += v;
+    Console.WriteLine($"c2 {v}");
+}
+Console.WriteLine($"c2 total {sum}");
+sum = 0.0;
+foreach (var p in polys_g)
+{
+    var v = p.SignedVolume();
+    sum += v;
+    Console.WriteLine($"g {v}");
+}
+Console.WriteLine($"g total {sum}");
+sum = 0.0;
