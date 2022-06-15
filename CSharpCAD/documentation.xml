@@ -952,20 +952,6 @@
             </example>
             <group>3D Primitives</group>
         </member>
-        <member name="M:CSharpCAD.CSCAD.CylinderElliptic(System.Double,System.Nullable{CSharpCAD.Vec2},System.Nullable{CSharpCAD.Vec2},System.Double,System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
-            <summary>Construct a Z axis-aligned elliptic cylinder in 3D space.</summary>
-            <param name="height">Height of cylinder.</param>
-            <param name="startRadius" default="(1,1)">Radius of rounded start.</param>
-            <param name="endRadius" default="(1,1)">Radius of rounded end.</param>
-            <param name="segments">Number of segments to create per full rotation.</param>
-            <param name="startAngle">Start angle of cylinder, in radians.</param>
-            <param name="endAngle" default="Math.PI*2">End angle of cylinder, in radians.</param>
-            <param name="center" default="(0,0,0)">Center of cylinder.</param>
-            <example>
-            var g = CylinderElliptic(height: 30, startRadius: (5,3), endRadius: (3,5));
-            </example>
-            <group>2D Primitives</group>
-        </member>
         <member name="M:CSharpCAD.CSCAD.Ellipse(System.Nullable{CSharpCAD.Vec2},System.Int32,System.Nullable{CSharpCAD.Vec2})">
             <summary>Construct an axis-aligned ellipse in two dimensional space.</summary>
             <remarks>
