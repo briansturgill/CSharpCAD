@@ -51,13 +51,13 @@ public static partial class CSCAD
     /// var g = SemiCircle(radius: 5, segments: 50, startAngle: 90, endAngle: 135);
     /// </example>
     /// <group>2D Primitives</group>
-    public static Geom2 SemiCircle(double radius = 1, int segments = 32,
+    public static Geom2 Semicircle(double radius = 1, int segments = 32,
         double startAngle = 0, double endAngle = 90, Vec2? center = null)
     {
-        return new Geom2(InternalSemiCircle(radius, segments, startAngle, endAngle, center));
+        return new Geom2(InternalSemicircle(radius, segments, startAngle, endAngle, center));
     }
 
-    internal static Vec2[] InternalSemiCircle(double radius = 1, int segments = 32,
+    internal static Vec2[] InternalSemicircle(double radius = 1, int segments = 32,
         double startAngle = 0, double endAngle = 90, Vec2? center = null)
     {
         if (radius <= 0.0) throw new ArgumentException("Radius value must be postive.");

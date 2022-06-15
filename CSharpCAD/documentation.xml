@@ -856,7 +856,7 @@
             </example>
             <group>2D Primitives</group>
         </member>
-        <member name="M:CSharpCAD.CSCAD.SemiCircle(System.Double,System.Int32,System.Double,System.Double,System.Nullable{CSharpCAD.Vec2})">
+        <member name="M:CSharpCAD.CSCAD.Semicircle(System.Double,System.Int32,System.Double,System.Double,System.Nullable{CSharpCAD.Vec2})">
             <summary>Construct a partial circle in 2D space.</summary>
             <param name="radius">Radius of circle.</param>
             <param name="segments">Number of segments in a full circle.</param>
@@ -951,18 +951,31 @@
             </example>
             <group>2D Primitives</group>
         </member>
-        <member name="M:CSharpCAD.CSCAD.Ellipse(System.Nullable{CSharpCAD.Vec2},System.Int32,System.Nullable{CSharpCAD.Vec2},System.Double,System.Double)">
+        <member name="M:CSharpCAD.CSCAD.Ellipse(System.Nullable{CSharpCAD.Vec2},System.Int32,System.Nullable{CSharpCAD.Vec2})">
             <summary>Construct an axis-aligned ellipse in two dimensional space.</summary>
             <remarks>
             @see https://en.wikipedia.org/wiki/Ellipse
             </remarks>
-            <param name="center" default="(0,0)">Center of Ellipse.</param>
             <param name="radius" default="(1,1)">Radius of ellipse, along X and Y axes.</param>
-            <param name="startAngle">Start angle of ellipse, in radians</param>
-            <param name="endAngle">End angle of ellipse, in radians.</param>
-            <param name="segments">Number of segments to create per full rotation.</param>
+            <param name="segments">Number of segments created in the full ellipse.</param>
+            <param name="center" default="(0,0)">Center of ellipse.</param>
             <example>
-            var g = CylinderElliptic(radius: (10, 5), segments: 50);
+            var g = Ellipse(radius: (10, 5), segments: 50);
+            </example>
+            <group>2D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Semiellipse(System.Nullable{CSharpCAD.Vec2},System.Int32,System.Nullable{CSharpCAD.Vec2},System.Double,System.Double)">
+            <summary>Construct an axis-aligned ellipse in two dimensional space.</summary>
+            <remarks>
+            @see https://en.wikipedia.org/wiki/Ellipse
+            </remarks>
+            <param name="radius" default="(1,1)">Radius of ellipse, along X and Y axes.</param>
+            <param name="segments">Number of segments created in a full ellipse.</param>
+            <param name="startAngle">Start angle of semiellipse, in degrees</param>
+            <param name="endAngle">End angle of semiellipse, in degrees.</param>
+            <param name="center" default="(0,0)">Center of semiellipse.</param>
+            <example>
+            var g = SemiEllipse(radius: (10, 5), segments: 50, startAngle: 90, endAngle: 135);
             </example>
             <group>2D Primitives</group>
         </member>

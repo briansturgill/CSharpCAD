@@ -95,7 +95,7 @@ public class EllipseTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // test startAngle
-        geometry = Ellipse(radius: (3, 5), startAngle: Math.PI / 2, segments: 16);
+        geometry = Semiellipse(radius: (3, 5), startAngle: 90, endAngle: 360, segments: 16);
         Assert.DoesNotThrow(() => geometry.Validate());
         obs = geometry.ToPoints();
         exp = new Vec2[] {
@@ -119,7 +119,7 @@ public class EllipseTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // test endAngle
-        geometry = Ellipse(radius: (3, 5), endAngle: Math.PI / 2, segments: 16);
+        geometry = Semiellipse(radius: (3, 5), endAngle: 90, segments: 16);
         Assert.DoesNotThrow(() => geometry.Validate());
         obs = geometry.ToPoints();
         exp = new Vec2[] {
