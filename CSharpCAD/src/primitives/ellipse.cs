@@ -63,13 +63,13 @@ public static partial class CSCAD
      * <group>2D Primitives</group>
      */
     public static Geom2 Semiellipse(Vec2? radius = null, int segments = 32,
-        Vec2? center = null, double startAngle = 0, double endAngle = 90)
+        double startAngle = 0, double endAngle = 90, Vec2? center = null)
     {
-        return new Geom2(InternalSemiellipse(radius, segments, center, startAngle, endAngle));
+        return new Geom2(InternalSemiellipse(radius, segments, startAngle, endAngle, center));
     }
 
     internal static Vec2[] InternalSemiellipse(Vec2? radius, int segments,
-        Vec2? center, double startAngle, double endAngle)
+        double startAngle, double endAngle, Vec2? center)
     {
         var _radius = radius ?? new Vec2(1.0, 1.0);
         if (_radius.X <= 0.0 || _radius.Y <= 0.0) throw new ArgumentException("Radius value must be postive.");
