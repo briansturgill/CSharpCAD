@@ -593,6 +593,19 @@
             <param name="center_z" default="height/2">The Z axis center of the extrusion.</param>
             <group>3D Primitives</group>
         </member>
+        <member name="M:CSharpCAD.CSCAD.ExtrudeSimpleBetween(CSharpCAD.Geometry,CSharpCAD.Geometry,System.Double,System.Nullable{System.Double})">
+            <summary>Extrude the from the bottom to the top the given geometries.</summary>
+            <remarks>
+            By default the geometry is positioned with its base at z=0.
+            It works only on 2D geometry objects with a single path. (No cutouts.)
+            Both geometries MUST have the same number of points.
+            </remarks>
+            <param name="top">Top 2D geometry to extrude. Must have only one path.</param>
+            <param name="bottom">Bottom 2D geometry to extrude. Must have only one path.</param>
+            <param name="height">The height of the extrusion.</param>
+            <param name="center_z" default="height/2">The Z axis center of the extrusion.</param>
+            <group>3D Primitives</group>
+        </member>
         <member name="M:CSharpCAD.CSCAD.Project(CSharpCAD.Geom3,System.Nullable{CSharpCAD.Vec3},System.Nullable{CSharpCAD.Vec3})">
             Project the given 3D geometry onto the given plane.
             <param name="obj">The given 3D geometry object.</param>
@@ -867,6 +880,19 @@
             var g = SemiCircle(radius: 5, segments: 50, startAngle: 90, endAngle: 135);
             </example>
             <group>2D Primitives</group>
+        </member>
+        <member name="M:CSharpCAD.CSCAD.Cone(System.Double,System.Double,System.Double,System.Int32,System.Nullable{CSharpCAD.Vec3})">
+            <summary>Construct a Z axis-aligned cone in three dimensional space.</summary>
+            <remarks>The default center places the cone's base at (0,0,0).</remarks>
+            <param name="top">Radius of the top of the cone.</param>
+            <param name="bottom">Radius of the bottom of the cone.</param>
+            <param name="height">Height of the cylinder.</param>
+            <param name="segments">Number of segments in the X, Y circular part of the cylinder.</param>
+            <param name="center" default="(0,0,height/2)">Center of cylinder</param>
+            <example>
+            var g = Cylinder(height: 2, radius: 10);
+            </example>
+            <group>3D Primitives</group>
         </member>
         <member name="M:CSharpCAD.CSCAD.Cube(System.Double,System.Nullable{CSharpCAD.Vec3})">
             <summary>Construct an axis-aligned solid cube in three dimensional space with six square faces.</summary>

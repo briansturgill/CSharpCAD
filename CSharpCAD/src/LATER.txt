@@ -27,3 +27,14 @@ Substantial changes have been made in project.js.
 I am not sure about them. project.cs should reviewed.
 
 Full Math set using degrees.
+
+make sure extrudes actually function correctly, not sure about their unit tests.
+
+polygon and polyhedron need CCW checking and help.
+
+
+Text? FreeType outlines? Extrude Rectangle revamp?
+
+
+ExtrudeSimpleToPoint
+ExtrudeSimpleBetween

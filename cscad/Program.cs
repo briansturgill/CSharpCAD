@@ -325,4 +325,12 @@ Console.WriteLine($"g total {sum}");
 sum = 0.0;
 Save("/tmp/a.stl", g);
 
-Save("/tmp/a.stl", SemiellipticCylinder(radius: (10, 15), height: 30, startAngle: 45));
+
+var g2top = Circle(radius: 10);
+var g2bottom = Circle(radius: 15);
+g3 = ExtrudeSimpleBetween(top: g2top, bottom: g2bottom, height: 20);
+g3 =  Cone(top: 10, bottom: 15, height: 20);
+Save("/tmp/a.stl", g3);
+g3 = ExtrudeSimpleBetween(top: Circle(radius: 0.1), bottom: g2bottom, height: 20);
+g3 =  Cone(top: 0.0, bottom: 15, height: 20);
+Save("/tmp/a0.stl", g3);
