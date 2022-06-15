@@ -21,7 +21,7 @@ public static class ExtrudeLinears
             name = "extrudeLinear",
             api = "extrudeLinear",
             div = "100",
-            func = () => { return ExtrudeLinear(circle_10, height: 100, twistAngle: 5, twistSteps: 10); }
+            func = () => { return ExtrudeLinear(circle_10, height: 100, twistAngle: RadToDeg(5), twistSteps: 10); }
         });
 
         Program.pTests.Add(new PTest
@@ -29,7 +29,7 @@ public static class ExtrudeLinears
             name = "extrudeLinear",
             api = "extrudeLinear",
             div = "500",
-            func = () => { return ExtrudeLinear(circle_50, height: 100, twistAngle: 5, twistSteps: 10); }
+            func = () => { return ExtrudeLinear(circle_50, height: 100, twistAngle: RadToDeg(5), twistSteps: 10); }
         });
 
         Program.pTests.Add(new PTest
@@ -37,7 +37,7 @@ public static class ExtrudeLinears
             name = "extrudeLinear",
             api = "extrudeLinear",
             div = "1000",
-            func = () => { return ExtrudeLinear(circle_100, height: 100, twistAngle: 5, twistSteps: 10); }
+            func = () => { return ExtrudeLinear(circle_100, height: 100, twistAngle: RadToDeg(5), twistSteps: 10); }
         });
 
         Program.pTests.Add(new PTest
@@ -45,7 +45,7 @@ public static class ExtrudeLinears
             name = "extrudeLinear",
             api = "extrudeLinear",
             div = "5000",
-            func = () => { return ExtrudeLinear(circle_100, height: 100, twistAngle: 5, twistSteps: 50); }
+            func = () => { return ExtrudeLinear(circle_100, height: 100, twistAngle: RadToDeg(5), twistSteps: 50); }
         });
 
         Program.pTests.Add(new PTest
@@ -53,7 +53,7 @@ public static class ExtrudeLinears
             name = "extrudeLinear",
             api = "extrudeLinear",
             div = "10000",
-            func = () => { return ExtrudeLinear(circle_100, height: 100, twistAngle: 5, twistSteps: 100); }
+            func = () => { return ExtrudeLinear(circle_100, height: 100, twistAngle: RadToDeg(5), twistSteps: 100); }
         });
     }
 }

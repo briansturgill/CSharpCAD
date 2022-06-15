@@ -29,7 +29,7 @@ public static class Transforms
     public static void Init()
     {
         var newfactors = (5, 5, 5);
-        var newangles = (Math.PI / 2, Math.PI / 2, Math.PI / 2);
+        var newangles = (90, 90, 90);
         var newoffsets = (-10, -10, -10);
 
         Program.pTests.Add(new PTest
