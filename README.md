@@ -19,7 +19,7 @@ do it, I suggest you override the contents of cscad/Program.cs with
 what you'd like to try.
 
 Documentation:
-[Main CSharpCAD site](https://briansturgill.github.io/CSharpCAD/)
+[Main CSharpCAD Documentation](https://briansturgill.github.io/CSharpCAD/CSharpCADDocs.html)
 
 
 Remember the API WILL CHANGE!
