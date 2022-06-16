@@ -34,7 +34,7 @@ public static partial class CSCAD
      * <param name="density">Density (Q) of star.</param>
      * <param name="outerRadius">Outer radius of vertices.</param>
      * <param name="innerRadius">Inner radius of vertices, or zero to calculate.</param>
-     * <param name="startAngle">Starting angle for first vertice, in radians.</param>
+     * <param name="startAngle">Starting angle for first vertice, in DEGREES.</param>
      * <param name="center" default="(0,0)">Center of star.</param>
      * <example>
      * var star1 = Star(vertices: 8, outerRadius: 10); // Star with 8/2 density.
@@ -48,9 +48,11 @@ public static partial class CSCAD
         var _center = center ?? new Vec2(0, 0);
 
         if (vertices < 2) throw new ArgumentException("Option vertices must be two or more.");
-        if (outerRadius < 0) throw new ArgumentException("Option outerRadius must be greater than zero.");
-        if (innerRadius < 0) throw new ArgumentException("Option innerRadius must be greater than zero.");
-        if (startAngle < 0) throw new ArgumentException("Option startAngle must be greater than zero.");
+        if (LessThanOrEqualish(outerRadius, 0)) throw new ArgumentException("Option outerRadius must be greater than zero.");
+        if (LessThanOrEqualish(innerRadius, 0)) throw new ArgumentException("Option innerRadius must be greater than zero.");
+        if (startAngle < 0) throw new ArgumentException("Option startAngle must be positive.");
+
+        startAngle = DegToRad(startAngle);
 
         // force integers
         vertices = Math.Floor(vertices);

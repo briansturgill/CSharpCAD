@@ -4,22 +4,27 @@ public static partial class CSCAD
 {
     /**
      * <summary>Rotate extrude the given geometry using the given options.</summary>
-     * <param name="geometry">The 2D geometry to extrude.</param>
-     * <param name="angle">Angle of the extrusion (RADIANS). Default: PI*2</param>
-     * <param name="startAngle">Start angle of the extrusion (RADIANS). Default: ((double)(0.0))</param>
-     * <param name="segments">Number of segments of the extrusion. Default: 12</param>
+     * <param name="gobj">The 2D geometry to extrude.</param>
+     * <param name="angle">Angle of the extrusion (DEGREES).</param>
+     * <param name="startAngle">Start angle of the extrusion (DEGREES).</param>
+     * <param name="segments">Number of segments of the extrusion.</param>
      * <returns>The extruded 3D geometry</returns>
      * <group>3D Primitives</group>
      */
-    public static Geom3 ExtrudeRotate(Geom2 geometry, int segments = 12, double startAngle = ((double)(0.0)), double angle = ((double)(Math.PI * 2)))
+    public static Geom3 ExtrudeRotate(Geometry gobj, int segments = 12, double startAngle = 0, double angle = 360)
     {
         // @param {String} [options.overflow="cap"] - what to do with points outside of bounds (+ / - x) :
         // defaults to capping those points to 0 (only supported behaviour for now)
         // CBS C# translation notd: We are not bothering with this as an option at all.
         // var overflow = opts.GetString("overflow", "cap");
-        var overflow = "cap";
 
-        if (segments < 3) throw new ArgumentException("segments must be greater then 3");
+        if (segments < 3) throw new ArgumentException("Segments must be greater than 3.");
+        if (!gobj.Is2D) throw new ArgumentException("Argument geometry must be a 2D geometry.");
+        var geometry = (Geom2)gobj;
+
+        startAngle = DegToRad(startAngle);
+        angle = DegToRad(angle);
+        var overflow = "cap";
 
         startAngle = Math.Abs(startAngle) > (Math.PI * 2) ? startAngle % (Math.PI * 2) : startAngle;
         angle = Math.Abs(angle) > (Math.PI * 2) ? angle % (Math.PI * 2) : angle;

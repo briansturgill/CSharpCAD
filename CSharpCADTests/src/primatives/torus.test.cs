@@ -39,7 +39,7 @@ public class TorusTests
     [Test]
     public void TestTorusComplexOptions()
     {
-        var obs = Torus(innerRadius: 1, outerRadius: 5, innerSegments: 32, outerSegments: 72, startAngle: Math.PI / 2, outerRotation: Math.PI / 2);
+        var obs = Torus(innerRadius: 1, outerRadius: 5, innerSegments: 32, outerSegments: 72, startAngle: 90, outerRotation: 90);
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
         Assert.AreEqual(pts.Count, 1212);

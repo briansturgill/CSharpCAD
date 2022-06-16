@@ -134,7 +134,7 @@ public static partial class CSCAD
     /**
      * <summary>Align the boundaries of the given geometry using the given options.</summary>
      * <param name="gobj">The geometry object to be aligned.</param>
-     * <param name="modes">A value from the AM enumeration, which consists of 3 letters (one for each of X, Y, Z): C - center, X - Max, N-Min, U-unaligned</param>
+     * <param name="modes" default="AM.CCN">A value from the AM enum, names consist of 3 letters ( 1 each for X, Y, Z): C - center, X - Max, N-Min, U-unaligned</param>
      * <param name="relativeTo" default="(0,0,0)">The point one each axis on which to align the geometry upon.</param>
      * <remarks>
      * C# syntax makes the porting of JSCAD's "align" difficult. We had to simplify.

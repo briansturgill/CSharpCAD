@@ -7,7 +7,7 @@ public static partial class CSCAD
      * <param name="gobj">2D geometry object to be extruded.</param>
      * <param name="size">Size of the rectangle.</param>
      * <param name="height">Height of the extrusion.</param>
-     * <param name="twistAngle">The final rotation (RADIANS) about the origin of the shape (if any).</param>
+     * <param name="twistAngle">The final rotation (DEGREES) about the origin of the shape (if any).</param>
      * <param name="twistSteps">The resolution of the twist about the axis (if any).</param>
      * <param name="corners">Type of corner to create after expanding.</param>
      * <param name="segments">Number of segments when creating round corners.</param>
@@ -25,6 +25,7 @@ public static partial class CSCAD
             throw new ArgumentException("Currently, only 2D objects are supported in ExtrudeRectangular.");
         }
 
+        twistAngle = DegToRad(twistAngle);
         return ExtrudeRectangularGeom2((Geom2)gobj, size, height, twistAngle, twistSteps, corners, segments);
     }
 }

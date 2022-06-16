@@ -33,19 +33,19 @@ public class ExtrudeRotateTests
         var geometry2 = new Geom2(new List<Vec2> { new Vec2(10, 8), new Vec2(10, -8), new Vec2(26, -8), new Vec2(26, 8) });
 
         // test angle
-        var geometry3 = ExtrudeRotate(geometry2, segments: 4, angle: Math.PI / 4);
+        var geometry3 = ExtrudeRotate(geometry2, segments: 4, angle: 45);
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
         var exp = UnitTestData.ExtrudeRotateAngleExp;
         Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
-        geometry3 = ExtrudeRotate(geometry2, segments: 4, angle: -250 * 0.017453292519943295);
+        geometry3 = ExtrudeRotate(geometry2, segments: 4, angle: -250);
         Assert.DoesNotThrow(() => geometry3.Validate());
         pts = geometry3.ToPoints();
         Assert.AreEqual(pts.Count, 28);
 
-        geometry3 = ExtrudeRotate(geometry2, segments: 4, angle: 250 * 0.017453292519943295);
+        geometry3 = ExtrudeRotate(geometry2, segments: 4, angle: 250);
         Assert.DoesNotThrow(() => geometry3.Validate());
         pts = geometry3.ToPoints();
         Assert.AreEqual(pts.Count, 28);
@@ -57,7 +57,7 @@ public class ExtrudeRotateTests
         var geometry2 = new Geom2(new List<Vec2> { new Vec2(10, 8), new Vec2(10, -8), new Vec2(26, -8), new Vec2(26, 8) });
 
         // test startAngle
-        var geometry3 = ExtrudeRotate(geometry2, segments: 5, startAngle: Math.PI / 4);
+        var geometry3 = ExtrudeRotate(geometry2, segments: 5, startAngle: 45);
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
         var exp = new List<Vec3>{
@@ -68,7 +68,7 @@ public class ExtrudeRotateTests
         Assert.AreEqual(pts.Count, 40);
         Assert.IsTrue(Helpers.CompareListsNEVec3(pts[0], exp));
 
-        geometry3 = ExtrudeRotate(geometry2, segments: 5, startAngle: Math.PI / -4);
+        geometry3 = ExtrudeRotate(geometry2, segments: 5, startAngle: -45);
         Assert.DoesNotThrow(() => geometry3.Validate());
         pts = geometry3.ToPoints();
         exp = new List<Vec3> {
@@ -118,7 +118,7 @@ public class ExtrudeRotateTests
         // overlap of Y axis; even number of + and - points
         var geometry = new Geom2(new List<Vec2> { new Vec2(-1, 8), new Vec2(-1, -8), new Vec2(7, -8), new Vec2(7, 8) });
 
-        var obs = ExtrudeRotate(geometry, segments: 4, angle: Math.PI / 2);
+        var obs = ExtrudeRotate(geometry, segments: 4, angle: 90);
         Assert.DoesNotThrow(() => geometry.Validate());
         var pts = obs.ToPoints();
         var exp = UnitTestData.ExtrudeRotateOverlapExp;
@@ -129,7 +129,7 @@ public class ExtrudeRotateTests
         // overlap of Y axis; larger number of - points
         geometry = new Geom2(new List<Vec2> { new Vec2(-1, 8), new Vec2(-2, 4), new Vec2(-1, -8), new Vec2(7, -8), new Vec2(7, 8) });
 
-        obs = ExtrudeRotate(geometry, segments: 8, angle: Math.PI / 2);
+        obs = ExtrudeRotate(geometry, segments: 8, angle: 90);
         Assert.DoesNotThrow(() => geometry.Validate());
         pts = obs.ToPoints();
         exp = UnitTestData.ExtrudeRotateOverlapExp2;

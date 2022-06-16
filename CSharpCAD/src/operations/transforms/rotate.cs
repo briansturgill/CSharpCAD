@@ -5,7 +5,7 @@ public static partial class CSCAD
 
     /**
      * <summary>Rotate the given objects using the given options.</summary>
-     * <param name="angles">The angle (RADIANS) of rotations about X, Y, and Z axis.</param>
+     * <param name="angles">The angle (DEGREES) of rotations about X, Y, and Z axis.</param>
      * <param name="g">The geometry object to rotate.</param>
      * <group>Transformations</group>
      */
@@ -22,7 +22,7 @@ public static partial class CSCAD
 
     /**
      * <summary>Rotate the given objects about the X axis.</summary>
-     * <param name="angle">The angle (RADIANS) of rotations about X.</param>
+     * <param name="angle">The angle (DEGREES) of rotations about X.</param>
      * <param name="g">The geometry object to rotate.</param>
      * <group>Transformations</group>
      */
@@ -30,7 +30,7 @@ public static partial class CSCAD
 
     /**
      * <summary>Rotate the given objects about the Y axis.</summary>
-     * <param name="angle">The angle (RADIANS) of rotations about Y.</param>
+     * <param name="angle">The angle (DEGREES) of rotations about Y.</param>
      * <param name="g">The geometry object to rotate.</param>
      * <group>Transformations</group>
      */
@@ -38,7 +38,7 @@ public static partial class CSCAD
 
     /**
      * <summary>Rotate the given objects about the Z axis.</summary>
-     * <param name="angle">The angle (RADIANS) of rotations about Z.</param>
+     * <param name="angle">The angle (DEGREES) of rotations about Z.</param>
      * <param name="g">The geometry object to rotate.</param>
      * <group>Transformations</group>
      */

@@ -9,15 +9,15 @@ public static partial class CSCAD
      * <param name="innerSegments">Number of segments to create per rotation.</param>
      * <param name="outerSegments">Number of segments to create per rotation.</param>
      * <param name="innerRotation">Rotation of small (inner) circle (DEGREES).</param>
-     * <param name="outerRotation" default="(Math.PI*2)">Rotation (outer) of the torus (RADIANS).</param>
-     * <param name="startAngle">Start angle of the torus (RADIANS).</param>
+     * <param name="outerRotation">Rotation (outer) of the torus (DEGREES).</param>
+     * <param name="startAngle">Start angle of the torus (DEGREES).</param>
      * <example>
      * var myshape = Torus(innerRadius: 10, outerRadius: 100);
      * </example>
      * <group>3D Primitives</group>
      */
     public static Geom3 Torus(double innerRadius = 1, int innerSegments = 32, double outerRadius = 4, int outerSegments = 32,
-        double innerRotation = 0, double startAngle = 0, double outerRotation = Math.PI * 2)
+        double innerRotation = 0, double startAngle = 0, double outerRotation = 360)
     {
         if (innerRadius <= 0) throw new ArgumentException("Option innerRadius must be greater than zero");
         if (innerSegments < 3) throw new ArgumentException("Option innerSegments must be three or more");
@@ -26,6 +26,8 @@ public static partial class CSCAD
         if (startAngle < 0) throw new ArgumentException("Option startAngle must be positive");
         if (outerRotation <= 0) throw new ArgumentException("Option outerRotation must be greater than zero");
         if (innerRadius >= outerRadius) throw new ArgumentException("Inner circle is too large to rotate about the outer circle.");
+
+        // We do not translate to radians, that will be handled within Rotate/ExtrudeRotate.
 
         var innerCircle = Circle(radius: innerRadius, segments: innerSegments);
 
