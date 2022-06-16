@@ -10,7 +10,7 @@
   </ItemGroup>
 	<PropertyGroup>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<DocumentationFile>documentation.xml</DocumentationFile>
+		<DocumentationFile>../../gh_pages/documentation.xml</DocumentationFile>
 	</PropertyGroup>
 
 
