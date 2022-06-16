@@ -119,36 +119,42 @@ public static partial class CSCAD
     }
 
     /// <summary>Cosine of angle in degrees.</summary>
+    /// <group>Trigonometry</group>
     public static double Cos(double angleInDegrees)
     {
         return Math.Cos(DegToRad(angleInDegrees));
     }
 
     /// <summary>Sine of angle in degrees.</summary>
+    /// <group>Trigonometry</group>
     public static double Sin(double angleInDegrees)
     {
         return Math.Sin(DegToRad(angleInDegrees));
     }
 
     /// <summary>ArcCosine of cosVal returning angle in degrees.</summary>
+    /// <group>Trigonometry</group>
     public static double Acos(double cosVal)
     {
         return RadToDeg(Math.Acos(cosVal));
     }
 
     /// <summary>ArcSine of sinVal returning angle in degrees.</summary>
+    /// <group>Trigonometry</group>
     public static double Asin(double sinVal)
     {
         return RadToDeg(Math.Asin(sinVal));
     }
 
     /// <summary>Convert degrees to radians.</summary>
+    /// <group>Trigonometry</group>
     public static double DegToRad(double angleInDegrees)
     {
         return angleInDegrees * (Math.PI / 180);
     }
 
     /// <summary>Convert radians to degrees.</summary>
+    /// <group>Trigonometry</group>
     public static double RadToDeg(double angleInRadians)
     {
         return angleInRadians * (180/Math.PI);

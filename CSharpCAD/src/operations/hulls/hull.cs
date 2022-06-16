@@ -4,7 +4,8 @@ public static partial class CSCAD
 {
     /**
      * <summary>Create a convex hull of the given geometries.</summary>
-     * <example>
+     * <remarks>Geometries have to be of the same type (all 2D or all 3D).</remarks>
+     * <pre>
      * +-------+           +-------+
      * |       |           |        \
      * |   A   |           |         \
@@ -16,6 +17,9 @@ public static partial class CSCAD
      *       |   B   |         \         |
      *       |       |          \        |
      *       +-------+           +-------+
+     * </pre>
+     * <example>
+     * var g = Hull(gobj1, gobj2, gobj3);
      * </example>
      * <group>Transformations</group>
      */

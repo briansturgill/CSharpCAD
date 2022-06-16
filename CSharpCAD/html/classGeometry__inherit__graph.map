@@ -1,0 +1,5 @@
+<map id="Geometry" name="Geometry">
+<area shape="rect" id="node1" title="Abstract class currently joining Geom2 and Geom3." alt="" coords="43,5,130,32"/>
+<area shape="rect" id="node2" href="$classGeom2.html" title="Represents a 2D geometry consisting of an array of sides." alt="" coords="5,80,75,107"/>
+<area shape="rect" id="node3" href="$classGeom3.html" title="Represents a new 3D geometry composed of polygons." alt="" coords="99,80,168,107"/>
+</map>

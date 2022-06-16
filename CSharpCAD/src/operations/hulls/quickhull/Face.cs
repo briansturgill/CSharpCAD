@@ -148,7 +148,7 @@ public static partial class CSCAD
             return this.normal.Dot(point) - this.offset;
         }
 
-        /**
+        /*
          * @private
          *
          * Connects two edges assuming that prev.Head().point == next.Tail().point

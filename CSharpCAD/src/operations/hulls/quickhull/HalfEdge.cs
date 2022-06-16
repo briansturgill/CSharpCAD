@@ -59,7 +59,7 @@ public static partial class CSCAD
         internal void SetOpposite(QHHalfEdge edge)
         {
             this.opposite = edge;
-            edge.opposite = this;  
+            edge.opposite = this;
         }
     }
 }

@@ -105,9 +105,6 @@
         <member name="T:CSharpCAD.Geom3">
             <summary>Represents a new 3D geometry composed of polygons.</summary>
         </member>
-        <member name="F:CSharpCAD.Geom3.polygons">
-            
-        </member>
         <member name="P:CSharpCAD.Geom3.Transforms">
             
         </member>
@@ -441,21 +438,27 @@
         </member>
         <member name="M:CSharpCAD.CSCAD.Cos(System.Double)">
             <summary>Cosine of angle in degrees.</summary>
+            <group>Trigonometry</group>
         </member>
         <member name="M:CSharpCAD.CSCAD.Sin(System.Double)">
             <summary>Sine of angle in degrees.</summary>
+            <group>Trigonometry</group>
         </member>
         <member name="M:CSharpCAD.CSCAD.Acos(System.Double)">
             <summary>ArcCosine of cosVal returning angle in degrees.</summary>
+            <group>Trigonometry</group>
         </member>
         <member name="M:CSharpCAD.CSCAD.Asin(System.Double)">
             <summary>ArcSine of sinVal returning angle in degrees.</summary>
+            <group>Trigonometry</group>
         </member>
         <member name="M:CSharpCAD.CSCAD.DegToRad(System.Double)">
             <summary>Convert degrees to radians.</summary>
+            <group>Trigonometry</group>
         </member>
         <member name="M:CSharpCAD.CSCAD.RadToDeg(System.Double)">
             <summary>Convert radians to degrees.</summary>
+            <group>Trigonometry</group>
         </member>
         <member name="M:CSharpCAD.CSCAD.Intersect(CSharpCAD.Geometry[])">
              <summary>Return a new geometry representing space in both the first geometry and
@@ -616,7 +619,8 @@
         </member>
         <member name="M:CSharpCAD.CSCAD.Hull(CSharpCAD.Geometry[])">
             <summary>Create a convex hull of the given geometries.</summary>
-            <example>
+            <remarks>Geometries have to be of the same type (all 2D or all 3D).</remarks>
+            <pre>
             +-------+           +-------+
             |       |           |        \
             |   A   |           |         \
@@ -628,6 +632,9 @@
                   |   B   |         \         |
                   |       |          \        |
                   +-------+           +-------+
+            </pre>
+            <example>
+            var g = Hull(gobj1, gobj2, gobj3);
             </example>
             <group>Transformations</group>
         </member>
@@ -653,56 +660,7 @@
                   |       |               \         /
                   +-------+                +-------+
             </pre>
-        </member>
-        <member name="M:CSharpCAD.CSCAD.QHFace.ConnectHalfEdges(CSharpCAD.CSCAD.QHHalfEdge,CSharpCAD.CSCAD.QHHalfEdge)">
-             @private
-            
-             Connects two edges assuming that prev.Head().point == next.Tail().point
-            
-             @param {HalfEdge} prev
-             @param {HalfEdge} next
-        </member>
-        <member name="M:CSharpCAD.CSCAD.QHVertexList.InsertBefore(CSharpCAD.CSCAD.QHVertex,CSharpCAD.CSCAD.QHVertex)">
-             Inserts a `node` before `target`, it's assumed that
-             `target` belongs to this doubly linked list
-            
-             @param {*} target
-             @param {*} node
-        </member>
-        <member name="M:CSharpCAD.CSCAD.QHVertexList.InsertAfter(CSharpCAD.CSCAD.QHVertex,CSharpCAD.CSCAD.QHVertex)">
-             Inserts a `node` after `target`, it's assumed that
-             `target` belongs to this doubly linked list
-            
-             @param {Vertex} target
-             @param {Vertex} node
-        </member>
-        <member name="M:CSharpCAD.CSCAD.QHVertexList.Add(CSharpCAD.CSCAD.QHVertex)">
-             Appends a `node` to the end of this doubly linked list
-             Note: `node.next` will be unlinked from `node`
-             Note: if `node` is part of another linked list call `addAll` instead
-            
-             @param {*} node
-        </member>
-        <member name="M:CSharpCAD.CSCAD.QHVertexList.AddAll(CSharpCAD.CSCAD.QHVertex)">
-             Appends a chain of nodes where `node` is the head,
-             the difference with `add` is that it correctly sets the position
-             of the node list `tail` property
-            
-             @param {*} node
-        </member>
-        <member name="M:CSharpCAD.CSCAD.QHVertexList.Remove(CSharpCAD.CSCAD.QHVertex)">
-             Deletes a `node` from this linked list, it's assumed that `node` is a
-             member of this linked list
-            
-             @param {*} node
-        </member>
-        <member name="M:CSharpCAD.CSCAD.QHVertexList.RemoveChain(CSharpCAD.CSCAD.QHVertex,CSharpCAD.CSCAD.QHVertex)">
-             Removes a chain of nodes whose head is `a` and whose tail is `b`,
-             it's assumed that `a` and `b` belong to this list and also that `a`
-             comes before `b` in the linked list
-            
-             @param {*} a
-             @param {*} b
+            <group>Transformations</group>
         </member>
         <member name="T:CSharpCAD.CSCAD.AM">
             <summary>Alignment modes for the "Align" function.</summary>
@@ -727,6 +685,7 @@
             <example>
             var alignedGeometry = Align(gobj, AM.NCU, relativeTo: (10, 0, 10]);
             </example>
+            <group>Transformations</group>
         </member>
         <member name="M:CSharpCAD.CSCAD.Center(CSharpCAD.Geometry,System.Boolean,System.Boolean,System.Boolean,System.Nullable{CSharpCAD.Vec3})">
             <summary>Center the given objects.</summary>

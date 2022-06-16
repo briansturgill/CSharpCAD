@@ -24,6 +24,7 @@ public static partial class CSCAD
      *       |       |               \         /
      *       +-------+                +-------+
      * </pre>
+     * <group>Transformations</group>
      */
     public static Geometry HullChain(params Geometry[] gobjs)
     {

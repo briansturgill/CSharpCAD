@@ -25,7 +25,7 @@ public static partial class CSCAD
             this.head = this.tail = null;
         }
 
-        /**
+        /*
          * Inserts a `node` before `target`, it's assumed that
          * `target` belongs to this doubly linked list
          *
@@ -47,7 +47,7 @@ public static partial class CSCAD
             target.prev = node;
         }
 
-        /**
+        /*
          * Inserts a `node` after `target`, it's assumed that
          * `target` belongs to this doubly linked list
          *
@@ -69,7 +69,7 @@ public static partial class CSCAD
             target.next = node;
         }
 
-        /**
+        /*
          * Appends a `node` to the end of this doubly linked list
          * Note: `node.next` will be unlinked from `node`
          * Note: if `node` is part of another linked list call `addAll` instead
@@ -92,7 +92,7 @@ public static partial class CSCAD
             this.tail = node;
         }
 
-        /**
+        /*
          * Appends a chain of nodes where `node` is the head,
          * the difference with `add` is that it correctly sets the position
          * of the node list `tail` property
@@ -119,7 +119,7 @@ public static partial class CSCAD
             this.tail = node;
         }
 
-        /**
+        /*
          * Deletes a `node` from this linked list, it's assumed that `node` is a
          * member of this linked list
          *
@@ -146,7 +146,7 @@ public static partial class CSCAD
             }
         }
 
-        /**
+        /*
          * Removes a chain of nodes whose head is `a` and whose tail is `b`,
          * it's assumed that `a` and `b` belong to this list and also that `a`
          * comes before `b` in the linked list

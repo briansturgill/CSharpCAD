@@ -144,6 +144,7 @@ public static partial class CSCAD
      * <example>
      * var alignedGeometry = Align(gobj, AM.NCU, relativeTo: (10, 0, 10]);
      * </example>
+     * <group>Transformations</group>
      */
     public static Geometry Align(Geometry gobj, AM modes = AM.CCN, Vec3? relativeTo = null)
     {

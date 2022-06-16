@@ -1,0 +1,4 @@
+<map id="Geom3" name="Geom3">
+<area shape="rect" id="node1" title="Represents a new 3D geometry composed of polygons." alt="" coords="14,80,83,107"/>
+<area shape="rect" id="node2" href="$classGeometry.html" title="Abstract class currently joining Geom2 and Geom3." alt="" coords="5,5,92,32"/>
+</map>

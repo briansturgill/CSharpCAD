@@ -3,7 +3,6 @@ namespace CSharpCAD;
 /// <summary>Represents a new 3D geometry composed of polygons.</summary>
 public class Geom3 : Geometry
 {
-    ///
     internal Poly3[] polygons;
     private Mat4 transforms;
     private (Vec3, Vec3)? boundingBox;
