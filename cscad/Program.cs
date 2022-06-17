@@ -326,11 +326,11 @@ sum = 0.0;
 Save("/tmp/a.stl", g);
 
 
-var g2top = Circle(radius: 10);
-var g2bottom = Circle(radius: 15);
-g3 = ExtrudeSimpleBetween(top: g2top, bottom: g2bottom, height: 20);
-g3 =  Cone(top: 10, bottom: 15, height: 20);
-Save("/tmp/a.stl", g3);
-g3 = ExtrudeSimpleBetween(top: Circle(radius: 0.1), bottom: g2bottom, height: 20);
-g3 =  Cone(top: 0.0, bottom: 15, height: 20);
-Save("/tmp/a0.stl", g3);
+var e = Ellipse(radius: (8, 5));
+var c = Circle(radius: 3.5);
+var shape = Subtract(e, c);
+shape = Translate((10, 0, 0), shape);
+Save("/tmp/a.svg", shape);
+
+var myshape = ExtrudeRotate(shape, angle: 180);
+Save("/tmp/a.stl", myshape);

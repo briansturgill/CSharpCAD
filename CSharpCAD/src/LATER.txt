@@ -36,5 +36,12 @@ polygon and polyhedron need CCW checking and help.
 Text? FreeType outlines? Extrude Rectangle revamp?
 
 
-ExtrudeSimpleToPoint
-ExtrudeSimpleBetween
+SVG ouput has a bug:
+var e = Ellipse(radius: (8, 5));
+var c = Circle(radius: 3.5);
+var shape = Subtract(e, c);
+shape = Translate((10, 0, 0), shape);
+Save("/tmp/a.svg", shape);
+
+var myshape = ExtrudeRotate(shape, angle: 180);
+Save("/tmp/a.stl", myshape);
