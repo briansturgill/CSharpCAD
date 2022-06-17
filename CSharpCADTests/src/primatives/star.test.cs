@@ -137,7 +137,7 @@ public class StarTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // test start angle
-        geometry = Star(outerRadius: 5, startAngle: (360 - 45) * 0.017453292519943295);
+        geometry = Star(outerRadius: 5, startAngle: (360 - 45));
         Assert.DoesNotThrow(() => geometry.Validate());
         pts = geometry.ToPoints();
         exp = new Vec2[] {

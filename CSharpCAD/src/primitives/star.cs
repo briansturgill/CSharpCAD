@@ -49,7 +49,7 @@ public static partial class CSCAD
 
         if (vertices < 2) throw new ArgumentException("Option vertices must be two or more.");
         if (LessThanOrEqualish(outerRadius, 0)) throw new ArgumentException("Option outerRadius must be greater than zero.");
-        if (LessThanOrEqualish(innerRadius, 0)) throw new ArgumentException("Option innerRadius must be greater than zero.");
+        if (innerRadius < 0) throw new ArgumentException("Option innerRadius must be positive.");
         if (startAngle < 0) throw new ArgumentException("Option startAngle must be positive.");
 
         startAngle = DegToRad(startAngle);
