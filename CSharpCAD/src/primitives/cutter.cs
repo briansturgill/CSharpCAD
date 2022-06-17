@@ -43,8 +43,8 @@ public static partial class CSCAD
         void addPoint(double x, double y) => points.Add(_center.Add(new Vec2(x, y)));
 
 
-        points.Add(new Vec2(radius * Math.Cos(startAngle), radius * Math.Sin(startAngle)));
-        for (var pointAngle = 90.0 + startAngle; LessThanish(pointAngle, endAngle); pointAngle += 90.0)
+        addPoint(radius * Math.Cos(startAngle), radius * Math.Sin(startAngle));
+        for (var pointAngle = Math.PI / 2 + startAngle; LessThanish(pointAngle, endAngle); pointAngle += Math.PI / 2)
         {
             addPoint(radius * Math.Cos(pointAngle), radius * Math.Sin(pointAngle));
         }
