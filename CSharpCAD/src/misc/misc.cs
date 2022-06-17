@@ -132,6 +132,34 @@ public static partial class CSCAD
         return Math.Sin(DegToRad(angleInDegrees));
     }
 
+    /// <summary>Tangent of angle in degrees.</summary>
+    /// <group>Trigonometry</group>
+    public static double Tan(double angleInDegrees)
+    {
+        return Math.Tan(DegToRad(angleInDegrees));
+    }
+
+    /// <summary>Hyperbolic cosine of angle in degrees.</summary>
+    /// <group>Trigonometry</group>
+    public static double Cosh(double angleInDegrees)
+    {
+        return Math.Cosh(DegToRad(angleInDegrees));
+    }
+
+    /// <summary>Hyperbolic sine of angle in degrees.</summary>
+    /// <group>Trigonometry</group>
+    public static double Sinh(double angleInDegrees)
+    {
+        return Math.Sinh(DegToRad(angleInDegrees));
+    }
+
+    /// <summary>Hyperbolic tangent of angle in degrees.</summary>
+    /// <group>Trigonometry</group>
+    public static double Tanh(double angleInDegrees)
+    {
+        return Math.Tanh(DegToRad(angleInDegrees));
+    }
+
     /// <summary>ArcCosine of cosVal returning angle in degrees.</summary>
     /// <group>Trigonometry</group>
     public static double Acos(double cosVal)
@@ -144,6 +172,41 @@ public static partial class CSCAD
     public static double Asin(double sinVal)
     {
         return RadToDeg(Math.Asin(sinVal));
+    }
+
+    /// <summary>ArcTan of tanVal returning angle in degrees.</summary>
+    /// <group>Trigonometry</group>
+    public static double Atan(double tanVal)
+    {
+        return RadToDeg(Math.Atan(tanVal));
+    }
+
+    /// <summary>ArcTan of quotient of y and x returning angle in degrees.</summary>
+    /// <group>Trigonometry</group>
+    public static double Atan2(double y, double x)
+    {
+        return RadToDeg(Math.Atan2(y, x));
+    }
+
+    /// <summary>ArcCosine of hyperbolic cosVal returning angle in degrees.</summary>
+    /// <group>Trigonometry</group>
+    public static double Acosh(double cosVal)
+    {
+        return RadToDeg(Math.Acosh(cosVal));
+    }
+
+    /// <summary>ArcSine of hyperbolic sinVal returning angle in degrees.</summary>
+    /// <group>Trigonometry</group>
+    public static double Asinh(double sinVal)
+    {
+        return RadToDeg(Math.Asinh(sinVal));
+    }
+
+    /// <summary>ArcTan of hyperbolic tanVal returning angle in degrees.</summary>
+    /// <group>Trigonometry</group>
+    public static double Atanh(double tanVal)
+    {
+        return RadToDeg(Math.Atanh(tanVal));
     }
 
     /// <summary>Convert degrees to radians.</summary>
