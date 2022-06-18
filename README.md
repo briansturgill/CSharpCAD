@@ -1,6 +1,6 @@
 # CSharpCAD
 
-This is a port (with a somewhat different API) from JSCAD to C#.
+This is a port (with a somewhat different API) from [JSCAD](https://github.com/jscad/OpenJSCAD.org) to C#.
 
 We are deeply grateful to the JSCAD team for creating such a great package.
 

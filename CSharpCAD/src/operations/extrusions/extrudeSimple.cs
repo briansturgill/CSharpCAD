@@ -5,7 +5,7 @@ public static partial class CSCAD
     /**
      * <summary>Extrude the given geometry in an upward linear direction.</summary>
      * <remarks>
-     * By default the geometry is positioned with its base at z=0.
+     * By default the geometry is positioned with its base at z=0 (height/2).
      * It works only on 2D geometry objects with a single path. (No cutouts.)
      * </remarks>
      * <param name="gobj">The 2D geometry to extrude. Must have only one path.</param>

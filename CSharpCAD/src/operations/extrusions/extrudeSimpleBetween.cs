@@ -5,7 +5,7 @@ public static partial class CSCAD
     /**
      * <summary>Extrude the from the bottom to the top the given geometries.</summary>
      * <remarks>
-     * By default the geometry is positioned with its base at z=0.
+     * By default the geometry is positioned with its base at z=0 (height/2).
      * It works only on 2D geometry objects with a single path. (No cutouts.)
      * Both geometries MUST have the same number of points.
      * </remarks>

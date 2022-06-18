@@ -9,6 +9,17 @@ var watch = new Stopwatch();
 loops++;
 loops--;
 
+static int vCount(Geom3 g)
+{
+    var llv = g.ToPoints();
+    var sum = 0;
+    foreach (var lv in llv)
+    {
+        sum += lv.Count;
+    }
+    return sum;
+}
+
 /*
 var g2 = new Geom2();
 var g3 = new Geom3();
@@ -164,16 +175,6 @@ g3.Validate();
 System.Console.WriteLine($"Subtract(Sphere(radius: 10, segments: 128), Cutter3D(radius: 10, angle: 90)); loops: {loops}: {watch.ElapsedMilliseconds}ms");
 Save("/tmp/g3Sphere128.stl", g3);
 
-static int vCount(Geom3 g)
-{
-    var llv = g.ToPoints();
-    var sum = 0;
-    foreach (var lv in llv)
-    {
-        sum += lv.Count;
-    }
-    return sum;
-}
 Console.WriteLine($"Sphere(32) {vCount(Sphere(radius: 10, segments: 32))}");
 Console.WriteLine($"Sphere(64) {vCount(Sphere(radius: 10, segments: 64))}");
 Console.WriteLine($"Sphere(128) {vCount(Sphere(radius: 10, segments: 128))}");
@@ -284,53 +285,45 @@ System.Console.WriteLine($"{g.ToPoints().Length}, {g2.ToPoints().Length}, {g == 
 Save("/tmp/semi.svg", g2);
 */
 
-var g2 = Rectangle(size: (5, 8));
-g2.Validate();
-var g3 = ExtrudeSimple(g2, height: 10);
-Save("/tmp/cy_el.stl", g3);
-g3.Validate();
-
-var c1 = Cuboid(size: (10, 10, 10));
-var c2 = (Geom3)Translate((1, 1, 1), Cuboid(size: (8, 8, 9)));
-var g = (Geom3)Subtract(c1, c2);
-
-var polys_c1 = c1.ToPolygons();
-var polys_c2 = c2.ToPolygons();
-var polys_g = g.ToPolygons();
-var sum = 0.0;
-foreach (var p in polys_c1)
+var rc = new Geom3();
+watch.Start();
+for (int i = 0; i < 10; i++)
 {
-    var v = p.SignedVolume();
-    sum += v;
-    Console.WriteLine($"c1 {v}");
-    Console.WriteLine($"c1 pts {p}");
+    rc = RoundedCuboid(size: (100, 80, 50), roundRadius: 10, segments: 50);
 }
-Console.WriteLine($"c1 total {sum}");
-sum = 0.0;
-foreach (var p in polys_c2)
+watch.Stop();
+Console.WriteLine($"RC((100,80,50), 10, 100) Points:{vCount(rc)} {watch.Elapsed.TotalMilliseconds}ms");
+Save("/tmp/rc2.stl", rc);
+watch.Reset();
+watch.Start();
+for (int i = 0; i < 10; i++)
 {
-    var v = p.SignedVolume();
-    sum += v;
-    Console.WriteLine($"c2 {v}");
+    rc = Cuboid(size: (100, 80, 50));
 }
-Console.WriteLine($"c2 total {sum}");
-sum = 0.0;
-foreach (var p in polys_g)
+watch.Stop();
+Console.WriteLine($"RC((100,80,50), 10, 100) Points:{vCount(rc)} {watch.Elapsed.TotalMilliseconds}ms");
+Save("/tmp/rc.stl", rc);
+watch.Reset();
+
+watch.Start();
+for (int i = 0; i < 10; i++)
 {
-    var v = p.SignedVolume();
-    sum += v;
-    Console.WriteLine($"g {v}");
+    rc = ExtrudeSimpleOutlines(Circle(10, 50), Circle(8, 50), height: 10, bottom: 2);
 }
-Console.WriteLine($"g total {sum}");
-sum = 0.0;
-Save("/tmp/a.stl", g);
+watch.Stop();
+Console.WriteLine($"rc Points:{vCount(rc)} {watch.Elapsed.TotalMilliseconds}ms");
 
+//var bot = (Geom3)Translate((0, 0, -1), ExtrudeSimple(Circle(10, 50), height: 1));
+//rc = new Geom3(rc.ToPolygons().Concat(bot.ToPolygons()).ToArray());
+Save("/tmp/e.stl", rc);
+rc.Validate();
 
-var e = Ellipse(radius: (8, 5));
-var c = Circle(radius: 3.5);
-var shape = Subtract(e, c);
-shape = Translate((10, 0, 0), shape);
-Save("/tmp/a.svg", shape);
+/*
+var g = ExtrudeSimpleOutlines(Rectangle(size: (10, 10)), Translate((2.5, 2.5, 0), Rectangle(size: (5, 5))), height: 10);
+Console.WriteLine($"g Points:{vCount(g)} {watch.Elapsed.TotalMilliseconds}ms");
+Save("/tmp/e.stl", g);
 
-var myshape = ExtrudeRotate(shape, angle: 180);
-Save("/tmp/a.stl", myshape);
+g = ExtrudeLinear(Subtract(Rectangle(size: (10, 10)), Translate((2.5, 2.5, 0), Rectangle(size: (5, 5)))), height: 10);
+Console.WriteLine($"g Points:{vCount(g)} {watch.Elapsed.TotalMilliseconds}ms");
+Save("/tmp/eu.stl", g);
+*/
