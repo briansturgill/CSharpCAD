@@ -21,6 +21,10 @@ public static partial class CSCAD
      * <param name="bottom">If zero, then no bottom, otherwise, the height of the bottom, or of each layer if nextLayer is specified.</param>
      * <param name="nextLayer">Function Geom2? nextLayer(double offset) which you provide to give each layer of the bottom..</param>
      * <param name="center_z" default="height/2">The Z axis center of the extrusion.</param>
+     * <example>
+     *     beveledCylinderBox = ExtrudeSimpleOutlines(Circle(10, 50), Circle(8, 50), height: 10, bottom: 0.2,
+     *          nextLayer: (double offset) => (offset >= 2 ? null:Circle(10-offset, 50)));
+     * </example>
      * <group>3D Primitives</group>
      */
     public static Geom3 ExtrudeSimpleOutlines(Geometry gOuter, Geometry gInner, double height = 1, double bottom = 0, ESO_NextLayer? nextLayer = null, double? center_z = null)

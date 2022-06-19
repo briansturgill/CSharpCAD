@@ -3,7 +3,7 @@ namespace CSharpCADTests;
 [TestFixture]
 public class ExtrudeSimpleBetweenTests
 {
-    static bool WriteTests = true;
+    static bool WriteTests = false;
 
     [SetUp]
     public void Setup()
