@@ -50,7 +50,7 @@ public static partial class CSCAD
         }
         I_ESO_NextLayer? nl = nextLayer is null ? null : getVec2;
 
-        return new Geom3(InternalExtrudeSimpleOutlines(v2arrayOuter, v2arrayInner, height, bottom, getVec2, center_z).ToArray());
+        return new Geom3(InternalExtrudeSimpleOutlines(v2arrayOuter, v2arrayInner, height, bottom, nl, center_z).ToArray());
     }
 
     internal static List<Poly3> InternalExtrudeSimpleOutlines(Vec2[] v_outer, Vec2[] v_inner, double height, double bottom = 0, I_ESO_NextLayer? nextLayer = null, double? center_z = null)
