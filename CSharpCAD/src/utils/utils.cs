@@ -77,4 +77,8 @@ internal static partial class CSharpCADInternals
         }
         return (area / 2.0);
     }
+
+    // This is used to pull Sin and Cos back to zero
+    // I don't approve of its usage, but JSCAD uses it to fix flaws in various places.
+    internal static double Rezero(double val) => Math.Abs(val) < C.NEPS ? 0 : val;
 }

@@ -123,6 +123,12 @@ public static partial class CSCAD
         Slice createSlice(double progress, int index, object baseSlice)
         {
             var Zrotation = rotationPerSlice * index + startAngle;
+            // fix rounding error when rotating 2 * PI radians
+            if (totalRotation == Math.PI * 2 && index == segments)
+            {
+                Zrotation = startAngle;
+            }
+
             var matrix = Mat4.FromZRotation(Zrotation).Multiply(Mat4.FromXRotation(Math.PI / 2));
 
             return ((Slice)baseSlice).Transform(matrix);
