@@ -1,1 +1,13 @@
 https://www.gamers.org/dhs/helpdocs/bsp_faq.html
+
+These folks actually have a Java implementation of 2D and 3D versions in Java... it's not straightforward though.
+https://commons.apache.org/proper/commons-geometry/tutorials/bsp-tree.html
+
+Here's a paper from 1990 about this...
+http://www.cs.yorku.ca/~amana/research/bsptSetOp.pdf
+Alas the scan of the paper is faulty at the edge!
+
+MIT licensed C (intersect only).
+https://github.com/rickbrew/GeneralPolygonClipper
+
+https://www.cs.jhu.edu/~misha/Spring16/ORourke82.pdf
