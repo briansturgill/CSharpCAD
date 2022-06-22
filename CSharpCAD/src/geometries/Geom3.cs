@@ -308,8 +308,8 @@ public class Geom3 : Geometry
                 if (edgeCount.ContainsKey(edge))
                 {
                     count = edgeCount[edge];
-                    edgeCount[edge] = count + 1;
                 }
+                edgeCount[edge] = count + 1;
             }
         }
         // check that edges are always matched
