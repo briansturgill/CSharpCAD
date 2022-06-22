@@ -18,8 +18,8 @@ public static class Program
     {
 #if PERFS
         //Centers.Init();
-        Circles.Init();
-        Cylinders.Init();
+        //Circles.Init();
+        //Cylinders.Init();
         //Expands.Init();
         //ExtrudeLinears.Init();
         //ExtrudeRectangulars.Init();
@@ -30,7 +30,7 @@ public static class Program
         //Projects.Init();
         //RoundedCuboids.Init();
         //RoundedCylinders.Init();
-        //RoundedRectangles.Init();
+        RoundedRectangles.Init();
         //Spheres.Init();
         //Subtracts.Init();
         //Transforms.Init();
