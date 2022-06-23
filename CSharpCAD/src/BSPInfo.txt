@@ -6,6 +6,7 @@ https://commons.apache.org/proper/commons-geometry/tutorials/bsp-tree.html
 Here's a paper from 1990 about this...
 http://www.cs.yorku.ca/~amana/research/bsptSetOp.pdf
 Alas the scan of the paper is faulty at the edge!
+A better PDF of the article: http://www.vjlove.com/publications/papers/siggraph90.pdf
 
 MIT licensed C (intersect only).
 https://github.com/rickbrew/GeneralPolygonClipper
