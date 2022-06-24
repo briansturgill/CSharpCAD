@@ -12,3 +12,6 @@ MIT licensed C (intersect only).
 https://github.com/rickbrew/GeneralPolygonClipper
 
 https://www.cs.jhu.edu/~misha/Spring16/ORourke82.pdf
+
+"Fast and robust Booleans on polyhedra"
+https://www.sciencedirect.com/science/article/abs/pii/S0010448512002412

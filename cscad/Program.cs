@@ -23,7 +23,6 @@ static int vCount(Geom3 g)
 }
 */
 
-/*
 var g2 = new Geom2();
 Geometry TapPost(double h, double size, double post_wall = 2, bool add_taper = false, double z_rot = 0)
 {
@@ -52,12 +51,13 @@ Geometry TapPost(double h, double size, double post_wall = 2, bool add_taper = f
 var g = TapPost(8, 5, add_taper: true);
 Save("/tmp/test.stl", g);
 g.Validate();
-*/
 
+/*
 // Succeeds: var obs = Union(Cube(size: 8, center: (0, 0, 0)), Cube(size: 2, center: (0, 0, 4)));
 var obs = Union(Cube(size: 8, center: (0, 0, 0)), Cube(center: (0, 0, 4)));
+obs = InsertTjunctions((Geom3)obs);
 Save("/tmp/test.stl", obs, binary: false);
-//obs.Validate();
+obs.Validate();
 var llv = ((Geom3)obs).ToPoints();
 foreach (var lv in llv)
 {
@@ -68,3 +68,4 @@ foreach (var lv in llv)
     }
         Console.WriteLine($"{sb.ToString()}");
 }
+*/
