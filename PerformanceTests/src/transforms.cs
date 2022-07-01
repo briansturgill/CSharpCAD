@@ -37,7 +37,7 @@ public static class Transforms
             name = "transform(10)",
             api = "transform(circle)",
             div = "10",
-            func = () => { return ((Geom2)Translate(newoffsets, Rotate(newangles, Scale(newfactors, circle_10)))).ApplyTransforms(); }
+            func = () => { return (Translate(newoffsets, Rotate(newangles, Scale(newfactors, circle_10)))).ApplyTransforms(); }
         });
 
         Program.pTests.Add(new PTest
@@ -45,7 +45,7 @@ public static class Transforms
             name = "transform(100)",
             api = "transform(circle)",
             div = "100",
-            func = () => { return ((Geom2)Translate(newoffsets, Rotate(newangles, Scale(newfactors, circle_100)))).ApplyTransforms(); }
+            func = () => { return (Translate(newoffsets, Rotate(newangles, Scale(newfactors, circle_100)))).ApplyTransforms(); }
         });
 
         Program.pTests.Add(new PTest
@@ -53,7 +53,7 @@ public static class Transforms
             name = "transform(1000)",
             api = "transform(circle)",
             div = "1000",
-            func = () => { return ((Geom2)Translate(newoffsets, Rotate(newangles, Scale(newfactors, circle_1000)))).ApplyTransforms(); }
+            func = () => { return (Translate(newoffsets, Rotate(newangles, Scale(newfactors, circle_1000)))).ApplyTransforms(); }
         });
 
         Program.pTests.Add(new PTest
@@ -61,7 +61,7 @@ public static class Transforms
             name = "transform(100)",
             api = "transform(sphere)",
             div = "100",
-            func = () => { return ((Geom3)Translate(newoffsets, Rotate(newangles, Scale(newfactors, sphere_7)))).ApplyTransforms(); }
+            func = () => { return (Translate(newoffsets, Rotate(newangles, Scale(newfactors, sphere_7)))).ApplyTransforms(); }
         });
 
         Program.pTests.Add(new PTest
@@ -69,7 +69,7 @@ public static class Transforms
             name = "transform(1000)",
             api = "transform(sphere)",
             div = "1000",
-            func = () => { return ((Geom3)Translate(newoffsets, Rotate(newangles, Scale(newfactors, sphere_22)))).ApplyTransforms(); }
+            func = () => { return (Translate(newoffsets, Rotate(newangles, Scale(newfactors, sphere_22)))).ApplyTransforms(); }
         });
 
         Program.pTests.Add(new PTest
@@ -77,7 +77,7 @@ public static class Transforms
             name = "transform(10000)",
             api = "transform(sphere)",
             div = "10000",
-            func = () => { return ((Geom3)Translate(newoffsets, Rotate(newangles, Scale(newfactors, sphere_70)))).ApplyTransforms(); }
+            func = () => { return (Translate(newoffsets, Rotate(newangles, Scale(newfactors, sphere_70)))).ApplyTransforms(); }
         });
     }
 }

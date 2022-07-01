@@ -29,13 +29,13 @@ public static class Hulls
     public static void Init()
     {
 
-        circle_100 = centers.Select((center) => ((Geom2)(Translate(center, Circle(radius: 100, segments: 10))))).ToArray();
-        circle_1000 = centers.Select((center) => ((Geom2)Translate(center, Circle(radius: 100, segments: 100)))).ToArray();
-        circle_10000 = centers.Select((center) => ((Geom2)Translate(center, Circle(radius: 100, segments: 1000)))).ToArray();
+        circle_100 = centers.Select((center) => ((Translate(center, Circle(radius: 100, segments: 10))))).ToArray();
+        circle_1000 = centers.Select((center) => (Translate(center, Circle(radius: 100, segments: 100)))).ToArray();
+        circle_10000 = centers.Select((center) => (Translate(center, Circle(radius: 100, segments: 1000)))).ToArray();
 
-        sphere_1000 = centers.Select((center) => ((Geom3)Translate(center, Sphere(radius: 100, segments: 7)))).ToArray();
-        sphere_10000 = centers.Select((center) => ((Geom3)Translate(center, Sphere(radius: 100, segments: 22)))).ToArray();
-        sphere_100000 = centers.Select((center) => ((Geom3)Translate(center, Sphere(radius: 100, segments: 70)))).ToArray();
+        sphere_1000 = centers.Select((center) => (Translate(center, Sphere(radius: 100, segments: 7)))).ToArray();
+        sphere_10000 = centers.Select((center) => (Translate(center, Sphere(radius: 100, segments: 22)))).ToArray();
+        sphere_100000 = centers.Select((center) => (Translate(center, Sphere(radius: 100, segments: 70)))).ToArray();
 
 
         Program.pTests.Add(new PTest

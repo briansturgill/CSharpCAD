@@ -30,16 +30,16 @@ public static class Subtracts
     static Subtracts()
     {
 
-        circle_100 = centers.Select((center) => ((Geom2)(Translate(center, Circle(radius: 100, segments: 10))))).ToArray();
-        circle_500 = centers.Select((center) => ((Geom2)Translate(center, Circle(radius: 100, segments: 50)))).ToArray();
-        circle_1000 = centers.Select((center) => ((Geom2)Translate(center, Circle(radius: 100, segments: 100)))).ToArray();
-        circle_5000 = centers.Select((center) => ((Geom2)Translate(center, Circle(radius: 100, segments: 500)))).ToArray();
-        circle_10000 = centers.Select((center) => ((Geom2)Translate(center, Circle(radius: 100, segments: 1000)))).ToArray();
+        circle_100 = centers.Select((center) => ((Translate(center, Circle(radius: 100, segments: 10))))).ToArray();
+        circle_500 = centers.Select((center) => (Translate(center, Circle(radius: 100, segments: 50)))).ToArray();
+        circle_1000 = centers.Select((center) => (Translate(center, Circle(radius: 100, segments: 100)))).ToArray();
+        circle_5000 = centers.Select((center) => (Translate(center, Circle(radius: 100, segments: 500)))).ToArray();
+        circle_10000 = centers.Select((center) => (Translate(center, Circle(radius: 100, segments: 1000)))).ToArray();
 
-        sphere_600 = centers.Select((center) => ((Geom3)Translate(center, Sphere(radius: 100, segments: 6)))).ToArray();
-        sphere_1000 = centers.Select((center) => ((Geom3)Translate(center, Sphere(radius: 100, segments: 7)))).ToArray();
-        sphere_10000 = centers.Select((center) => ((Geom3)Translate(center, Sphere(radius: 100, segments: 22)))).ToArray();
-        sphere_100000 = centers.Select((center) => ((Geom3)Translate(center, Sphere(radius: 100, segments: 70)))).ToArray();
+        sphere_600 = centers.Select((center) => (Translate(center, Sphere(radius: 100, segments: 6)))).ToArray();
+        sphere_1000 = centers.Select((center) => (Translate(center, Sphere(radius: 100, segments: 7)))).ToArray();
+        sphere_10000 = centers.Select((center) => (Translate(center, Sphere(radius: 100, segments: 22)))).ToArray();
+        sphere_100000 = centers.Select((center) => (Translate(center, Sphere(radius: 100, segments: 70)))).ToArray();
     }
     public static void Init()
     {

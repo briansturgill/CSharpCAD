@@ -9,9 +9,9 @@ public static class ExtrudeRotates
 
     static ExtrudeRotates()
     {
-        circle_10 = (Geom2)Translate((0, 500, 0), Circle(radius: 100, segments: 10));
-        circle_50 = (Geom2)Translate((0, 500, 0), Circle(radius: 100, segments: 50));
-        circle_100 = (Geom2)Translate((0, 500, 0), Circle(radius: 100, segments: 100));
+        circle_10 = Translate((0, 500, 0), Circle(radius: 100, segments: 10));
+        circle_50 = Translate((0, 500, 0), Circle(radius: 100, segments: 50));
+        circle_100 = Translate((0, 500, 0), Circle(radius: 100, segments: 100));
     }
     public static void Init()
     {
