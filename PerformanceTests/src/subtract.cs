@@ -2,6 +2,20 @@ namespace PerformanceTests;
 
 public static class Subtracts
 {
+    public static Vec2[] centers2D = new Vec2[]
+    {
+        (0, 0),
+        (10, 10),
+        (20, 20),
+        (30, 30),
+        (40, 40),
+        (50, 50),
+        (60, 60),
+        (70, 70),
+        (80, 80),
+        (90, 90),
+    };
+
     public static Vec3[] centers = new Vec3[]
     {
         (0, 0, 0),
@@ -16,11 +30,11 @@ public static class Subtracts
         (90, 90, 90),
     };
 
-    public static Geom2[] circle_100 = new Geom2[centers.Length]; // 10 points X centers
-    public static Geom2[] circle_500 = new Geom2[centers.Length];     // 50 points X centers
-    public static Geom2[] circle_1000 = new Geom2[centers.Length]; // 100 points X centers
-    public static Geom2[] circle_5000 = new Geom2[centers.Length];     // 500 points X centers
-    public static Geom2[] circle_10000 = new Geom2[centers.Length];     // 1000 points X centers
+    public static Geom2[] circle_100 = new Geom2[centers2D.Length]; // 10 points X centers
+    public static Geom2[] circle_500 = new Geom2[centers2D.Length];     // 50 points X centers
+    public static Geom2[] circle_1000 = new Geom2[centers2D.Length]; // 100 points X centers
+    public static Geom2[] circle_5000 = new Geom2[centers2D.Length];     // 500 points X centers
+    public static Geom2[] circle_10000 = new Geom2[centers2D.Length];     // 1000 points X centers
 
     public static Geom3[] sphere_600 = new Geom3[centers.Length];     // 60 points X centers
     public static Geom3[] sphere_1000 = new Geom3[centers.Length];     // 98 points X centers
@@ -30,11 +44,11 @@ public static class Subtracts
     static Subtracts()
     {
 
-        circle_100 = centers.Select((center) => ((Translate(center, Circle(radius: 100, segments: 10))))).ToArray();
-        circle_500 = centers.Select((center) => (Translate(center, Circle(radius: 100, segments: 50)))).ToArray();
-        circle_1000 = centers.Select((center) => (Translate(center, Circle(radius: 100, segments: 100)))).ToArray();
-        circle_5000 = centers.Select((center) => (Translate(center, Circle(radius: 100, segments: 500)))).ToArray();
-        circle_10000 = centers.Select((center) => (Translate(center, Circle(radius: 100, segments: 1000)))).ToArray();
+        circle_100 = centers2D.Select((center) => ((Translate(center, Circle(radius: 100, segments: 10))))).ToArray();
+        circle_500 = centers2D.Select((center) => (Translate(center, Circle(radius: 100, segments: 50)))).ToArray();
+        circle_1000 = centers2D.Select((center) => (Translate(center, Circle(radius: 100, segments: 100)))).ToArray();
+        circle_5000 = centers2D.Select((center) => (Translate(center, Circle(radius: 100, segments: 500)))).ToArray();
+        circle_10000 = centers2D.Select((center) => (Translate(center, Circle(radius: 100, segments: 1000)))).ToArray();
 
         sphere_600 = centers.Select((center) => (Translate(center, Sphere(radius: 100, segments: 6)))).ToArray();
         sphere_1000 = centers.Select((center) => (Translate(center, Sphere(radius: 100, segments: 7)))).ToArray();

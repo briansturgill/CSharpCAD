@@ -33,7 +33,7 @@ public static class Centers
             name = "center(10)",
             api = "center(circle)",
             div = "10",
-            func = () => { return Center(circle_10, axisX: true, axisY: true, axisZ: true); }
+            func = () => { return Center(circle_10, axisX: true, axisY: true); }
         });
 
         Program.pTests.Add(new PTest
@@ -41,7 +41,7 @@ public static class Centers
             name = "center(100)",
             api = "center(circle)",
             div = "100",
-            func = () => { return Center(circle_100, axisX: true, axisY: true, axisZ: true); }
+            func = () => { return Center(circle_100, axisX: true, axisY: true); }
         });
 
         Program.pTests.Add(new PTest
@@ -49,7 +49,7 @@ public static class Centers
             name = "center(1000)",
             api = "center(circle)",
             div = "1000",
-            func = () => { return Center(circle_1000, axisX: true, axisY: true, axisZ: true); }
+            func = () => { return Center(circle_1000, axisX: true, axisY: true); }
         });
 
         Program.pTests.Add(new PTest

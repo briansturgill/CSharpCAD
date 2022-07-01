@@ -28,8 +28,10 @@ public static class Transforms
 
     public static void Init()
     {
+        var newfactors2D = (5, 5);
         var newfactors = (5, 5, 5);
         var newangles = (90, 90, 90);
+        var newoffsets2D = (-10, -10);
         var newoffsets = (-10, -10, -10);
 
         Program.pTests.Add(new PTest
@@ -37,7 +39,7 @@ public static class Transforms
             name = "transform(10)",
             api = "transform(circle)",
             div = "10",
-            func = () => { return (Translate(newoffsets, Rotate(newangles, Scale(newfactors, circle_10)))).ApplyTransforms(); }
+            func = () => { return (Translate(newoffsets2D, Rotate(newangles, Scale(newfactors2D, circle_10)))).ApplyTransforms(); }
         });
 
         Program.pTests.Add(new PTest
@@ -45,7 +47,7 @@ public static class Transforms
             name = "transform(100)",
             api = "transform(circle)",
             div = "100",
-            func = () => { return (Translate(newoffsets, Rotate(newangles, Scale(newfactors, circle_100)))).ApplyTransforms(); }
+            func = () => { return (Translate(newoffsets2D, Rotate(newangles, Scale(newfactors2D, circle_100)))).ApplyTransforms(); }
         });
 
         Program.pTests.Add(new PTest
@@ -53,7 +55,7 @@ public static class Transforms
             name = "transform(1000)",
             api = "transform(circle)",
             div = "1000",
-            func = () => { return (Translate(newoffsets, Rotate(newangles, Scale(newfactors, circle_1000)))).ApplyTransforms(); }
+            func = () => { return (Translate(newoffsets2D, Rotate(newangles, Scale(newfactors2D, circle_1000)))).ApplyTransforms(); }
         });
 
         Program.pTests.Add(new PTest
