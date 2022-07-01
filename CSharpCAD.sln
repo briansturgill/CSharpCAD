@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{18
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QBox", "Examples\QBox\QBox.csproj", "{D7E8F2D0-257B-44F8-985F-3243F947360E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QBox.Examples", "QBox.Examples", "{8854292E-50A4-4A37-9B47-658FA833AF72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intercom", "Examples\QBox.Examples\Intercom\Intercom.csproj", "{2D618F72-6592-4BCF-AB44-977D2CE2C6B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,8 +48,14 @@ Global
 		{D7E8F2D0-257B-44F8-985F-3243F947360E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7E8F2D0-257B-44F8-985F-3243F947360E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7E8F2D0-257B-44F8-985F-3243F947360E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D618F72-6592-4BCF-AB44-977D2CE2C6B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D618F72-6592-4BCF-AB44-977D2CE2C6B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D618F72-6592-4BCF-AB44-977D2CE2C6B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D618F72-6592-4BCF-AB44-977D2CE2C6B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D7E8F2D0-257B-44F8-985F-3243F947360E} = {182DBAE8-2AB3-459D-8326-C3A8F64A2A11}
+		{8854292E-50A4-4A37-9B47-658FA833AF72} = {182DBAE8-2AB3-459D-8326-C3A8F64A2A11}
+		{2D618F72-6592-4BCF-AB44-977D2CE2C6B9} = {8854292E-50A4-4A37-9B47-658FA833AF72}
 	EndGlobalSection
 EndGlobal
