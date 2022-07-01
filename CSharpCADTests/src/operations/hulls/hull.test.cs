@@ -15,7 +15,7 @@ public class HullTests
     {
         var geometry = new Geom2();
 
-        var obs = (Geom2)Hull(geometry);
+        var obs = Hull(geometry);
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
 
@@ -23,7 +23,7 @@ public class HullTests
 
         geometry = new Geom2(new Vec2[] { new Vec2(5, 5), new Vec2(-5, 5), new Vec2(-5, -5), new Vec2(5, -5) });
         Assert.DoesNotThrow(() => geometry.Validate());
-        obs = (Geom2)Hull(geometry);
+        obs = Hull(geometry);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
 
@@ -43,7 +43,7 @@ public class HullTests
           new Vec2(6.00000, 6.92820)
         });
         Assert.DoesNotThrow(() => geometry.Validate());
-        obs = (Geom2)Hull(geometry);
+        obs = Hull(geometry);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
 
@@ -77,27 +77,27 @@ public class HullTests
         Assert.DoesNotThrow(() => geometry4.Validate());
 
         // same
-        var obs = (Geom2)Hull(geometry1, geometry1);
+        var obs = Hull(geometry1, geometry1);
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
 
         Assert.AreEqual(pts.Length, 4);
 
         // one inside another
-        obs = (Geom2)Hull(geometry1, geometry2);
+        obs = Hull(geometry1, geometry2);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
 
         Assert.AreEqual(pts.Length, 4);
 
         // one overlapping another
-        obs = (Geom2)Hull(geometry1, geometry3);
+        obs = Hull(geometry1, geometry3);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
 
         Assert.AreEqual(pts.Length, 8);
 
-        obs = (Geom2)Hull(geometry2, geometry4);
+        obs = Hull(geometry2, geometry4);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
 
@@ -127,27 +127,27 @@ public class HullTests
           });
         var geometry5 = new Geom2(new Vec2[] { new Vec2(-17, -17), new Vec2(-23, -17), new Vec2(-23, -23), new Vec2(-17, -23) });
 
-        var obs = (Geom2)Hull(geometry1, geometry2);
+        var obs = Hull(geometry1, geometry2);
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
         Assert.AreEqual(pts.Length, 5);
 
-        obs = (Geom2)Hull(geometry1, geometry3);
+        obs = Hull(geometry1, geometry3);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         Assert.AreEqual(pts.Length, 5);
 
-        obs = (Geom2)Hull(geometry2, geometry3);
+        obs = Hull(geometry2, geometry3);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         Assert.AreEqual(pts.Length, 5);
 
-        obs = (Geom2)Hull(geometry1, geometry2, geometry3);
+        obs = Hull(geometry1, geometry2, geometry3);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         Assert.AreEqual(pts.Length, 6);
 
-        obs = (Geom2)Hull(geometry5, geometry4);
+        obs = Hull(geometry5, geometry4);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         Assert.AreEqual(pts.Length, 8);
@@ -158,7 +158,7 @@ public class HullTests
     {
         var geometry = new Geom3();
 
-        var obs = (Geom3)Hull(geometry);
+        var obs = Hull(geometry);
         var pts = obs.ToPoints();
 
         Assert.DoesNotThrow(() => obs.Validate());
@@ -167,7 +167,7 @@ public class HullTests
         geometry = Sphere(radius: 2, segments: 8);
         Assert.DoesNotThrow(() => geometry.Validate());
 
-        obs = (Geom3)Hull(geometry);
+        obs = Hull(geometry);
         pts = obs.ToPoints();
 
         Assert.DoesNotThrow(() => obs.Validate());
@@ -180,7 +180,7 @@ public class HullTests
         var geometry1 = Cuboid(size: (2, 2, 2), center: (0, 0, 0));
         Assert.DoesNotThrow(() => geometry1.Validate());
 
-        var obs = (Geom3)Hull(geometry1, geometry1); // same
+        var obs = Hull(geometry1, geometry1); // same
         var pts = obs.ToPoints();
         if (WriteTests) TestData.Make("HullMultipleGeom3Exp1", pts);
         var exp = UnitTestData.HullMultipleGeom3Exp1;
@@ -191,7 +191,7 @@ public class HullTests
 
         var geometry2 = Center(Cuboid(size: (3, 3, 3), center: (0, 0, 0)), relativeTo: (5, 5, 5));
 
-        obs = (Geom3)Hull(geometry1, geometry2);
+        obs = Hull(geometry1, geometry2);
         pts = obs.ToPoints();
         if (WriteTests) TestData.Make("HullMultipleGeom3Exp2", pts);
         exp = UnitTestData.HullMultipleGeom3Exp2;
@@ -206,13 +206,13 @@ public class HullTests
     {
         var geometry1 = Cuboid(size: (2, 2, 2));
         geometry1 = Ellipsoid(radius: (2, 2, 2), segments: 12);
-        var geometry2 = (Geom3)Center(Ellipsoid(radius: (3, 3, 3), segments: 12), relativeTo: (3, -3, 3));
-        var geometry3 = (Geom3)Center(Ellipsoid(radius: (3, 3, 3), segments: 12), relativeTo: (-3, -3, -3));
+        var geometry2 = Center(Ellipsoid(radius: (3, 3, 3), segments: 12), relativeTo: (3, -3, 3));
+        var geometry3 = Center(Ellipsoid(radius: (3, 3, 3), segments: 12), relativeTo: (-3, -3, -3));
         Assert.DoesNotThrow(() => geometry1.Validate());
         Assert.DoesNotThrow(() => geometry2.Validate());
         Assert.DoesNotThrow(() => geometry3.Validate());
 
-        var obs = (Geom3)Hull(geometry1, geometry2, geometry3);
+        var obs = Hull(geometry1, geometry2, geometry3);
         var pts = obs.ToPoints();
 
         Assert.DoesNotThrow(() => obs.Validate());

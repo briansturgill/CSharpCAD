@@ -19,8 +19,8 @@ public class ModifiersTests
 
         // apply no modifications
         var result = generalize(geometry1);
-        Assert.DoesNotThrow(() => ((Geom3)result).Validate());
-        var pts = ((Geom3)result).ToPoints();
+        Assert.DoesNotThrow(() => result.Validate());
+        var pts = result.ToPoints();
         if(WriteTests) TestData.Make("GeneralizeExp1", pts);
         var exp = UnitTestData.GeneralizeExp1;
         Assert.IsTrue(Helpers.CompareListOfLists(pts, exp));
@@ -28,16 +28,16 @@ public class ModifiersTests
 
         // apply snap only
         result = generalize(geometry1, snap: true);
-        Assert.DoesNotThrow(() => ((Geom3)result).Validate());
-        pts = ((Geom3)result).ToPoints();
+        Assert.DoesNotThrow(() => result.Validate());
+        pts = result.ToPoints();
         if(WriteTests) TestData.Make("GeneralizeExp2", pts);
         exp = UnitTestData.GeneralizeExp2;
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // apply triangulate only
         result = generalize(geometry1, triangulate: true);
-        Assert.DoesNotThrow(() => ((Geom3)result).Validate());
-        pts = ((Geom3)result).ToPoints();
+        Assert.DoesNotThrow(() => result.Validate());
+        pts = result.ToPoints();
         if(WriteTests) TestData.Make("GeneralizeExp3", pts);
         exp = UnitTestData.GeneralizeExp3;
         Assert.IsTrue(Helpers.CompareListOfLists(pts, exp));
@@ -46,16 +46,16 @@ public class ModifiersTests
 
         // apply simplify only (triangles => quads)
         result = generalize(geometry2, simplify: true);
-        Assert.DoesNotThrow(() => ((Geom3)result).Validate());
-        pts = ((Geom3)result).ToPoints();
+        Assert.DoesNotThrow(() => result.Validate());
+        pts = result.ToPoints();
         if(WriteTests) TestData.Make("GeneralizeExp4", pts);
         exp = UnitTestData.GeneralizeExp4;
         Assert.IsTrue(Helpers.CompareListOfLists(pts, exp));
 
         // apply repairs only (triangles)
         result = generalize(geometry2, repair: true);
-        Assert.DoesNotThrow(() => ((Geom3)result).Validate());
-        pts = ((Geom3)result).ToPoints();
+        Assert.DoesNotThrow(() => result.Validate());
+        pts = result.ToPoints();
         if(WriteTests) TestData.Make("GeneralizeExp5", pts);
         exp = UnitTestData.GeneralizeExp5;
         Assert.IsTrue(Helpers.CompareListOfLists(pts, exp));
@@ -64,13 +64,13 @@ public class ModifiersTests
     [Test]
     public void TestGeneralizeNewCaseFixedErrorCBSFound()
     {
-        var geometry1 = (Geom3)Union(
+        var geometry1 = Union(
           Cuboid(size: (8, 8, 8), center: (0, 0, 0)),
           Cuboid(center: (0, 0, 4))
         );
         geometry1.ApplyTransforms();
-        var result = (Geom3)generalize(geometry1, repair: true);
-        // LATER JSCAD Assert.DoesNotThrow(() => ((Geom3)result).Validate());
+        var result = generalize(geometry1, repair: true);
+        // LATER JSCAD Assert.DoesNotThrow(() => result.Validate());
         var pts = result.ToPoints();
         var exp = new List<List<Vec3>> {
           new List<Vec3>{new Vec3(-4, -4, -4), new Vec3(-4, -4, 4), new Vec3(-4, 4, 4), new Vec3(-4, 4, -4)},
@@ -115,8 +115,8 @@ public class ModifiersTests
           });
 
         var result = generalize(geometry1, snap: true, triangulate: true);
-        Assert.DoesNotThrow(() => ((Geom3)result).Validate());
-        var pts = ((Geom3)result).ToPoints();
+        Assert.DoesNotThrow(() => result.Validate());
+        var pts = result.ToPoints();
         var exp = new List<List<Vec3>> {
           new List<Vec3> {new Vec3(-1, 0, 0.2), new Vec3(-1, -1, -1), new Vec3(-1, -1, 1)},
           new List<Vec3> {new Vec3(-1, 0, 0.2), new Vec3(-1, -1, 1), new Vec3(-1, 0, 1)},
@@ -156,7 +156,7 @@ public class ModifiersTests
     public void TestinsertTjunctionsDirectly()
     {
         var geometry1 = new Geom3();
-        var geometry2 = (Geom3)Cuboid(size: (2, 2, 2), center: (0, 0, 0));
+        var geometry2 = Cuboid(size: (2, 2, 2), center: (0, 0, 0));
         var geometry3 = new Geom3(
           new List<List<Vec3>> {
       new List<Vec3> { new Vec3(-1, -1, -1), new Vec3(-1, -1, 1), new Vec3(-1, 1, 1), new Vec3(-1, 1, -1)},
@@ -348,10 +348,10 @@ public class ModifiersTests
         var geometry4 = Cuboid(size: (Math.PI * 1000, Math.PI * 1000, Math.PI * 1000), center: (0, 0, 0));
 
         var results = new Geom3[4];
-        results[0] = snap((Geom3)geometry1);
-        results[1] = snap((Geom3)geometry2);
-        results[2] = snap((Geom3)geometry3);
-        results[3] = snap((Geom3)geometry4);
+        results[0] = snap(geometry1);
+        results[1] = snap(geometry2);
+        results[2] = snap(geometry3);
+        results[3] = snap(geometry4);
 
         var pts = results[0].ToPoints();
         var exp = new List<List<Vec3>>(0);

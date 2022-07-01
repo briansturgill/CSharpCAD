@@ -17,7 +17,7 @@ public class SubtractTests
         Assert.DoesNotThrow(() => geometry1.Validate());
 
         // subtract of one object
-        var result1 = (Geom2)Subtract(geometry1);
+        var result1 = Subtract(geometry1);
         Assert.DoesNotThrow(() => result1.Validate());
         var obs = result1.ToPoints();
         var exp = new Vec2[] {
@@ -34,10 +34,10 @@ public class SubtractTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // subtract of two non-overlapping objects
-        var geometry2 = (Geom2)Center(Rectangle(size: (4, 4), center: (0, 0)), relativeTo: new Vec2(10, 10));
+        var geometry2 = Center(Rectangle(size: (4, 4), center: (0, 0)), relativeTo: new Vec2(10, 10));
         Assert.DoesNotThrow(() => geometry2.Validate());
 
-        var result2 = (Geom2)Subtract(geometry1, geometry2);
+        var result2 = Subtract(geometry1, geometry2);
         Assert.DoesNotThrow(() => result2.Validate());
         obs = result2.ToPoints();
         exp = new Vec2[] {
@@ -57,7 +57,7 @@ public class SubtractTests
         var geometry3 = Rectangle(size: (18, 18), center: (0,0));
         Assert.DoesNotThrow(() => geometry3.Validate());
 
-        var result3 = (Geom2)Subtract(geometry2, geometry3);
+        var result3 = Subtract(geometry2, geometry3);
         Assert.DoesNotThrow(() => result3.Validate());
         obs = result3.ToPoints();
         exp = new Vec2[] {
@@ -67,7 +67,7 @@ public class SubtractTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // subtract of two completely overlapping objects
-        var result4 = (Geom2)Subtract(geometry1, geometry3);
+        var result4 = Subtract(geometry1, geometry3);
         Assert.DoesNotThrow(() => result4.Validate());
         obs = result4.ToPoints();
         exp = new Vec2[0];
@@ -82,7 +82,7 @@ public class SubtractTests
         Assert.DoesNotThrow(() => geometry1.Validate());
 
         // subtract of one object
-        var result1 = (Geom3)Subtract(geometry1);
+        var result1 = Subtract(geometry1);
         Assert.DoesNotThrow(() => result1.Validate());
         var obs = result1.ToPoints();
         if(WriteTests) TestData.Make("SubtractTransformGeom3Exp1", obs);
@@ -91,10 +91,10 @@ public class SubtractTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
         // subtract of two non-overlapping objects
-        var geometry2 = (Geom3)Center(Cuboid(size: (4, 4, 4), center: (0, 0, 0)), relativeTo: (10, 10, 10));
+        var geometry2 = Center(Cuboid(size: (4, 4, 4), center: (0, 0, 0)), relativeTo: (10, 10, 10));
         Assert.DoesNotThrow(() => geometry2.Validate());
 
-        var result2 = (Geom3)Subtract(geometry1, geometry2);
+        var result2 = Subtract(geometry1, geometry2);
         Assert.DoesNotThrow(() => result2.Validate());
         obs = result2.ToPoints();
         Assert.AreEqual(obs.Count, 32);
@@ -103,7 +103,7 @@ public class SubtractTests
         var geometry3 = Cuboid(size: (18, 18, 18), center: (0, 0, 0));
         Assert.DoesNotThrow(() => geometry3.Validate());
 
-        var result3 = (Geom3)Subtract(geometry2, geometry3);
+        var result3 = Subtract(geometry2, geometry3);
         // LATER JSCAD Assert.DoesNotThrow(() => result3.Validate());
         obs = result3.ToPoints();
         if(WriteTests) TestData.Make("SubtractTransformGeom3Exp2", obs);
@@ -112,7 +112,7 @@ public class SubtractTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
         // subtract of two completely overlapping objects
-        var result4 = (Geom3)Subtract(geometry1, geometry3);
+        var result4 = Subtract(geometry1, geometry3);
         Assert.DoesNotThrow(() => result4.Validate());
         obs = result4.ToPoints();
         Assert.AreEqual(obs.Count, 0);

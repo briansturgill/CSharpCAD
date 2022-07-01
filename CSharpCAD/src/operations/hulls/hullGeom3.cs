@@ -15,7 +15,7 @@ public static partial class CSCAD
         var uniqueVertices = new HashSet<Vec3>();
         foreach (var gobj in gobjs)
         {
-            var polys = ((Geom3)gobj).ToPolygons();
+            var polys = gobj.ToPolygons();
             foreach (var p in polys)
             {
                 foreach (var v in p.Vertices)

@@ -16,9 +16,9 @@ public class ExpandTests
     public void TestExpandGeom2()
     {
         var geometry = new Geom2(new Vec2[] { new Vec2(-8, -8), new Vec2(8, -8), new Vec2(8, 8), new Vec2(-8, 8) });
-        Assert.DoesNotThrow(() => ((Geom2)geometry).Validate());
+        Assert.DoesNotThrow(() => (geometry).Validate());
 
-        var obs = (Geom2)Expand(geometry, delta: 2, corners: Corners.Round, segments: 8);
+        var obs = Expand(geometry, delta: 2, corners: Corners.Round, segments: 8);
         var pts = obs.ToPoints();
         var exp = new Vec2[] {
           new Vec2(-9.414213562373096, -9.414213562373096),
@@ -36,7 +36,7 @@ public class ExpandTests
           };
         Assert.AreEqual(pts.Length, exp.Length);
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
-        Assert.DoesNotThrow(() => ((Geom2)obs).Validate());
+        Assert.DoesNotThrow(() => (obs).Validate());
     }
 
     [Test]
@@ -64,10 +64,10 @@ public class ExpandTests
           new Geom2.Side(new Vec2(2.00000, -19.00000), new Vec2(2.00000, -15.00000)),
           new Geom2.Side(new Vec2(2.00000, -15.00000), new Vec2(-2.00000, -15.00000))
         });
-        Assert.DoesNotThrow(() => ((Geom2)geometry).Validate());
+        Assert.DoesNotThrow(() => (geometry).Validate());
 
         // expand +
-        var obs = (Geom2)Expand(geometry, delta: 2, corners: Corners.Edge);
+        var obs = Expand(geometry, delta: 2, corners: Corners.Edge);
         var pts = obs.ToPoints();
         var exp = new Vec2[] {
           new Vec2(77, -77),
@@ -93,6 +93,6 @@ public class ExpandTests
           };
         Assert.AreEqual(pts.Length, exp.Length);
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
-        Assert.DoesNotThrow(() => ((Geom2)obs).Validate());
+        Assert.DoesNotThrow(() => (obs).Validate());
     }
 }

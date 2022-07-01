@@ -18,14 +18,14 @@ public class TestCenter
         var geometry = new Geom2(new List<Vec2> { new Vec2(0, 0), new Vec2(10, 0), new Vec2(0, 10) });
 
         // center about Y
-        var centered = (Geom2)Center(geometry, axisX: false, axisY: true);
+        var centered = Center(geometry, axisX: false, axisY: true);
         Assert.DoesNotThrow(() => centered.Validate());
         var pts = new List<Vec2>();
         pts.AddRange(centered.ToPoints());
         var exp = new List<Vec2> { new Vec2(0, -5), new Vec2(10, -5), new Vec2(0, 5) };
         Assert.True(Helpers.CompareListsNEVec2(pts, exp));
 
-        centered = (Geom2)CenterY(geometry);
+        centered = CenterY(geometry);
         Assert.DoesNotThrow(() => centered.Validate());
         pts = new List<Vec2>();
         pts.AddRange(centered.ToPoints());
@@ -46,7 +46,7 @@ public class TestCenter
         var geometry = new Geom3(points);
 
         // center about X
-        var centered = (Geom3)Center(geometry, axisX: true, axisY: false, axisZ: false);
+        var centered = Center(geometry, axisX: true, axisY: false, axisZ: false);
         Assert.DoesNotThrow(() => centered.Validate());
         var pts = centered.ToPoints();
         var exp = new List<List<Vec3>> {
@@ -59,13 +59,13 @@ public class TestCenter
         };
         Assert.True(Helpers.CompareListOfListsNEVec3(pts, exp));
 
-        centered = (Geom3)CenterX(geometry);
+        centered = CenterX(geometry);
         Assert.DoesNotThrow(() => centered.Validate());
         pts = centered.ToPoints();
         Assert.True(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // center about Y
-        centered = (Geom3)Center(geometry, axisX: false, axisY: true, axisZ: false);
+        centered = Center(geometry, axisX: false, axisY: true, axisZ: false);
         Assert.DoesNotThrow(() => centered.Validate());
         pts = centered.ToPoints();
         exp = new List<List<Vec3>> {
@@ -78,13 +78,13 @@ public class TestCenter
         };
         Assert.True(Helpers.CompareListOfListsNEVec3(pts, exp));
 
-        centered = (Geom3)CenterY(geometry);
+        centered = CenterY(geometry);
         Assert.DoesNotThrow(() => centered.Validate());
         pts = centered.ToPoints();
         Assert.True(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // center about Z
-        centered = (Geom3)Center(geometry, axisX: false, axisY: false, axisZ: true);
+        centered = Center(geometry, axisX: false, axisY: false, axisZ: true);
         Assert.DoesNotThrow(() => centered.Validate());
         pts = centered.ToPoints();
         exp = new List<List<Vec3>> {
@@ -97,7 +97,7 @@ public class TestCenter
         };
         Assert.True(Helpers.CompareListOfListsNEVec3(pts, exp));
 
-        centered = (Geom3)CenterZ(geometry);
+        centered = CenterZ(geometry);
         Assert.DoesNotThrow(() => centered.Validate());
         pts = centered.ToPoints();
         Assert.True(Helpers.CompareListOfListsNEVec3(pts, exp));
@@ -108,7 +108,7 @@ public class TestCenter
     {
         var geometry2 = new Geom2(new List<Vec2> { new Vec2(-5, -5), new Vec2(0, 5), new Vec2(10, -5) });
 
-        var centered2 = (Geom2)Center(geometry2, axisX: true, axisY: true, relativeTo: new Vec2(10, 15));
+        var centered2 = Center(geometry2, axisX: true, axisY: true, relativeTo: new Vec2(10, 15));
         Assert.DoesNotThrow(() => centered2.Validate());
 
         var pts2 = new List<Vec2>();

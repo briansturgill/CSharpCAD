@@ -50,7 +50,7 @@ internal static partial class CSharpCADInternals
           allSides.AddRange(part.ToSides());
         }
         var newGobj = new Geom2(allSides.ToArray());
-        //var newGobj = (Geom2)Expand(gobj, delta: size, corners: corners, segments: segments);
+        //var newGobj = Expand(gobj, delta: size, corners: corners, segments: segments);
 
         return ExtrudeLinearGeom2(newGobj, new Vec3(0, 0, height), twistAngle, twistSteps, repair);
     }

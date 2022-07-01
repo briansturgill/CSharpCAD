@@ -16,7 +16,7 @@ public static partial class CSCAD
         for (var i = 0; i < gobjs.Length; i++)
         {
             var gobj = gobjs[i];
-            newgobjs[i] = To3DWalls(z0: -1, z1: 1, (Geom2)gobj);
+            newgobjs[i] = To3DWalls(z0: -1, z1: 1, gobj);
         }
 
         var newgeom3 = SubtractGeom3(newgobjs);

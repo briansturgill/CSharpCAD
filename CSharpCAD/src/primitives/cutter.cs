@@ -77,7 +77,7 @@ public static partial class CSCAD
         _height = _height + 2; // Make sure we cut everything.
 
         var cutter2D = Cutter2D(radius, startAngle, endAngle);
-        var cutter3D = (Geom3)Translate(new Vec3(_center.X, _center.Y, _center.Z - (_height / 2.0)), ExtrudeSimple(cutter2D, height: _height));
+        var cutter3D = Translate(new Vec3(_center.X, _center.Y, _center.Z - (_height / 2.0)), ExtrudeSimple(cutter2D, height: _height));
         return cutter3D;
     }
 }

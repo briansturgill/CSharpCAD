@@ -160,7 +160,7 @@ public static partial class CSCAD
      */
     public static Geom3 Colorize(Color color, Geom3 obj)
     {
-        return colorGeom3(color, (Geom3)obj);
+        return colorGeom3(color, obj);
     }
 
     // <summary>Converts a CSS color name to RGB color.</summary>

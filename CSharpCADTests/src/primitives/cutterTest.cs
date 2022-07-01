@@ -35,7 +35,7 @@ public class CutterTests
         Assert.DoesNotThrow(() => cut1.Validate());
         Assert.DoesNotThrow(() => cut2.Validate());
 
-        var obs1 = (Geom2)Subtract(circ1, cut1);
+        var obs1 = Subtract(circ1, cut1);
         Assert.DoesNotThrow(() => obs1.Validate());
         var pts = obs1.ToPoints();
         if (WriteTests) TestData.Make("CutterOptsExp1", pts);
@@ -45,7 +45,7 @@ public class CutterTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
         // test center
-        var obs2 = (Geom2)Subtract(circ2, cut2);
+        var obs2 = Subtract(circ2, cut2);
         Assert.DoesNotThrow(() => obs2.Validate());
         pts = obs2.ToPoints();
         if (WriteTests) TestData.Make("CutterOptsExp2", pts);
@@ -77,7 +77,7 @@ public class CutterTests
         Assert.DoesNotThrow(() => cut1.Validate());
         Assert.DoesNotThrow(() => cut2.Validate());
 
-        var obs1 = (Geom3)Subtract(sphere1, cut1);
+        var obs1 = Subtract(sphere1, cut1);
         // LATER JSCAD Assert.DoesNotThrow(() => obs1.Validate());
         var pts = obs1.ToPoints();
         if (WriteTests) TestData.Make("Cutter3DOptsExp1", pts);
@@ -87,7 +87,7 @@ public class CutterTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test center
-        var obs2 = (Geom3)Subtract(sphere2, cut2);
+        var obs2 = Subtract(sphere2, cut2);
         // LATER JSCAD Assert.DoesNotThrow(() => obs2.Validate());
         pts = obs2.ToPoints();
         if (WriteTests) TestData.Make("Cutter3DOptsExp2", pts);

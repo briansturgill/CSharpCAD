@@ -19,7 +19,7 @@ public class CubeTests
     {
         var obs = Cube(size: 2, center: (0,0, 0)); // CSCAD changed the default center.
         Assert.DoesNotThrow(() => obs.Validate());
-        var pts = ((Geom3)obs).ToPolygons();
+        var pts = obs.ToPolygons();
         foreach (var p in pts)
         {
         }
@@ -32,7 +32,7 @@ public class CubeTests
         // test center
         var obs = Cube(size: 7, center: (6.5, 6.5, 6.5));
         Assert.DoesNotThrow(() => obs.Validate());
-        var pts = ((Geom3)obs).ToPoints();
+        var pts = obs.ToPoints();
         if (WriteTests) TestData.Make("CubeOptionsExp1", pts);
         var exp = UnitTestData.CubeOptionsExp1;
 
@@ -42,7 +42,7 @@ public class CubeTests
         // test size
         obs = Cube(size: 7, center: (0,0, 0));
         Assert.DoesNotThrow(() => obs.Validate());
-        pts = ((Geom3)obs).ToPoints();
+        pts = obs.ToPoints();
         if (WriteTests) TestData.Make("CubeOptionsExp2", pts);
         exp = UnitTestData.CubeOptionsExp2;
 

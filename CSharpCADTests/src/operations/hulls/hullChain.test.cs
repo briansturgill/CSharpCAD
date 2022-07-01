@@ -17,14 +17,14 @@ public class HullChainTests
         Assert.DoesNotThrow(() => geometry2.Validate());
 
         // same
-        var obs = (Geom2)HullChain(geometry1, geometry1);
+        var obs = HullChain(geometry1, geometry1);
         var pts = obs.ToPoints();
 
         Assert.DoesNotThrow(() => obs.Validate());
         Assert.AreEqual(pts.Length, 4);
 
         // different
-        obs = (Geom2)HullChain(geometry1, geometry2);
+        obs = HullChain(geometry1, geometry2);
         pts = obs.ToPoints();
 
         Assert.DoesNotThrow(() => obs.Validate());
@@ -42,7 +42,7 @@ public class HullChainTests
         Assert.DoesNotThrow(() => geometry3.Validate());
 
         // open
-        var obs = (Geom2)HullChain(geometry1, geometry2, geometry3);
+        var obs = HullChain(geometry1, geometry2, geometry3);
         var pts = obs.ToPoints();
 
         // the sides change based on the bestplane chosen in trees/Node.js
@@ -50,7 +50,7 @@ public class HullChainTests
         Assert.AreEqual(pts.Length, 10);
 
         // closed
-        obs = (Geom2)HullChain(geometry1, geometry2, geometry3, geometry1);
+        obs = HullChain(geometry1, geometry2, geometry3, geometry1);
         pts = obs.ToPoints();
 
         // the sides change based on the bestplane chosen in trees/Node.js
@@ -90,13 +90,13 @@ public class HullChainTests
         Assert.DoesNotThrow(() => geometry3.Validate());
 
         // open
-        var obs = (Geom3)HullChain(geometry1, geometry2, geometry3);
+        var obs = HullChain(geometry1, geometry2, geometry3);
         var pts = obs.ToPoints();
         // LATER JSCAD Assert.DoesNotThrow(() => obs.Validate());
         Assert.AreEqual(pts.Count, 23);
 
         // closed
-        obs = (Geom3)HullChain(geometry1, geometry2, geometry3, geometry1);
+        obs = HullChain(geometry1, geometry2, geometry3, geometry1);
         pts = obs.ToPoints();
         // LATER JSCAD Assert.DoesNotThrow(() => obs.Validate());
         Assert.AreEqual(pts.Count, 28);

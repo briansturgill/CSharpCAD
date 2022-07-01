@@ -24,7 +24,7 @@ public class TestScale
         var exp = new Vec2[] { new Vec2(-3, 0), new Vec2(3, 0), new Vec2(0, 1) };
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
-        scaled = (Geom2)ScaleX(3, geometry);
+        scaled = ScaleX(3, geometry);
         Assert.DoesNotThrow(() => scaled.Validate());
         obs = scaled.ToPoints();
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
@@ -36,7 +36,7 @@ public class TestScale
         exp = new Vec2[] { new Vec2(-1, 0), new Vec2(1, 0), new Vec2(0, 3) };
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
-        scaled = (Geom2)ScaleY(3, geometry);
+        scaled = ScaleY(3, geometry);
         Assert.DoesNotThrow(() => scaled.Validate());
         obs = scaled.ToPoints();
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
@@ -57,7 +57,7 @@ public class TestScale
         var geometry = new Geom3(points);
 
         // scale X
-        var scaled = (Geom3)Scale(new Vec3(3, 1, 1), geometry);
+        var scaled = Scale(new Vec3(3, 1, 1), geometry);
         Assert.DoesNotThrow(() => scaled.Validate());
         var obs = scaled.ToPoints();
         var exp = new List<List<Vec3>> {
@@ -70,13 +70,13 @@ public class TestScale
         };
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
-        scaled = (Geom3)ScaleX(3, geometry);
+        scaled = ScaleX(3, geometry);
         Assert.DoesNotThrow(() => scaled.Validate());
         obs = scaled.ToPoints();
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
         // scale Y
-        scaled = (Geom3)Scale(new Vec3(1, 0.5, 1), geometry);
+        scaled = Scale(new Vec3(1, 0.5, 1), geometry);
         Assert.DoesNotThrow(() => scaled.Validate());
         obs = scaled.ToPoints();
         exp = new List<List<Vec3>> {
@@ -89,13 +89,13 @@ public class TestScale
         };
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
-        scaled = (Geom3)ScaleY(0.5, geometry);
+        scaled = ScaleY(0.5, geometry);
         Assert.DoesNotThrow(() => scaled.Validate());
         obs = scaled.ToPoints();
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
         // scale Z
-        scaled = (Geom3)Scale(new Vec3(1, 1, 5), geometry);
+        scaled = Scale(new Vec3(1, 1, 5), geometry);
         Assert.DoesNotThrow(() => scaled.Validate());
         obs = scaled.ToPoints();
         exp = new List<List<Vec3>> {
@@ -108,7 +108,7 @@ public class TestScale
         };
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
-        scaled = (Geom3)ScaleZ(5, geometry);
+        scaled = ScaleZ(5, geometry);
         Assert.DoesNotThrow(() => scaled.Validate());
         obs = scaled.ToPoints();
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));

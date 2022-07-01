@@ -17,7 +17,7 @@ public class IntersectTests
         Assert.DoesNotThrow(() => geometry1.Validate());
 
         // intersect of one object
-        var result1 = (Geom2)Intersect(geometry1);
+        var result1 = Intersect(geometry1);
         Assert.DoesNotThrow(() => result1.Validate());
         var obs = result1.ToPoints();
         var exp = UnitTestData.IntersectGeom2Exp1;
@@ -25,10 +25,10 @@ public class IntersectTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // intersect of two non-overlapping objects
-        var geometry2 = (Geom2)Center(Rectangle(size: (4, 4), center: (0, 0)), relativeTo: new Vec2(10, 10));
+        var geometry2 = Center(Rectangle(size: (4, 4), center: (0, 0)), relativeTo: new Vec2(10, 10));
         Assert.DoesNotThrow(() => geometry2.Validate());
 
-        var result2 = (Geom2)Intersect(geometry1, geometry2);
+        var result2 = Intersect(geometry1, geometry2);
         Assert.DoesNotThrow(() => result2.Validate());
         obs = result2.ToPoints();
         Assert.AreEqual(obs.Length, 0);
@@ -37,7 +37,7 @@ public class IntersectTests
         var geometry3 = Rectangle(size: (18, 18), center: (0, 0));
         Assert.DoesNotThrow(() => geometry3.Validate());
 
-        var result3 = (Geom2)Intersect(geometry2, geometry3);
+        var result3 = Intersect(geometry2, geometry3);
         Assert.DoesNotThrow(() => result3.Validate());
         obs = result3.ToPoints();
         exp = new Vec2[] {
@@ -47,7 +47,7 @@ public class IntersectTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // intersect of two completely overlapping objects
-        var result4 = (Geom2)Intersect(geometry1, geometry3);
+        var result4 = Intersect(geometry1, geometry3);
         Assert.DoesNotThrow(() => result4.Validate());
         obs = result4.ToPoints();
         exp = UnitTestData.IntersectGeom2Exp2;
@@ -62,7 +62,7 @@ public class IntersectTests
         Assert.DoesNotThrow(() => geometry1.Validate());
 
         // intersect of one object
-        var result1 = (Geom3)Intersect(geometry1);
+        var result1 = Intersect(geometry1);
         Assert.DoesNotThrow(() => result1.Validate());
         var obs = result1.ToPoints();
         if(WriteTests) TestData.Make("IntersectGeom3Exp1", obs);
@@ -71,10 +71,10 @@ public class IntersectTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
         // intersect of two non-overlapping objects
-        var geometry2 = (Geom3)Center(Cuboid(size: (4, 4, 4), center: (0, 0, 0)), relativeTo: new Vec3(10, 10, 10));
+        var geometry2 = Center(Cuboid(size: (4, 4, 4), center: (0, 0, 0)), relativeTo: new Vec3(10, 10, 10));
         Assert.DoesNotThrow(() => geometry2.Validate());
 
-        var result2 = (Geom3)Intersect(geometry1, geometry2);
+        var result2 = Intersect(geometry1, geometry2);
         Assert.DoesNotThrow(() => result2.Validate());
         obs = result2.ToPoints();
         Assert.AreEqual(obs.Count, 0);
@@ -83,7 +83,7 @@ public class IntersectTests
         var geometry3 = Cuboid(size: (18, 18, 18), center: (0, 0, 0));
         Assert.DoesNotThrow(() => geometry3.Validate());
 
-        var result3 = (Geom3)Intersect(geometry2, geometry3);
+        var result3 = Intersect(geometry2, geometry3);
         Assert.DoesNotThrow(() => result3.Validate());
         obs = result3.ToPoints();
 
@@ -94,7 +94,7 @@ public class IntersectTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
         // intersect of two completely overlapping objects
-        var result4 = (Geom3)Intersect(geometry1, geometry3);
+        var result4 = Intersect(geometry1, geometry3);
         Assert.DoesNotThrow(() => result4.Validate());
         obs = result4.ToPoints();
         Assert.AreEqual(obs.Count, 32);

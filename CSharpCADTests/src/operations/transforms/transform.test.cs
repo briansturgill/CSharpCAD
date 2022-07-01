@@ -14,7 +14,7 @@ public class TransformTests
         var matrix = Mat4.FromScaling(new Vec3(5, 5, 5));
         var geometry = new Geom2(new List<Vec2> { new Vec2(0, 0), new Vec2(1, 0), new Vec2(0, 1) });
 
-        geometry = (Geom2)Transform(matrix, geometry);
+        geometry = Transform(matrix, geometry);
         Assert.DoesNotThrow(() => geometry.Validate());
         var obs = geometry.ToPoints();
         var exp = new Vec2[] { new Vec2(0, 0), new Vec2(5, 0), new Vec2(0, 5) };
@@ -34,7 +34,7 @@ public class TransformTests
           new List<Vec3>{new Vec3(-2, -7, 18), new Vec3(8, -7, 18), new Vec3(8, 13, 18), new Vec3(-2, 13, 18)}
         };
         var geometry = new Geom3(points);
-        geometry = (Geom3)Transform(matrix, geometry);
+        geometry = Transform(matrix, geometry);
         Assert.DoesNotThrow(() => geometry.Validate());
         var obs = geometry.ToPoints();
         var exp = new List<List<Vec3>> {
@@ -54,7 +54,7 @@ public class TransformTests
         var geometry2 = new Geom2(new List<Vec2> { new Vec2(-5, -5), new Vec2(0, 5), new Vec2(10, -5) });
 
         var matrix = Mat4.FromTranslation(new Vec3(2, 2, 0));
-        var transformed = (Geom2)Transform(matrix, geometry2);
+        var transformed = Transform(matrix, geometry2);
         Assert.DoesNotThrow(() => transformed.Validate());
 
         var obs = transformed.ToPoints();

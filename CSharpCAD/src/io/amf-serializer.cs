@@ -36,7 +36,7 @@ public static partial class CSCAD
         }
 
         // convert to triangles
-        var object3d = (Geom3)Modifiers.generalize(g, snap: true, triangulate: true);
+        var object3d = Modifiers.generalize(g, snap: true, triangulate: true);
         // convert only 3D geometries
 
         var xml = new XmlTextWriter(file, new UTF8Encoding());

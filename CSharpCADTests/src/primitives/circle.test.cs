@@ -17,7 +17,7 @@ public class CircleTests
     {
         var geometry = Circle(radius: 2);
         Assert.DoesNotThrow(() => geometry.Validate());
-        var pts = ((Geom2)geometry).ToPoints();
+        var pts = (geometry).ToPoints();
 
         Assert.IsTrue(pts.Length == 32);
     }
@@ -29,7 +29,7 @@ public class CircleTests
         // test center
         var geometry = Circle(radius: 3.5, center: (6.5, 6.5));
         Assert.DoesNotThrow(() => geometry.Validate());
-        var pts = ((Geom2)geometry).ToPoints();
+        var pts = (geometry).ToPoints();
         var exp = new Vec2[] {
           new Vec2(10, 6.5),
           new Vec2(9.932748481411306, 7.182816127056449),
@@ -71,7 +71,7 @@ public class CircleTests
         // test radius
         geometry = Circle(radius: 3.5, segments: 16);
         Assert.DoesNotThrow(() => geometry.Validate());
-        pts = ((Geom2)geometry).ToPoints();
+        pts = (geometry).ToPoints();
         exp = new Vec2[] {
           new Vec2(3.5, 0),
           new Vec2(3.2335783637895035, 1.3393920132778143),
@@ -97,7 +97,7 @@ public class CircleTests
         // test startAngle
         geometry = Semicircle(radius: 3.5, startAngle: 90, endAngle: 360, segments: 16);
         Assert.DoesNotThrow(() => geometry.Validate());
-        pts = ((Geom2)geometry).ToPoints();
+        pts = (geometry).ToPoints();
         exp = new Vec2[] {
           new Vec2(2.143131898507868e-16, 3.5),
           new Vec2(-1.339392013277814, 3.2335783637895035),
@@ -121,7 +121,7 @@ public class CircleTests
         // test endAngle
         geometry = Semicircle(radius: 3.5, endAngle: 90, segments: 16);
         Assert.DoesNotThrow(() => geometry.Validate());
-        pts = ((Geom2)geometry).ToPoints();
+        pts = (geometry).ToPoints();
         exp = new Vec2[] {
           new Vec2(3.5, 0),
           new Vec2(3.2335783637895035, 1.3393920132778143),
@@ -137,7 +137,7 @@ public class CircleTests
         // test segments
         geometry = Circle(radius: 3.5, segments: 5);
         Assert.DoesNotThrow(() => geometry.Validate());
-        pts = ((Geom2)geometry).ToPoints();
+        pts = (geometry).ToPoints();
         exp = new Vec2[] {
           new Vec2(3.5, 0),
           new Vec2(1.081559480312316, 3.3286978070330373),

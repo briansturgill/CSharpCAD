@@ -8,7 +8,7 @@ public static partial class CSCAD
     private static Slice? defaultCallback(double progress, int index, Slice baseSlice)
     {
         // It was dumb to be handling these in the callback...
-        // baseSlice = new Slice(((Geom2)obj).ToSides());
+        // baseSlice = new Slice((obj).ToSides());
         // baseSlice = new Slice(((Poly3)obj).ToPoints());
 
         return (progress == 0 || progress == 1) ? baseSlice.Transform(Mat4.FromTranslation(new Vec3(0, 0, progress))) : null;

@@ -52,7 +52,7 @@ public class TranslateTests
         var geometry = new Geom3(points);
 
         // translate X
-        var translated = (Geom3)Translate(new Vec3(3, 0, 0), geometry);
+        var translated = Translate(new Vec3(3, 0, 0), geometry);
         Assert.DoesNotThrow(() => translated.Validate());
         var obs = translated.ToPoints();
         var exp = new List<List<Vec3>> {
@@ -65,13 +65,13 @@ public class TranslateTests
         };
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
-        translated = (Geom3)TranslateX(3, geometry);
+        translated = TranslateX(3, geometry);
         Assert.DoesNotThrow(() => translated.Validate());
         obs = translated.ToPoints();
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
         // translated Y
-        translated = (Geom3)Translate(new Vec3(0, 3, 0), geometry);
+        translated = Translate(new Vec3(0, 3, 0), geometry);
         Assert.DoesNotThrow(() => translated.Validate());
         obs = translated.ToPoints();
         exp = new List<List<Vec3>> {
@@ -84,13 +84,13 @@ public class TranslateTests
         };
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
-        translated = (Geom3)TranslateY(3, geometry);
+        translated = TranslateY(3, geometry);
         Assert.DoesNotThrow(() => translated.Validate());
         obs = translated.ToPoints();
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
         // translate Z
-        translated = (Geom3)Translate(new Vec3(0, 0, 3), geometry);
+        translated = Translate(new Vec3(0, 0, 3), geometry);
         Assert.DoesNotThrow(() => translated.Validate());
         obs = translated.ToPoints();
         exp = new List<List<Vec3>> {
@@ -103,7 +103,7 @@ public class TranslateTests
         };
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
-        translated = (Geom3)TranslateZ(3, geometry);
+        translated = TranslateZ(3, geometry);
         Assert.DoesNotThrow(() => translated.Validate());
         obs = translated.ToPoints();
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));

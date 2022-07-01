@@ -27,7 +27,7 @@ public class EarAssignHolesTests
           new Vec2(1.9999933333333335, -1.9999933333333335),
           new Vec2(-1.9999933333333335, -1.9999933333333335)
         }};
-        var geometry = (Geom2)Subtract(Square(size: 6, center: (0,0)), Square(size: 4, center: (0,0)));
+        var geometry = Subtract(Square(size: 6, center: (0,0)), Square(size: 4, center: (0,0)));
         var obs1 = Earcut.AssignHoles(geometry);
         var (obs1_solid, obs1_holes) = obs1[0];
         Assert.IsTrue(Helpers.CompareListsNEVec2(exp1_solid, obs1_solid));
@@ -37,7 +37,7 @@ public class EarAssignHolesTests
     [Test]
     public void TestAssignHolesNested()
     {
-        var geometry = (Geom2)Union(
+        var geometry = Union(
             Subtract(
               Square(size: 6, center: (0,0)),
               Square(size: 4, center: (0,0))
