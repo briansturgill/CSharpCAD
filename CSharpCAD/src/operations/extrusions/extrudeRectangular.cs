@@ -13,19 +13,14 @@ public static partial class CSCAD
      * <param name="segments">Number of segments when creating round corners.</param>
      * <group>3D Primitives</group>
      */
-    public static Geom3 ExtrudeRectangular(Geometry gobj, double size = 1, double height = 1,
+    public static Geom3 ExtrudeRectangular(Geom2 gobj, double size = 1, double height = 1,
             double twistAngle = 0, int twistSteps = 12, Corners corners = Corners.Edge, int segments = 16)
     {
 
         if (size <= 0) throw new ArgumentException("Argument \"size\" must be positive.");
         if (height <= 0) throw new ArgumentException("Argument \"height\" must be positive.");
 
-        if (!gobj.Is2D)
-        {
-            throw new ArgumentException("Currently, only 2D objects are supported in ExtrudeRectangular.");
-        }
-
         twistAngle = DegToRad(twistAngle);
-        return ExtrudeRectangularGeom2((Geom2)gobj, size, height, twistAngle, twistSteps, corners, segments);
+        return ExtrudeRectangularGeom2(gobj, size, height, twistAngle, twistSteps, corners, segments);
     }
 }

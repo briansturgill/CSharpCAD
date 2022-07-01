@@ -11,7 +11,7 @@ public static partial class CSCAD
      * <returns>The extruded 3D geometry</returns>
      * <group>3D Primitives</group>
      */
-    public static Geom3 ExtrudeRotate(Geometry gobj, int segments = 12, double startAngle = 0, double angle = 360)
+    public static Geom3 ExtrudeRotate(Geom2 gobj, int segments = 12, double startAngle = 0, double angle = 360)
     {
         // @param {String} [options.overflow="cap"] - what to do with points outside of bounds (+ / - x) :
         // defaults to capping those points to 0 (only supported behaviour for now)
@@ -19,8 +19,7 @@ public static partial class CSCAD
         // var overflow = opts.GetString("overflow", "cap");
 
         if (segments < 3) throw new ArgumentException("Segments must be greater than 3.");
-        if (!gobj.Is2D) throw new ArgumentException("Argument geometry must be a 2D geometry.");
-        var geometry = (Geom2)gobj;
+        var geometry = gobj;
 
         startAngle = DegToRad(startAngle);
         angle = DegToRad(angle);
@@ -97,7 +96,7 @@ public static partial class CSCAD
                 }
                 // recreate the geometry from the (-) capped points
                 geometry = new Geom2(shapeSides).Reverse();
-                geometry = (Geom2)MirrorX(geometry);
+                geometry = MirrorX(geometry);
             }
             else if (pointsWithPositiveX.Count >= pointsWithNegativeX.Count)
             {

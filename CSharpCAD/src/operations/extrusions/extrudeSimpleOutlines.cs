@@ -27,19 +27,15 @@ public static partial class CSCAD
      * </example>
      * <group>3D Primitives</group>
      */
-    public static Geom3 ExtrudeSimpleOutlines(Geometry gOuter, Geometry gInner, double height = 1, double bottom = 0, ESO_NextLayer? nextLayer = null, double? center_z = null)
+    public static Geom3 ExtrudeSimpleOutlines(Geom2 gOuter, Geom2 gInner, double height = 1, double bottom = 0, ESO_NextLayer? nextLayer = null, double? center_z = null)
     {
         if (nextLayer is not null && LessThanOrEqualish(bottom, 0.0)) throw new ArgumentException("If you provide a layer function, height must be greater than zero.");
         if (LessThanOrEqualish(height, 0.0)) throw new ArgumentException("Height must be greater than zero.");
         if (bottom < 0.0) throw new ArgumentException("Argument bottom must be positive.");
-        if (!gOuter.Is2D) throw new ArgumentException("gOuter must be a 2d geometry object.");
-        if (!gInner.Is2D) throw new ArgumentException("gInner must be a 2d geometry object.");
-        var _gOuter = (Geom2)gOuter;
-        var _gInner = (Geom2)gInner;
-        if (!_gOuter.HasOnlyOnePath) throw new ArgumentException("gOuter must be a 2D geometry object that has one path (no cutouts).");
-        if (!_gInner.HasOnlyOnePath) throw new ArgumentException("gInner must be a 2D geometry object that has one path (no cutouts).");
-        var v2arrayOuter = _gOuter.ToPoints();
-        var v2arrayInner = _gInner.ToPoints();
+        if (!gOuter.HasOnlyOnePath) throw new ArgumentException("gOuter must be a 2D geometry object that has one path (no cutouts).");
+        if (!gInner.HasOnlyOnePath) throw new ArgumentException("gInner must be a 2D geometry object that has one path (no cutouts).");
+        var v2arrayOuter = gOuter.ToPoints();
+        var v2arrayInner = gInner.ToPoints();
 
         Vec2[]? getVec2(double offset)
         {

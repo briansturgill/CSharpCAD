@@ -25,12 +25,8 @@ public static partial class CSCAD
      * <param name="segments">Number of segments when creating round corners.</param>
      * <group>Transformations</group>
      */
-    public static Geometry Expand(Geometry gobj, double delta = 1, Corners corners = Corners.Edge, int segments = 16)
+    public static Geom2 Expand(Geom2 gobj, double delta = 1, Corners corners = Corners.Edge, int segments = 16)
     {
-        if (!gobj.Is2D)
-        {
-            throw new ArgumentException("Currently, only 2D objects are supported in ExtrudeRectangular.");
-        }
-        return ExpandGeom2((Geom2)gobj, delta, corners, segments);
+        return ExpandGeom2(gobj, delta, corners, segments);
     }
 }

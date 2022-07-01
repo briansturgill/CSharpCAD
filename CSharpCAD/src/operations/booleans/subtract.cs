@@ -2,11 +2,9 @@ namespace CSharpCAD;
 
 public static partial class CSCAD
 {
-
     /**
      * <summary>Return a new geometry representing space in the first geometry but
      * not in all subsequent geometries.</summary>
-     * <remarks>The given geometries should be of the same type, either geom2 or geom3.</remarks>
      *<pre>
      * +-------+            +-------+
      * |       |            |       |
@@ -22,23 +20,35 @@ public static partial class CSCAD
      * </example>
      * <group>Boolean Operations</group>
      */
-    public static Geometry Subtract(params Geometry[] gobjs)
+    public static Geom2 Subtract(params Geom2[] gobjs)
     {
         if (gobjs.Length == 0) throw new ArgumentException("Must specify at least 1 geometry.");
 
-        var firstWas3D = gobjs[0].Is3D;
-        foreach (var g in gobjs)
-        {
-            if (firstWas3D != g.Is3D)
-            {
-                throw new ArgumentException("Only the subtract of geometry objects of the same type (2D or 3D) are supported.");
-            }
-        }
-
-        if (firstWas3D)
-        {
-            return SubtractGeom3(gobjs);
-        }
         return SubtractGeom2(gobjs);
+    }
+
+    /**
+     * <summary>Return a new geometry representing space in the first geometry but
+     * not in all subsequent geometries.</summary>
+     *<pre>
+     * +-------+            +-------+
+     * |       |            |       |
+     * |   A   |            |       |
+     * |    +--+----+   =   |    +--+
+     * +----+--+    |       +----+
+     *      |   B   |
+     *      |       |
+     *      +-------+
+     * </pre>
+     * <example>
+     * var oPartMissing = Subtract(o1, o2, o3);
+     * </example>
+     * <group>Boolean Operations</group>
+     */
+    public static Geom3 Subtract(params Geom3[] gobjs)
+    {
+        if (gobjs.Length == 0) throw new ArgumentException("Must specify at least 1 geometry.");
+
+        return SubtractGeom3(gobjs);
     }
 }

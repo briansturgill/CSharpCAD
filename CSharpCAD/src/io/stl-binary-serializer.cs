@@ -4,7 +4,7 @@ public static partial class CSCAD
 
     // see http://en.wikipedia.org/wiki/STL_%28file_format%29#Binary_STL
 
-    internal static void SerializeToSTLBinary(string file, Geometry g)
+    internal static void SerializeToSTLBinary(string file, Geom3 g)
     {
 
         // first check if the host is little-endian:
@@ -13,12 +13,7 @@ public static partial class CSCAD
             throw new Exception("Binary STL output is currently only supported on little-endian (Intel) processors.");
         }
 
-        if (g.Is2D)
-        {
-            throw new ArgumentException("STL Serialization only works on 3D objects.");
-        }
-
-        var obj = (Geom3)Modifiers.generalize(g, snap: true, triangulate: true);
+        var obj = Modifiers.generalize(g, snap: true, triangulate: true);
 
         uint numtriangles = 0;
         var numpolygons = 0;

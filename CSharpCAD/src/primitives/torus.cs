@@ -33,11 +33,12 @@ public static partial class CSCAD
 
         if (innerRotation != 0)
         {
-            innerCircle = (Geom2)Rotate(new Vec3(0, 0, innerRotation), innerCircle);
+            // LATER innerRotation was the z argument, but that isn't used on a Geom2.
+            innerCircle = Rotate(new Vec3(0, 0, innerRotation), innerCircle);
         }
 
-        innerCircle = (Geom2)Translate(new Vec3(outerRadius, 0, 0), innerCircle);
+        innerCircle = Translate(new Vec2(outerRadius, 0), innerCircle);
 
-        return (Geom3)ExtrudeRotate(innerCircle, startAngle: startAngle, angle: outerRotation, segments: outerSegments);
+        return ExtrudeRotate(innerCircle, startAngle: startAngle, angle: outerRotation, segments: outerSegments);
     }
 }

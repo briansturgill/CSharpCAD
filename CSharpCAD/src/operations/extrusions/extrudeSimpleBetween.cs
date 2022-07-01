@@ -15,18 +15,14 @@ public static partial class CSCAD
      * <param name="center_z" default="height/2">The Z axis center of the extrusion.</param>
      * <group>3D Primitives</group>
      */
-    public static Geom3 ExtrudeSimpleBetween(Geometry top, Geometry bottom, double height = 1,
+    public static Geom3 ExtrudeSimpleBetween(Geom2 top, Geom2 bottom, double height = 1,
         double? center_z = null)
     {
-        if (!top.Is2D) throw new ArgumentException("Top geometry must be 2D.");
-        if (!bottom.Is2D) throw new ArgumentException("Bottom geometry must be 2D.");
-        var _top = (Geom2)top;
-        if (!_top.HasOnlyOnePath) throw new ArgumentException("Top geometry must have one path (no cutouts).");
-        var _bottom = (Geom2)bottom;
-        if (!_bottom.HasOnlyOnePath) throw new ArgumentException("Bottom geometry must have one path (no cutouts).");
+        if (!top.HasOnlyOnePath) throw new ArgumentException("Top geometry must have one path (no cutouts).");
+        if (!bottom.HasOnlyOnePath) throw new ArgumentException("Bottom geometry must have one path (no cutouts).");
 
-        var v2arrayTop = _top.ToPoints();
-        var v2arrayBottom = _bottom.ToPoints();
+        var v2arrayTop = top.ToPoints();
+        var v2arrayBottom = bottom.ToPoints();
         return InternalExtrudeSimpleBetween(v2arrayTop, v2arrayBottom, height, center_z);
     }
 

@@ -43,7 +43,7 @@ public class UnionTests
 
         // union of two non-overlapping objects
         Geom2 obj = Rectangle(size: (4, 4), center: (0,0));
-        Geom2 geometry2 = (Geom2)Center(obj, relativeTo: new Vec3(10, 10, 0));
+        Geom2 geometry2 = (Geom2)Center(obj, relativeTo: new Vec2(10, 10));
         Assert.DoesNotThrow(() => geometry2.Validate());
 
         var result2 = (Geom2)Union(geometry1, geometry2);
@@ -99,14 +99,14 @@ public class UnionTests
         // union of unions of non-overlapping objects (BSP gap from #907)
         var circ = Circle(radius: 1, segments: 32);
         Assert.DoesNotThrow(() => circ.Validate());
-        var result5 = (Geom2)Union(
+        var result5 = Union(
           Union(
-            Translate(new Vec3(17, 21, 0), circ),
-            Translate(new Vec3(7, 0, 0), circ)
+            Translate(new Vec2(17, 21), circ),
+            Translate(new Vec2(7, 0), circ)
           ),
           Union(
-            Translate(new Vec3(3, 21, 0), circ),
-            Translate(new Vec3(17, 21, 0), circ)
+            Translate(new Vec2(3, 21), circ),
+            Translate(new Vec2(17, 21), circ)
           )
         );
         obs = result5.ToPoints();

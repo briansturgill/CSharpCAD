@@ -18,7 +18,7 @@ public static partial class CSCAD
      * Create a convex hull of the given geom2 geometries.
      * Uses https://en.wikipedia.org/wiki/Graham_scan
      */
-    internal static Geom2 HullGeom2(params Geometry[] geometries)
+    internal static Geom2 HullGeom2(params Geom2[] geometries)
     {
         // Extract unique points from the geometries.
         // To avoid a second pass, also determine the minimum point.
@@ -26,7 +26,7 @@ public static partial class CSCAD
         var min = new Vec2(double.PositiveInfinity, double.PositiveInfinity);
         foreach (var g in geometries)
         {
-            var sides = ((Geom2)g).ToSides();
+            var sides = g.ToSides();
             foreach (var side in sides)
             {
                 var point = side.v0;

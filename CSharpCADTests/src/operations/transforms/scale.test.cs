@@ -18,7 +18,7 @@ public class TestScale
         var geometry = new Geom2(new List<Vec2> { new Vec2(-1, 0), new Vec2(1, 0), new Vec2(0, 1) });
 
         // scale X
-        var scaled = (Geom2)Scale(new Vec3(3, 1, 0), geometry);
+        var scaled = Scale(new Vec2(3, 1), geometry);
         Assert.DoesNotThrow(() => scaled.Validate());
         var obs = scaled.ToPoints();
         var exp = new Vec2[] { new Vec2(-3, 0), new Vec2(3, 0), new Vec2(0, 1) };
@@ -30,7 +30,7 @@ public class TestScale
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // scale Y
-        scaled = (Geom2)Scale(new Vec3(1, 3, 0), geometry);
+        scaled = Scale(new Vec2(1, 3), geometry);
         Assert.DoesNotThrow(() => scaled.Validate());
         obs = scaled.ToPoints();
         exp = new Vec2[] { new Vec2(-1, 0), new Vec2(1, 0), new Vec2(0, 3) };
@@ -119,7 +119,7 @@ public class TestScale
     {
         var geometry2 = new Geom2(new List<Vec2> { new Vec2(-5, -5), new Vec2(0, 5), new Vec2(10, -5) });
 
-        var scaled = (Geom2)Scale(new Vec3(3, 1, 1), geometry2);
+        var scaled = Scale(new Vec2(3, 1), geometry2);
         Assert.DoesNotThrow(() => scaled.Validate());
 
         var obs2 = scaled.ToPoints();

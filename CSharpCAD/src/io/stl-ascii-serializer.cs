@@ -4,15 +4,10 @@ public static partial class CSCAD
 {
 
     // objects must be an array of 3D geomertries (with polygons)
-    internal static void SerializeToSTLText(string file, Geometry g)
+    internal static void SerializeToSTLText(string file, Geom3 g)
     {
-        // convert only 3D geometries
-        if (g.Is2D)
-        {
-            throw new ArgumentException("STL Serialization only works on 3D objects.");
-        }
         // convert to triangles
-        var object3d = (Geom3)Modifiers.generalize(g, snap: true, triangulate: true);
+        var object3d = Modifiers.generalize(g, snap: true, triangulate: true);
 
         var builder = new StringBuilder();
         builder.Append("solid CSCAD\n");
@@ -23,7 +18,7 @@ public static partial class CSCAD
 
     private static void ConvertToStl(StringBuilder builder, Geom3 obj)
     {
-        ConvertToFacets(builder, (Geom3)obj);
+        ConvertToFacets(builder, obj);
     }
 
     internal static void ConvertToFacets(StringBuilder builder, Geom3 obj)

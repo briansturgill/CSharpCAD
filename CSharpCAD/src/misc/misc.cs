@@ -23,27 +23,46 @@ public static partial class CSCAD
         Console.WriteLine("");
     }
 
-    /// <summary>Save a geometry object in a file suitable for printing, etc.</summary>
+    /// <summary>Save a 2D geometry object in a file suitable for printing, etc.</summary>
     /// <remarks>
     /// For formats that only support one output type, the binary flag is ignored.
     /// The output placed in "file" is determined by the files extention.
     /// Currently supported:
-    ///     .stl    STL - both Binary and ASCII supported. 3D only.
     ///     .svg    SVG - works for 2D geometry only.
-    ///     .amf    AMF - works for 3D geometry only.
     /// <example>
     /// var g = Circle(radius: 5);
     /// Save("circle.svg", g);
     /// </example>
     /// </remarks>
     /// <group>Miscellaneous</group>
-    public static void Save(string file, Geometry g, bool binary = true)
+    public static void Save(string file, Geom2 g, bool binary = true)
     {
         if (file.EndsWith(".svg"))
         {
             SerializeToSVG(file, g);
         }
-        else if (file.EndsWith(".amf"))
+        else
+        {
+            throw new ArgumentException($"Sorry but the output file type of \"{file}\" is not one we understand!");
+        }
+    }
+
+    /// <summary>Save a geometry object in a file suitable for printing, etc.</summary>
+    /// <remarks>
+    /// For formats that only support one output type, the binary flag is ignored.
+    /// The output placed in "file" is determined by the files extention.
+    /// Currently supported:
+    ///     .stl    STL - both Binary and ASCII supported. 3D only.
+    ///     .amf    AMF - works for 3D geometry only.
+    /// <example>
+    /// var g = Cylinder(radius: 5);
+    /// Save("cylinder.stl", g);
+    /// </example>
+    /// </remarks>
+    /// <group>Miscellaneous</group>
+    public static void Save(string file, Geom3 g, bool binary = true)
+    {
+        if (file.EndsWith(".amf"))
         {
             SerializeToAMF(file, g);
         }

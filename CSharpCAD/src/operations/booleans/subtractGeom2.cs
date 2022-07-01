@@ -9,9 +9,9 @@ public static partial class CSCAD
      * @param {...geom2} geometries - list of geometries
      * @returns {geom2} new 2D geometry
      */
-    internal static Geom2 SubtractGeom2(params Geometry[] gobjs)
+    internal static Geom2 SubtractGeom2(params Geom2[] gobjs)
     {
-        var newgobjs = new Geometry[gobjs.Length];
+        var newgobjs = new Geom3[gobjs.Length];
 
         for (var i = 0; i < gobjs.Length; i++)
         {

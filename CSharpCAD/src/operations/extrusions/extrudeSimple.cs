@@ -13,12 +13,10 @@ public static partial class CSCAD
      * <param name="center_z" default="height/2">The Z axis center of the extrusion.</param>
      * <group>3D Primitives</group>
      */
-    public static Geom3 ExtrudeSimple(Geometry gobj, double height = 1, double? center_z = null)
+    public static Geom3 ExtrudeSimple(Geom2 gobj, double height = 1, double? center_z = null)
     {
-        if (!gobj.Is2D) throw new ArgumentException("Only 2D geometry objects can be extruded.");
-        var _gobj = (Geom2)gobj;
-        if (!_gobj.HasOnlyOnePath) throw new ArgumentException("ExtrudeSimple only works with 2D geometry objects have one path (no cutouts).");
-        var v2array = _gobj.ToPoints();
+        if (!gobj.HasOnlyOnePath) throw new ArgumentException("ExtrudeSimple only works with 2D geometry objects have one path (no cutouts).");
+        var v2array = gobj.ToPoints();
         return InternalExtrudeSimple(v2array, height, center_z);
     }
 

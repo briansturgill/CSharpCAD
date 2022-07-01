@@ -8,14 +8,14 @@ public static partial class CSCAD
      * @param {...geom2} geometries - list of 2D geometries
      * @returns {geom2} new 2D geometry
      */
-    internal static Geom2 IntersectGeom2(params Geometry[] gobjs)
+    internal static Geom2 IntersectGeom2(params Geom2[] gobjs)
     {
         var newgobjs = new Geom3[gobjs.Length];
 
         for (var i = 0; i < gobjs.Length; i++)
         {
             var gobj = gobjs[i];
-            newgobjs[i] = To3DWalls(z0: -1, z1: 1, (Geom2)gobj);
+            newgobjs[i] = To3DWalls(z0: -1, z1: 1, gobj);
         }
 
         var newgeom3 = IntersectGeom3(newgobjs);

@@ -25,7 +25,7 @@ public class IntersectTests
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // intersect of two non-overlapping objects
-        var geometry2 = (Geom2)Center(Rectangle(size: (4, 4), center: (0, 0)), relativeTo: new Vec3(10, 10, 0));
+        var geometry2 = (Geom2)Center(Rectangle(size: (4, 4), center: (0, 0)), relativeTo: new Vec2(10, 10));
         Assert.DoesNotThrow(() => geometry2.Validate());
 
         var result2 = (Geom2)Intersect(geometry1, geometry2);

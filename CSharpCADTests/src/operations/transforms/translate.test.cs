@@ -14,25 +14,25 @@ public class TranslateTests
         var geometry = new Geom2(new List<Vec2> { new Vec2(0, 0), new Vec2(1, 0), new Vec2(0, 1) });
 
         // translate X
-        var translated = (Geom2)Translate(new Vec3(1, 0, 0), geometry);
+        var translated = Translate(new Vec2(1, 0), geometry);
         Assert.DoesNotThrow(() => translated.Validate());
         var obs = translated.ToPoints();
         var exp = new Vec2[] { new Vec2(1, 0), new Vec2(2, 0), new Vec2(1, 1) };
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
-        translated = (Geom2)TranslateX(1, geometry);
+        translated = TranslateX(1, geometry);
         Assert.DoesNotThrow(() => translated.Validate());
         obs = translated.ToPoints();
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // translate Y
-        translated = (Geom2)Translate(new Vec3(0, 1, 0), geometry);
+        translated = Translate(new Vec2(0, 1), geometry);
         Assert.DoesNotThrow(() => translated.Validate());
         obs = translated.ToPoints();
         exp = new Vec2[] { new Vec2(0, 1), new Vec2(1, 1), new Vec2(0, 2) };
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
-        translated = (Geom2)TranslateY(1, geometry);
+        translated = TranslateY(1, geometry);
         Assert.DoesNotThrow(() => translated.Validate());
         obs = translated.ToPoints();
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
@@ -114,7 +114,7 @@ public class TranslateTests
     {
         var geometry2 = new Geom2(new List<Vec2> { new Vec2(-5, -5), new Vec2(0, 5), new Vec2(10, -5) });
 
-        var translated = (Geom2)Translate(new Vec3(3, 3, 3), geometry2);
+        var translated = Translate(new Vec2(3, 3), geometry2);
         Assert.DoesNotThrow(() => translated.Validate());
 
         var obs = translated.ToPoints();

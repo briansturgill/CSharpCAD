@@ -61,7 +61,7 @@ public static partial class CSCAD
         }
         var polys3D = projection.ToPolygons();
         var len = polys3D.Length;
-        var projections2D = new List<Geometry>(len);
+        var projections2D = new List<Geom2>(len);
         for (var i = 0; i < len; i++) {
             projections2D.Add(new Geom2(toListVec2(polys3D[i].ToPoints())));
         }

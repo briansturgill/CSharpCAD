@@ -2,8 +2,6 @@ namespace CSharpCAD;
 
 internal static partial class Modifiers
 {
-    private static Geom2 generalizeGeom2(Geom2 geometry, bool snap, bool simplify, bool triangulate, bool repair) => geometry;
-
     private static Geom3 generalizeGeom3(Geom3 geometry, bool snap, bool simplify, bool triangulate, bool repair)
     {
 
@@ -53,17 +51,9 @@ internal static partial class Modifiers
      * @return {Object|Array} the modified geometry, or a list of modified geometries
      * </remarks>
      */
-    internal static Geometry generalize(Geometry geometry, bool snap=false, bool simplify = false,
+    internal static Geom3 generalize(Geom3 g3, bool snap=false, bool simplify = false,
         bool triangulate = false, bool repair = false)
     {
-        switch (geometry)
-        {
-            case Geom2 g2:
-                return generalizeGeom2(g2, snap, simplify, triangulate, repair);
-            case Geom3 g3:
-                return generalizeGeom3(g3, snap, simplify, triangulate, repair);
-            default:
-                throw new ArgumentException("Invalid geometry");
-        }
+        return generalizeGeom3(g3, snap, simplify, triangulate, repair);
     }
 }

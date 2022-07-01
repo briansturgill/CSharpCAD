@@ -18,7 +18,7 @@ public static partial class CSCAD
 {
 
     // Serialize the give objects (geometry) to AMF source data (XML).
-    internal static void SerializeToAMF(string file, Geometry g)
+    internal static void SerializeToAMF(string file, Geom3 g)
     {
         string unit = GlobalParams.Units;
         switch (unit)
@@ -36,10 +36,6 @@ public static partial class CSCAD
         }
 
         // convert to triangles
-        if (g.Is2D)
-        {
-            throw new ArgumentException("Only 3D geometries can be serialized to AMF.");
-        }
         var object3d = (Geom3)Modifiers.generalize(g, snap: true, triangulate: true);
         // convert only 3D geometries
 

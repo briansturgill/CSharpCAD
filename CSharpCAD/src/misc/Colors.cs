@@ -41,18 +41,21 @@ public static partial class CSCAD
         }
 
         /// <summary>Automatically convert a string to a Color.</summary>
-        public static implicit operator Color(string colorString) {
+        public static implicit operator Color(string colorString)
+        {
             return new Color(colorString);
         }
 
         /// <summary>Automatically convert a tuple of 4 bytes to a Color.</summary>
-        public static implicit operator Color((byte, byte, byte, byte) tuple) {
+        public static implicit operator Color((byte, byte, byte, byte) tuple)
+        {
             var (r, g, b, a) = tuple;
             return new Color(r, g, b, a);
         }
 
         /// <summary>Automatically convert a tuple of 3 bytes to a Color.</summary>
-        public static implicit operator Color((byte, byte, byte) tuple) {
+        public static implicit operator Color((byte, byte, byte) tuple)
+        {
             var (r, g, b) = tuple;
             return new Color(r, g, b);
         }
@@ -123,7 +126,7 @@ public static partial class CSCAD
      *   A string beginning with "#" followed by 6 hex digits representing RGB.
      *   A string that s one of the extended CSS color names.
      * </param>
-     * <param name="obj">A 2D or 3D geometry object.</param>
+     * <param name="obj">A 2D geometry object.</param>
      * <example>
      * Colorize((255, 0, 0), obj); // Colorizes obj brightest red. Fully opaque (alpha defaults to 255).
      * Colorize((255, 0, 0, 128), obj); // Colorizes obj brightest red, alpha at half opacity.
@@ -133,17 +136,31 @@ public static partial class CSCAD
      * </example>
      * <group>Miscellaneous</group>
      */
-    public static Geometry Colorize(Color color, Geometry obj)
+    public static Geom2 Colorize(Color color, Geom2 obj)
     {
-        switch (obj.GetType().ToString())
-        {
-            case "CSharpCAD.Geom2":
-                return colorGeom2(color, (Geom2)obj);
-            case "CSharpCAD.Geom3":
-                return colorGeom3(color, (Geom3)obj);
-            default:
-                throw new ArgumentException($"Don't know how to color object of type: {obj.GetType().ToString()}.");
-        }
+        return colorGeom2(color, obj);
+    }
+
+    /**
+     * <summary>Assign the given color to the given objects.</summary>
+     * <param name="color">Has 3 formats:
+     *   A C# Tuple of RGB or RGBA color values, where each value is between 0 and 255.
+     *   A string beginning with "#" followed by 6 hex digits representing RGB.
+     *   A string that s one of the extended CSS color names.
+     * </param>
+     * <param name="obj">A 3D geometry object.</param>
+     * <example>
+     * Colorize((255, 0, 0), obj); // Colorizes obj brightest red. Fully opaque (alpha defaults to 255).
+     * Colorize((255, 0, 0, 128), obj); // Colorizes obj brightest red, alpha at half opacity.
+     * Colorize("#00FF00", obj); // Colorizes obj brightest green. Fully opaque (alpha defaults to "FF").
+     * Colorize("#00FF0080", obj); // Colorizes obj brightest green, alpha at half opacity.
+     * Colorize("salmon", obj); // Colorizes obj with the CSS color named "salmon". Fully opaque.
+     * </example>
+     * <group>Miscellaneous</group>
+     */
+    public static Geom3 Colorize(Color color, Geom3 obj)
+    {
+        return colorGeom3(color, (Geom3)obj);
     }
 
     // <summary>Converts a CSS color name to RGB color.</summary>

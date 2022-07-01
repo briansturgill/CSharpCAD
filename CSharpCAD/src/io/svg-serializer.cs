@@ -15,7 +15,7 @@ Notes:
 public static partial class CSCAD
 {
 
-    internal static void SerializeToSVG(string file, Geometry g)
+    internal static void SerializeToSVG(string file, Geom2 g)
     {
         var svg = SerializeToSVG(g);
         System.IO.File.WriteAllText(file, svg);
@@ -31,20 +31,12 @@ public static partial class CSCAD
      * Special attributes (id and class) are added to SVG shapes when found on the geometry.
      * </remarks>
      */
-    internal static string SerializeToSVG(Geometry g)
+    internal static string SerializeToSVG(Geom2 g)
     {
         string unit = GlobalParams.Units;
 
-        // convert only 2D geometries
-        if (!g.Is2D)
-        {
-            throw new ArgumentException("Only 2D geometries can be serialized to SVG");
-        }
-
-        var geom2 = (Geom2)g;
-
         // Get the lower and upper bounds of ALL convertable objects
-        var (min, max) = geom2.BoundingBox();
+        var (min, max) = g.BoundingBox();
 
 
         var width = Math.Round(max.X - min.X, 5);
@@ -56,7 +48,7 @@ public static partial class CSCAD
         svg.Append("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1 Tiny//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd\">\n");
         svg.Append($"<svg width=\"{width}{unit}\" height=\"{height}{unit}\" viewBox=\"0 0 {width} {height}\" fill=\"none\" fill-rule=\"evenodd\" stroke-width=\"0.1px\" version=\"1.1\" baseProfile=\"tiny\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n");
 
-        ConvertGeom2(svg, geom2, min, max);
+        ConvertGeom2(svg, g, min, max);
 
         svg.Append("</svg>");
         return svg.ToString();

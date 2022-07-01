@@ -18,7 +18,7 @@ public class TestCenter
         var geometry = new Geom2(new List<Vec2> { new Vec2(0, 0), new Vec2(10, 0), new Vec2(0, 10) });
 
         // center about Y
-        var centered = (Geom2)Center(geometry, axisX: false, axisY: true, axisZ: false);
+        var centered = (Geom2)Center(geometry, axisX: false, axisY: true);
         Assert.DoesNotThrow(() => centered.Validate());
         var pts = new List<Vec2>();
         pts.AddRange(centered.ToPoints());
@@ -108,7 +108,7 @@ public class TestCenter
     {
         var geometry2 = new Geom2(new List<Vec2> { new Vec2(-5, -5), new Vec2(0, 5), new Vec2(10, -5) });
 
-        var centered2 = (Geom2)Center(geometry2, axisX: true, axisY: true, axisZ: false, relativeTo: new Vec3(10, 15, 0));
+        var centered2 = (Geom2)Center(geometry2, axisX: true, axisY: true, relativeTo: new Vec2(10, 15));
         Assert.DoesNotThrow(() => centered2.Validate());
 
         var pts2 = new List<Vec2>();

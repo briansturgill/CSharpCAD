@@ -7,7 +7,7 @@ public static partial class CSCAD
 
     /// <summary>Alignment modes for the "Align" function.</summary>
     /// <remarks>
-    /// A 3 character sequence specifiying the mode for X, Y, and Z axes.
+    /// A 2 or 3 character sequence specifiying the mode for X, Y, and Z axes.
     ///   C - Center
     ///   X - Maximum
     ///   N - Minimum
@@ -16,6 +16,22 @@ public static partial class CSCAD
     public enum AM
     {
 #pragma warning disable CS1591
+        CC = _C << 2 | _C,
+        CX = _C << 2 | _X,
+        CN = _C << 2 | _N,
+        CU = _C << 2 | _U,
+        XC = _X << 2 | _C,
+        XX = _X << 2 | _X,
+        XN = _X << 2 | _N,
+        XU = _X << 2 | _U,
+        NC = _N << 2 | _C,
+        NX = _N << 2 | _X,
+        NN = _N << 2 | _N,
+        NU = _N << 2 | _U,
+        UC = _U << 2 | _C,
+        UX = _U << 2 | _X,
+        UN = _U << 2 | _N,
+        UU = _U << 2 | _U,
         CCC = _C << 4 | _C << 2 | _C,
         CCX = _C << 4 | _C << 2 | _X,
         CCN = _C << 4 | _C << 2 | _N,
@@ -83,17 +99,43 @@ public static partial class CSCAD
 #pragma warning restore CS1591
     }
 
-    private static (Vec3, Vec3) getBoundingBox(Geometry gobj)
+    internal static Geom2 alignGeom2(Geom2 gobj, AM modes, Vec2 relativeTo)
     {
-        if (gobj.Is2D)
+        double v(Vec2 val, int i)
         {
-            var (min, max) = ((Geom2)gobj).BoundingBox();
-            return (new Vec3(min, 0), new Vec3(max, 0));
+            switch (i)
+            {
+                case 0:
+                    return val.X;
+                case 1:
+                    return val.Y;
+                default:
+                    throw new ArgumentException("Index out of bounds.");
+            }
         }
-        return ((Geom3)gobj).BoundingBox();
+        var (min, max) = gobj.BoundingBox();
+        var tr = new double[] { 0, 0 };
+        for (var i = 0; i < 2; i++)
+        {
+            var mode = (((int)modes) & 3) >> (2 - i);
+            if (mode == _C)
+            {
+                tr[i] = v(relativeTo, i) - (v(min, i) + v(max, i)) / 2;
+            }
+            else if (mode == _X)
+            {
+                tr[i] = v(relativeTo, i) - v(max, i);
+            }
+            else if (mode == _N)
+            {
+                tr[i] = v(relativeTo, i) - v(min, i);
+            }
+        }
+
+        return Translate((tr[0], tr[1]), gobj);
     }
 
-    internal static Geometry alignGeometry(Geometry gobj, AM modes, Vec3 relativeTo)
+    internal static Geom3 alignGeom3(Geom3 gobj, AM modes, Vec3 relativeTo)
     {
         double v(Vec3 val, int i)
         {
@@ -109,7 +151,7 @@ public static partial class CSCAD
                     throw new ArgumentException("Index out of bounds.");
             }
         }
-        var (min, max) = getBoundingBox(gobj);
+        var (min, max) = gobj.BoundingBox();
         var tr = new double[] { 0, 0, 0 };
         for (var i = 0; i < 3; i++)
         {
@@ -142,14 +184,36 @@ public static partial class CSCAD
      * 2) The relativeTo option does not allow an X, Y, or Z coordinate to be null. You'll have to find the values from a bounding box yourself.
      * </remarks>
      * <example>
+     * var alignedGeometry = Align(gobj, AM.NU, relativeTo: (10, 10]);
+     * </example>
+     * <group>Transformations</group>
+     */
+    public static Geom2 Align(Geom2 gobj, AM modes = AM.CCN, Vec2? relativeTo = null)
+    {
+        Vec2 _relativeTo = relativeTo ?? new Vec2();
+
+        return alignGeom2(gobj, modes, _relativeTo);
+    }
+
+    /**
+     * <summary>Align the boundaries of the given geometry using the given options.</summary>
+     * <param name="gobj">The geometry object to be aligned.</param>
+     * <param name="modes" default="AM.CCN">A value from the AM enum, names consist of 3 letters ( 1 each for X, Y, Z): C - center, X - Max, N-Min, U-unaligned</param>
+     * <param name="relativeTo" default="(0,0,0)">The point one each axis on which to align the geometry upon.</param>
+     * <remarks>
+     * C# syntax makes the porting of JSCAD's "align" difficult. We had to simplify.
+     * 1) There is no "grouped" option... you can get the same effect by using Union on the geometries, then aligning the resulting object.
+     * 2) The relativeTo option does not allow an X, Y, or Z coordinate to be null. You'll have to find the values from a bounding box yourself.
+     * </remarks>
+     * <example>
      * var alignedGeometry = Align(gobj, AM.NCU, relativeTo: (10, 0, 10]);
      * </example>
      * <group>Transformations</group>
      */
-    public static Geometry Align(Geometry gobj, AM modes = AM.CCN, Vec3? relativeTo = null)
+    public static Geom3 Align(Geom3 gobj, AM modes = AM.CCN, Vec3? relativeTo = null)
     {
         Vec3 _relativeTo = relativeTo ?? new Vec3();
 
-        return alignGeometry(gobj, modes, _relativeTo);
+        return alignGeom3(gobj, modes, _relativeTo);
     }
 }
