@@ -317,7 +317,7 @@ internal static partial class Modifiers
                                         var closestpoint = direction.Scale(t);
                                         closestpoint = closestpoint.Add(startpos);
                                         var distancesquared = closestpoint.SquaredDistance(endpos);
-                                        if (distancesquared < (C.EPS * C.EPS))
+                                        if (distancesquared < C.EPS*0.1) // Was (C.EPS * C.EPS)
                                         {
                                             // Yes it's a t-junction! We need to split matchingside in two:
                                             var polygonindex = matchingside.polygonindex;
