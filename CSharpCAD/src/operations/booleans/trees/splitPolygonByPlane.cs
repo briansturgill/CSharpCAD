@@ -30,7 +30,7 @@ public static partial class CSCAD
         {
             var hasfront = false;
             var hasback = false;
-            var vertexIsBack = new List<bool>();
+            var vertexIsBack = new List<bool>(numvertices);
             var MINEPS = -C.EPS;
             for (var i = 0; i < numvertices; i++)
             {
@@ -44,7 +44,7 @@ public static partial class CSCAD
             {
                 // all points coplanar
                 var t = splane.Normal.Dot(pplane.Normal);
-                result_type = (t >= 0) ? 0 : 1;
+                result_type = (t > 0) ? 0 : 1;
             }
             else if (!hasback)
             {
