@@ -67,6 +67,14 @@ var g = Subtract(a, b);// TapPost(8, 5, add_taper: false);
 var g = TapPost(8, 5, add_taper: true);
 Save("/tmp/test.stl", g);
 //g.Validate();
+g = Union(Sphere(radius: 20), Translate((10, 10, 10), Sphere(radius: 20)));
+g = Subtract(g, Cuboid((5, 5, 50), center: (0, 0, 0)));
+g = Subtract(g, Rotate((45, 0, 0), Cuboid((5, 5, 50), center: (0, 0, 0))));
+g = Intersect(g, Translate((10, 10, 10), Torus(outerRadius: 30, innerRadius: 15)));
+g = Union(Cuboid(size: (10, 10, 10)), Translate((7, 7, 7), Cuboid((10, 10, 10))));
+Save("/tmp/test.stl", g);
+g = Union(Cube(size: 8, center: (0, 0, 0)), Cube(center: (0, 0, 4)));
+Save("/tmp/test.stl", g);
 
 /*
 var llv = g.ToPoints();
