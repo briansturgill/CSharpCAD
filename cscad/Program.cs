@@ -76,40 +76,28 @@ Save("/tmp/test.stl", g);
 g = Union(Cube(size: 8, center: (0, 0, 0)), Cube(center: (0, 0, 4)));
 Save("/tmp/test.stl", g);
 
-/*
-var llv = g.ToPoints();
-prev = new Vec3(Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity);
-foreach (var lv in llv)
-{
-    lv.Sort();
-    foreach (var cur in lv)
-    {
-        if (prev == cur)
-        {
-            Console.WriteLine($"PTS EXACTLY Equal{prev}");
-        }
-        if (prev.IsNearlyEqual(cur))
-        {
-            Console.WriteLine($"PTS Nearly Equal: {prev}, {cur}");
-        }
-        prev = cur;
-    }
-}
-*/
 
-// Succeeds: var obs = Union(Cube(size: 8, center: (0, 0, 0)), Cube(size: 2, center: (0, 0, 4)));
-//var obs = Union(Cube(size: 8, center: (0, 0, 0)), Cube(center: (0, 0, 4)));
-//Save("/tmp/test.stl", obs, binary: false);
-/*
-obs.Validate();
-var llv = obs.ToPoints();
-foreach (var lv in llv)
+g2 = Subtract(Rectangle((8, 4)), Translate((2, 1), Rectangle((4, 2))));
+g2 = Union(g2, Translate((7, 1), Rectangle((2, 2))), Translate((3, 1.5), Rectangle((1, 1))));
+g2 = Subtract(g2, Translate((3.15, 1.65), Rectangle((0.20, 0.20))));
+g2 = Subtract(g2, Translate((3.4, 2.0), Rectangle((0.30, 0.40))));
+Save("/tmp/test.svg", g2);
+g = ExtrudeLinear(g2, 5);
+Save("/tmp/test.stl", g);
+
+foreach (var pt in g2.ToPoints())
 {
-    StringBuilder sb = new StringBuilder();
-    foreach (var v in lv)
-    {
-        sb.Append($"{v},");
-    }
-        Console.WriteLine($"{sb.ToString()}");
+    Console.Write($"{pt}, ");
 }
-*/
+Console.WriteLine("");
+Console.WriteLine("---");
+
+foreach (var o in g2.ToOutlines())
+{
+
+    foreach (var v2 in o)
+    {
+        Console.Write($"{v2}, ");
+    }
+    Console.WriteLine("");
+}
