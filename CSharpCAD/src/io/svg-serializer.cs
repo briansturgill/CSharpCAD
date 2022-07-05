@@ -76,16 +76,16 @@ public static partial class CSCAD
 
         var color = ConvertColor(g.Color);
 
-        foreach (var path in outlines)
-        {
-            ConvertToContinuousPath(svg, path, offset, color);
-        }
+        ConvertToContinuousPath(svg, outlines, offset, color);
     }
 
-    private static void ConvertToContinuousPath(StringBuilder svg, List<Vec2> path, Vec2 offset, string color)
+    private static void ConvertToContinuousPath(StringBuilder svg, List<List<Vec2>> paths, Vec2 offset, string color)
     {
         svg.Append($"<g><path fill=\"{color}\" d=\"");
-        ConvertPath(svg, path, offset, true);
+        foreach (var path in paths)
+        {
+            ConvertPath(svg, path, offset, true);
+        }
         svg.Append("\"/></g>\n");
     }
 
