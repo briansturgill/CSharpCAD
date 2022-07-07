@@ -241,4 +241,24 @@ public static partial class CSCAD
     {
         return angleInRadians * (180/Math.PI);
     }
+
+    /// <summary>String description of winding of a 2D polygon.</summary>
+    /// <group>Miscellaneous</group>
+    public static string Winding(List<Vec2> lv)
+    {
+        string wstr(double winding)
+        {
+            if (winding > 0) return "cw";
+            if (winding < 0) return "ccw";
+            return "zero";
+        }
+        var len = lv.Count;
+        if (len < 3) return "too small";
+        var winding = 0.0;
+        for (var i = 0; i < len; i++)
+        {
+            winding += (lv[(i + 1) % len].X - lv[i].X) * (lv[(i + 1) % len].Y + lv[i].Y);
+        }
+        return wstr(winding);
+    }
 }
