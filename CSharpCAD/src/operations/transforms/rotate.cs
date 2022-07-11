@@ -33,7 +33,8 @@ public static partial class CSCAD
 
         var matrix = Mat4.FromTaitBryanRotation(yaw, pitch, roll);
 
-        return g.Transform(matrix);
+        var ret = g.Transform(matrix, makeRobust: true);
+        return ret;
     }
 
     /**

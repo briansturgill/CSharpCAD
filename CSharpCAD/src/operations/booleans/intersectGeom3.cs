@@ -19,6 +19,7 @@ public static partial class CSCAD
         }
 
         newgobj = Retessellate(newgobj);
+        MakePointsRobust(newgobj.ToPolygons());
         return newgobj;
     }
 }

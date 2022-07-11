@@ -7,6 +7,7 @@ public class Geom3 : Geometry
     private Mat4 transforms;
     private (Vec3, Vec3)? boundingBox;
     private bool needsTransform;
+    private bool needsMakeRobust;
     ///
     public Mat4 Transforms { get => this.transforms; }
     ///
@@ -40,6 +41,7 @@ public class Geom3 : Geometry
         this.IsRetesselated = false;
         this.boundingBox = null;
         this.needsTransform = false;
+        this.needsMakeRobust = false;
         if (GlobalParams.CheckingEnabled)
         {
             this.Validate();
@@ -55,10 +57,11 @@ public class Geom3 : Geometry
         this.IsRetesselated = false;
         this.boundingBox = null;
         this.needsTransform = false;
+        this.needsMakeRobust = false;
     }
 
     /// <summary>Internal constructor. Public for testing use only.</summary>
-    public Geom3(Poly3[] polygons, Mat4? transforms = null, Color? Color = null, bool isRetesselated = false, bool needsTransform = false)
+    public Geom3(Poly3[] polygons, Mat4? transforms = null, Color? Color = null, bool isRetesselated = false, bool needsTransform = false, bool needsMakeRobust = false)
     {
         this.polygons = polygons;
         this.transforms = transforms ?? new Mat4();
@@ -66,6 +69,7 @@ public class Geom3 : Geometry
         this.IsRetesselated = isRetesselated;
         this.boundingBox = null;
         this.needsTransform = needsTransform;
+        this.needsMakeRobust = needsMakeRobust;
         if (GlobalParams.CheckingEnabled)
         {
             this.Validate();
@@ -164,7 +168,6 @@ public class Geom3 : Geometry
     {
         if (!this.needsTransform) return this;
         if (this.transforms.IsIdentity()) return this;
-
         // apply transforms to each polygon
         // const isMirror = mat4.isMirroring(geometry.transforms)
         // TBD if (isMirror) newvertices.reverse()
@@ -172,8 +175,14 @@ public class Geom3 : Geometry
         {
             polygons[i] = polygons[i].Transform(this.transforms);
         }
+        if (this.needsMakeRobust)
+        {
+            MakePointsRobust(polygons);
+        }
+
         this.transforms = new Mat4();
         this.needsTransform = false;
+        this.needsMakeRobust = false;
         return this;
     }
 
@@ -261,10 +270,10 @@ public class Geom3 : Geometry
 
     /// <summary>Add a transformation to this geometry.</summary>
     /// <remarks>This is done in a lazy fashion, only affecting the internal transforms vector.</remarks>
-    public Geom3 Transform(Mat4 matrix)
+    public Geom3 Transform(Mat4 matrix, bool makeRobust = false)
     {
         var transforms = matrix.Multiply(this.transforms);
-        return new Geom3(this.polygons.ToArray(), transforms, Color, needsTransform: true);
+        return new Geom3(this.polygons.ToArray(), transforms, Color, needsTransform: true, needsMakeRobust: makeRobust);
     }
 
     /**

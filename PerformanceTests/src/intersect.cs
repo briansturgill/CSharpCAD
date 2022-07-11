@@ -83,6 +83,7 @@ public static class Intersects
             func = () => { return Intersect(circle_1000); }
         });
 
+        /*
         Program.pTests.Add(new PTest
         {
             name = "intersect(5000)",
@@ -98,6 +99,7 @@ public static class Intersects
             div = "10000",
             func = () => { return Intersect(circle_10000); }
         });
+        */
 
         Program.pTests.Add(new PTest
         {
@@ -115,6 +117,7 @@ public static class Intersects
             func = () => { return Intersect(sphere_1000); }
         });
 
+        /*
         Program.pTests.Add(new PTest
         {
             name = "intersect(10000)",
@@ -122,5 +125,6 @@ public static class Intersects
             div = "10000",
             func = () => { return Intersect(sphere_10000); }
         });
+        */
     }
 }

@@ -84,6 +84,7 @@ public static class Unions
         });
 
 
+        /*
         Program.pTests.Add(new PTest
         {
             name = "union(5000)",
@@ -100,6 +101,7 @@ public static class Unions
             div = "10000",
             func = () => { return Union(circle_10000); }
         });
+        */
 
 
         Program.pTests.Add(new PTest
@@ -119,7 +121,7 @@ public static class Unions
             func = () => { return Union(sphere_1000); }
         });
 
-
+        /*
         Program.pTests.Add(new PTest
         {
             name = "union(10000)",
@@ -127,7 +129,7 @@ public static class Unions
             div = "10000",
             func = () => { return Union(sphere_10000); }
         });
-
+        */
     }
 
 }

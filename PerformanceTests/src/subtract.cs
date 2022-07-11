@@ -84,6 +84,7 @@ public static class Subtracts
             func = () => { return Subtract(circle_1000); }
         });
 
+        /*
         Program.pTests.Add(new PTest
         {
             name = "subtract(5000)",
@@ -100,6 +101,7 @@ public static class Subtracts
             div = "10000",
             func = () => { return Subtract(circle_10000); }
         });
+        */
 
         Program.pTests.Add(new PTest
         {
@@ -117,6 +119,7 @@ public static class Subtracts
             func = () => { return Subtract(sphere_1000); }
         });
 
+        /*
         Program.pTests.Add(new PTest
         {
             name = "subtract(10000)",
@@ -124,6 +127,6 @@ public static class Subtracts
             div = "10000",
             func = () => { return Subtract(sphere_10000); }
         });
-
+        */
     }
 }

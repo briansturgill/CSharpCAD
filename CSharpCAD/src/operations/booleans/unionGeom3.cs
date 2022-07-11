@@ -10,9 +10,10 @@ public static partial class CSCAD
     private static Geom3 UnionGeom3(params Geom3[] gobjs)
     {
         // combine geometries in a way that forms a balanced binary tree pattern
-        var geometries = new List<Geom3>(2*gobjs.Length);
-        foreach(var gobj in gobjs) {
-          geometries.Add(gobj);
+        var geometries = new List<Geom3>(2 * gobjs.Length);
+        foreach (var gobj in gobjs)
+        {
+            geometries.Add(gobj);
         }
         int i;
         for (i = 1; i < geometries.Count; i += 2)
@@ -21,6 +22,7 @@ public static partial class CSCAD
         }
         var newgeometry = geometries[i - 1];
         newgeometry = Retessellate(newgeometry);
+        MakePointsRobust(newgeometry.ToPolygons());
         return newgeometry;
     }
 }

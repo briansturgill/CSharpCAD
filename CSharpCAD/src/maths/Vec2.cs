@@ -59,7 +59,7 @@ public readonly struct Vec2 : IEquatable<Vec2>
     }
 
     /// <summary>Standard C# override.</summary>
-    public override string ToString() => $"Vec2({this.X:F5},{this.Y:F5})";
+    public override string ToString() => $"Vec2({this.X},{this.Y})";
 
     /// <summary>Used mostly for testing.</summary>
     public bool IsNearlyEqual(Vec2 b)
