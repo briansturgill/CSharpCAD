@@ -4,7 +4,7 @@ public static class TestData
 {
     public static void Make(string tag, List<List<Vec3>> data)
     {
-        NUnit.Framework.TestContext.Out.WriteLine($"WARNING: write test data for {tag}.");
+        NUnit.Framework.TestContext.Error.WriteLine($"WARNING: write test data for {tag}.");
         StringBuilder sb = new StringBuilder();
 
         var indent_level = 0;
@@ -56,7 +56,7 @@ public static class TestData
 
     public static void Make(string tag, Vec2[] data)
     {
-        NUnit.Framework.TestContext.Out.WriteLine($"WARNING: write test data for {tag}.");
+        NUnit.Framework.TestContext.Error.WriteLine($"WARNING: write test data for {tag}.");
         StringBuilder sb = new StringBuilder();
 
         var indent_level = 0;
@@ -98,7 +98,7 @@ public static class TestData
 
     internal static void Make(string tag, Geom2.Side[] data)
     {
-        NUnit.Framework.TestContext.Out.WriteLine($"WARNING: write test data for {tag}.");
+        NUnit.Framework.TestContext.Error.WriteLine($"WARNING: write test data for {tag}.");
         StringBuilder sb = new StringBuilder();
 
         var indent_level = 0;

@@ -225,6 +225,6 @@ static class Helpers
 
     public static void Log(string msg)
     {
-        NUnit.Framework.TestContext.Out.WriteLine(msg);
+        NUnit.Framework.TestContext.Error.WriteLine(msg);
     }
 }
