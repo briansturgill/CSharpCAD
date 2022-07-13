@@ -32,7 +32,6 @@ public class CuboidTests
         var obs = Cuboid(size: (6, 6, 6), center: (3, 5, 7));
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
-        Helpers.Log(System.IO.Directory.GetCurrentDirectory());
         if(WriteTests) TestData.Make("CuboidOptsExp1", pts);
         var exp = UnitTestData.CuboidOptsExp1;
 
