@@ -1,1 +1,3 @@
-pythonnet
+files/.venv
+files/__pycache__
+files/.vscode

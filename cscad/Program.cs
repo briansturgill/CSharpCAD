@@ -77,6 +77,7 @@ g = Intersect(g, Translate((10, 10, 10), Torus(outerRadius: 30, innerRadius: 15)
 g = Union(g, Cuboid(size: (10, 10, 10)), Translate((7, 7, 7), Cuboid((10, 10, 10))));
 Save("/tmp/test.stl", g);
 g = Union(Cube(size: 8, center: (0, 0, 0)), Cube(center: (0, 0, 4)));
+View(g);
 //Save("/tmp/test.stl", g);
 
 
@@ -88,10 +89,14 @@ g2 = Subtract(g2, Translate((3.15, 1.65), Rectangle((0.20, 0.20))));
 g2.Validate();
 g2 = Subtract(g2, Translate((3.4, 2.0), Rectangle((0.30, 0.40))));
 g2.Validate();
+g2 = Colorize("red", g2);
 Save("/tmp/test.svg", g2);
 g = ExtrudeLinear(g2, 3, repair:true);
-//Save("/tmp/test.stl", g);
+Save("/tmp/test.stl", g);
 
+View(g2, "Test of SVG");
+
+/*
 Console.WriteLine("---");
 
 foreach (var o in g2.ToOutlines())
@@ -104,4 +109,5 @@ foreach (var o in g2.ToOutlines())
     }
     Console.WriteLine("");
 }
+*/
 //g.Validate();

@@ -1,0 +1,13 @@
+src=`pwd`
+if [ z$1 = z ]; then
+	echo "Usage: setup _new_dir_name_"
+	exit 1
+fi
+mkdir $1
+cd $1
+python3 -m venv .
+. bin/activate
+git clone https://github.com/pythonnet/pythonnet.git
+cd pythonnet
+pip install .
+echo "Don't forget to 'cd $1' and then issue the command: . bin/activate"

@@ -14,6 +14,7 @@ public static partial class CSCAD
         }
 
         var obj = Modifiers.generalize(g, snap: true, triangulate: true);
+        View(obj, file);
 
         uint numtriangles = 0;
         var numpolygons = 0;
