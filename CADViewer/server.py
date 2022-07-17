@@ -1,12 +1,13 @@
 import pyvista
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from threading import Thread, Lock
+from queue import Queue
 import json
 import numpy as np
+from time import sleep
 
 view_lock = Lock()
-clear_needed = False
-new_mesh = False
+display_needed = False
 meshes = []
 colors = []
 titles = []
@@ -14,22 +15,32 @@ titles = []
 addr="127.0.0.1"
 port=8037
 
+viewQueue = Queue()
+
 class CADViewerHandler(BaseHTTPRequestHandler):
     def do_POST(self):
-        global clear_needed, meshes, colors, titles, new_mesh
         len = int(self.headers["Content-Length"])
         print("Content-Length:", len)
         data = self.rfile.read(len)
         self.send_response(200)
         self.end_headers()
-        self.wfile.write(bytes())
+        self.wfile.write(bytes("got it", "utf-8"))
+        viewQueue.put(data)
+
+def _queue_handler():
+    global display_needed, meshes, colors, titles
+    while True:
+        data = viewQueue.get()
         view_lock.acquire()
         try:
             obj = json.loads(data)
             if "clear" in obj:
-                clear_needed = True
+                meshes = []
+                colors = []
+                titles = []
+                display_needed = True
             else:
-                new_mesh = True
+                display_needed = True
                 vertices = np.array(obj["vertices"], np.float64)
                 faces = np.hstack(obj["faces"])
                 mesh = pyvista.PolyData(vertices, faces)
@@ -43,6 +54,7 @@ class CADViewerHandler(BaseHTTPRequestHandler):
 
 def start_server():
     Thread(target=_start_server, daemon=True).start()
+    Thread(target=_queue_handler, daemon=True).start()
 
 def _start_server():
     print(addr, port)

@@ -21,21 +21,14 @@ def exit_now():
 
 def on_timer(iren, event_id):
     global current_mesh
-    display_needed = False
+
     serv.view_lock.acquire()
-    if serv.clear_needed:
-        current_mesh = -1
-        serv.meshes = []
-        serv.colors = []
-        serv.titles = []
-        serv.clear_needed = False
-        display_needed = True
-    elif serv.new_mesh:
-        serv.new_mesh = False
-        current_mesh = -1
-        display_needed = True
+    display_needed = serv.display_needed
+    serv.display_needed = False
     serv.view_lock.release()
+
     if display_needed:
+        current_mesh = -1
         display()
 
 def display():
@@ -68,6 +61,7 @@ def display():
         current_mesh = -1;
         title = ""
     text_actor = pl.add_text(f"#{current_mesh+1} of {l} {title}", color="royalblue")
+    pl.render()
     serv.view_lock.release()
 
 def do_left():
@@ -113,8 +107,6 @@ def show_wireframe():
         display()
 
 while True:
-    display()
-
     pl.add_key_event("a", toggle_axes)
     pl.add_key_event("minus", toggle_edges)
     pl.add_key_event("p", show_points)
@@ -123,12 +115,11 @@ while True:
     pl.add_key_event("Left", do_left)
     pl.add_key_event("Right", do_right)
 
-    pl.render()
-
     pl.show(interactive=False, auto_close=False)
     id = pl.iren.interactor.CreateRepeatingTimer(1000)
     pl.iren.remove_observers("TimerEvent")
     pl.iren.interactor.AddObserver(vtk.vtkCommand.TimerEvent, on_timer)
+    display()
     pl.show(interactive=True, auto_close=True)
 
     print("Leaving")

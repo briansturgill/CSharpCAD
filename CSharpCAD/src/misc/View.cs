@@ -138,7 +138,7 @@ private static void OnProcessExit(object? _, EventArgs e)
                 continue;
             }
             if (hrm is null) break;
-            client.Send(hrm);
+            client.Send(hrm, HttpCompletionOption.ResponseContentRead);
         }
     }
 }
