@@ -114,6 +114,7 @@ public static partial class CSCAD
     }
 
     ///<summary>Called by Python to wait for CADViewer sending to finish.</summary>
+    ///<group>Miscellaneous</group>
     public static void WaitForViewer()
     {
         hrmQueue.Enqueue(null);
