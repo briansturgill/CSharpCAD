@@ -48,7 +48,7 @@ public static partial class CSCAD
     /// <param name="endAngle">End of the rotation of the circle (in degrees).</param>
     /// <param name="center" default="(0,0)">Center of circle.</param>
     /// <example>
-    /// var g = SemiCircle(radius: 5, segments: 50, startAngle: 90, endAngle: 135);
+    /// var g = Semicircle(radius: 5, segments: 50, startAngle: 90, endAngle: 135);
     /// </example>
     /// <group>2D Primitives</group>
     public static Geom2 Semicircle(double radius = 1, int segments = 32,
