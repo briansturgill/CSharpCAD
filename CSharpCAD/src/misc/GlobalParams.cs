@@ -25,11 +25,12 @@ public static class GlobalParams
             }
         }
     }
-    /// <summary>The View and Save commands will send their geometries to CADViewer.</summary>
+    /// <summary>The View and Save (see CADViewerDoNotSendSaves below) commands will send their geometries to CADViewer.</summary>
     public static bool CADViewerEnabled = true;
+    /// <summary>The Save command will not send its geometries to CADViewer.</summary>
+    public static bool CADViewerDoNotSendSaves = false;
     /// <summary>CADViewer IP Address (remember there is no security).</summary>
     public static string CADViewerUrl = "http://127.0.0.1:8037";
     ///<summary>Enables special (time consuming) debug checking like geometry validation.</summary>
     public static bool CheckingEnabled = false;
 }
-

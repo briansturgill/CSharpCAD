@@ -8,7 +8,7 @@ public static partial class CSCAD
     {
         // convert to triangles
         var object3d = Modifiers.generalize(g, snap: true, triangulate: true);
-        View(object3d, file);
+        if (!GlobalParams.CADViewerDoNotSendSaves) View(object3d, file);
 
         var builder = new StringBuilder();
         builder.Append("solid CSCAD\n");

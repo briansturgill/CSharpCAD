@@ -17,7 +17,7 @@ public static partial class CSCAD
 
     internal static void SerializeToSVG(string file, Geom2 g)
     {
-        View(g, file);
+        if (!GlobalParams.CADViewerDoNotSendSaves) View(g, file);
         var svg = SerializeToSVG(g);
         System.IO.File.WriteAllText(file, svg);
     }
