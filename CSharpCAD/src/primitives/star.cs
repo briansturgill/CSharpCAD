@@ -3,16 +3,16 @@ namespace CSharpCAD;
 public static partial class CSCAD
 {
     // @see http://www.jdawiseman.com/papers/easymath/surds_star_inner_radius.html
-    private static double getRadiusRatio(double vertices, double density)
+    private static double getRadiusRatio(int vertices, int density)
     {
-        if (vertices > 0 && density > 1 && density < vertices / 2)
+        if (vertices > 0 && density > 1 && density < vertices / 2.0)
         {
-            return Math.Cos(Math.PI * density / vertices) / Math.Cos(Math.PI * (density - 1) / vertices);
+            return Math.Cos(Math.PI * density / (double)vertices) / Math.Cos(Math.PI * (density - 1) / vertices);
         }
         return 0;
     }
 
-    private static List<Vec2> getPoints(double vertices, double radius, double startAngle, Vec2 center)
+    private static List<Vec2> getPoints(int vertices, double radius, double startAngle, Vec2 center)
     {
         var a = (Math.PI * 2) / vertices;
 
@@ -42,8 +42,8 @@ public static partial class CSCAD
      * </example>
      * <group>2D Primitives</group>
      */
-    public static Geom2 Star(double vertices = 5, double outerRadius = 1, double innerRadius = 0,
-        double density = 2, double startAngle = 0, Vec2? center = null)
+    public static Geom2 Star(int vertices = 5, double outerRadius = 1, double innerRadius = 0,
+        int density = 2, double startAngle = 0, Vec2? center = null)
     {
         var _center = center ?? new Vec2(0, 0);
 
@@ -53,11 +53,6 @@ public static partial class CSCAD
         if (startAngle < 0) throw new ArgumentException("Option startAngle must be positive.");
 
         startAngle = DegToRad(startAngle);
-
-        // force integers
-        vertices = Math.Floor(vertices);
-        density = Math.Floor(density);
-
         startAngle = startAngle % (Math.PI * 2);
 
         if (innerRadius == 0)
