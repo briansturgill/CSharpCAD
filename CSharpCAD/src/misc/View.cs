@@ -34,6 +34,7 @@ public static partial class CSCAD
     {
         if (!GlobalParams.CADViewerEnabled) return (gobj);
         var g = ExtrudeLinear(gobj, height: 0.1);
+        g.Color = gobj.Color;
         View(g, title);
         return gobj;
     }
