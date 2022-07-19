@@ -50,22 +50,12 @@ public static partial class CSCAD
 
         if (!CADViewerInited)
         {
-            try
-            {
-                var hrm = new HttpRequestMessage(HttpMethod.Post, GlobalParams.CADViewerUrl);
-                hrm.Content = new StringContent("{\"clear\":true}");
-                client.Send(hrm);
-            }
-            catch (HttpRequestException e)
-            {
-                Console.WriteLine("Exception clearing CADViewer, Message :{0} ", e.Message);
-                GlobalParams.CADViewerEnabled = false;
-                return (gobj);
-            }
+            var hrm = new HttpRequestMessage(HttpMethod.Post, GlobalParams.CADViewerUrl);
+            hrm.Content = new StringContent("{\"clear\":true}");
+            hrmQueue.Enqueue(hrm);
             ProcessingThread = new Thread(new ThreadStart(Sender));
             ProcessingThread.IsBackground = true;
             ProcessingThread.Start();
-            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
 
             CADViewerInited = true;
         }
@@ -107,23 +97,21 @@ public static partial class CSCAD
         }
         catch (HttpRequestException e)
         {
-            Console.WriteLine("Exception caught sending model to CADViewer, Message :{0} ", e.Message);
+            Console.WriteLine("Exception preparing model to CADViewer, Message :{0} ", e.Message);
         }
 
         return (gobj);
     }
 
-    ///<summary>Called by Python to wait for CADViewer sending to finish.</summary>
+    ///<summary>Called to wait for CADViewer sending to finish.</summary>
+    ///<param name="verbose">Show messages saying when waiting has started/finished.</param>
     ///<group>Miscellaneous</group>
-    public static void WaitForViewer()
+    public static void WaitForViewerTransfers(bool verbose = true)
     {
         hrmQueue.Enqueue(null);
+        if (verbose) Console.WriteLine("Waiting for viewer transfers.");
         if (ProcessingThread is not null) ProcessingThread.Join();
-    }
-
-private static void OnProcessExit(object? _, EventArgs e)
-    {
-        WaitForViewer();
+        if (verbose) Console.WriteLine("Finshed waiting for viewer transfers.");
     }
 
     private static void Sender()
@@ -138,7 +126,14 @@ private static void OnProcessExit(object? _, EventArgs e)
                 continue;
             }
             if (hrm is null) break;
-            client.Send(hrm, HttpCompletionOption.ResponseContentRead);
+            try
+            {
+                client.Send(hrm, HttpCompletionOption.ResponseContentRead);
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine("Exception sending model to CADViewer, Message :{0} ", e.Message);
+            }
         }
     }
 }

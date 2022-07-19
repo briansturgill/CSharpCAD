@@ -22,18 +22,14 @@ def exit_now():
 def on_timer(iren, event_id):
     global current_mesh
 
-    serv.view_lock.acquire()
-    display_needed = serv.display_needed
-    serv.display_needed = False
-    serv.view_lock.release()
-
-    if display_needed:
+    if serv.display_needed:
         current_mesh = -1
         display()
 
 def display():
     global current_mesh
     serv.view_lock.acquire()
+    serv.display_needed = False
     pl.clear()
     pl.enable_trackball_style()
     pl.set_background("lightblue")
@@ -116,7 +112,7 @@ while True:
     pl.add_key_event("Right", do_right)
 
     pl.show(interactive=False, auto_close=False)
-    id = pl.iren.interactor.CreateRepeatingTimer(1000)
+    id = pl.iren.interactor.CreateRepeatingTimer(50)
     pl.iren.remove_observers("TimerEvent")
     pl.iren.interactor.AddObserver(vtk.vtkCommand.TimerEvent, on_timer)
     display()

@@ -1,5 +1,5 @@
 import pyvista
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from threading import Thread, Lock
 from queue import Queue
 import json
@@ -24,7 +24,11 @@ class CADViewerHandler(BaseHTTPRequestHandler):
         data = self.rfile.read(len)
         self.send_response(200)
         self.end_headers()
-        self.wfile.write(bytes("got it", "utf-8"))
+        try:
+            self.wfile.write(bytes("got it", "utf-8"))
+        except:
+            print("Exception writing response")
+            pass
         viewQueue.put(data)
 
 def _queue_handler():
@@ -58,7 +62,7 @@ def start_server():
 
 def _start_server():
     print(addr, port)
-    httpd = HTTPServer((addr, port), CADViewerHandler)
+    httpd = ThreadingHTTPServer((addr, port), CADViewerHandler)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
