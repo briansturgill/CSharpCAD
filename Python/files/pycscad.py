@@ -1,17 +1,16 @@
 from clr_loader import get_coreclr
 from pythonnet import set_runtime
-
 rt = get_coreclr("./runtimeconfig.json")
 set_runtime(rt)
 
 import clr
 from System import String
 from System.Collections.Generic import List
-clr.AddReference("CSharpCAD");
+clr.AddReference("CSharpCAD")
 from CSharpCAD import CSCAD
 from CSharpCAD import Geom2, Geom3, Vec2, Vec3
 
-def circle(radius:float = 1.0, segments:int = 32, center:tuple[float, float] = (0,0)) -> Geom2:
+def circle(radius: float = 1.0, segments: int = 32, center: tuple[float, float] = (0, 0)) -> Geom2:
     """Construct a circle in 2D space.
 
     Returns: Geom2
@@ -22,7 +21,8 @@ def circle(radius:float = 1.0, segments:int = 32, center:tuple[float, float] = (
     cent = Vec2(float(center[0]), float(center[1]))
     return CSCAD.Circle(float(radius), int(segments), cent)
 
-def cutter2d(radius:float = 1.0, startAngle:float = 0, endAngle:float = 90, center:tuple[float, float] = (0,0)) -> Geom2:
+
+def cutter2d(radius: float = 1.0, startAngle: float = 0, endAngle: float = 90, center: tuple[float, float] = (0, 0)) -> Geom2:
     """Construct a "cutter".
     A negative geometry object, suitable to cut a "pie slice" out of a circlular 2d object of radius r.
 
@@ -38,7 +38,8 @@ def cutter2d(radius:float = 1.0, startAngle:float = 0, endAngle:float = 90, cent
     cent = Vec2(float(center[0]), float(center[1]))
     return CSCAD.Cutter2D(float(radius), float(startAngle), float(endAngle), cent)
 
-def ellipse(radius:tuple[float, float] = (1,1), segments:int = 32, center:tuple[float, float] = (0,0)) -> Geom2:
+
+def ellipse(radius: tuple[float, float] = (1, 1), segments: int = 32, center: tuple[float, float] = (0, 0)) -> Geom2:
     """Construct an axis-aligned ellipse in two dimensional space.
 
     Returns: Geom2
@@ -50,7 +51,8 @@ def ellipse(radius:tuple[float, float] = (1,1), segments:int = 32, center:tuple[
     cent = Vec2(float(center[0]), float(center[1]))
     return CSCAD.Ellipse(rad, int(segments), cent)
 
-def polygon(points:list[tuple[float, float]], paths:list[list[int]] = None) -> Geom2:
+
+def polygon(points: list[tuple[float, float]], paths: list[list[int]] = None) -> Geom2:
     """Construct a polygon in two dimensional space from a list of points, or a list of points and paths.
 
     NOTE: The ordering of points is VERY IMPORTANT.
@@ -80,7 +82,8 @@ def polygon(points:list[tuple[float, float]], paths:list[list[int]] = None) -> G
         pths.Add(pth)
     return CSCAD.Polygon(pts2, pths)
 
-def project(gobj:Geom3, axis:tuple[float, float, float] = (0, 0, 1), origin:tuple[float, float, float] = (0, 0, 0)) -> Geom2:
+
+def project(gobj: Geom3, axis: tuple[float, float, float] = (0, 0, 1), origin: tuple[float, float, float] = (0, 0, 0)) -> Geom2:
     """Project 3D object to 2D.
 
     Returns: Geom2
@@ -88,11 +91,12 @@ def project(gobj:Geom3, axis:tuple[float, float, float] = (0, 0, 1), origin:tupl
     Group: 2D Primitives
     """
 
-    a = Vec3(float(axis[0]), float(axis[1]), float(axis[2]));
-    o = Vec3(float(origin[0]), float(origin[1]), float(origin[2]));
+    a = Vec3(float(axis[0]), float(axis[1]), float(axis[2]))
+    o = Vec3(float(origin[0]), float(origin[1]), float(origin[2]))
     return CSCAD.Project(gobj, a, o)
 
-def rectangle(size:tuple[float, float] = (2,2), center:tuple[float, float] = None):
+
+def rectangle(size: tuple[float, float] = (2, 2), center: tuple[float, float] = None):
     """Construct an axis-aligned rectangle in 2D space with four sides at right angles.
 
     The default center point is selected such that the bottom left corner of the rectangle is (0,0).
@@ -111,7 +115,8 @@ def rectangle(size:tuple[float, float] = (2,2), center:tuple[float, float] = Non
         c = Vec2(center[0], center[1])
     return CSCAD.Rectangle(s, c)
 
-def roundedRectangle(size:tuple[float, float] = (2,2), roundRadius:float=0.2, segments:int=32, center:tuple[float, float] = None):
+
+def roundedRectangle(size: tuple[float, float] = (2, 2), roundRadius: float = 0.2, segments: int = 32, center: tuple[float, float] = None):
     """Construct an axis-aligned rectangle in 2D space with rounded corners.
 
     The default center point is selected such that the bottom left corner of the rectangle is (0,0).
@@ -123,14 +128,15 @@ def roundedRectangle(size:tuple[float, float] = (2,2), roundRadius:float=0.2, se
     Group: 2D Primitives
     """
 
-    s = Vec2(size[0], size[1]);
+    s = Vec2(size[0], size[1])
     if center == None:
         c = None
     else:
         c = Vec2(center[0], center[1])
     return CSCAD.RoundedRectangle(s, float(roundRadius), int(segments), c)
 
-def semicircle(radius:float = 1.0, segments:int = 32, startAngle:float = 0, endAngle:float = 90, center:tuple[float, float] = (0,0)) -> Geom2:
+
+def semicircle(radius: float = 1.0, segments: int = 32, startAngle: float = 0, endAngle: float = 90, center: tuple[float, float] = (0, 0)) -> Geom2:
     """Construct a partial circle in 2D space.
 
     Returns: Geom2
@@ -141,8 +147,78 @@ def semicircle(radius:float = 1.0, segments:int = 32, startAngle:float = 0, endA
     cent = Vec2(float(center[0]), float(center[1]))
     return CSCAD.Semicircle(float(radius), int(segments), float(startAngle), float(endAngle), cent)
 
+
+def semiellipse(radius: tuple[float, float] = (1, 1), segments: int = 32, startAngle: float = 0, endAngle: float = 90, center: tuple[float, float] = (0, 0)) -> Geom2:
+    """Construct an axis-aligned ellipse in two dimensional space.
+
+    Returns: Geom2
+
+    Group: 2D Primitives
+    """
+
+    return CSCAD.Semiellipse(radius, segments, startAngle, endAngle, center)
+
+
+def square(size: float = 2, center: tuple[float, float] = None) -> Geom2:
+    """A Rectangle with the same x and y dimensions.
+
+    The default center point is selected such that the bottom left corner of the square is (0,0).
+
+    (The square is entirely in the first quadrant.)
+
+    Returns: Geom2
+
+    Group: 2D Primitives
+    """
+
+    if center == None:
+        c = None
+    else:
+        c = Vec2(center[0], center[1])
+
+    return CSCAD.Square(size, c)
+
+
+def star(vertices: int = 5, outerRadius: float = 1, innerRadius: float = 0, density: int = 2, startAngle: float = 0, center: tuple[float, float] = (0, 0)) -> Geom2:
+    """Construct a star in two dimensional space.
+
+    Returns: Geom2
+
+    Group: 2D Primitives
+    """
+
+    return CSCAD.Star(vertices, outerRadius, innerRadius, density, startAngle, center)
+
+
+def intersect(*gobjs) -> Geom2 | Geom3:
+    """Return a new geometry representing space in both the first geometry and all subsequent geometries.
+
+    Returns: Geom2 | Geom3
+
+    Group: Booleans
+    """
+
+    return CSCAD.Intersect(gobjs)
+
 def subtract(*gobjs) -> Geom2 | Geom3:
+    """Return a new geometry representing space in the first geometry but not in all subsequent geometries.
+
+    Returns: Geom2 | Geom3
+
+    Group: Booleans
+    """
+
     return CSCAD.Subtract(gobjs)
+
+def union(*gobjs) -> Geom2 | Geom3:
+    """Return a new geometry representing the total space in the given geometries.
+
+    Returns: Geom2 | Geom3
+
+    Group: Booleans
+    """
+
+    return CSCAD.Union(gobjs)
 
 def getColorNames() -> list[str]:
     l = []
@@ -151,11 +227,14 @@ def getColorNames() -> list[str]:
         l.append(s)
     return l
 
+
 def save(model_filename: str, gobj: Geom2 | Geom3):
     CSCAD.Save(model_filename, gobj)
 
-def view(gobj: Geom2 | Geom3, title:str) -> Geom2 | Geom3:
+
+def view(gobj: Geom2 | Geom3, title: str) -> Geom2 | Geom3:
     return CSCAD.View(gobj, title)
 
-def waitForViewerTransfers():
-    CSCAD.WaitForViewerTransfers()
+
+def waitForViewerTransfers(verbose:bool = True):
+    CSCAD.WaitForViewerTransfers(verbose)
