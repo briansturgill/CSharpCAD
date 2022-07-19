@@ -111,3 +111,4 @@ foreach (var o in g2.ToOutlines())
 }
 */
 //g.Validate();
+WaitForViewerTransfers();
