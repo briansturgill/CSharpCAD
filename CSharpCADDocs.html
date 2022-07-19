@@ -314,16 +314,16 @@
 </span></p>
 <h5>Boolean Operations</h5>
 <p class="hang cscadcode"
->  <span id="CSCAD-Intersect-32-signature" hidden>Geom2 Intersect(Geom2[] gobjs)</span>
+>  <span id="CSCAD-Intersect-32-signature" hidden>Geom3 Intersect(Geom3[] gobjs)</span>
   <span id="CSCAD-Intersect-32-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-Intersect-32-modal"><code class="csfunc">Intersect</code></a><code class="csfunc">(</code><code class="cstype">Geom2[]</code>&nbsp;gobjs<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-Intersect-32-modal"><code class="csfunc">Intersect</code></a><code class="csfunc">(</code><code class="cstype">Geom3[]</code>&nbsp;gobjs<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-Intersect-33-signature" hidden>Geom3 Intersect(Geom3[] gobjs)</span>
+>  <span id="CSCAD-Intersect-33-signature" hidden>Geom2 Intersect(Geom2[] gobjs)</span>
   <span id="CSCAD-Intersect-33-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-Intersect-33-modal"><code class="csfunc">Intersect</code></a><code class="csfunc">(</code><code class="cstype">Geom3[]</code>&nbsp;gobjs<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-Intersect-33-modal"><code class="csfunc">Intersect</code></a><code class="csfunc">(</code><code class="cstype">Geom2[]</code>&nbsp;gobjs<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
 >  <span id="CSCAD-Subtract-34-signature" hidden>Geom2 Subtract(Geom2[] gobjs)</span>
@@ -405,10 +405,10 @@
     data-bs-trigger="click" data-bs-target="#CSCAD-View-46-modal"><code class="csfunc">View</code></a><code class="csfunc">(</code><code class="cstype">Geom3</code>&nbsp;gobj, <code class="csbuiltin">string</code>&nbsp;title&nbsp;=&nbsp;""<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-WaitForViewer-47-signature" hidden>void WaitForViewer()</span>
-  <span id="CSCAD-WaitForViewer-47-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
+>  <span id="CSCAD-WaitForViewerTransfers-47-signature" hidden>void WaitForViewerTransfers(bool verbose = true)</span>
+  <span id="CSCAD-WaitForViewerTransfers-47-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-WaitForViewer-47-modal"><code class="csfunc">WaitForViewer</code></a><code class="csfunc">(</code><code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-WaitForViewerTransfers-47-modal"><code class="csfunc">WaitForViewerTransfers</code></a><code class="csfunc">(</code><code class="csbuiltin">bool</code>&nbsp;verbose&nbsp;=&nbsp;true<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
 >  <span id="CSCAD-Winding-48-signature" hidden>string Winding(List&lt;Vec2&gt; lv)</span>
@@ -430,16 +430,16 @@
     data-bs-trigger="click" data-bs-target="#CSCAD-Align-50-modal"><code class="csfunc">Align</code></a><code class="csfunc">(</code><code class="cstype">Geom3</code>&nbsp;gobj, <code class="cstype">AM</code>&nbsp;modes&nbsp;=&nbsp;AM.CCN, <code class="cstype">Vec3?</code>&nbsp;relativeTo&nbsp;=&nbsp;(0,0,0)<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-Center-51-signature" hidden>Geom2 Center(Geom2 obj, bool axisX = true, bool axisY = true, Vec2? relativeTo = null)</span>
+>  <span id="CSCAD-Center-51-signature" hidden>Geom3 Center(Geom3 obj, bool axisX = true, bool axisY = true, bool axisZ = true, Vec3? relativeTo = null)</span>
   <span id="CSCAD-Center-51-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-Center-51-modal"><code class="csfunc">Center</code></a><code class="csfunc">(</code><code class="cstype">Geom2</code>&nbsp;obj, <code class="csbuiltin">bool</code>&nbsp;axisX&nbsp;=&nbsp;true, <code class="csbuiltin">bool</code>&nbsp;axisY&nbsp;=&nbsp;true, <code class="cstype">Vec2?</code>&nbsp;relativeTo&nbsp;=&nbsp;(0,0)<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-Center-51-modal"><code class="csfunc">Center</code></a><code class="csfunc">(</code><code class="cstype">Geom3</code>&nbsp;obj, <code class="csbuiltin">bool</code>&nbsp;axisX&nbsp;=&nbsp;true, <code class="csbuiltin">bool</code>&nbsp;axisY&nbsp;=&nbsp;true, <code class="csbuiltin">bool</code>&nbsp;axisZ&nbsp;=&nbsp;true, <code class="cstype">Vec3?</code>&nbsp;relativeTo&nbsp;=&nbsp;(0,0,0)<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-Center-52-signature" hidden>Geom3 Center(Geom3 obj, bool axisX = true, bool axisY = true, bool axisZ = true, Vec3? relativeTo = null)</span>
+>  <span id="CSCAD-Center-52-signature" hidden>Geom2 Center(Geom2 obj, bool axisX = true, bool axisY = true, Vec2? relativeTo = null)</span>
   <span id="CSCAD-Center-52-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-Center-52-modal"><code class="csfunc">Center</code></a><code class="csfunc">(</code><code class="cstype">Geom3</code>&nbsp;obj, <code class="csbuiltin">bool</code>&nbsp;axisX&nbsp;=&nbsp;true, <code class="csbuiltin">bool</code>&nbsp;axisY&nbsp;=&nbsp;true, <code class="csbuiltin">bool</code>&nbsp;axisZ&nbsp;=&nbsp;true, <code class="cstype">Vec3?</code>&nbsp;relativeTo&nbsp;=&nbsp;(0,0,0)<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-Center-52-modal"><code class="csfunc">Center</code></a><code class="csfunc">(</code><code class="cstype">Geom2</code>&nbsp;obj, <code class="csbuiltin">bool</code>&nbsp;axisX&nbsp;=&nbsp;true, <code class="csbuiltin">bool</code>&nbsp;axisY&nbsp;=&nbsp;true, <code class="cstype">Vec2?</code>&nbsp;relativeTo&nbsp;=&nbsp;(0,0)<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
 >  <span id="CSCAD-CenterX-53-signature" hidden>Geom2 CenterX(Geom2 obj)</span>
@@ -490,16 +490,16 @@
     data-bs-trigger="click" data-bs-target="#CSCAD-Hull-60-modal"><code class="csfunc">Hull</code></a><code class="csfunc">(</code><code class="cstype">Geom3[]</code>&nbsp;geometries<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-HullChain-61-signature" hidden>Geom2 HullChain(Geom2[] gobjs)</span>
+>  <span id="CSCAD-HullChain-61-signature" hidden>Geom3 HullChain(Geom3[] gobjs)</span>
   <span id="CSCAD-HullChain-61-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-HullChain-61-modal"><code class="csfunc">HullChain</code></a><code class="csfunc">(</code><code class="cstype">Geom2[]</code>&nbsp;gobjs<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-HullChain-61-modal"><code class="csfunc">HullChain</code></a><code class="csfunc">(</code><code class="cstype">Geom3[]</code>&nbsp;gobjs<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-HullChain-62-signature" hidden>Geom3 HullChain(Geom3[] gobjs)</span>
+>  <span id="CSCAD-HullChain-62-signature" hidden>Geom2 HullChain(Geom2[] gobjs)</span>
   <span id="CSCAD-HullChain-62-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-HullChain-62-modal"><code class="csfunc">HullChain</code></a><code class="csfunc">(</code><code class="cstype">Geom3[]</code>&nbsp;gobjs<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-HullChain-62-modal"><code class="csfunc">HullChain</code></a><code class="csfunc">(</code><code class="cstype">Geom2[]</code>&nbsp;gobjs<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
 >  <span id="CSCAD-Mirror-63-signature" hidden>Geom2 Mirror(Geom2 g, Vec3? origin = null, Vec3? normal = null)</span>
@@ -526,16 +526,16 @@
     data-bs-trigger="click" data-bs-target="#CSCAD-MirrorX-66-modal"><code class="csfunc">MirrorX</code></a><code class="csfunc">(</code><code class="cstype">Geom3</code>&nbsp;g, <code class="cstype">Vec3?</code>&nbsp;origin&nbsp;=&nbsp;(0,0,0)<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-MirrorY-67-signature" hidden>Geom2 MirrorY(Geom2 g, Vec3? origin = null)</span>
+>  <span id="CSCAD-MirrorY-67-signature" hidden>Geom3 MirrorY(Geom3 g, Vec3? origin = null)</span>
   <span id="CSCAD-MirrorY-67-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-MirrorY-67-modal"><code class="csfunc">MirrorY</code></a><code class="csfunc">(</code><code class="cstype">Geom2</code>&nbsp;g, <code class="cstype">Vec3?</code>&nbsp;origin&nbsp;=&nbsp;(0,0,0)<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-MirrorY-67-modal"><code class="csfunc">MirrorY</code></a><code class="csfunc">(</code><code class="cstype">Geom3</code>&nbsp;g, <code class="cstype">Vec3?</code>&nbsp;origin&nbsp;=&nbsp;(0,0,0)<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-MirrorY-68-signature" hidden>Geom3 MirrorY(Geom3 g, Vec3? origin = null)</span>
+>  <span id="CSCAD-MirrorY-68-signature" hidden>Geom2 MirrorY(Geom2 g, Vec3? origin = null)</span>
   <span id="CSCAD-MirrorY-68-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-MirrorY-68-modal"><code class="csfunc">MirrorY</code></a><code class="csfunc">(</code><code class="cstype">Geom3</code>&nbsp;g, <code class="cstype">Vec3?</code>&nbsp;origin&nbsp;=&nbsp;(0,0,0)<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-MirrorY-68-modal"><code class="csfunc">MirrorY</code></a><code class="csfunc">(</code><code class="cstype">Geom2</code>&nbsp;g, <code class="cstype">Vec3?</code>&nbsp;origin&nbsp;=&nbsp;(0,0,0)<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
 >  <span id="CSCAD-MirrorZ-69-signature" hidden>Geom3 MirrorZ(Geom3 g, Vec3? origin = null)</span>
@@ -586,40 +586,40 @@
     data-bs-trigger="click" data-bs-target="#CSCAD-RotateZ-76-modal"><code class="csfunc">RotateZ</code></a><code class="csfunc">(</code><code class="csbuiltin">double</code>&nbsp;angle, <code class="cstype">Geom3</code>&nbsp;g<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-Scale-77-signature" hidden>Geom2 Scale(Vec2 factors, Geom2 gobj)</span>
+>  <span id="CSCAD-Scale-77-signature" hidden>Geom3 Scale(Vec3 factors, Geom3 gobj)</span>
   <span id="CSCAD-Scale-77-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-Scale-77-modal"><code class="csfunc">Scale</code></a><code class="csfunc">(</code><code class="cstype">Vec2</code>&nbsp;factors, <code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-Scale-77-modal"><code class="csfunc">Scale</code></a><code class="csfunc">(</code><code class="cstype">Vec3</code>&nbsp;factors, <code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-Scale-78-signature" hidden>Geom3 Scale(Vec3 factors, Geom3 gobj)</span>
+>  <span id="CSCAD-Scale-78-signature" hidden>Geom2 Scale(Vec2 factors, Geom2 gobj)</span>
   <span id="CSCAD-Scale-78-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-Scale-78-modal"><code class="csfunc">Scale</code></a><code class="csfunc">(</code><code class="cstype">Vec3</code>&nbsp;factors, <code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-Scale-78-modal"><code class="csfunc">Scale</code></a><code class="csfunc">(</code><code class="cstype">Vec2</code>&nbsp;factors, <code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-ScaleX-79-signature" hidden>Geom3 ScaleX(double factor, Geom3 gobj)</span>
+>  <span id="CSCAD-ScaleX-79-signature" hidden>Geom2 ScaleX(double factor, Geom2 gobj)</span>
   <span id="CSCAD-ScaleX-79-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleX-79-modal"><code class="csfunc">ScaleX</code></a><code class="csfunc">(</code><code class="csbuiltin">double</code>&nbsp;factor, <code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleX-79-modal"><code class="csfunc">ScaleX</code></a><code class="csfunc">(</code><code class="csbuiltin">double</code>&nbsp;factor, <code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-ScaleX-80-signature" hidden>Geom2 ScaleX(double factor, Geom2 gobj)</span>
+>  <span id="CSCAD-ScaleX-80-signature" hidden>Geom3 ScaleX(double factor, Geom3 gobj)</span>
   <span id="CSCAD-ScaleX-80-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleX-80-modal"><code class="csfunc">ScaleX</code></a><code class="csfunc">(</code><code class="csbuiltin">double</code>&nbsp;factor, <code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleX-80-modal"><code class="csfunc">ScaleX</code></a><code class="csfunc">(</code><code class="csbuiltin">double</code>&nbsp;factor, <code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-ScaleY-81-signature" hidden>Geom3 ScaleY(double factor, Geom3 gobj)</span>
+>  <span id="CSCAD-ScaleY-81-signature" hidden>Geom2 ScaleY(double factor, Geom2 gobj)</span>
   <span id="CSCAD-ScaleY-81-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleY-81-modal"><code class="csfunc">ScaleY</code></a><code class="csfunc">(</code><code class="csbuiltin">double</code>&nbsp;factor, <code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleY-81-modal"><code class="csfunc">ScaleY</code></a><code class="csfunc">(</code><code class="csbuiltin">double</code>&nbsp;factor, <code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-ScaleY-82-signature" hidden>Geom2 ScaleY(double factor, Geom2 gobj)</span>
+>  <span id="CSCAD-ScaleY-82-signature" hidden>Geom3 ScaleY(double factor, Geom3 gobj)</span>
   <span id="CSCAD-ScaleY-82-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleY-82-modal"><code class="csfunc">ScaleY</code></a><code class="csfunc">(</code><code class="csbuiltin">double</code>&nbsp;factor, <code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleY-82-modal"><code class="csfunc">ScaleY</code></a><code class="csfunc">(</code><code class="csbuiltin">double</code>&nbsp;factor, <code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
 >  <span id="CSCAD-ScaleZ-83-signature" hidden>Geom3 ScaleZ(double factor, Geom3 gobj)</span>
@@ -628,16 +628,16 @@
     data-bs-trigger="click" data-bs-target="#CSCAD-ScaleZ-83-modal"><code class="csfunc">ScaleZ</code></a><code class="csfunc">(</code><code class="csbuiltin">double</code>&nbsp;factor, <code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-Transform-84-signature" hidden>Geom3 Transform(Mat4 matrix, Geom3 gobj)</span>
+>  <span id="CSCAD-Transform-84-signature" hidden>Geom2 Transform(Mat4 matrix, Geom2 gobj)</span>
   <span id="CSCAD-Transform-84-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-Transform-84-modal"><code class="csfunc">Transform</code></a><code class="csfunc">(</code><code class="cstype">Mat4</code>&nbsp;matrix, <code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-Transform-84-modal"><code class="csfunc">Transform</code></a><code class="csfunc">(</code><code class="cstype">Mat4</code>&nbsp;matrix, <code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
->  <span id="CSCAD-Transform-85-signature" hidden>Geom2 Transform(Mat4 matrix, Geom2 gobj)</span>
+>  <span id="CSCAD-Transform-85-signature" hidden>Geom3 Transform(Mat4 matrix, Geom3 gobj)</span>
   <span id="CSCAD-Transform-85-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">
     <a href="#" class="csfunc" role="button" data-bs-toggle="modal"
-    data-bs-trigger="click" data-bs-target="#CSCAD-Transform-85-modal"><code class="csfunc">Transform</code></a><code class="csfunc">(</code><code class="cstype">Mat4</code>&nbsp;matrix, <code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code>
+    data-bs-trigger="click" data-bs-target="#CSCAD-Transform-85-modal"><code class="csfunc">Transform</code></a><code class="csfunc">(</code><code class="cstype">Mat4</code>&nbsp;matrix, <code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code>
 </span></p>
 <p class="hang cscadcode"
 >  <span id="CSCAD-Translate-86-signature" hidden>Geom2 Translate(Vec2 offset, Geom2 g)</span>
@@ -1052,7 +1052,11 @@
 <code class="cstype">string</code> <code class="csname">Units</code> <code class="cscode">{ <code class="csbuiltin">get</code>; <code class="csbuiltin">set</code>; }</code></p>
 <h5>Fields</h5>
 <p>
-<code class="cscomment">// The View and Save commands will send their geometries to CADViewer.</code>
+<code class="cscomment">// The Save command will not send its geometries to CADViewer.</code>
+<br>
+<code class="cstype">bool</code> <code class="csname">CADViewerDoNotSendSaves</code><code class="cscode">;</code></p>
+<p>
+<code class="cscomment">// The View and Save (see CADViewerDoNotSendSaves below) commands will send their geometries to CADViewer.</code>
 <br>
 <code class="cstype">bool</code> <code class="csname">CADViewerEnabled</code><code class="cscode">;</code></p>
 <p>
@@ -2303,7 +2307,7 @@ The vertices used to initialize a polygon must be coplanar and form a convex sha
 </p>
 <h5>Example</h5><p><pre id="CSCAD-Semicircle-7-example">
 
-            var g = SemiCircle(radius: 5, segments: 50, startAngle: 90, endAngle: 135);
+            var g = Semicircle(radius: 5, segments: 50, startAngle: 90, endAngle: 135);
             </pre></p>
 <button type="button" class="btn btn-secondary" onclick="clipText('CSCAD-Semicircle-7-example')">Copy Example</button>        </div>
       </div>
@@ -3127,9 +3131,9 @@ The default center places the elliptic cylinder's base at (0,0,0).</p>
 <h5><code class="csfunc">Intersect</code> - Return a new geometry representing space in both the first geometry and
              all subsequent geometries.</h5>
 <p class="hang cscadcode">
-  <span id="CSCAD-Intersect-32-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Intersect-32-modal"><code class="csfunc">Intersect</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-Intersect-32-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Intersect-32-modal"><code class="csfunc">Intersect</code></a><code class="csfunc">(</code>
   </span><br>
-<code class="cstype">Geom2[]</code>&nbsp;gobjs<code class="csfunc">)</code><br>
+<code class="cstype">Geom3[]</code>&nbsp;gobjs<code class="csfunc">)</code><br>
 </p>
 <p><pre>
 
@@ -3167,9 +3171,9 @@ The default center places the elliptic cylinder's base at (0,0,0).</p>
 <h5><code class="csfunc">Intersect</code> - Return a new geometry representing space in both the first geometry and
              all subsequent geometries.</h5>
 <p class="hang cscadcode">
-  <span id="CSCAD-Intersect-33-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Intersect-33-modal"><code class="csfunc">Intersect</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-Intersect-33-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Intersect-33-modal"><code class="csfunc">Intersect</code></a><code class="csfunc">(</code>
   </span><br>
-<code class="cstype">Geom3[]</code>&nbsp;gobjs<code class="csfunc">)</code><br>
+<code class="cstype">Geom2[]</code>&nbsp;gobjs<code class="csfunc">)</code><br>
 </p>
 <p><pre>
 
@@ -3637,24 +3641,25 @@ Returns obj unchanged... so that it works well in return statements.</p>
     </div>
   </div>
 </div>
-<div class="modal fade" id="CSCAD-WaitForViewer-47-modal" tabindex="-1" aria-labelledby="CSCAD-WaitForViewer-47-mlabel" aria-hidden="true">
+<div class="modal fade" id="CSCAD-WaitForViewerTransfers-47-modal" tabindex="-1" aria-labelledby="CSCAD-WaitForViewerTransfers-47-mlabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="CSCAD-WaitForViewer-47-mlabel"><code class="csfunc">WaitForViewer</code></h4>
+        <h4 class="modal-title" id="CSCAD-WaitForViewerTransfers-47-mlabel"><code class="csfunc">WaitForViewerTransfers</code></h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div id="CSCAD-WaitForViewer-47-content" class="modal-body">
+      <div id="CSCAD-WaitForViewerTransfers-47-content" class="modal-body">
         <div class="cscadcode">
-<h5><code class="csfunc">WaitForViewer</code> - Called by Python to wait for CADViewer sending to finish.</h5>
+<h5><code class="csfunc">WaitForViewerTransfers</code> - Called to wait for CADViewer sending to finish.</h5>
 <p class="hang cscadcode">
-  <span id="CSCAD-WaitForViewer-47-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="csbuiltin">void</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-WaitForViewer-47-modal"><code class="csfunc">WaitForViewer</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-WaitForViewerTransfers-47-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="csbuiltin">void</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-WaitForViewerTransfers-47-modal"><code class="csfunc">WaitForViewerTransfers</code></a><code class="csfunc">(</code>
   </span><br>
+<code class="csbuiltin">bool</code>&nbsp;verbose&nbsp;=&nbsp;true<code class="csfunc">)</code> <code class="cscomment">// Show messages saying when waiting has started/finished.</code><br>
 </p>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="clipText('CSCAD-WaitForViewer-47-signature')">Copy WaitForViewer Signature</button>
+        <button type="button" class="btn btn-secondary" onclick="clipText('CSCAD-WaitForViewerTransfers-47-signature')">Copy WaitForViewerTransfers Signature</button>
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
@@ -3769,12 +3774,13 @@ Returns obj unchanged... so that it works well in return statements.</p>
 <p>
 The Z coordiantes are ignored for 2D geometry objects.</p>
 <p class="hang cscadcode">
-  <span id="CSCAD-Center-51-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Center-51-modal"><code class="csfunc">Center</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-Center-51-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Center-51-modal"><code class="csfunc">Center</code></a><code class="csfunc">(</code>
   </span><br>
-<code class="cstype">Geom2</code>&nbsp;obj, <code class="cscomment">// The geometry object to center</code><br>
+<code class="cstype">Geom3</code>&nbsp;obj, <code class="cscomment">// The geometry object to center</code><br>
 <code class="csbuiltin">bool</code>&nbsp;axisX&nbsp;=&nbsp;true, <code class="cscomment">// =Center along X axis.</code><br>
 <code class="csbuiltin">bool</code>&nbsp;axisY&nbsp;=&nbsp;true, <code class="cscomment">// =Center along Y axis.</code><br>
-<code class="cstype">Vec2?</code>&nbsp;relativeTo&nbsp;=&nbsp;(0,0)<code class="csfunc">)</code> <code class="cscomment">// Centering occurs relative to this point.</code><br>
+<code class="csbuiltin">bool</code>&nbsp;axisZ&nbsp;=&nbsp;true, <code class="cscomment">// =Center along Z axis.</code><br>
+<code class="cstype">Vec3?</code>&nbsp;relativeTo&nbsp;=&nbsp;(0,0,0)<code class="csfunc">)</code> <code class="cscomment">// Centering occurs relative to this point.</code><br>
 </p>
         </div>
       </div>
@@ -3798,13 +3804,12 @@ The Z coordiantes are ignored for 2D geometry objects.</p>
 <p>
 The Z coordiantes are ignored for 2D geometry objects.</p>
 <p class="hang cscadcode">
-  <span id="CSCAD-Center-52-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Center-52-modal"><code class="csfunc">Center</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-Center-52-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Center-52-modal"><code class="csfunc">Center</code></a><code class="csfunc">(</code>
   </span><br>
-<code class="cstype">Geom3</code>&nbsp;obj, <code class="cscomment">// The geometry object to center</code><br>
+<code class="cstype">Geom2</code>&nbsp;obj, <code class="cscomment">// The geometry object to center</code><br>
 <code class="csbuiltin">bool</code>&nbsp;axisX&nbsp;=&nbsp;true, <code class="cscomment">// =Center along X axis.</code><br>
 <code class="csbuiltin">bool</code>&nbsp;axisY&nbsp;=&nbsp;true, <code class="cscomment">// =Center along Y axis.</code><br>
-<code class="csbuiltin">bool</code>&nbsp;axisZ&nbsp;=&nbsp;true, <code class="cscomment">// =Center along Z axis.</code><br>
-<code class="cstype">Vec3?</code>&nbsp;relativeTo&nbsp;=&nbsp;(0,0,0)<code class="csfunc">)</code> <code class="cscomment">// Centering occurs relative to this point.</code><br>
+<code class="cstype">Vec2?</code>&nbsp;relativeTo&nbsp;=&nbsp;(0,0)<code class="csfunc">)</code> <code class="cscomment">// Centering occurs relative to this point.</code><br>
 </p>
         </div>
       </div>
@@ -4067,9 +4072,9 @@ The Z coordiantes are ignored for 2D geometry objects.</p>
             Essentially hull A+B, B+C, C+D, etc., then union the results.
             </p>
 <p class="hang cscadcode">
-  <span id="CSCAD-HullChain-61-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-HullChain-61-modal"><code class="csfunc">HullChain</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-HullChain-61-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-HullChain-61-modal"><code class="csfunc">HullChain</code></a><code class="csfunc">(</code>
   </span><br>
-<code class="cstype">Geom2[]</code>&nbsp;gobjs<code class="csfunc">)</code><br>
+<code class="cstype">Geom3[]</code>&nbsp;gobjs<code class="csfunc">)</code><br>
 </p>
 <p><pre>
 
@@ -4113,9 +4118,9 @@ The Z coordiantes are ignored for 2D geometry objects.</p>
             Essentially hull A+B, B+C, C+D, etc., then union the results.
             </p>
 <p class="hang cscadcode">
-  <span id="CSCAD-HullChain-62-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-HullChain-62-modal"><code class="csfunc">HullChain</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-HullChain-62-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-HullChain-62-modal"><code class="csfunc">HullChain</code></a><code class="csfunc">(</code>
   </span><br>
-<code class="cstype">Geom3[]</code>&nbsp;gobjs<code class="csfunc">)</code><br>
+<code class="cstype">Geom2[]</code>&nbsp;gobjs<code class="csfunc">)</code><br>
 </p>
 <p><pre>
 
@@ -4257,9 +4262,9 @@ The Z coordiantes are ignored for 2D geometry objects.</p>
         <div class="cscadcode">
 <h5><code class="csfunc">MirrorY</code> - Mirror the given geometry about the Y axis.</h5>
 <p class="hang cscadcode">
-  <span id="CSCAD-MirrorY-67-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-MirrorY-67-modal"><code class="csfunc">MirrorY</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-MirrorY-67-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-MirrorY-67-modal"><code class="csfunc">MirrorY</code></a><code class="csfunc">(</code>
   </span><br>
-<code class="cstype">Geom2</code>&nbsp;g, <code class="cscomment">// The object to mirror.</code><br>
+<code class="cstype">Geom3</code>&nbsp;g, <code class="cscomment">// The object to mirror.</code><br>
 <code class="cstype">Vec3?</code>&nbsp;origin&nbsp;=&nbsp;(0,0,0)<code class="csfunc">)</code> <code class="cscomment">// The origin of the plane.</code><br>
 </p>
         </div>
@@ -4282,9 +4287,9 @@ The Z coordiantes are ignored for 2D geometry objects.</p>
         <div class="cscadcode">
 <h5><code class="csfunc">MirrorY</code> - Mirror the given geometry about the Y axis.</h5>
 <p class="hang cscadcode">
-  <span id="CSCAD-MirrorY-68-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-MirrorY-68-modal"><code class="csfunc">MirrorY</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-MirrorY-68-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-MirrorY-68-modal"><code class="csfunc">MirrorY</code></a><code class="csfunc">(</code>
   </span><br>
-<code class="cstype">Geom3</code>&nbsp;g, <code class="cscomment">// The object to mirror.</code><br>
+<code class="cstype">Geom2</code>&nbsp;g, <code class="cscomment">// The object to mirror.</code><br>
 <code class="cstype">Vec3?</code>&nbsp;origin&nbsp;=&nbsp;(0,0,0)<code class="csfunc">)</code> <code class="cscomment">// The origin of the plane.</code><br>
 </p>
         </div>
@@ -4511,10 +4516,10 @@ Offsets from internal and external space are created.</p>
         <div class="cscadcode">
 <h5><code class="csfunc">Scale</code> - Scale the given geometry object using the given factors.</h5>
 <p class="hang cscadcode">
-  <span id="CSCAD-Scale-77-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Scale-77-modal"><code class="csfunc">Scale</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-Scale-77-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Scale-77-modal"><code class="csfunc">Scale</code></a><code class="csfunc">(</code>
   </span><br>
-<code class="cstype">Vec2</code>&nbsp;factors,<br>
-<code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code><br>
+<code class="cstype">Vec3</code>&nbsp;factors,<br>
+<code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code><br>
 </p>
         </div>
       </div>
@@ -4536,10 +4541,10 @@ Offsets from internal and external space are created.</p>
         <div class="cscadcode">
 <h5><code class="csfunc">Scale</code> - Scale the given geometry object using the given factors.</h5>
 <p class="hang cscadcode">
-  <span id="CSCAD-Scale-78-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Scale-78-modal"><code class="csfunc">Scale</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-Scale-78-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Scale-78-modal"><code class="csfunc">Scale</code></a><code class="csfunc">(</code>
   </span><br>
-<code class="cstype">Vec3</code>&nbsp;factors,<br>
-<code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code><br>
+<code class="cstype">Vec2</code>&nbsp;factors,<br>
+<code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code><br>
 </p>
         </div>
       </div>
@@ -4561,10 +4566,10 @@ Offsets from internal and external space are created.</p>
         <div class="cscadcode">
 <h5><code class="csfunc">ScaleX</code> - Scale the given objects about the X axis using the given factor.</h5>
 <p class="hang cscadcode">
-  <span id="CSCAD-ScaleX-79-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleX-79-modal"><code class="csfunc">ScaleX</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-ScaleX-79-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleX-79-modal"><code class="csfunc">ScaleX</code></a><code class="csfunc">(</code>
   </span><br>
 <code class="csbuiltin">double</code>&nbsp;factor,<br>
-<code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code><br>
+<code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code><br>
 </p>
         </div>
       </div>
@@ -4586,10 +4591,10 @@ Offsets from internal and external space are created.</p>
         <div class="cscadcode">
 <h5><code class="csfunc">ScaleX</code> - Scale the given objects about the X axis using the given factor.</h5>
 <p class="hang cscadcode">
-  <span id="CSCAD-ScaleX-80-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleX-80-modal"><code class="csfunc">ScaleX</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-ScaleX-80-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleX-80-modal"><code class="csfunc">ScaleX</code></a><code class="csfunc">(</code>
   </span><br>
 <code class="csbuiltin">double</code>&nbsp;factor,<br>
-<code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code><br>
+<code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code><br>
 </p>
         </div>
       </div>
@@ -4611,10 +4616,10 @@ Offsets from internal and external space are created.</p>
         <div class="cscadcode">
 <h5><code class="csfunc">ScaleY</code> - Scale the given objects about the Y axis using the given factor.</h5>
 <p class="hang cscadcode">
-  <span id="CSCAD-ScaleY-81-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleY-81-modal"><code class="csfunc">ScaleY</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-ScaleY-81-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleY-81-modal"><code class="csfunc">ScaleY</code></a><code class="csfunc">(</code>
   </span><br>
 <code class="csbuiltin">double</code>&nbsp;factor,<br>
-<code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code><br>
+<code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code><br>
 </p>
         </div>
       </div>
@@ -4636,10 +4641,10 @@ Offsets from internal and external space are created.</p>
         <div class="cscadcode">
 <h5><code class="csfunc">ScaleY</code> - Scale the given objects about the Y axis using the given factor.</h5>
 <p class="hang cscadcode">
-  <span id="CSCAD-ScaleY-82-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleY-82-modal"><code class="csfunc">ScaleY</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-ScaleY-82-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-ScaleY-82-modal"><code class="csfunc">ScaleY</code></a><code class="csfunc">(</code>
   </span><br>
 <code class="csbuiltin">double</code>&nbsp;factor,<br>
-<code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code><br>
+<code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code><br>
 </p>
         </div>
       </div>
@@ -4686,10 +4691,10 @@ Offsets from internal and external space are created.</p>
         <div class="cscadcode">
 <h5><code class="csfunc">Transform</code> - Transform the geometry object using the given matrix.</h5>
 <p class="hang cscadcode">
-  <span id="CSCAD-Transform-84-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Transform-84-modal"><code class="csfunc">Transform</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-Transform-84-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Transform-84-modal"><code class="csfunc">Transform</code></a><code class="csfunc">(</code>
   </span><br>
 <code class="cstype">Mat4</code>&nbsp;matrix,<br>
-<code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code><br>
+<code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code><br>
 </p>
         </div>
       </div>
@@ -4711,10 +4716,10 @@ Offsets from internal and external space are created.</p>
         <div class="cscadcode">
 <h5><code class="csfunc">Transform</code> - Transform the geometry object using the given matrix.</h5>
 <p class="hang cscadcode">
-  <span id="CSCAD-Transform-85-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom2</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Transform-85-modal"><code class="csfunc">Transform</code></a><code class="csfunc">(</code>
+  <span id="CSCAD-Transform-85-popup" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="right" data-bs-content="">    <code class="cstype">Geom3</code> <a href="#" class="csfunc" role="button" data-bs-toggle="modal"    data-bs-trigger="click" data-bs-target="#CSCAD-Transform-85-modal"><code class="csfunc">Transform</code></a><code class="csfunc">(</code>
   </span><br>
 <code class="cstype">Mat4</code>&nbsp;matrix,<br>
-<code class="cstype">Geom2</code>&nbsp;gobj<code class="csfunc">)</code><br>
+<code class="cstype">Geom3</code>&nbsp;gobj<code class="csfunc">)</code><br>
 </p>
         </div>
       </div>
@@ -10098,9 +10103,9 @@ With no arguments, construct a zero vector.</p>
     message = document.getElementById("CSCAD-View-46-content").innerHTML;
     document.getElementById("CSCAD-View-46-popup").setAttribute("data-bs-content", message);
     document.getElementById("CSCAD-View-46-popup").setAttribute("data-bs-html", "true");
-    message = document.getElementById("CSCAD-WaitForViewer-47-content").innerHTML;
-    document.getElementById("CSCAD-WaitForViewer-47-popup").setAttribute("data-bs-content", message);
-    document.getElementById("CSCAD-WaitForViewer-47-popup").setAttribute("data-bs-html", "true");
+    message = document.getElementById("CSCAD-WaitForViewerTransfers-47-content").innerHTML;
+    document.getElementById("CSCAD-WaitForViewerTransfers-47-popup").setAttribute("data-bs-content", message);
+    document.getElementById("CSCAD-WaitForViewerTransfers-47-popup").setAttribute("data-bs-html", "true");
     message = document.getElementById("CSCAD-Winding-48-content").innerHTML;
     document.getElementById("CSCAD-Winding-48-popup").setAttribute("data-bs-content", message);
     document.getElementById("CSCAD-Winding-48-popup").setAttribute("data-bs-html", "true");
