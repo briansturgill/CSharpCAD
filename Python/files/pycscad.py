@@ -156,7 +156,9 @@ def semiellipse(radius: tuple[float, float] = (1, 1), segments: int = 32, startA
     Group: 2D Primitives
     """
 
-    return CSCAD.Semiellipse(radius, segments, startAngle, endAngle, center)
+    rad = Vec2(float(radius[0]), float(radius[1]))
+    cent = Vec2(float(center[0]), float(center[1]))
+    return CSCAD.Semiellipse(rad, segments, startAngle, endAngle, cent)
 
 
 def square(size: float = 2, center: tuple[float, float] = None) -> Geom2:
@@ -187,7 +189,8 @@ def star(vertices: int = 5, outerRadius: float = 1, innerRadius: float = 0, dens
     Group: 2D Primitives
     """
 
-    return CSCAD.Star(vertices, outerRadius, innerRadius, density, startAngle, center)
+    cent = Vec2(float(center[0]), float(center[1]))
+    return CSCAD.Star(vertices, outerRadius, innerRadius, density, startAngle, cent)
 
 
 def intersect(*gobjs) -> Geom2 | Geom3:
@@ -220,21 +223,241 @@ def union(*gobjs) -> Geom2 | Geom3:
 
     return CSCAD.Union(gobjs)
 
+def colorize(color: str | tuple[int, int, int] | tuple[int, int, int, int], gobj: Geom2 | Geom3) -> Geom2 | Geom3:
+    """Assign the given color to the given objects.
+
+    Color has 3 formats:
+    * A tuple of RGB or RGBA color values, where each value is between 0 and 255.
+    * A string beginning with "#" followed by 6 hex digits representing RGB.
+    * A string that is one of the extended CSS color names.
+
+    Returns: Geom2 | Geom3
+
+    Group: Miscellaneous
+    """
+
+    if type(color) is str:
+        color = CSCAD.Color(color)
+    elif len(color) == 3:
+        color = CSCAD.Color(color[0], color[1], color[2])
+    elif len(color) == 4:
+        color = CSCAD.Color(color[0], color[1], color[2], color[3])
+    return CSCAD.Colorize(color, gobj)
+
 def getColorNames() -> list[str]:
+    """
+
+    Returns: Geom2 | Geom3
+
+    Group: Miscellaneous
+    """
     l = []
     strArray = CSCAD.GetColorNames()
     for s in strArray:
         l.append(s)
     return l
 
-
 def save(model_filename: str, gobj: Geom2 | Geom3):
+    """Save a geometry object in an external format.
+
+    Group: Miscellaneous
+    """
+
     CSCAD.Save(model_filename, gobj)
 
+def version() -> str:
+    """Returns version string for CSCAD.
+
+    Returns: str
+
+    Group: Miscellaneous
+    """
+
+    return CSCAD.Version();
 
 def view(gobj: Geom2 | Geom3, title: str) -> Geom2 | Geom3:
+    """Use CADView protocol to view the given object, labeled with "title".
+
+    This function returns the gobj unchanged.
+
+    This is useful for when you need to see a returned value:
+
+    return circle(...)
+
+    Just add:
+
+    return view(circle(...))
+
+    Returns: Geom2 | Geom3
+
+    Group: Miscellaneous
+    """
+
     return CSCAD.View(gobj, title)
 
-
 def waitForViewerTransfers(verbose:bool = True):
+    """Wait until all "view" transfers have completed.
+
+    To make things work faster, Views are queued and usually have not
+    all transfered by the time you are finished calculating your models.
+
+    Place a call to waitForViewerTransfers() at the end of your program, otherwise
+    not all that you "viewed" will reach your CADViewer.
+
+    By default you will recieve status messages about the pending transfers.
+    (Pass verbose as False if you don't like that behavior.)
+
+    Group: Miscellaneous
+    """
+
     CSCAD.WaitForViewerTransfers(verbose)
+
+def degToRad(angleInDegrees: float) -> float:
+    """Converts degrees to radians.
+
+    Returns: radians
+
+    Group: Trigonometry
+    """
+
+    return CSCAD.DegToRad(angleInDegrees)
+
+def radToDeg(angleInRadians: float) -> float:
+    """Converts radians to degrees.
+
+    Returns: degrees
+
+    Group: Trigonometry
+    """
+
+    return CSCAD.RadToDeg(angleInRadians)
+
+def acos(cosVal: float) -> float:
+    """Acos for degrees
+
+    Returns: degrees
+
+    Group: Trigonometry
+    """
+
+    return CSCAD.Acos(cosVal)
+
+def acosh(cosVal: float) -> float:
+    """Acosh for degrees
+
+    Returns: degrees
+
+    Group: Trigonometry
+    """
+
+    return CSCAD.Acosh(cosVal)
+
+def asin(sinVal: float) -> float:
+    """Asin for degrees
+
+    Returns: degrees
+
+    Group: Trigonometry
+    """
+
+    return CSCAD.Asin(sinVal)
+
+def asinh(sinVal: float) -> float:
+    """Asinh for degrees
+
+    Returns: degrees
+
+    Group: Trigonometry
+    """
+
+    return CSCAD.Asinh(sinVal)
+
+def atan(tanVal: float) -> float:
+    """Atan for degrees
+
+    Returns: degrees
+
+    Group: Trigonometry
+    """
+
+    return CSCAD.Atan(tanVal)
+
+def atan2(y: float, x: float) -> float:
+    """Atan2 for degrees
+
+    Returns: degrees
+
+    Group: Trigonometry
+    """
+
+    return CSCAD.Atan2(x, y)
+
+def atanh(tanVal: float) -> float:
+    """Atanh for degrees
+
+    Returns: degrees
+
+    Group: Trigonometry
+    """
+
+    return CSCAD.Atanh(tanVal)
+
+def cos(angleInDegrees: float) -> float:
+    """Cosine for angle specified in degrees
+
+    Returns: cos 
+
+    Group: Trigonometry
+    """
+
+    return CSCAD.Cos(angleInDegrees)
+
+def cosh(angleInDegrees: float) -> float:
+    """Cosh for angle specified in degrees
+
+    Returns: cosh
+
+    Group: Trigonometry
+    """
+
+    return CSCAD.Cosh(angleInDegrees)
+
+def sin(angleInDegrees: float) -> float:
+    """Sine for angle specified in degrees
+
+    Returns: sine
+
+    Group: Trigonometry
+    """
+
+    return CSCAD.Sin(angleInDegrees)
+
+def sinh(angleInDegrees: float) -> float:
+    """Sinh for angle specified in degrees
+
+    Returns: sinh
+
+    Group: Trigonometry
+    """
+
+    return CSCAD.Sinh(angleInDegrees)
+
+def tan(angleInDegrees: float) -> float:
+    """Tangent for angle specified in degrees
+
+    Returns: tan
+
+    Group: Trigonometry
+    """
+
+    return CSCAD.Tan(angleInDegrees)
+
+def tanh(angleInDegrees: float) -> float:
+    """Tanh for angle specified in degrees
+
+    Returns: tanh
+
+    Group: Trigonometry
+    """
+
+    return CSCAD.Tanh(angleInDegrees)
