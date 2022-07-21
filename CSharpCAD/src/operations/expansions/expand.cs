@@ -2,7 +2,7 @@ namespace CSharpCAD;
 
 public static partial class CSCAD
 {
-    /// <summary>Specify handling of corners.</summary>
+    ///<summary>Specify handling of corners.</summary>
     public enum Corners {
         /// <summary>Simple straight edge.</summary>
         Edge,
@@ -12,10 +12,18 @@ public static partial class CSCAD
         Round
     };
 
+    ///<summary>Used by Python API to handle corners.</summary>
+    public static Corners __int_to_Corners(int v)
+    {
+        if (!Enum.IsDefined(typeof(Corners), v)) throw new ArgumentException($"Improper Enum Value given: {v}");
+        return (Corners)v;
+    }
+
     /**
      * <summary>Expand the given geometry using the given options.</summary>
      * <remarks>
-     * Both internal and external space is expanded for 2D and 3D shapes.
+     * Both internal and external space is expanded for 2D shapes.
+     * See also: "offset".
      *
      * Note: Contract is expand using a negative delta.
      * </remarks>
