@@ -2,27 +2,6 @@ namespace CSharpCAD;
 
 public static partial class CSCAD
 {
-    /// <summary>Print string representations of the listed arguments.</summary>
-    /// <example>
-    /// var a = "test";
-    /// Echo(1.2, a, new Vec3(1, 2, 3));
-    /// </example>
-    /// <group>Miscellaneous</group>
-    public static void Echo(params object[] args)
-    {
-        var first = true;
-        foreach (var o in args)
-        {
-            if (!first)
-            {
-                Console.Write(" ");
-            }
-            Console.Write(o.ToString());
-            first = false;
-        }
-        Console.WriteLine("");
-    }
-
     /// <summary>Save a 2D geometry object in a file suitable for printing, etc.</summary>
     /// <remarks>
     /// For formats that only support one output type, the binary flag is ignored.
