@@ -10,6 +10,7 @@ serv.start_server()
 pl = Plotter()
 current_mesh=-1
 axes_on = True
+show_bounds = False
 show_edges = True
 style="surface"
 
@@ -31,10 +32,14 @@ def display():
     serv.view_lock.acquire()
     serv.display_needed = False
     pl.clear()
-    pl.enable_trackball_style()
+    #pl.enable_trackball_style()
+    if show_bounds:
+        pl.show_bounds(color="black", grid=True, ticks="outside", font_size=8)
     pl.set_background("lightblue")
-    pl.view_xy()
-    pl.enable_lightkit()
+    pl.view_xz()
+    pl.camera.azimuth = 45
+    pl.camera.elevation = 45
+    pl.enable_3_lights()
     pl.enable_anti_aliasing()
     if axes_on:
         pl.add_axes()
@@ -79,6 +84,11 @@ def toggle_axes():
         pl.hide_axes()
     pl.render()
 
+def toggle_bounds():
+    global show_bounds
+    show_bounds = not show_bounds
+    display()
+
 def toggle_edges():
     global show_edges
     show_edges = not show_edges
@@ -104,6 +114,7 @@ def show_wireframe():
 
 while True:
     pl.add_key_event("a", toggle_axes)
+    pl.add_key_event("b", toggle_bounds)
     pl.add_key_event("minus", toggle_edges)
     pl.add_key_event("p", show_points)
     pl.add_key_event("w", show_wireframe)
