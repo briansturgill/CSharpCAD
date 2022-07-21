@@ -33,8 +33,12 @@ public static partial class CSCAD
     public static Geom2 View(Geom2 gobj, string title = "")
     {
         if (!GlobalParams.CADViewerEnabled) return (gobj);
-        var g = ExtrudeLinear(gobj, height: 0.1);
-        g.Color = gobj.Color;
+        Geom3 g = new Geom3();
+        if (gobj.ToSides().Length > 0)
+        {
+            g = ExtrudeLinear(gobj, height: 0.1);
+            g.Color = gobj.Color;
+        }
         View(g, title);
         return gobj;
     }
