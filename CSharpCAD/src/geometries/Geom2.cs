@@ -271,7 +271,7 @@ public class Geom2 : Geometry
     }
 
     /// <summary>Check that this geometry has only one connected path. (No cutouts.)</summary> 
-    public bool HasOnlyOnePath { get => sides[0].v0 == sides[sides.Length - 1].v1; }
+    public bool HasOnlyOnePath { get => sides.Length > 0 ? (sides[0].v0 == sides[sides.Length - 1].v1) : false; }
 
     /// <summary>Measure the epsilon of this geometry object.</summary>
     public double MeasureEpsilon()
