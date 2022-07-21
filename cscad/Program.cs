@@ -46,8 +46,8 @@ Geom3 TapPost(double h, double size, double post_wall = 2, bool add_taper = fals
         var cin = Circle(inner_d / 2.0);
         var cylin = ExtrudeLinear(height: h * 2 + 2, gobj: cin);
         cylin.Validate();
-    cylout = Cylinder(radius: outer_d / 2.0, height: h*2);
-    cylin = Translate((0, 0, -1), Cylinder(radius: inner_d / 2.0, height: h*2 + 2));
+        cylout = Cylinder(radius: outer_d / 2.0, height: h * 2);
+        cylin = Translate((0, 0, -1), Cylinder(radius: inner_d / 2.0, height: h * 2 + 2));
         var cb = Cuboid((outer_d, outer_d, h * 3 + 2), center: (0, 0, 0));
         cb.Validate();
         var g3 = Subtract(cylout, Translate((0, 0, -1), cylin));
@@ -91,7 +91,7 @@ g2 = Subtract(g2, Translate((3.4, 2.0), Rectangle((0.30, 0.40))));
 g2.Validate();
 g2 = Colorize("red", g2);
 Save("/tmp/test.svg", g2);
-g = ExtrudeLinear(g2, 3, repair:true);
+g = ExtrudeLinear(g2, 3, repair: true);
 Save("/tmp/test.stl", g);
 
 View(g2, "Test of SVG");
@@ -111,4 +111,27 @@ foreach (var o in g2.ToOutlines())
 }
 */
 //g.Validate();
+
+g2 = Star(5);
+g2.Validate();
+View(g2, "Star(5)");
+g = ExtrudeLinear(g2, 10, repair: false);
+g.Validate();
+View(g, "Star(5)@10");
+
+
+g2 = Subtract(
+    RoundedRectangle((40, 40), roundRadius: 10, center: (0, 0), segments:50),
+    RoundedRectangle((36, 36), roundRadius: 8, center: (0, 0), segments:50));
+View(g2, "Twisty base");
+g = ExtrudeLinear(g2, 60, twistAngle: 90, twistSteps: 60);
+View(g, "Twisty");
+
+g2 = Offset(Square(20, center: (0, 0)), 10, Corners.Round, segments: 50);
+var g2a = Offset(Square(20, center: (0, 0)), 8, Corners.Round, segments: 50);
+g2 = Subtract(g2, g2a);
+View(g2, "Offset Square");
+g = ExtrudeLinear(g2, 60, twistAngle: 90, twistSteps: 60);
+Save("/tmp/twisty2.stl", g);
+
 WaitForViewerTransfers();
