@@ -54,7 +54,7 @@ public static partial class CSCAD
     }
 
     /**
-     * <summary>Mirror the given ogeometry about the X axis.</summary>
+     * <summary>Mirror the given geometry about the X axis.</summary>
      * <param name="g">The object to mirror.</param>
      * <param name="origin" default="(0,0,0)">The origin of the plane.</param>
      * <returns>The mirrored geometry.</returns>

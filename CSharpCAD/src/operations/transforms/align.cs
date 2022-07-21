@@ -99,6 +99,9 @@ public static partial class CSCAD
 #pragma warning restore CS1591
     }
 
+    ///<summary>Used by Python API wrapper</summary>
+    public static AM _cast_int_to_AM(int v) => (AM)v;
+
     internal static Geom2 alignGeom2(Geom2 gobj, AM modes, Vec2 relativeTo)
     {
         double v(Vec2 val, int i)
@@ -176,8 +179,8 @@ public static partial class CSCAD
     /**
      * <summary>Align the boundaries of the given geometry using the given options.</summary>
      * <param name="gobj">The geometry object to be aligned.</param>
-     * <param name="modes" default="AM.CCN">A value from the AM enum, names consist of 3 letters ( 1 each for X, Y, Z): C - center, X - Max, N-Min, U-unaligned</param>
-     * <param name="relativeTo" default="(0,0,0)">The point one each axis on which to align the geometry upon.</param>
+     * <param name="modes" default="AM.CC">A value from the AM enum, names consist of 2 letters (1 each for X, Y): C - center, X - Max, N-Min, U-unaligned</param>
+     * <param name="relativeTo" default="(0,0)">The point one each axis on which to align the geometry upon.</param>
      * <remarks>
      * C# syntax makes the porting of JSCAD's "align" difficult. We had to simplify.
      * 1) There is no "grouped" option... you can get the same effect by using Union on the geometries, then aligning the resulting object.
@@ -188,7 +191,7 @@ public static partial class CSCAD
      * </example>
      * <group>Transformations</group>
      */
-    public static Geom2 Align(Geom2 gobj, AM modes = AM.CCN, Vec2? relativeTo = null)
+    public static Geom2 Align(Geom2 gobj, AM modes = AM.CC, Vec2? relativeTo = null)
     {
         Vec2 _relativeTo = relativeTo ?? new Vec2();
 

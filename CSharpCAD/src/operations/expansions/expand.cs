@@ -21,7 +21,7 @@ public static partial class CSCAD
      * </remarks>
      * <param name="gobj">The geometry to expand.</param>
      * <param name="delta">Delta (+/-) of expansion.</param>
-     * <param name="corners">Type of corner to create after expanding.</param>
+     * <param name="corners" default="Corners.Edge">Type of corner to create after expanding.</param>
      * <param name="segments">Number of segments when creating round corners.</param>
      * <group>Transformations</group>
      */
