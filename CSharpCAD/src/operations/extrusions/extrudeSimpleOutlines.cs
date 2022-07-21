@@ -4,10 +4,10 @@ public static partial class CSCAD
 {
 
     /// <summary>Layer callback for ExtrudeSimpleOutlines.</summary>
-    public delegate Geom2? ESO_NextLayer(double offset);
+    internal delegate Geom2? ESO_NextLayer(double offset);
     internal delegate Vec2[]? I_ESO_NextLayer(double offset);
 
-    /**
+    /*
      * <summary>Extrude the given geometry in an upward linear direction.</summary>
      * <remarks>
      * By default the geometry is positioned with its base at z=0 (height/2).
@@ -27,7 +27,7 @@ public static partial class CSCAD
      * </example>
      * <group>3D Primitives</group>
      */
-    public static Geom3 ExtrudeSimpleOutlines(Geom2 gOuter, Geom2 gInner, double height = 1, double bottom = 0, ESO_NextLayer? nextLayer = null, double? center_z = null)
+    internal static Geom3 ExtrudeSimpleOutlines(Geom2 gOuter, Geom2 gInner, double height = 1, double bottom = 0, ESO_NextLayer? nextLayer = null, double? center_z = null)
     {
         if (nextLayer is not null && LessThanOrEqualish(bottom, 0.0)) throw new ArgumentException("If you provide a layer function, height must be greater than zero.");
         if (LessThanOrEqualish(height, 0.0)) throw new ArgumentException("Height must be greater than zero.");

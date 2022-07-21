@@ -2,7 +2,7 @@ namespace CSharpCAD;
 
 public static partial class CSCAD
 {
-    /**
+    /*
      * <summary>Extrude the given geometry in an upward linear direction.</summary>
      * <remarks>
      * By default the geometry is positioned with its base at z=0 (height/2).
@@ -13,7 +13,7 @@ public static partial class CSCAD
      * <param name="center_z" default="height/2">The Z axis center of the extrusion.</param>
      * <group>3D Primitives</group>
      */
-    public static Geom3 ExtrudeSimple(Geom2 gobj, double height = 1, double? center_z = null)
+    internal static Geom3 ExtrudeSimple(Geom2 gobj, double height = 1, double? center_z = null)
     {
         if (!gobj.HasOnlyOnePath) throw new ArgumentException("ExtrudeSimple only works with 2D geometry objects have one path (no cutouts).");
         var v2array = gobj.ToPoints();

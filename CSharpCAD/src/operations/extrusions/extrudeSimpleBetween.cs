@@ -2,7 +2,7 @@ namespace CSharpCAD;
 
 public static partial class CSCAD
 {
-    /**
+    /*
      * <summary>Extrude the from the bottom to the top the given geometries.</summary>
      * <remarks>
      * By default the geometry is positioned with its base at z=0 (height/2).
@@ -15,7 +15,7 @@ public static partial class CSCAD
      * <param name="center_z" default="height/2">The Z axis center of the extrusion.</param>
      * <group>3D Primitives</group>
      */
-    public static Geom3 ExtrudeSimpleBetween(Geom2 top, Geom2 bottom, double height = 1,
+    internal static Geom3 ExtrudeSimpleBetween(Geom2 top, Geom2 bottom, double height = 1,
         double? center_z = null)
     {
         if (!top.HasOnlyOnePath) throw new ArgumentException("Top geometry must have one path (no cutouts).");
