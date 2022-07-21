@@ -6,17 +6,17 @@ public static partial class CSCAD
      * <summary>Construct an axis-aligned ellipsoid in three dimensional space.</summary>
      * <param> name="radius" default="(1,1,1)">Radius of ellipsoid, along X, Y and Z.</param>
      * <param> name="segments">Number of segments to create per full rotation.</param>
-     * <param> name="axes_x" default=(1,0,0)">The X base vector.</param>
-     * <param> name="axes_y" default=(0,-1,0)">The Y base vector.</param>
-     * <param> name="axes_z" default=(0,0,1)">The Z base vector.</param>
+     * <param> name="axes_x" default="(1,0,0)">The X base vector.</param>
+     * <param> name="axes_y" default="(0,-1,0)">The Y base vector.</param>
+     * <param> name="axes_z" default="(0,0,1)">The Z base vector.</param>
      * <param> name="center" default="(0,0,0)">Center of ellipsoid.</param>
      * <example>
      * var g = Ellipsoid(radius: (10, 5, 20), segments: 50);
      * </example>
      * <group>3D Primitives</group>
 */
-    public static Geom3 Ellipsoid(Vec3? radius = null, int segments = 32, Vec3? center = null,
-        Vec3? axes_x = null, Vec3? axes_y = null, Vec3? axes_z = null)
+    public static Geom3 Ellipsoid(Vec3? radius = null, int segments = 32,
+        Vec3? axes_x = null, Vec3? axes_y = null, Vec3? axes_z = null, Vec3? center = null)
     {
         var _center = center ?? new Vec3(0, 0, 0);
         var _radius = radius ?? new Vec3(1.0, 1.0, 1.0);
