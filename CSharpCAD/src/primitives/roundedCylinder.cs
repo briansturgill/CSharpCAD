@@ -17,7 +17,7 @@ public static partial class CSCAD
      * var myshape = roundedCylinder({ height: 10, radius: 2, roundRadius: 0.5 })
      * <group>3D Primitives</group>
      */
-    public static Geom3 RoundedCylinder(double height = 2, double radius = 1,
+    public static Geom3 RoundedCylinder(double radius = 1, double height = 2,
         double roundRadius = 0.2, int segments = 32, Vec3? center = null)
     {
         var _center = center ?? new Vec3(0, 0, 0);
