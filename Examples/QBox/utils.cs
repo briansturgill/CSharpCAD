@@ -6,12 +6,12 @@ public static partial class QBoxUtils
     {
         var inner_d = size * 0.8; //Possibly snug, but with PLA I prefer that
         var outer_d = post_wall * 2 + size;
-        Geom3 gobj = ExtrudeLinear(Circle(outer_d / 2.0), Circle(inner_d / 2.0), height: h);
+        Geom3 gobj = ExtrudeSimpleOutlines(Circle(outer_d / 2.0), Circle(inner_d / 2.0), height: h);
         if (add_taper)
         {
             gobj = Union(gobj,
                 Translate((0, 0, -h * 2), Subtract(
-                    ExtrudeLinear(Circle(outer_d / 2.0), Circle(inner_d / 2.0), height: h * 2),
+                    ExtrudeSimpleOutlines(Circle(outer_d / 2.0), Circle(inner_d / 2.0), height: h * 2),
                     Rotate((45, 0, z_rot), Translate((0, 0, h),
                         Cuboid((outer_d, outer_d, h * 3 + 2), center: (0, 0, 0))))
                 ))

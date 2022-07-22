@@ -127,9 +127,11 @@ public static partial class CSCAD
     }
 
     /**
-     * Construct an axis-aligned solid cuboid in three dimensional space with rounded corners.
+     * <summary>Construct an axis-aligned solid cuboid in three dimensional space with rounded corners.</summary>
+     * <remarks>
      * The default center point is selected such that the bottom left corner of
      * the cuboid is (0,0,0). (The cuboid is entirely in the first quadrant.)
+     * </remarks>
      * <param name="size" default="(2,2,2)">Dimension of rounded cube: width, depth, height.</param>
      * <param name="roundRadius">Radius of rounded edges.</param>
      * <param name="segments">Number of segments to create per full rotation.</param>

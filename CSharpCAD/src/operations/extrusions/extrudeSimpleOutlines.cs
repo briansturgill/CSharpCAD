@@ -4,7 +4,7 @@ public static partial class CSCAD
 {
 
     /// <summary>Layer callback for ExtrudeSimpleOutlines.</summary>
-    internal delegate Geom2? ESO_NextLayer(double offset);
+    public delegate Geom2? ESO_NextLayer(double offset);
     internal delegate Vec2[]? I_ESO_NextLayer(double offset);
 
     /*
@@ -27,7 +27,7 @@ public static partial class CSCAD
      * </example>
      * <group>3D Primitives</group>
      */
-    internal static Geom3 ExtrudeSimpleOutlines(Geom2 gOuter, Geom2 gInner, double height = 1, double bottom = 0, ESO_NextLayer? nextLayer = null, double? center_z = null)
+    public static Geom3 ExtrudeSimpleOutlines(Geom2 gOuter, Geom2 gInner, double height = 1, double bottom = 0, ESO_NextLayer? nextLayer = null, double? center_z = null)
     {
         if (nextLayer is not null && LessThanOrEqualish(bottom, 0.0)) throw new ArgumentException("If you provide a layer function, height must be greater than zero.");
         if (LessThanOrEqualish(height, 0.0)) throw new ArgumentException("Height must be greater than zero.");

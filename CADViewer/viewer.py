@@ -62,6 +62,8 @@ def display():
         current_mesh = -1;
         title = ""
     text_actor = pl.add_text(f"#{current_mesh+1} of {l} {title}", color="royalblue")
+    pl.add_text("Type h - for help", font_size=10,
+            position = "lower_right", color="royalblue")
     pl.render()
     serv.view_lock.release()
 
@@ -112,9 +114,31 @@ def show_wireframe():
         style="wireframe"
         display()
 
+def show_help():
+    print("Mouse left button held down and dragged meanings:")
+    print("--------")
+    print("No modifier: Rotate item being viewed.")
+    print("Shift: Move model being viewed.")
+    print("Ctrl: Spin model being viewed.")
+    print("Ctrl Shift : Scale model being viewed.")
+    print("--------")
+    print("Key definitions:")
+    print("--------")
+    print("The left arrow and right arrows switch item being viewed.")
+    print("a - toggle axes")
+    print("b - toggle bounds")
+    print("e - exit")
+    print("h - help")
+    print("p - show points")
+    print("q - exit")
+    print("s - show surfaces (default)")
+    print("w - show wireframe")
+    print("minus (-) - toggle edges")
+
 while True:
     pl.add_key_event("a", toggle_axes)
     pl.add_key_event("b", toggle_bounds)
+    pl.add_key_event("h", show_help)
     pl.add_key_event("minus", toggle_edges)
     pl.add_key_event("p", show_points)
     pl.add_key_event("w", show_wireframe)
@@ -129,5 +153,5 @@ while True:
     display()
     pl.show(interactive=True, auto_close=True)
 
-    print("Leaving")
+    print("CADView exiting.")
     sys.exit(0)
