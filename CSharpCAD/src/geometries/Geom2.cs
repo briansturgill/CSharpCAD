@@ -283,6 +283,55 @@ public class Geom2 : Geometry
         return C.EPS * total / 2; /*dimensions*/
     }
 
+    /// <summary>Return a List&lt;List&lt;List&lt;Vec2&gt;&gt;&gt; as used in GEOJSON Multipolygon.</summary>
+    public List<List<List<Vec2>>> ToMultiPolygon()
+    {
+        // LATER this needs lots of work to make it real.
+        var ret = new List<List<List<Vec2>>>(1);
+        (Vec2, Vec2) bbox(List<Vec2> lv)
+        {
+            if (lv.Count == 0) return (new Vec2(), new Vec2());
+            var min = lv[0];
+            var max = min;
+            for (var i = 0; i < lv.Count; i++)
+            {
+                min = min.Min(lv[i]);
+                max = max.Max(lv[i]);
+            }
+            return (min, max);
+        }
+        var polys = this.ToOutlines();
+
+        var (emin, emax) = bbox(polys[0]);
+        var extIdx = 0;
+        for (var i = 1; i < polys.Count; i++)
+        {
+            var (pmin, pmax) = bbox(polys[i]);
+            if (pmin.X > emin.X || pmin.Y > emin.Y || pmax.X > emax.X || pmax.Y > emax.Y)
+            {
+                emin = pmin;
+                emax = pmax;
+                extIdx = i;
+            }
+        }
+
+        if (extIdx != 0)
+        {
+            var extPoly = polys[extIdx];
+            polys.RemoveAt(extIdx);
+            polys.Insert(0, extPoly);
+        }
+
+        for (var i = 0; i < polys.Count; i++)
+        {
+            polys[i].Add(polys[i][0]); // Close LinearRing.
+        }
+
+        ret.Add(polys);
+        return ret;
+    }
+
+
     /// <summary>Create the outline(s) of the given geometry.</summary>
     public List<List<Vec2>> ToOutlines(bool doTransformsFirst = true)
     {

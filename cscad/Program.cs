@@ -24,6 +24,7 @@ static int vCount(Geom3 g)
 */
 
 var g2 = new Geom2();
+#if LATER
 Geom3 TapPost(double h, double size, double post_wall = 2, bool add_taper = false, double z_rot = 0)
 {
     var inner_d = size * 0.8; //Possibly snug, but with PLA I prefer that
@@ -91,10 +92,27 @@ g2 = Subtract(g2, Translate((3.4, 2.0), Rectangle((0.30, 0.40))));
 g2.Validate();
 g2 = Colorize("red", g2);
 Save("/tmp/test.svg", g2);
-g = ExtrudeLinear(g2, 3, repair: true);
+var g = ExtrudeLinear(g2, 3, repair: true);
 Save("/tmp/test.stl", g);
 
-View(g2, "Test of SVG");
+g2 = Subtract2(Rectangle((8, 4)), Translate((2, 1), Rectangle((4, 2))));
+g2.Validate();
+g2 = Union2(g2, Translate((7, 1), Rectangle((2, 2))), Translate((3, 1.5), Rectangle((1, 1))));
+g2.Validate();
+g2 = Subtract2(g2, Translate((3.15, 1.65), Rectangle((0.20, 0.20))));
+g2.Validate();
+//g2 = Subtract2(g2, Translate((3.4, 2.0), Rectangle((0.30, 0.40))));
+g2.Validate();
+g2 = Colorize("green", g2);
+#endif
+
+g2 = Subtract2(Rectangle((10, 20)), Translate((1, 1), Rectangle((8, 18))));
+View(g2, "Test of SVG2 subtract");
+g2 = Union2(g2, Translate((3, 3), Rectangle((5, 10))));
+View(g2, "Test of SVG2 Union");
+g2 = Subtract2(g2, Translate((4, 4), Rectangle((3, 7))));
+
+View(g2, "Test of SVG2 subtract again");
 
 /*
 Console.WriteLine("---");
@@ -112,6 +130,7 @@ foreach (var o in g2.ToOutlines())
 */
 //g.Validate();
 
+#if LATER
 g2 = Star(5);
 g2.Validate();
 View(g2, "Star(5)");
@@ -133,5 +152,22 @@ g2 = Subtract(g2, g2a);
 View(g2, "Offset Square");
 g = ExtrudeLinear(g2, 60, twistAngle: 90, twistSteps: 60);
 Save("/tmp/twisty2.stl", g);
+
+g2 = Subtract2(
+    RoundedRectangle((40, 40), roundRadius: 10, center: (0, 0), segments:50),
+    RoundedRectangle((36, 36), roundRadius: 8, center: (0, 0), segments:50));
+g2 = Subtract2(
+    Rectangle((40, 40)),
+    Translate((2, 2), Rectangle((36, 36))));
+Save("/tmp/test.svg", g2);
+g2 = Intersect2(
+    Rectangle((40, 20)),
+    Rectangle((20, 46)));
+View(g2, "Intersect2");
+g2 = Union2(
+    Rectangle((40, 20)),
+    Rectangle((20, 46)));
+View(g2, "Union2");
+#endif
 
 WaitForViewerTransfers();
