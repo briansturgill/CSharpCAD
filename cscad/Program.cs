@@ -104,15 +104,36 @@ g2.Validate();
 //g2 = Subtract2(g2, Translate((3.4, 2.0), Rectangle((0.30, 0.40))));
 g2.Validate();
 g2 = Colorize("green", g2);
-#endif
 
 g2 = Subtract2(Rectangle((10, 20)), Translate((1, 1), Rectangle((8, 18))));
 View(g2, "Test of SVG2 subtract");
 g2 = Union2(g2, Translate((3, 3), Rectangle((5, 10))));
 View(g2, "Test of SVG2 Union");
-g2 = Subtract2(g2, Translate((4, 4), Rectangle((3, 7))));
-
+//g2 = Subtract2(g2, Translate((4, 4), Rectangle((3, 7))));
+g2 = Union2(g2, Translate((3.5, 3.5), Rectangle((5, 10))));
+View(g2, "Test of SVG2 Union again");
+g2 = Subtract2(g2, Translate((0.5, 0.5), Rectangle((1, 1))));
 View(g2, "Test of SVG2 subtract again");
+g2 = Subtract2(Rectangle((10, 20)), Translate((1, 1), Rectangle((8, 18))));
+View(g2, "Test of SVG2 subtract");
+g2 = Union2(g2, Translate((3, 3), Rectangle((5, 10))));
+View(g2, "Test of SVG2 Union");
+g2 = Subtract2(g2, Translate((4, 4), Rectangle((3, 7))));
+//g2 = Union2(g2, Translate((3.5, 3.5), Rectangle((5, 10))));
+View(g2, "Test of SVG2 Union again");
+//g2 = Subtract2(g2, Translate((0.5, 0.5), Rectangle((1, 1))));
+Save("test.svg", g2);
+#endif
+g2 = new Geom2();
+g2 = Translate((0, 0), Rectangle((2, 10)));
+g2 = Union2(g2, Translate((0, 0), Rectangle((10, 2))));
+g2 = Union2(g2, Translate((0, 8), Rectangle((10, 2))));
+g2 = Union2(g2, Translate((8, 0), Rectangle((2, 10))));
+g2 = Union2(g2, Translate((3, 3), Rectangle((1, 4))));
+g2 = Union2(g2, Translate((3, 3), Rectangle((4, 1))));
+g2 = Union2(g2, Translate((3, 6), Rectangle((4, 1))));
+g2 = Union2(g2, Translate((6, 3), Rectangle((1, 4))));
+View(g2, "Test of SVG2 Union");
 
 /*
 Console.WriteLine("---");

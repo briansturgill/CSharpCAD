@@ -286,8 +286,7 @@ public class Geom2 : Geometry
     /// <summary>Return a List&lt;List&lt;List&lt;Vec2&gt;&gt;&gt; as used in GEOJSON Multipolygon.</summary>
     public List<List<List<Vec2>>> ToMultiPolygon()
     {
-        // LATER this needs lots of work to make it real.
-        var ret = new List<List<List<Vec2>>>(1);
+        var multipoly = new List<List<List<Vec2>>>();
         (Vec2, Vec2) bbox(List<Vec2> lv)
         {
             if (lv.Count == 0) return (new Vec2(), new Vec2());
@@ -300,35 +299,77 @@ public class Geom2 : Geometry
             }
             return (min, max);
         }
-        var polys = this.ToOutlines();
-
-        var (emin, emax) = bbox(polys[0]);
-        var extIdx = 0;
-        for (var i = 1; i < polys.Count; i++)
+        // less than zero, ccw; greater than zero cw;
+        double winding(List<Vec2> lv)
         {
-            var (pmin, pmax) = bbox(polys[i]);
-            if (pmin.X > emin.X || pmin.Y > emin.Y || pmax.X > emax.X || pmax.Y > emax.Y)
+            var winding = 0.0;
+            var len = lv.Count;
+            for (var i = 0; i < len; i++)
             {
-                emin = pmin;
-                emax = pmax;
-                extIdx = i;
+                winding += (lv[(i + 1) % len].X - lv[i].X) * (lv[(i + 1) % len].Y + lv[i].Y);
+            }
+            if (Equalish(winding, 0.0)) throw new ValidationException("2D Polygon winding == 0");
+            return winding;
+        }
+        bool bbcontains((Vec2, Vec2) a, (Vec2, Vec2) b)
+        {
+            var (a_min, a_max) = a;
+            var (b_min, b_max) = b;
+            return (a_min.X < b_min.X && a_min.Y < b_min.Y && a_max.X > b_max.X && a_max.Y > b_max.Y);
+        }
+
+        var polys = this.ToOutlines();
+        if (polys.Count == 0)
+        {
+            multipoly.Add(new List<List<Vec2>>() { new List<Vec2>(0) });
+            return multipoly;
+        }
+
+        var shapes = new List<((Vec2, Vec2), List<List<Vec2>>)>();
+        var holes = new List<((Vec2, Vec2), List<Vec2>)>();
+        foreach (var poly in polys)
+        {
+            if (winding(poly) < 0.0) // ccw -- shape
+            {
+                shapes.Add((bbox(poly), new List<List<Vec2>> { poly }));
+            }
+            else // cw -- hole
+            {
+                holes.Add((bbox(poly), poly));
+            }
+            poly.Add(poly[0]); // Close LinearRing.
+        }
+
+        int cmpShapes(((Vec2, Vec2), List<List<Vec2>>) a, ((Vec2, Vec2), List<List<Vec2>>) b)
+        {
+            var (a_bb, _) = a;
+            var (b_bb, _) = b;
+            if (bbcontains(a_bb, b_bb)) return 1;
+            if (bbcontains(b_bb, a_bb)) return -1;
+            return 0; // We want to sort reversed so that smallest is first.
+        }
+        // We sort shapes by smallest, so the first contain a hole is the correct match.
+        shapes.Sort(cmpShapes);
+
+        foreach (var hole in holes)
+        {
+            var (h_bb, h_l) = hole;
+            foreach (var shape in shapes)
+            {
+                var (s_bb, s_ll) = shape;
+                if (bbcontains(s_bb, h_bb))
+                {
+                    s_ll.Add(h_l);
+                    break;
+                }
             }
         }
-
-        if (extIdx != 0)
+        for (var i = shapes.Count - 1; i >= 0; i--)
         {
-            var extPoly = polys[extIdx];
-            polys.RemoveAt(extIdx);
-            polys.Insert(0, extPoly);
+            var(_, s_ll) = shapes[i];
+            multipoly.Add(s_ll);
         }
-
-        for (var i = 0; i < polys.Count; i++)
-        {
-            polys[i].Add(polys[i][0]); // Close LinearRing.
-        }
-
-        ret.Add(polys);
-        return ret;
+        return multipoly;
     }
 
 
