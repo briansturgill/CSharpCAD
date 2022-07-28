@@ -31,6 +31,6 @@ public static partial class CSCAD
         }
 
         return ExtrudeFromSlices(baseSlice, createTwist, numberOfSlices: twistSteps + 1,
-           capStart: true, capEnd: true, repair: true);
+           capStart: true, capEnd: true, repair: repair);
     }
 }
