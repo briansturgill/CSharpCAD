@@ -366,7 +366,7 @@ public class Geom2 : Geometry
         }
         for (var i = shapes.Count - 1; i >= 0; i--)
         {
-            var(_, s_ll) = shapes[i];
+            var (_, s_ll) = shapes[i];
             multipoly.Add(s_ll);
         }
         return multipoly;
@@ -590,6 +590,178 @@ public class Geom2 : Geometry
         }
 
         public override string ToString() => $"Side({this.v0},{this.v1})";
+    }
+
+    internal class NRTreeNode
+    {
+        internal Vec2[] Points;
+        internal Vec2 Min; // BoundingBox of points
+        internal Vec2 Max;
+        internal List<NRTreeNode> Contained;
+        internal NRTreeNode(Vec2[] points)
+        {
+            Points = points;
+            bbox(points);
+            Contained = new List<NRTreeNode>();
+        }
+
+        private void bbox(Vec2[] poly)
+        {
+            if (poly.Length == 0) return;
+            var min = poly[0];
+            var max = poly[0];
+            for (int i = 1; i < poly.Length; i++)
+            {
+                min = poly[i].Min(min);
+                max = poly[i].Max(max);
+            }
+            this.Min = min;
+            this.Max = max;
+        }
+
+        internal bool contains(NRTreeNode nrt)
+        {
+            return this.Min.X < nrt.Min.X && this.Min.Y < nrt.Min.Y && this.Max.X > nrt.Max.X && this.Max.Y > nrt.Max.Y;
+        }
+    }
+
+    /*
+        NRTree uses bounding boxes to sort a Geom2s outline into a nested tree.
+        Nodes at level 0 are the exterior shapes.
+        Nodes at level 1 are the first level holes.
+        Nodes at level 2 are the first level of interior shapes.
+        Nodes at level 4 are the second level of holes.
+        ...
+    */
+    internal class NRTree // Nested Ring Tree
+    {
+        internal NRTreeNode Root;
+        internal int NodeCount;
+        internal NRTree()
+        {
+            Root = new NRTreeNode(new Vec2[0]);
+            NodeCount = 0;
+        }
+
+        internal (Vec2, Vec2) BoundingBox()
+        {
+            // Because the first "row" is the exterior rings, we only need to aggregate their bounding boxes.
+            var len = Root.Contained.Count;
+            if (len == 0) return (new Vec2(), new Vec2());
+            var min = this.Root.Contained[0].Min;
+            var max = this.Root.Contained[0].Max;
+            for (var i = 1; i < len; i++)
+            {
+                var n = Root.Contained[i];
+                min = min.Min(n.Min);
+                max = max.Max(n.Max);
+            }
+            return (min, max);
+        }
+
+        internal void Insert(Vec2[] ring)
+        {
+            _insert(this.Root, new NRTreeNode(ring));
+            NodeCount++;
+        }
+
+        private void _insert(NRTreeNode parent, NRTreeNode child)
+        {
+            var len = parent.Contained.Count;
+            for (var i = 0; i < len; i++)
+            {
+                var n = parent.Contained[i];
+                if (n.contains(child))
+                {
+                    this._insert(n, child);
+                    return;
+                }
+            }
+            for (var i = 0; i < len; i++)
+            {
+                var n = parent.Contained[i];
+                if (child.contains(n))
+                {
+                    parent.Contained.RemoveAt(i);
+                    len--;
+                    i--;
+                    this._insert(child, n);
+                    continue;
+                }
+            }
+            parent.Contained.Add(child);
+        }
+
+        internal void ReverseShapes()
+        {
+            _reverseShapes(this.Root);
+        }
+
+        private void _reverseShapes(NRTreeNode parent, int depth = 0)
+        {
+            foreach (var n in parent.Contained)
+            {
+                if (depth % 2 == 0)
+                {
+                    Array.Reverse(n.Points);
+                }
+                _reverseShapes(n, depth + 1);
+            }
+        }
+
+        internal List<List<Vec2>> ToOutlines()
+        {
+            var llv = new List<List<Vec2>>(this.NodeCount);
+            _toOutlines(this.Root, llv);
+            return llv;
+        }
+
+        private void _toOutlines(NRTreeNode parent, List<List<Vec2>> llv)
+        {
+            foreach (var n in parent.Contained)
+            {
+                llv.Add(n.Points.ToList());
+                _toOutlines(n, llv);
+            }
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine($"NRTree nodes={this.NodeCount}");
+            _toString(this.Root, sb);
+            return sb.ToString();
+        }
+
+        private void _toString(NRTreeNode parent, StringBuilder sb, int depth = 0)
+        {
+            foreach (var n in parent.Contained)
+            {
+                for (var i = 0; i <= depth; i++)
+                {
+                    sb.Append("    ");
+                }
+                if (depth % 2 == 0)
+                {
+                    sb.Append("shape ");
+                }
+                else
+                {
+                    sb.Append("hole  ");
+                }
+                foreach (var pt in n.Points)
+                {
+                    sb.Append($"{pt}");
+                }
+                sb.AppendLine();
+                for (var i = 0; i <= depth; i++)
+                {
+                    sb.Append("    ");
+                }
+                sb.AppendLine($"-min={n.Min} max={n.Max}, {Winding(n.Points.ToList())}");
+                _toString(n, sb, depth + 1);
+            }
+        }
     }
 
     /**

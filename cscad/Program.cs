@@ -9,6 +9,8 @@ var loops = 100;
 var watch = new Stopwatch();
 loops++;
 loops--;
+var g = new Geom3();
+var g2 = new Geom2();
 
 /*
 static int vCount(Geom3 g)
@@ -23,7 +25,6 @@ static int vCount(Geom3 g)
 }
 */
 
-var g2 = new Geom2();
 #if LATER
 Geom3 TapPost(double h, double size, double post_wall = 2, bool add_taper = false, double z_rot = 0)
 {
@@ -67,7 +68,6 @@ var b = Translate((0, 0, -1), Cylinder(radius: 2, height: 10, segments: 10));
 b.Validate();
 var g = Subtract(a, b);// TapPost(8, 5, add_taper: false);
 */
-var g = new Geom3();
 g = TapPost(8, 5, add_taper: true);
 Save("/tmp/test.stl", g);
 //g.Validate();
@@ -80,20 +80,8 @@ Save("/tmp/test.stl", g);
 g = Union(Cube(size: 8, center: (0, 0, 0)), Cube(center: (0, 0, 4)));
 View(g);
 //Save("/tmp/test.stl", g);
+#endif
 
-
-g2 = Subtract(Rectangle((8, 4)), Translate((2, 1), Rectangle((4, 2))));
-g2.Validate();
-g2 = Union(g2, Translate((7, 1), Rectangle((2, 2))), Translate((3, 1.5), Rectangle((1, 1))));
-g2.Validate();
-g2 = Subtract(g2, Translate((3.15, 1.65), Rectangle((0.20, 0.20))));
-g2.Validate();
-g2 = Subtract(g2, Translate((3.4, 2.0), Rectangle((0.30, 0.40))));
-g2.Validate();
-g2 = Colorize("red", g2);
-Save("/tmp/test.svg", g2);
-var g = ExtrudeLinear(g2, 3, repair: true);
-Save("/tmp/test.stl", g);
 
 g2 = Subtract2(Rectangle((8, 4)), Translate((2, 1), Rectangle((4, 2))));
 g2.Validate();
@@ -101,19 +89,26 @@ g2 = Union2(g2, Translate((7, 1), Rectangle((2, 2))), Translate((3, 1.5), Rectan
 g2.Validate();
 g2 = Subtract2(g2, Translate((3.15, 1.65), Rectangle((0.20, 0.20))));
 g2.Validate();
-//g2 = Subtract2(g2, Translate((3.4, 2.0), Rectangle((0.30, 0.40))));
+g2 = Subtract2(g2, Translate((3.4, 2.0), Rectangle((0.30, 0.40))));
+g2.Validate();
+g2 = Colorize("red", g2);
+Save("/tmp/test.svg", g2);
+g = ExtrudeLinear(g2, 0.1, repair: true);
+//g.Validate();
+Save("/tmp/test.stl", g);
+
+g2 = Subtract(Rectangle((8, 4)), Translate((2, 1), Rectangle((4, 2))));
+g2.Validate();
+g2 = Union(g2, Translate((7, 1), Rectangle((2, 2))), Translate((3, 1.5), Rectangle((1, 1))));
+g2.Validate();
+g2 = Subtract(g2, Translate((3.15, 1.65), Rectangle((0.20, 0.20))));
+g2.Validate();
+g2 = Subtract(g2, Translate((3.6, 2.0), Rectangle((0.20, 0.40))));
 g2.Validate();
 g2 = Colorize("green", g2);
+Save("/tmp/test2.svg", g2);
 
-g2 = Subtract2(Rectangle((10, 20)), Translate((1, 1), Rectangle((8, 18))));
-View(g2, "Test of SVG2 subtract");
-g2 = Union2(g2, Translate((3, 3), Rectangle((5, 10))));
-View(g2, "Test of SVG2 Union");
-//g2 = Subtract2(g2, Translate((4, 4), Rectangle((3, 7))));
-g2 = Union2(g2, Translate((3.5, 3.5), Rectangle((5, 10))));
-View(g2, "Test of SVG2 Union again");
-g2 = Subtract2(g2, Translate((0.5, 0.5), Rectangle((1, 1))));
-View(g2, "Test of SVG2 subtract again");
+#if LATER
 g2 = Subtract2(Rectangle((10, 20)), Translate((1, 1), Rectangle((8, 18))));
 View(g2, "Test of SVG2 subtract");
 g2 = Union2(g2, Translate((3, 3), Rectangle((5, 10))));
@@ -121,9 +116,16 @@ View(g2, "Test of SVG2 Union");
 g2 = Subtract2(g2, Translate((4, 4), Rectangle((3, 7))));
 //g2 = Union2(g2, Translate((3.5, 3.5), Rectangle((5, 10))));
 View(g2, "Test of SVG2 Union again");
-//g2 = Subtract2(g2, Translate((0.5, 0.5), Rectangle((1, 1))));
-Save("test.svg", g2);
-#endif
+g2 = Subtract2(g2, Translate((0.2, 0.2), Rectangle((0.5, 0.5))));
+View(g2, "Test of SVG2 subtract again");
+g2 = Subtract2(Rectangle((10, 20)), Translate((1, 1), Rectangle((8, 18))));
+View(g2, "Test of SVG2 subtract");
+g2 = Union2(g2, Translate((3, 3), Rectangle((5, 10))));
+View(g2, "Test of SVG2 Union");
+g2 = Subtract2(g2, Translate((4, 4), Rectangle((3, 7))));
+View(g2, "Test of SVG2 Union again");
+g2 = Subtract2(g2, Translate((0.2, 0.2), Rectangle((0.5, 0.5))));
+Save("/tmp/test.svg", g2);
 g2 = new Geom2();
 g2 = Translate((0, 0), Rectangle((2, 10)));
 g2 = Union2(g2, Translate((0, 0), Rectangle((10, 2))));
@@ -151,7 +153,6 @@ foreach (var o in g2.ToOutlines())
 */
 //g.Validate();
 
-#if LATER
 g2 = Star(5);
 g2.Validate();
 View(g2, "Star(5)");
@@ -160,7 +161,7 @@ g.Validate();
 View(g, "Star(5)@10");
 
 
-g2 = Subtract(
+g2 = Subtract2(
     RoundedRectangle((40, 40), roundRadius: 10, center: (0, 0), segments:50),
     RoundedRectangle((36, 36), roundRadius: 8, center: (0, 0), segments:50));
 View(g2, "Twisty base");
@@ -169,7 +170,7 @@ View(g, "Twisty");
 
 g2 = Offset(Square(20, center: (0, 0)), 10, Corners.Round, segments: 50);
 var g2a = Offset(Square(20, center: (0, 0)), 8, Corners.Round, segments: 50);
-g2 = Subtract(g2, g2a);
+g2 = Subtract2(g2, g2a);
 View(g2, "Offset Square");
 g = ExtrudeLinear(g2, 60, twistAngle: 90, twistSteps: 60);
 Save("/tmp/twisty2.stl", g);
