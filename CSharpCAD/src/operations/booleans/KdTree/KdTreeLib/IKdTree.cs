@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 
+#nullable disable
+#pragma warning disable CS1591
+
 namespace KdTree
 {
     public interface IKdTree<TKey, TValue> : IEnumerable<KdTreeNode<TKey, TValue>>

@@ -1,4 +1,7 @@
-﻿namespace KdTree
+﻿#nullable disable
+#pragma warning disable CS1591
+
+namespace KdTree
 {
     public interface IPriorityQueue<TItem, TPriority>
 	{

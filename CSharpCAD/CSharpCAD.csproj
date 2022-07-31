@@ -8,9 +8,6 @@
   <ItemGroup>
     <CSFile Include="src/**/*.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\KdTree\KdTreeLib\KdTreeLib.csproj" />
-  </ItemGroup>
 	<PropertyGroup>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<DocumentationFile>../../gh-pages/documentation.xml</DocumentationFile>

@@ -1,4 +1,7 @@
-﻿namespace KdTree.Math
+﻿#nullable disable
+#pragma warning disable CS1591
+
+namespace KdTree.Math
 {
     // Via http://www.geodatasource.com/developers/c-sharp
     // This code is licensed under LGPLv3.

@@ -1,5 +1,8 @@
 ﻿using System;
 
+#nullable disable
+#pragma warning disable CS1591
+
 struct ItemPriority<TItem, TPriority>
 {
 	public TItem Item;

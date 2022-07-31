@@ -1,5 +1,8 @@
 ﻿using System;
 
+#nullable disable
+#pragma warning disable CS1591
+
 namespace KdTree.Math
 {
     // Algebraic!

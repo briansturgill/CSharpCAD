@@ -50,6 +50,7 @@ Geom3 TapPost(double h, double size, double post_wall = 2, bool add_taper = fals
         //cylout = Cylinder(radius: outer_d / 2.0, height: h * 2);
         //cylin = Translate((0, 0, -1), Cylinder(radius: inner_d / 2.0, height: h * 2 + 2));
         var cb = Cuboid((outer_d, outer_d, h * 3 + 2), center: (0, 0, 0));
+        Save("/tmp/cb.stl", cb);
         cb.Validate();
         var g3 = Subtract(cylout, Translate((0, 0, -1), cylin));
         //g3.Validate();
@@ -189,5 +190,13 @@ g2 = Union(
     Rectangle((40, 20)),
     Rectangle((20, 46)));
 View(g2, "Union2");
+
+Save("/tmp/semicyl.stl", Semicylinder(10, 25, 16, 115, 270));
+
+View(Semicylinder(10, 25, 16, 115, 270), "Simple semicylinder");
+
+Save("/tmp/cyl.stl", Cylinder(10, 25));
+
+View(Cylinder(10, 25), "Simple Cylinder");
 
 WaitForViewerTransfers();
