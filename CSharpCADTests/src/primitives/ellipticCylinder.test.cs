@@ -21,13 +21,13 @@ public class EllipticCylinderTests
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
 
-        Assert.AreEqual(pts.Count, 34);
+        Assert.AreEqual(pts.Count, 128);
 
         obs = SemiellipticCylinder();
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
 
-        Assert.AreEqual(pts.Count, 12);
+        Assert.AreEqual(pts.Count, 40);
     }
 
     [Test]
@@ -59,7 +59,7 @@ public class EllipticCylinderTests
         pts = obs.ToPoints();
         exp = new List<List<Vec3>> { };
 
-        Assert.AreEqual(pts.Count, 10);
+        Assert.AreEqual(pts.Count, 32);
         // Assert.IsTrue(comparePolygonsAsPoints(pts, exp))
 
         // test segments
@@ -67,7 +67,7 @@ public class EllipticCylinderTests
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
 
-        Assert.AreEqual(pts.Count, 10);
+        Assert.AreEqual(pts.Count, 32);
 
         // test center
         obs = EllipticCylinder(center: (-5, -5, -5), height: 3, segments: 8);

@@ -21,7 +21,7 @@ public class CuboidTests
         var pts = obs.ToPoints();
         if (WriteTests) TestData.Make("CuboidDefExp1", pts);
         var exp = UnitTestData.CuboidDefExp1;
-        Assert.AreEqual(pts.Count, 6);
+        Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
     }
 
@@ -35,7 +35,7 @@ public class CuboidTests
         if(WriteTests) TestData.Make("CuboidOptsExp1", pts);
         var exp = UnitTestData.CuboidOptsExp1;
 
-        Assert.AreEqual(pts.Count, 6);
+        Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test size
@@ -45,7 +45,7 @@ public class CuboidTests
         if(WriteTests) TestData.Make("CuboidOptsExp2", pts);
         exp = UnitTestData.CuboidOptsExp2;
 
-        Assert.AreEqual(pts.Count, 6);
+        Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
     }
 }

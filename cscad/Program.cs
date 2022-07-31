@@ -12,6 +12,7 @@ loops--;
 var g = new Geom3();
 var g2 = new Geom2();
 
+#if LATER
 /*
 static int vCount(Geom3 g)
 {
@@ -198,5 +199,8 @@ View(Semicylinder(10, 25, 16, 115, 270), "Simple semicylinder");
 Save("/tmp/cyl.stl", Cylinder(10, 25));
 
 View(Cylinder(10, 25), "Simple Cylinder");
+#endif
+
+View(Cuboid(size: (6, 6, 6), center: (3, 5, 7)), "Failing Cuboid");
 
 WaitForViewerTransfers();

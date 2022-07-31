@@ -23,7 +23,7 @@ public class CubeTests
         foreach (var p in pts)
         {
         }
-        Assert.AreEqual(pts.Length, 6);
+        Assert.AreEqual(pts.Length, 16);
     }
 
     [Test]
@@ -36,7 +36,7 @@ public class CubeTests
         if (WriteTests) TestData.Make("CubeOptionsExp1", pts);
         var exp = UnitTestData.CubeOptionsExp1;
 
-        Assert.AreEqual(pts.Count, 6);
+        Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
         // test size
@@ -46,7 +46,7 @@ public class CubeTests
         if (WriteTests) TestData.Make("CubeOptionsExp2", pts);
         exp = UnitTestData.CubeOptionsExp2;
 
-        Assert.AreEqual(pts.Count, 6);
+        Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
     }
 }

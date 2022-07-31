@@ -21,7 +21,7 @@ public class CylinderTests
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
 
-        Assert.AreEqual(pts.Count, 34);
+        Assert.AreEqual(pts.Count, 128);
     }
 
 

@@ -63,7 +63,7 @@ public class CutterTests
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
 
-        Assert.AreEqual(pts.Count, 5);
+        Assert.AreEqual(pts.Count, 12);
     }
 
     [Test]

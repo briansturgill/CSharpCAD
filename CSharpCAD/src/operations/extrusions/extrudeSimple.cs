@@ -24,8 +24,6 @@ public static partial class CSCAD
     {
         if (Equalish(height, 0.0)) throw new ArgumentException("Height cannot be zero.");
         var len = v_in.Length;
-        var top = new Vec3[len];
-        var bottom = new Vec3[len];
         var polys = new Poly3[len*4];
         var polys_i = 0;
         Vec2 calcMidpoint(Vec2[] v_in)
@@ -34,7 +32,7 @@ public static partial class CSCAD
             var mp = new Vec2();
             for (var i = 0; i < len; i++)
             {
-                mp.Add(v_in[i]);
+                mp = mp.Add(v_in[i]);
             }
             return mp.Divide(new Vec2(len, len));
         }
@@ -68,8 +66,6 @@ public static partial class CSCAD
             var next_v = v_in[(i + 1) % len];
             var next_bottom_p = new Vec3(next_v, bottom_most_p);
             var next_top_p = new Vec3(next_v, top_most_p);
-            bottom[bottom_i] = bottom_p;
-            top[i] = top_p;
             polys[polys_i++] = new Poly3(new Vec3[] { bottom_p, bottom_mp, next_bottom_p  });
             polys[polys_i++] = new Poly3(new Vec3[] { bottom_p, next_bottom_p, next_top_p });
             polys[polys_i++] = new Poly3(new Vec3[] { bottom_p, next_top_p, top_p });
@@ -77,8 +73,6 @@ public static partial class CSCAD
             bottom_p = next_bottom_p;
             top_p = next_top_p;
         }
-        //polys[0] = new Poly3(bottom);
-        //polys[1] = new Poly3(top);
 
         return new Geom3(polys);
     }
