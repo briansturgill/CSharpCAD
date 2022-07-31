@@ -20,14 +20,25 @@ public static partial class CSCAD
         return InternalExtrudeSimple(v2array, height, center_z);
     }
 
-    internal static Geom3 InternalExtrudeSimple(Vec2[] v_in, double height, double? center_z)
+    internal static Geom3 InternalExtrudeSimple(Vec2[] v_in, double height, double? center_z, Vec2? midpoint = null)
     {
         if (Equalish(height, 0.0)) throw new ArgumentException("Height cannot be zero.");
         var len = v_in.Length;
         var top = new Vec3[len];
         var bottom = new Vec3[len];
-        var polys = new Poly3[len + 2];
-        var polys_i = 2;
+        var polys = new Poly3[len*4];
+        var polys_i = 0;
+        Vec2 calcMidpoint(Vec2[] v_in)
+        {
+            var len = v_in.Length;
+            var mp = new Vec2();
+            for (var i = 0; i < len; i++)
+            {
+                mp.Add(v_in[i]);
+            }
+            return mp.Divide(new Vec2(len, len));
+        }
+        var _midpoint = midpoint ?? calcMidpoint(v_in);
 
         var top_most_p = height;
         var bottom_most_p = 0.0;
@@ -47,7 +58,9 @@ public static partial class CSCAD
 
         var v0 = v_in[0];
         var bottom_p = new Vec3(v0, bottom_most_p);
+        var bottom_mp = new Vec3(_midpoint, bottom_most_p);
         var top_p = new Vec3(v0, top_most_p);
+        var top_mp = new Vec3(_midpoint, top_most_p);
 
         for (var i = 0; i < len; i++)
         {
@@ -57,12 +70,15 @@ public static partial class CSCAD
             var next_top_p = new Vec3(next_v, top_most_p);
             bottom[bottom_i] = bottom_p;
             top[i] = top_p;
-            polys[polys_i++] = new Poly3(new Vec3[] { bottom_p, next_bottom_p, next_top_p, top_p });
+            polys[polys_i++] = new Poly3(new Vec3[] { bottom_p, bottom_mp, next_bottom_p  });
+            polys[polys_i++] = new Poly3(new Vec3[] { bottom_p, next_bottom_p, next_top_p });
+            polys[polys_i++] = new Poly3(new Vec3[] { bottom_p, next_top_p, top_p });
+            polys[polys_i++] = new Poly3(new Vec3[] { top_p, next_top_p, top_mp });
             bottom_p = next_bottom_p;
             top_p = next_top_p;
         }
-        polys[0] = new Poly3(bottom);
-        polys[1] = new Poly3(top);
+        //polys[0] = new Poly3(bottom);
+        //polys[1] = new Poly3(top);
 
         return new Geom3(polys);
     }

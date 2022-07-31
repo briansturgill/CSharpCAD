@@ -22,7 +22,6 @@ public static class Program
         //Cylinders.Init();
         //Expands.Init();
         //ExtrudeLinears.Init();
-        //ExtrudeRectangulars.Init();
         //ExtrudeRotates.Init();
         //Hulls.Init();
         Intersects.Init();
