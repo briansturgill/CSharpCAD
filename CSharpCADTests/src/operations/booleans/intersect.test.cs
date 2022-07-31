@@ -20,6 +20,7 @@ public class IntersectTests
         var result1 = Intersect(geometry1);
         Assert.DoesNotThrow(() => result1.Validate());
         var obs = result1.ToPoints();
+        if(WriteTests) TestData.Make("IntersectGeom2Exp1", obs);
         var exp = UnitTestData.IntersectGeom2Exp1;
         Assert.AreEqual(obs.Length, exp.Length);
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
@@ -40,9 +41,8 @@ public class IntersectTests
         var result3 = Intersect(geometry2, geometry3);
         Assert.DoesNotThrow(() => result3.Validate());
         obs = result3.ToPoints();
-        exp = new Vec2[] {
-    new Vec2(9, 9), new Vec2(8, 9), new Vec2(8, 8), new Vec2(9, 8)
-  };
+        if(WriteTests) TestData.Make("IntersectGeom2Exp1a", obs);
+        exp = UnitTestData.IntersectGeom2Exp1a;
         Assert.AreEqual(obs.Length, exp.Length);
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
@@ -50,6 +50,7 @@ public class IntersectTests
         var result4 = Intersect(geometry1, geometry3);
         Assert.DoesNotThrow(() => result4.Validate());
         obs = result4.ToPoints();
+        if(WriteTests) TestData.Make("IntersectGeom2Exp2", obs);
         exp = UnitTestData.IntersectGeom2Exp2;
         Assert.AreEqual(obs.Length, exp.Length);
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));

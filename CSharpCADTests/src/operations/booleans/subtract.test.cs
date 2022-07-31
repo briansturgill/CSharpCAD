@@ -20,16 +20,8 @@ public class SubtractTests
         var result1 = Subtract(geometry1);
         Assert.DoesNotThrow(() => result1.Validate());
         var obs = result1.ToPoints();
-        var exp = new Vec2[] {
-          new Vec2(2, 0),
-          new Vec2(1.4142000000000001, 1.4142000000000001),
-          new Vec2(0, 2),
-          new Vec2(-1.4142000000000001, 1.4142000000000001),
-          new Vec2(-2, 0),
-          new Vec2(-1.4142000000000001, -1.4142000000000001),
-          new Vec2(0, -2),
-          new Vec2(1.4142000000000001, -1.4142000000000001)
-        };
+        if(WriteTests) TestData.Make("SubtractTransformExp1", obs);
+        var exp = UnitTestData.SubtractTransformExp1;
         Assert.AreEqual(obs.Length, 8);
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
@@ -40,16 +32,8 @@ public class SubtractTests
         var result2 = Subtract(geometry1, geometry2);
         Assert.DoesNotThrow(() => result2.Validate());
         obs = result2.ToPoints();
-        exp = new Vec2[] {
-          new Vec2(2, 0),
-          new Vec2(1.4142000000000001, 1.4142000000000001),
-          new Vec2(0, 2),
-          new Vec2(-1.4142000000000001, 1.4142000000000001),
-          new Vec2(-2, 0),
-          new Vec2(-1.4142000000000001, -1.4142000000000001),
-          new Vec2(0, -2),
-          new Vec2(1.4142000000000001, -1.4142000000000001)
-        };
+        if(WriteTests) TestData.Make("SubtractTransformExp2", obs);
+        exp = UnitTestData.SubtractTransformExp2;
         Assert.AreEqual(obs.Length, 8);
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 

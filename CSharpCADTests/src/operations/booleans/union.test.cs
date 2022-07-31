@@ -68,18 +68,18 @@ public class UnionTests
         var circ = Circle(radius: 1, segments: 32);
         Assert.DoesNotThrow(() => circ.Validate());
         var result5 = Union(
-          Union2(
+          Union(
             Translate(new Vec2(17, 21), circ),
             Translate(new Vec2(7, 0), circ)
           ),
-          Union2(
+          Union(
             Translate(new Vec2(3, 21), circ),
             Translate(new Vec2(17, 21), circ)
           )
         );
         obs = result5.ToPoints();
         Assert.DoesNotThrow(() => result5.Validate());
-        Assert.AreEqual(obs.Length, 32);
+        Assert.AreEqual(obs.Length, 96);
     }
 
     [Test]

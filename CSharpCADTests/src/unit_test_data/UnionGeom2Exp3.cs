@@ -4,13 +4,13 @@ using NUnit.Framework;
 
 public static partial class UnitTestData {
   public static Vec2[] UnionGeom2Exp3 = new Vec2[] {
-    new Vec2(11.999973333333333, 11.999973333333333),
-    new Vec2(7.999933333333333, 11.999973333333333),
-    new Vec2(7.999933333333333, 9.000053333333334),
-    new Vec2(-9.000053333333334, 9.000053333333334),
-    new Vec2(-9.000053333333334, -9.000053333333334),
-    new Vec2(9.000053333333334, -9.000053333333334),
-    new Vec2(9.000053333333334, 7.999933333333333),
-    new Vec2(11.999973333333333, 7.999933333333333)
+    new Vec2(8, 12),
+    new Vec2(8, 9),
+    new Vec2(-9, 9),
+    new Vec2(-9, -9),
+    new Vec2(9, -9),
+    new Vec2(9, 8),
+    new Vec2(12, 8),
+    new Vec2(12, 12)
   };
 }
