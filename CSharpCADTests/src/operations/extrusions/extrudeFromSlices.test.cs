@@ -7,6 +7,8 @@ namespace CSharpCADTests;
 [TestFixture]
 public class TestExtrudeFromSlices
 {
+    static bool WriteTests = false;
+
     [SetUp]
     public void Setup()
     {
@@ -21,6 +23,7 @@ public class TestExtrudeFromSlices
         var geometry3 = ExtrudeFromSlices(new Slice(geometry2.ToSides()));
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
+        if(WriteTests) TestData.Make("ExtrudeFSDef1", pts);
         var exp = UnitTestData.ExtrudeFSDef1;
         Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
@@ -103,6 +106,7 @@ public class TestExtrudeFromSlices
         var geometry3 = ExtrudeFromSlices(new Slice(geometry2.ToSides()));
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
+        if(WriteTests) TestData.Make("ExtrudeFSHoleExp", pts);
         var exp = UnitTestData.ExtrudeFSHoleExp;
         Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));

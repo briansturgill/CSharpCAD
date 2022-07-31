@@ -60,9 +60,8 @@ public class SubtractTests
         var result3 = Subtract(geometry2, geometry3);
         Assert.DoesNotThrow(() => result3.Validate());
         obs = result3.ToPoints();
-        exp = new Vec2[] {
-          new Vec2(12, 12), new Vec2(9, 9), new Vec2(8, 9), new Vec2(8, 12), new Vec2(9, 8), new Vec2(12, 8)
-        };
+        if(WriteTests) TestData.Make("SubtractOverLappingObjectsExp1", obs);
+        exp = UnitTestData.SubtractOverLappingObjectsExp1;
         Assert.AreEqual(obs.Length, 6);
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 

@@ -3,6 +3,8 @@ namespace CSharpCADTests;
 [TestFixture]
 public class ExtrudeRotateTests
 {
+    static bool WriteTests = false;
+
     private static Geom3 makeGeom3(Vec3[] points, Mat4? transforms = null)
     {
         var poly = new Poly3(points);
@@ -36,6 +38,7 @@ public class ExtrudeRotateTests
         var geometry3 = ExtrudeRotate(geometry2, segments: 4, angle: 45);
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
+        if(WriteTests) TestData.Make("ExtrudeRotateAngleExp", pts);
         var exp = UnitTestData.ExtrudeRotateAngleExp;
         Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
@@ -121,6 +124,7 @@ public class ExtrudeRotateTests
         var obs = ExtrudeRotate(geometry, segments: 4, angle: 90);
         Assert.DoesNotThrow(() => geometry.Validate());
         var pts = obs.ToPoints();
+        if(WriteTests) TestData.Make("ExtrudeRotateOverlapExp", pts);
         var exp = UnitTestData.ExtrudeRotateOverlapExp;
         Assert.AreEqual(pts.Count, exp.Count);
         //Helpers.PrintListOfLists("pts,exp", pts, exp);
@@ -132,6 +136,7 @@ public class ExtrudeRotateTests
         obs = ExtrudeRotate(geometry, segments: 8, angle: 90);
         Assert.DoesNotThrow(() => geometry.Validate());
         pts = obs.ToPoints();
+        if(WriteTests) TestData.Make("ExtrudeRotateOverlapExp2", pts);
         exp = UnitTestData.ExtrudeRotateOverlapExp2;
         Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));

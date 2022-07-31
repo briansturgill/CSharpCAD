@@ -65,10 +65,10 @@ internal static partial class CSharpCADInternals
         return (int)Math.Floor(a);
     }
 
-    internal static double AreaVec2(List<Vec2> points)
+    internal static double AreaVec2(Vec2[] points)
     {
         var area = ((double)0.0);
-        var len = points.Count;
+        var len = points.Length;
         for (var i = 0; i < len; i++)
         {
             var j = (i + 1) % len;

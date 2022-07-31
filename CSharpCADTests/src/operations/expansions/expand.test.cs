@@ -7,6 +7,8 @@ namespace CSharpCADTests;
 [TestFixture]
 public class ExpandTests
 {
+    static bool WriteTests = false;
+
     [SetUp]
     public void Setup()
     {
@@ -69,28 +71,8 @@ public class ExpandTests
         // expand +
         var obs = Expand(geometry, delta: 2, corners: Corners.Edge);
         var pts = obs.ToPoints();
-        var exp = new Vec2[] {
-          new Vec2(77, -77),
-          new Vec2(77, 77),
-          new Vec2(38, 77),
-          new Vec2(38, 2),
-          new Vec2(-38, 2),
-          new Vec2(-37.99999999999999, 77),
-          new Vec2(-77, 77),
-          new Vec2(16.999999999999996, -42),
-          new Vec2(6, -42),
-          new Vec2(6, -27),
-          new Vec2(-6, -27),
-          new Vec2(-6.000000000000001, -42),
-          new Vec2(-17, -42),
-          new Vec2(-16.999999999999996, -8),
-          new Vec2(17, -8.000000000000004),
-          new Vec2(-4, -21),
-          new Vec2(3.9999999999999996, -21),
-          new Vec2(4, -13),
-          new Vec2(-4, -13),
-          new Vec2(-77, -77)
-          };
+        if(WriteTests) TestData.Make("ExpandComplexExp1", pts);
+        var exp = UnitTestData.ExpandComplexExp1;
         Assert.AreEqual(pts.Length, exp.Length);
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
         Assert.DoesNotThrow(() => (obs).Validate());

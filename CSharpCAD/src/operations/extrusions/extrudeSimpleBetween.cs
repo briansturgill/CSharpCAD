@@ -18,8 +18,8 @@ public static partial class CSCAD
     internal static Geom3 ExtrudeSimpleBetween(Geom2 top, Geom2 bottom, double height = 1,
         double? center_z = null)
     {
-        if (!top.HasOnlyOnePath) throw new ArgumentException("Top geometry must have one path (no cutouts).");
-        if (!bottom.HasOnlyOnePath) throw new ArgumentException("Bottom geometry must have one path (no cutouts).");
+        if (!top.HasOnlyOneConvexPath) throw new ArgumentException("Top geometry must have one path (no cutouts).");
+        if (!bottom.HasOnlyOneConvexPath) throw new ArgumentException("Bottom geometry must have one path (no cutouts).");
 
         var v2arrayTop = top.ToPoints();
         var v2arrayBottom = bottom.ToPoints();

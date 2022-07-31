@@ -80,7 +80,7 @@ public static partial class CSCAD
         ConvertToContinuousPath(svg, outlines, offset, color);
     }
 
-    private static void ConvertToContinuousPath(StringBuilder svg, List<List<Vec2>> paths, Vec2 offset, string color)
+    private static void ConvertToContinuousPath(StringBuilder svg, Vec2[][] paths, Vec2 offset, string color)
     {
         svg.Append($"<g><path fill=\"{color}\" d=\"");
         foreach (var path in paths)
@@ -90,13 +90,13 @@ public static partial class CSCAD
         svg.Append("\"/></g>\n");
     }
 
-    private static void ConvertPath(StringBuilder svg, List<Vec2> points, Vec2 offset, bool isClosed)
+    private static void ConvertPath(StringBuilder svg, Vec2[] points, Vec2 offset, bool isClosed)
     {
-        var numpointsClosed = points.Count + (isClosed ? 1 : 0);
+        var numpointsClosed = points.Length + (isClosed ? 1 : 0);
         for (var pointindex = 0; pointindex < numpointsClosed; pointindex++)
         {
             var pointindexwrapped = pointindex;
-            if (pointindexwrapped >= points.Count) pointindexwrapped -= points.Count;
+            if (pointindexwrapped >= points.Length) pointindexwrapped -= points.Length;
             var point = points[pointindexwrapped];
             var offpoint = new Vec2(point.X + offset.X, point.Y + offset.Y);
             var svgpoint = Reflect(offpoint.X, offpoint.Y, 0, 0);

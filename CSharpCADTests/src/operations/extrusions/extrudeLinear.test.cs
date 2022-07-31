@@ -57,6 +57,7 @@ public class ExtrudeLinearTests
         var geometry3 = ExtrudeLinear(geometry2, height: 15, twistAngle: -45);
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
+        if (WriteTests) TestData.Make("ExtrudeLinearTwistExp", pts);
         var exp = UnitTestData.ExtrudeLinearTwistExp;
         Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
@@ -64,6 +65,7 @@ public class ExtrudeLinearTests
         geometry3 = ExtrudeLinear(geometry2, height: 15, twistAngle: 90, twistSteps: 3);
         Assert.DoesNotThrow(() => geometry3.Validate());
         pts = geometry3.ToPoints();
+        if (WriteTests) TestData.Make("ExtrudeLinearTwistExp2", pts);
         exp = UnitTestData.ExtrudeLinearTwistExp2;
         Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
@@ -81,6 +83,7 @@ public class ExtrudeLinearTests
         var geometry3 = ExtrudeLinear(geometry2, height: 15);
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
+        if (WriteTests) TestData.Make("ExtrudeLinearHolesExp", pts);
         var exp = UnitTestData.ExtrudeLinearHolesExp;
         Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));

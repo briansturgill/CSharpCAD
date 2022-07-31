@@ -29,16 +29,8 @@ public class UnionTests
         Geom2 result1 = Union(geometry1);
         Assert.DoesNotThrow(() => result1.Validate());
         var obs = result1.ToPoints();
-        var exp = new Vec2[] {
-        new Vec2(2, 0),
-        new Vec2(1.4142000000000001, 1.4142000000000001),
-        new Vec2(0, 2),
-        new Vec2(-1.4142000000000001, 1.4142000000000001),
-        new Vec2(-2, 0),
-        new Vec2(-1.4142000000000001, -1.4142000000000001),
-        new Vec2(0, -2),
-        new Vec2(1.4142000000000001, -1.4142000000000001)
-      };
+        if(WriteTests) TestData.Make("UnionGeom2Exp1", obs);
+        var exp = UnitTestData.UnionGeom2Exp1;
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // union of two non-overlapping objects
@@ -49,20 +41,8 @@ public class UnionTests
         var result2 = Union(geometry1, geometry2);
         Assert.DoesNotThrow(() => result2.Validate());
         obs = result2.ToPoints();
-        exp = new Vec2[] {
-        new Vec2(2, 0),
-        new Vec2(1.4142000000000001, 1.4142000000000001),
-        new Vec2(0, 2),
-        new Vec2(-1.4142000000000001, 1.4142000000000001),
-        new Vec2(-2, 0),
-        new Vec2(-1.4142000000000001, -1.4142000000000001),
-        new Vec2(0, -2),
-        new Vec2(8, 12),
-        new Vec2(8, 8),
-        new Vec2(12, 8),
-        new Vec2(12, 12),
-        new Vec2(1.4142000000000001, -1.4142000000000001)
-      };
+        if(WriteTests) TestData.Make("UnionGeom2Exp2", obs);
+        exp = UnitTestData.UnionGeom2Exp2;
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // union of two partially overlapping objects
@@ -72,47 +52,34 @@ public class UnionTests
         var result3 = Union(geometry2, geometry3);
         Assert.DoesNotThrow(() => result3.Validate());
         obs = result3.ToPoints();
-        exp = new Vec2[] {
-          new Vec2(11.999973333333333, 11.999973333333333),
-          new Vec2(7.999933333333333, 11.999973333333333),
-          new Vec2(9.000053333333334, 7.999933333333333),
-          new Vec2(-9.000053333333334, 9.000053333333334),
-          new Vec2(-9.000053333333334, -9.000053333333334),
-          new Vec2(9.000053333333334, -9.000053333333334),
-          new Vec2(7.999933333333333, 9.000053333333334),
-          new Vec2(11.999973333333333, 7.999933333333333)
-        };
+        if(WriteTests) TestData.Make("UnionGeom2Exp3", obs);
+        exp = UnitTestData.UnionGeom2Exp3;
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // union of two completely overlapping objects
         var result4 = Union(geometry1, geometry3);
         Assert.DoesNotThrow(() => result4.Validate());
         obs = result4.ToPoints();
-        exp = new Vec2[] {
-            new Vec2(-9.000046666666666, -9.000046666666666),
-            new Vec2(9.000046666666666, -9.000046666666666),
-            new Vec2(9.000046666666666, 9.000046666666666),
-            new Vec2(-9.000046666666666, 9.000046666666666)
-          };
+        if(WriteTests) TestData.Make("UnionGeom2Exp4", obs);
+        exp = UnitTestData.UnionGeom2Exp4;
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
 
         // union of unions of non-overlapping objects (BSP gap from #907)
         var circ = Circle(radius: 1, segments: 32);
         Assert.DoesNotThrow(() => circ.Validate());
         var result5 = Union(
-          Union(
+          Union2(
             Translate(new Vec2(17, 21), circ),
             Translate(new Vec2(7, 0), circ)
           ),
-          Union(
+          Union2(
             Translate(new Vec2(3, 21), circ),
             Translate(new Vec2(17, 21), circ)
           )
         );
         obs = result5.ToPoints();
-        // LATER JSCAD - The two assertions being worked on.
-        // Assert.Throws(typeof(ValidationException), () => result5.Validate());
-        // Assert.AreEqual(obs.Length, 112);
+        Assert.DoesNotThrow(() => result5.Validate());
+        Assert.AreEqual(obs.Length, 32);
     }
 
     [Test]
@@ -176,73 +143,5 @@ public class UnionTests
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
         Assert.AreEqual(pts.Count, 6); // number of polygons in union
-    }
-
-    [Test]
-    public void TestUnionGeom2WithClosingIssues()
-    {
-        var c = new Geom2(new Geom2.Side[] {
-        new Geom2.Side(new Vec2(-45.82118740347841168159, -16.85726810555620147625), new Vec2(-49.30331715865012398581, -14.68093629710870118288)),
-        new Geom2.Side(new Vec2(-49.10586702080816223770, -15.27604177352110781385), new Vec2(-48.16645938811709015681, -15.86317173589183227023)),
-        new Geom2.Side(new Vec2(-49.60419521731581937729, -14.89550781504266296906), new Vec2(-49.42407001323204696064, -15.67605088949303393520)),
-        new Geom2.Side(new Vec2(-49.05727291218684626983, -15.48661638542171203881), new Vec2(-49.10586702080816223770, -15.27604177352110781385)),
-        new Geom2.Side(new Vec2(-49.30706235399220815907, -15.81529674600091794900), new Vec2(-46.00505780290426827150, -17.21108547999804727624)),
-        new Geom2.Side(new Vec2(-46.00505780290426827150, -17.21108547999804727624), new Vec2(-45.85939703723252591772, -17.21502856394236857795)),
-        new Geom2.Side(new Vec2(-45.85939703723252591772, -17.21502856394236857795), new Vec2(-45.74972032664388166268, -17.11909303495791334626)),
-        new Geom2.Side(new Vec2(-45.74972032664388166268, -17.11909303495791334626), new Vec2(-45.73424573227583067592, -16.97420292661295349035)),
-        new Geom2.Side(new Vec2(-45.73424573227583067592, -16.97420292661295349035), new Vec2(-45.82118740347841168159, -16.85726810555620147625)),
-        new Geom2.Side(new Vec2(-49.30331715865012398581, -14.68093629710870118288), new Vec2(-49.45428884427643367871, -14.65565769658912387285)),
-        new Geom2.Side(new Vec2(-49.45428884427643367871, -14.65565769658912387285), new Vec2(-49.57891661679624917269, -14.74453612941635327616)),
-        new Geom2.Side(new Vec2(-49.57891661679624917269, -14.74453612941635327616), new Vec2(-49.60419521731581937729, -14.89550781504266296906)),
-        new Geom2.Side(new Vec2(-49.42407001323204696064, -15.67605088949303393520), new Vec2(-49.30706235399220815907, -15.81529674600091794900)),
-        new Geom2.Side(new Vec2(-48.16645938811709015681, -15.86317173589183227023), new Vec2(-49.05727291218684626983, -15.48661638542171203881))
-      });
-        var d = new Geom2(new Geom2.Side[] {
-        new Geom2.Side(new Vec2(-49.03431352173912216585, -15.58610714407888764299), new Vec2(-49.21443872582289458251, -14.80556406962851667686)),
-        new Geom2.Side(new Vec2(-68.31614651314507113966, -3.10790373951434872879), new Vec2(-49.34036769611472550423, -15.79733157434056778357)),
-        new Geom2.Side(new Vec2(-49.58572929483430868913, -14.97552686612213790340), new Vec2(-49.53755741140093959984, -15.18427183431472826669)),
-        new Geom2.Side(new Vec2(-49.53755741140093959984, -15.18427183431472826669), new Vec2(-54.61235529924312714911, -11.79066769321313756791)),
-        new Geom2.Side(new Vec2(-49.30227466841120076424, -14.68159232649114187552), new Vec2(-68.09792828135776687759, -2.77270756611528668145)),
-        new Geom2.Side(new Vec2(-49.21443872582289458251, -14.80556406962851667686), new Vec2(-49.30227466841120076424, -14.68159232649114187552)),
-        new Geom2.Side(new Vec2(-49.34036769611472550423, -15.79733157434056778357), new Vec2(-49.18823337756091262918, -15.82684012194931710837)),
-        new Geom2.Side(new Vec2(-49.18823337756091262918, -15.82684012194931710837), new Vec2(-49.06069007212390431505, -15.73881563386780157998)),
-        new Geom2.Side(new Vec2(-49.06069007212390431505, -15.73881563386780157998), new Vec2(-49.03431352173912216585, -15.58610714407888764299)),
-        new Geom2.Side(new Vec2(-68.09792828135776687759, -2.77270756611528668145), new Vec2(-68.24753735887460948106, -2.74623350179570024920)),
-        new Geom2.Side(new Vec2(-68.24753735887460948106, -2.74623350179570024920), new Vec2(-68.37258141465594007968, -2.83253376987636329432)),
-        new Geom2.Side(new Vec2(-68.37258141465594007968, -2.83253376987636329432), new Vec2(-68.40089829889257089235, -2.98180502037078554167)),
-        new Geom2.Side(new Vec2(-68.40089829889257089235, -2.98180502037078554167), new Vec2(-68.31614651314507113966, -3.10790373951434872879)),
-        new Geom2.Side(new Vec2(-54.61235529924312714911, -11.79066769321313756791), new Vec2(-49.58572929483430868913, -14.97552686612213790340))
-      });
-        // geom2.toOutlines(c)
-        // geom2.toOutlines(d)
-
-        var obs = Union(c, d);
-        Assert.DoesNotThrow(() => obs.Validate());
-        // var outlines = geom2.toOutlines(obs)
-        var pts = obs.ToPoints();
-        var exp = new Vec2[] {
-        new Vec2(-49.10585516965137, -15.276000175919414),
-        new Vec2(-49.0573272145917, -15.486679335654257),
-        new Vec2(-49.307011370463215, -15.815286644243773),
-        new Vec2(-46.00502320253235, -17.211117609669667),
-        new Vec2(-45.85943933735334, -17.215031154432545),
-        new Vec2(-45.74972963250071, -17.119149307742074),
-        new Vec2(-45.734205904941305, -16.974217700023555),
-        new Vec2(-48.166473975068946, -15.86316234184296),
-        new Vec2(-49.318621553259746, -15.801589237573706),
-        new Vec2(-49.585786209072104, -14.975570389622606),
-        new Vec2(-68.31614189569036, -3.1078763476921982),
-        new Vec2(-49.53751915699663, -15.184292776976012),
-        new Vec2(-68.09789654941396, -2.7727464644978874),
-        new Vec2(-68.24752441084793, -2.7462648116024244),
-        new Vec2(-68.37262739176788, -2.8324932478777995),
-        new Vec2(-68.40093536555268, -2.98186020632758),
-        new Vec2(-54.61234310251047, -11.79072766159384),
-        new Vec2(-49.30335872868453, -14.680880468978017),
-        new Vec2(-49.34040695243976, -15.797284338334542),
-        new Vec2(-45.82121705016925, -16.857333163105647)
-      };
-        Assert.AreEqual(pts.Length, 20); // number of sides in union
-        Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
     }
 }

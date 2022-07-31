@@ -33,12 +33,12 @@ public static partial class CSCAD
      * @return {Integer} 1 if all points are inside, 0 if some or none are inside
      * @alias module:modeling/geometries/poly2.arePointsInside
      */
-    internal static int ArePointsInside(List<Vec2> points, List<Vec2> polygon)
+    internal static int ArePointsInside(Vec2[] points, Vec2[] polygon)
     {
-        if (points.Count == 0) return 0; // nothing to check
+        if (points.Length== 0) return 0; // nothing to check
 
         var vertices = polygon;
-        if (vertices.Count < 3) return 0; // nothing can be inside an empty polygon
+        if (vertices.Length < 3) return 0; // nothing can be inside an empty polygon
 
 /*
         if (AreaVec2(polygon) < 0)
@@ -52,7 +52,7 @@ public static partial class CSCAD
         {
             sum += IsPointInside(point, vertices);
         }
-        return sum == points.Count ? 1 : 0;
+        return sum == points.Length ? 1 : 0;
     }
 
     /*
@@ -63,9 +63,9 @@ public static partial class CSCAD
      * @param {Array} polygon - a list of points, where each point is an array with X and Y values
      * @return {Integer} 1 if the point is inside, 0 if outside
      */
-    internal static int IsPointInside(Vec2 point, List<Vec2> polygon)
+    internal static int IsPointInside(Vec2 point, Vec2[] polygon)
     {
-        var numverts = polygon.Count;
+        var numverts = polygon.Length;
 
         var tx = point.X;
         var ty = point.Y;

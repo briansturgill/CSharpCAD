@@ -3,14 +3,16 @@ namespace CSharpCAD;
 /// <summary>Represents a 2D geometry consisting of an array of sides.</summary>
 public class Geom2 : Geometry
 {
-    private Side[] sides;
+    private NRTree nrtree;
+    private Vec2[][]? outlines = null;
+    private Side[]? sides = null;
     private Mat4 transforms;
-    private (Vec2, Vec2)? boundingBox;
-    private bool needsTransform;
+    private (Vec2, Vec2)? boundingBox = null;
+    private bool needsTransform = false;
     ///
     public Mat4 Transforms { get => this.transforms; }
     ///
-    public Color? Color;
+    public Color? Color = null;
 
     /// <summary>Is this a 2D geometry object?</summary>
     public override bool Is2D => true;
@@ -21,21 +23,31 @@ public class Geom2 : Geometry
     /// <summary>Empty constructor.</summary>
     public Geom2()
     {
-        this.sides = new Side[0];
+        this.nrtree = new NRTree();
         this.transforms = new Mat4();
-        this.Color = null;
-        this.needsTransform = false;
-        this.boundingBox = null;
     }
 
     // Internal constructor.
-    internal Geom2(Side[] sides, Mat4? transforms = null, Color? Color = null, bool needsTransform = false)
+    internal Geom2(NRTree nrtree, Mat4? transforms = null, Color? Color = null, bool needsTransform = false)
     {
-        this.sides = sides;
+        this.nrtree = nrtree;
         this.transforms = transforms ?? new Mat4();
         this.Color = Color;
         this.needsTransform = needsTransform;
-        this.boundingBox = null;
+        if (GlobalParams.CheckingEnabled)
+        {
+            this.Validate();
+        }
+    }
+
+    // Internal constructor.
+    // Will hopefully become obsolete.
+    internal Geom2(Side[] sides, Mat4? transforms = null, Color? Color = null, bool needsTransform = false)
+    {
+        this.nrtree = SidesToNRTree(sides);
+        this.transforms = transforms ?? new Mat4();
+        this.Color = Color;
+        this.needsTransform = needsTransform;
         if (GlobalParams.CheckingEnabled)
         {
             this.Validate();
@@ -57,24 +69,9 @@ public class Geom2 : Geometry
         {
             throw new ArgumentException("The given points must define a closed geometry with three or more points.");
         }
-        // adjust length if the given points are closed by the same point
-        if (points[0].IsNearlyEqual(points[length - 1])) { --length; }
-
-        var sides = new Side[length];
-
-        var prevpoint = points[length - 1];
-
-        for (var i = 0; i < length; i++)
-        {
-            var point = points[i];
-            sides[i] = new Side(prevpoint, point);
-            prevpoint = point;
-        }
-        this.sides = sides;
-        this.Color = null;
+        this.nrtree = new NRTree();
+        this.nrtree.Insert(points.ToArray());
         this.transforms = new Mat4();
-        this.needsTransform = false;
-        this.boundingBox = null;
         if (GlobalParams.CheckingEnabled)
         {
             this.Validate();
@@ -89,28 +86,15 @@ public class Geom2 : Geometry
      * The geometry must not self intersect, i.e. the sides cannot cross.
      * </remarks>
      */
-    public Geom2(Vec2[] points)
+    internal Geom2(Vec2[] points)
     {
         var length = points.Length;
         if (length < 3)
         {
             throw new ArgumentException("The given points must define a closed geometry with three or more points.");
         }
-        // adjust length if the given points are closed by the same point
-        if (points[0].IsNearlyEqual(points[length - 1])) { --length; }
-
-        var sides = new Side[length];
-
-        var prevpoint = points[length - 1];
-
-        for (var i = 0; i < length; i++)
-        {
-            var point = points[i];
-            sides[i] = new Side(prevpoint, point);
-            prevpoint = point;
-        }
-        this.sides = sides;
-        this.Color = null;
+        this.nrtree = new NRTree();
+        this.nrtree.Insert(points);
         this.transforms = new Mat4();
         if (GlobalParams.CheckingEnabled)
         {
@@ -121,16 +105,9 @@ public class Geom2 : Geometry
     /// <summary>Check if this geometry is equal to the given geometry.</summary>
     public bool Equals(Geom2 gg)
     {
-        if (this.sides.Length != gg.sides.Length)
+        if (!this.nrtree.Equals(gg.nrtree))
         {
             return false;
-        }
-        for (var i = 0; i < sides.Length; i++)
-        {
-            if (this.sides[i] != gg.sides[i])
-            {
-                return false;
-            }
         }
         if (this.transforms != gg.transforms)
         {
@@ -165,54 +142,22 @@ public class Geom2 : Geometry
     /// <summary>Standard C# override.</summary>
     public override int GetHashCode()
     {
-        return sides.GetHashCode() ^ transforms.GetHashCode() ^ Color.GetHashCode();
+        return nrtree.GetHashCode() ^ transforms.GetHashCode() ^ Color.GetHashCode();
     }
 
     /// <summary>Standard C# override.</summary>
 	public override string ToString()
     {
         var s = new StringBuilder();
-        s.Append("Geom2(\n");
-        foreach (var side in this.sides)
-        {
-            s.Append($"({side.v0}, {side.v1})\n");
-        }
+        s.AppendLine("Geom2");
+        s.Append(nrtree.ToString());
         s.Append($"{this.transforms}\n");
         s.Append($"{this.Color}\n");
         return s.ToString();
     }
 
-    /// <summary>Used mostly for testing.</summary>
-    public bool IsNearlyEqual(Geom2 gg)
-    {
-        if (this.sides.Length != gg.sides.Length)
-        {
-            return false;
-        }
-        for (var i = 0; i < sides.Length; i++)
-        {
-            var this_side = this.sides[i];
-            var gg_side = gg.sides[i];
-            if (!this_side.v0.IsNearlyEqual(gg_side.v0))
-            {
-                return false;
-            }
-            if (!this_side.v1.IsNearlyEqual(gg_side.v1))
-            {
-                return false;
-            }
-        }
-        if (!this.transforms.IsNearlyEqual(gg.transforms))
-        {
-            return false;
-        }
-        return this.Color == gg.Color; // LATER is this wise?
-    }
-
-
-
     /// <summary>Apply the transforms of the given geometry.</summary>
-    /// <remarks>NOTE: This function must be called BEFORE exposing any data. See ToSides().</remarks>
+    /// <remarks>NOTE: This function must be called BEFORE exposing any data.</remarks>
     public Geom2 ApplyTransforms()
     {
         if (!this.needsTransform) return this;
@@ -221,14 +166,7 @@ public class Geom2 : Geometry
             return this;
         }
 
-        // apply transforms to each side
-        for (var i = 0; i < this.sides.Length; i++)
-        {
-            var side = sides[i];
-            var p0 = side.v0.Transform(this.transforms);
-            var p1 = side.v1.Transform(this.transforms);
-            this.sides[i] = new Side(p0, p1);
-        }
+        this.nrtree.Transform(this.transforms);
         this.transforms = new Mat4();
         this.needsTransform = false;
         return this;
@@ -239,26 +177,8 @@ public class Geom2 : Geometry
     {
         if (this.boundingBox is not null) return ((Vec2, Vec2))this.boundingBox;
         this.ApplyTransforms();
-        if (sides.Length == 0)
-        {
-            return (new Vec2(), new Vec2());
-        }
-        var p = sides[0].v0;
-        var min_x = p.X;
-        var min_y = p.Y;
-        var max_x = min_x;
-        var max_y = min_y;
 
-        foreach (var side in this.sides)
-        {
-            var p0 = side.v0;
-            if (p0.X < min_x) min_x = p0.X;
-            if (p0.Y < min_y) min_y = p0.Y;
-            if (p0.X > max_x) max_x = p0.X;
-            if (p0.Y > max_y) max_y = p0.Y;
-        }
-
-        var bb = (new Vec2(min_x, min_y), new Vec2(max_x, max_y));
+        var bb = this.nrtree.BoundingBox();
         this.boundingBox = bb;
         return bb;
     }
@@ -266,12 +186,12 @@ public class Geom2 : Geometry
     /// <summary>Return a clone of this geometry.</summary>
     public Geom2 Clone()
     {
-        // Sides, transforms and Color are immutable, so don't need to be explicitly copied.
-        return new Geom2(this.sides.ToArray(), this.transforms, this.Color, this.needsTransform);
+        // Transforms and Color are immutable, so don't need to be explicitly copied.
+        return new Geom2(this.nrtree.Clone(), this.transforms, this.Color, this.needsTransform);
     }
 
     /// <summary>Check that this geometry has only one connected path. (No cutouts.)</summary> 
-    public bool HasOnlyOnePath { get => sides.Length > 0 ? (sides[0].v0 == sides[sides.Length - 1].v1) : false; }
+    public bool HasOnlyOneConvexPath { get => this.nrtree.HasOnlyOneConvexPath(); }
 
     /// <summary>Measure the epsilon of this geometry object.</summary>
     public double MeasureEpsilon()
@@ -283,101 +203,31 @@ public class Geom2 : Geometry
         return C.EPS * total / 2; /*dimensions*/
     }
 
-    /// <summary>Return a List&lt;List&lt;List&lt;Vec2&gt;&gt;&gt; as used in GEOJSON Multipolygon.</summary>
-    public List<List<List<Vec2>>> ToMultiPolygon()
+    /// <summary>Create the outline(s) of the given geometry.</summary>
+    /// <remarks>ToOutlines is more efficient that ToOutLinesLLV.</remarks>
+    public List<List<Vec2>> ToOutlinesLLV()
     {
-        var multipoly = new List<List<List<Vec2>>>();
-        (Vec2, Vec2) bbox(List<Vec2> lv)
-        {
-            if (lv.Count == 0) return (new Vec2(), new Vec2());
-            var min = lv[0];
-            var max = min;
-            for (var i = 0; i < lv.Count; i++)
-            {
-                min = min.Min(lv[i]);
-                max = max.Max(lv[i]);
-            }
-            return (min, max);
-        }
-        // less than zero, ccw; greater than zero cw;
-        double winding(List<Vec2> lv)
-        {
-            var winding = 0.0;
-            var len = lv.Count;
-            for (var i = 0; i < len; i++)
-            {
-                winding += (lv[(i + 1) % len].X - lv[i].X) * (lv[(i + 1) % len].Y + lv[i].Y);
-            }
-            if (Equalish(winding, 0.0)) throw new ValidationException("2D Polygon winding == 0");
-            return winding;
-        }
-        bool bbcontains((Vec2, Vec2) a, (Vec2, Vec2) b)
-        {
-            var (a_min, a_max) = a;
-            var (b_min, b_max) = b;
-            return (a_min.X < b_min.X && a_min.Y < b_min.Y && a_max.X > b_max.X && a_max.Y > b_max.Y);
-        }
-
-        var polys = this.ToOutlines();
-        if (polys.Count == 0)
-        {
-            multipoly.Add(new List<List<Vec2>>() { new List<Vec2>(0) });
-            return multipoly;
-        }
-
-        var shapes = new List<((Vec2, Vec2), List<List<Vec2>>)>();
-        var holes = new List<((Vec2, Vec2), List<Vec2>)>();
-        foreach (var poly in polys)
-        {
-            if (winding(poly) < 0.0) // ccw -- shape
-            {
-                shapes.Add((bbox(poly), new List<List<Vec2>> { poly }));
-            }
-            else // cw -- hole
-            {
-                holes.Add((bbox(poly), poly));
-            }
-            poly.Add(poly[0]); // Close LinearRing.
-        }
-
-        int cmpShapes(((Vec2, Vec2), List<List<Vec2>>) a, ((Vec2, Vec2), List<List<Vec2>>) b)
-        {
-            var (a_bb, _) = a;
-            var (b_bb, _) = b;
-            if (bbcontains(a_bb, b_bb)) return 1;
-            if (bbcontains(b_bb, a_bb)) return -1;
-            return 0; // We want to sort reversed so that smallest is first.
-        }
-        // We sort shapes by smallest, so the first contain a hole is the correct match.
-        shapes.Sort(cmpShapes);
-
-        foreach (var hole in holes)
-        {
-            var (h_bb, h_l) = hole;
-            foreach (var shape in shapes)
-            {
-                var (s_bb, s_ll) = shape;
-                if (bbcontains(s_bb, h_bb))
-                {
-                    s_ll.Add(h_l);
-                    break;
-                }
-            }
-        }
-        for (var i = shapes.Count - 1; i >= 0; i--)
-        {
-            var (_, s_ll) = shapes[i];
-            multipoly.Add(s_ll);
-        }
-        return multipoly;
+        ApplyTransforms();
+        var _outlines = nrtree.ToOutlinesLLV();
+        return _outlines;
     }
 
+    /// <summary>Create the outline(s) of the given geometry.</summary>
+    public Vec2[][] ToOutlines()
+    {
+        ApplyTransforms();
+        if (outlines is null)
+        {
+            outlines = nrtree.ToOutlines();
+        }
+        return outlines;
+    }
 
     /// <summary>Create the outline(s) of the given geometry.</summary>
-    public List<List<Vec2>> ToOutlines(bool doTransformsFirst = true)
+    internal NRTree SidesToNRTree(Side[] sides)
     {
         var vertexMap = new Dictionary<Vec2, List<Side>>();
-        var edges = doTransformsFirst ? this.ToSides() : this.sides;
+        var edges = sides;
         foreach (var edge in edges)
         {
             List<Side>? sideslist;
@@ -468,22 +318,18 @@ public class Geom2 : Geometry
             }
             outlines.Add(connectedVertexPoints);
         } // outer loop
-        vertexMap.Clear();
-        return outlines;
+        var nrt = new Geom2.NRTree();
+        foreach (var outline in outlines)
+        {
+            nrt.Insert(outline.ToArray());
+        }
+        return nrt;
     }
 
     /// <summary>Reverses the given geometry so that the sides are flipped in the opposite order.</summary>
     public Geom2 Reverse()
     {
-        var oldsides = this.ToSides();
-        var len = oldsides.Length;
-        var newsides = new Side[len];
-        for (var i = 0; i < len; i++)
-        {
-            var side = oldsides[i];
-            newsides[len - i - 1] = new Side(side.v1, side.v0);
-        }
-        return new Geom2(newsides, new Mat4(), Color);
+        return new Geom2(nrtree.Reverse(), transforms, Color, needsTransform);
     }
 
     /**
@@ -494,22 +340,8 @@ public class Geom2 : Geometry
      */
     public Vec2[] ToPoints()
     {
-        var sides = ToSides();
-        var points = new List<Vec2>(sides.Length + 1);
-        foreach (var side in sides)
-        {
-            var p0 = side.v0;
-            points.Add(p0);
-        }
-        // due to the logic of fromPoints()
-        // move the first point to the last
-        if (points.Count > 0)
-        {
-            var first = points[0];
-            points.Add(first);
-            points.RemoveAt(0);
-        }
-        return points.ToArray();
+        this.ApplyTransforms();
+        return nrtree.ToPoints();
     }
 
     /*
@@ -521,7 +353,23 @@ public class Geom2 : Geometry
      */
     internal Side[] ToSides()
     {
-        return this.ApplyTransforms().sides;
+        if (this.sides is not null) return sides;
+        var ls = new List<Side>();
+        var outlines = ToOutlines();
+        foreach (var outline in outlines)
+        {
+            var len = outline.Length;
+            if (len > 1 && outline[0] == outline[len - 1]) len--;
+            var prevpoint = outline[len - 1];
+            for (var i = 0; i < len; i++)
+            {
+                var point = outline[i];
+                ls.Add(new Side(prevpoint, point));
+                prevpoint = point;
+            }
+        }
+        sides = ls.ToArray();
+        return sides;
     }
 
     /**
@@ -534,7 +382,7 @@ public class Geom2 : Geometry
     public Geom2 Transform(Mat4 matrix)
     {
         var transforms = matrix.Multiply(this.transforms);
-        return new Geom2(this.sides.ToArray(), transforms, this.Color, needsTransform: true);
+        return new Geom2(this.nrtree.Clone(), transforms, this.Color, needsTransform: true);
     }
 
     // Internal class.
@@ -598,11 +446,41 @@ public class Geom2 : Geometry
         internal Vec2 Min; // BoundingBox of points
         internal Vec2 Max;
         internal List<NRTreeNode> Contained;
+
         internal NRTreeNode(Vec2[] points)
         {
             Points = points;
             bbox(points);
             Contained = new List<NRTreeNode>();
+        }
+
+        private NRTreeNode(Vec2[] points, Vec2 min, Vec2 max, List<NRTreeNode> contained)
+        {
+            this.Points = points;
+            this.Min = min;
+            this.Max = max;
+            var len = contained.Count;
+            this.Contained = new List<NRTreeNode>(contained.Count);
+            for (var i = 0; i < len; i++)
+            {
+                this.Contained.Add(contained[i].Clone());
+            }
+        }
+
+        internal bool Equals(NRTreeNode gn)
+        {
+            var len = this.Points.Length;
+            if (len != gn.Points.Length) return false;
+            for (var i = 0; i < len; i++)
+            {
+                if (this.Points[i] != gn.Points[i]) return false;
+            }
+            return true;
+        }
+
+        internal NRTreeNode Clone()
+        {
+            return new NRTreeNode(Points.ToArray(), Min, Max, Contained);
         }
 
         private void bbox(Vec2[] poly)
@@ -630,7 +508,7 @@ public class Geom2 : Geometry
         Nodes at level 0 are the exterior shapes.
         Nodes at level 1 are the first level holes.
         Nodes at level 2 are the first level of interior shapes.
-        Nodes at level 4 are the second level of holes.
+        Nodes at level 3 are the second level of holes.
         ...
     */
     internal class NRTree // Nested Ring Tree
@@ -641,6 +519,38 @@ public class Geom2 : Geometry
         {
             Root = new NRTreeNode(new Vec2[0]);
             NodeCount = 0;
+        }
+
+        private NRTree(NRTreeNode root, int count)
+        {
+            Root = root;
+            NodeCount = count;
+        }
+
+        internal bool Equals(NRTree gt)
+        {
+            if (this.NodeCount != gt.NodeCount) return false;
+            return _equals(this.Root, gt.Root);
+        }
+
+        private bool _equals(NRTreeNode a, NRTreeNode b)
+        {
+            foreach (var an in a.Contained)
+            {
+                foreach (var bn in b.Contained)
+                {
+                    if (!an.Equals(bn)) return false;
+                    if (!_equals(an, bn)) return false;
+                }
+            }
+            return true;
+        }
+
+        internal bool HasOnlyOneConvexPath()
+        {
+            bool hasOnlyOnePath = this.Root.Contained.Count == 1 && this.Root.Contained[0].Contained.Count == 0;
+            // LATER need to check convex;
+            return hasOnlyOnePath;
         }
 
         internal (Vec2, Vec2) BoundingBox()
@@ -692,6 +602,42 @@ public class Geom2 : Geometry
             parent.Contained.Add(child);
         }
 
+        internal NRTree Reverse()
+        {
+            var clone = this.Clone();
+            _reverse(clone.Root);
+            return clone;
+        }
+
+        private void _reverse(NRTreeNode parent)
+        {
+            foreach (var n in parent.Contained)
+            {
+                Array.Reverse(n.Points);
+                _reverse(n);
+            }
+        }
+
+        internal void Transform(Mat4 mat)
+        {
+            _transform(this.Root, mat);
+        }
+
+        private void _transform(NRTreeNode parent, Mat4 mat)
+        {
+            foreach (var n in parent.Contained)
+            {
+                var pts = n.Points;
+                var len = pts.Length;
+                for (var i = 0; i < len; i++)
+                {
+                    pts[i] = pts[i].Transform(mat);
+                }
+                _transform(n, mat);
+            }
+        }
+
+        // Only for use by Bridge.cs in polybool.net. MODIFIES existing data!
         internal void ReverseShapes()
         {
             _reverseShapes(this.Root);
@@ -709,19 +655,89 @@ public class Geom2 : Geometry
             }
         }
 
-        internal List<List<Vec2>> ToOutlines()
+        internal Vec2[] ToPoints()
+        {
+            var lv = new List<Vec2>();
+            _toPoints(this.Root, lv);
+            return lv.ToArray();
+        }
+
+        private void _toPoints(NRTreeNode parent, List<Vec2> lv)
+        {
+            var len = parent.Contained.Count;
+            var contained = parent.Contained;
+            for (var i = 0; i < len; i++)
+            {
+                var n = contained[i];
+                lv.AddRange(n.Points);
+                _toPoints(n, lv);
+            }
+        }
+
+        internal Vec2[][] ToOutlines()
+        {
+            var aav = new Vec2[this.NodeCount][];
+            var aav_idx = 0;
+            _toOutlines(this.Root, aav, ref aav_idx);
+            return aav;
+        }
+
+        private void _toOutlines(NRTreeNode parent, Vec2[][] aav, ref int aav_idx)
+        {
+            var len = parent.Contained.Count;
+            var contained = parent.Contained;
+            for (var i = 0; i < len; i++)
+            {
+                var n = contained[i];
+                aav[aav_idx++] = n.Points;
+                _toOutlines(n, aav, ref aav_idx);
+            }
+        }
+
+        internal List<List<Vec2>> ToOutlinesLLV()
         {
             var llv = new List<List<Vec2>>(this.NodeCount);
-            _toOutlines(this.Root, llv);
+            _toOutlinesLLV(this.Root, llv);
             return llv;
         }
 
-        private void _toOutlines(NRTreeNode parent, List<List<Vec2>> llv)
+        private void _toOutlinesLLV(NRTreeNode parent, List<List<Vec2>> llv)
         {
-            foreach (var n in parent.Contained)
+            var len = parent.Contained.Count;
+            var contained = parent.Contained;
+            for (var i = 0; i < len; i++)
             {
+                var n = contained[i];
                 llv.Add(n.Points.ToList());
-                _toOutlines(n, llv);
+                _toOutlinesLLV(n, llv);
+            }
+        }
+
+        internal NRTree Clone()
+        {
+            return new NRTree(this.Root.Clone(), this.NodeCount);
+        }
+
+        internal void Validate()
+        {
+            _validate(this.Root);
+        }
+
+        private void _validate(NRTreeNode parent)
+        {
+            // check for self-edges
+            foreach (var child in parent.Contained)
+            {
+                var len = child.Points.Length;
+                for (var i = 0; i < len; i++)
+                {
+                    var j = i + 1 >= len ? 0 : i + 1;
+                    if (child.Points[i].IsNearlyEqual(child.Points[j]))
+                    {
+                        throw new ValidationException($"Geom2 self-edge {child.Points[i]}");
+                    }
+                }
+                _validate(child);
             }
         }
 
@@ -774,17 +790,7 @@ public class Geom2 : Geometry
      */
     public override void Validate()
     {
-        // check for closedness
-        this.ToOutlines(false);
-
-        // check for self-edges
-        foreach (var side in sides)
-        {
-            if (side.v0.IsNearlyEqual(side.v1))
-            {
-                throw new ValidationException($"Geom2 self-edge {side.v0}");
-            }
-        }
+        nrtree.Validate();
 
         // check transforms
         this.transforms.Validate();

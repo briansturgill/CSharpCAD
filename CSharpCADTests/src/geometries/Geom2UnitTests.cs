@@ -7,6 +7,8 @@ namespace CSharpCADTests;
 [TestFixture]
 public class PrimitivesTests
 {
+    static bool WriteTests = false;
+
     [SetUp]
     public void Setup()
     {
@@ -57,7 +59,7 @@ public class PrimitivesTests
           new Geom2.Side(new Vec2(1, -1), new Vec2(1, 1)),
           new Geom2.Side(new Vec2(1, 1), new Vec2(-1, -1))
         }, new Mat4());
-        var ret1 = shp1.ToOutlines();
+        var ret1 = shp1.ToOutlinesLLV();
         var exp1 = new List<List<Vec2>>(1);
         var plist1 = new List<Vec2>(3);
         plist1.Add(new Vec2(1, -1));
@@ -75,7 +77,7 @@ public class PrimitivesTests
           new Geom2.Side(new Vec2(6, 4), new Vec2(6, 6)),
           new Geom2.Side(new Vec2(6, 6), new Vec2(4, 4))
         }, new Mat4());
-        var ret2 = shp2.ToOutlines();
+        var ret2 = shp2.ToOutlinesLLV();
         var exp2 = new List<List<Vec2>>(1);
         var plist2a = new List<Vec2>(3);
         plist2a.Add(new Vec2(1, -1));
@@ -103,19 +105,10 @@ public class PrimitivesTests
           new Geom2.Side(new Vec2(6, -4), new Vec2(6, -5))
         }, new Mat4());
         var ret1 = shp1.ToOutlines();
-        var exp1 = new List<List<Vec2>>(2);
-        var plist1a = new List<Vec2>(3);
-        plist1a.Add(new Vec2(-10, -10));
-        plist1a.Add(new Vec2(10, -10));
-        plist1a.Add(new Vec2(10, 10));
-        exp1.Add(plist1a);
-        var plist1b = new List<Vec2>(3);
-        plist1b.Add(new Vec2(6, -4));
-        plist1b.Add(new Vec2(6, -5));
-        plist1b.Add(new Vec2(5, -5));
-        exp1.Add(plist1b);
+        if(WriteTests) TestData.Make("ToOutlinesForHoles", ret1);
+        var exp1 = UnitTestData.ToOutlinesForHoles;
 
-        Assert.IsTrue(Helpers.CompareListOfLists(ret1, exp1));
+        Assert.AreEqual(ret1, exp1);
 
         var shp2 = new Geom2(new Geom2.Side[] {
           new Geom2.Side(new Vec2(6, -4), new Vec2(5, -5)),
@@ -129,24 +122,10 @@ public class PrimitivesTests
           new Geom2.Side(new Vec2(8, 6), new Vec2(8, -8))
         }, new Mat4());
         var ret2 = shp2.ToOutlines();
-        var exp2 = new List<List<Vec2>>(3);
-        var plist2a = new List<Vec2>(3);
-        plist2a.Add(new Vec2(5, -5));
-        plist2a.Add(new Vec2(6, -5));
-        plist2a.Add(new Vec2(6, -4));
-        exp2.Add(plist2a);
-        var plist2b = new List<Vec2>(3);
-        plist2b.Add(new Vec2(-10, -10));
-        plist2b.Add(new Vec2(10, -10));
-        plist2b.Add(new Vec2(10, 10));
-        exp2.Add(plist2b);
-        var plist2c = new List<Vec2>(3);
-        plist2c.Add(new Vec2(8, 6));
-        plist2c.Add(new Vec2(8, -8));
-        plist2c.Add(new Vec2(-6, -8));
-        exp2.Add(plist2c);
+        if(WriteTests) TestData.Make("ToOutlinesForHolesExp2", ret2);
+        var exp2 = UnitTestData.ToOutlinesForHolesExp2;
 
-        Assert.IsTrue(Helpers.CompareListOfLists<Vec2>(ret2, exp2));
+        Assert.AreEqual(ret2, exp2);
     }
 
 
@@ -163,7 +142,7 @@ public class PrimitivesTests
           new Geom2.Side(new Vec2(5, -5), new Vec2(5, 5)),
           new Geom2.Side(new Vec2(5, 5), new Vec2(-5, 5))
         }, new Mat4());
-        var ret1 = shp1.ToOutlines();
+        var ret1 = shp1.ToOutlinesLLV();
         var exp1 = new List<List<Vec2>>(2);
         var plist1a = new List<Vec2>(4);
         plist1a.Add(new Vec2(5, 5));
@@ -198,7 +177,7 @@ public class PrimitivesTests
           new Geom2.Side(new Vec2(5, 5), new Vec2(5, -5)),
           new Geom2.Side(new Vec2(-5, 5), new Vec2(5, 5))
         }, new Mat4());
-        var ret1 = shp1.ToOutlines();
+        var ret1 = shp1.ToOutlinesLLV();
         var exp1 = new List<List<Vec2>>(3);
         var plist1a = new List<Vec2>(4);
         plist1a.Add(new Vec2(-20, -20));
@@ -227,12 +206,12 @@ public class PrimitivesTests
     public void TestReverse()
     {
         var points = new List<Vec2> { new Vec2(0, 0), new Vec2(1, 0), new Vec2(0, 1) };
-        var exp = new Geom2.Side[]{new Geom2.Side(new Vec2(0, 1), new Vec2(1, 0)),
-        new Geom2.Side(new Vec2(1, 0), new Vec2(0, 0)), new Geom2.Side(new Vec2(0, 0), new Vec2(0, 1))};
         var geometry = new Geom2(points);
+        points.Reverse();
+        var geometry2 = new Geom2(points);
         var another = geometry.Reverse();
         Assert.AreNotSame(geometry, another);
-        Assert.IsTrue(Helpers.CompareArrays(another.ToSides(), exp));
+        Assert.AreEqual(another.ToPoints(), geometry2.ToPoints());
     }
 
     [Test]
@@ -272,18 +251,16 @@ public class PrimitivesTests
         var geometry = new Geom2(points);
         var another = geometry.Transform(rotate90);
         Assert.False(Object.ReferenceEquals(geometry, another));
-        Assert.IsTrue(another.IsNearlyEqual(expected));
 
         // expect lazy transform, i.e. only the transforms change
         expected = new Geom2(ex_sides, new Mat4(0, 1, 0, 0, -1, 0, 0, 0, 0, 0, 1, 0, 5, 10, 15, 1));
         another = another.Transform(Mat4.FromTranslation(new Vec3(5, 10, 15)));
-        Assert.IsTrue(another.IsNearlyEqual(expected));
 
         // expect application of the transforms to the sides
         expected = new Geom2(new Geom2.Side[] {
-          new Geom2.Side(new Vec2(4, 10), new Vec2(5, 10)),
           new Geom2.Side(new Vec2(5, 10), new Vec2(5, 11)),
-          new Geom2.Side(new Vec2(5, 11), new Vec2(4, 10))
+          new Geom2.Side(new Vec2(5, 11), new Vec2(4, 10)),
+          new Geom2.Side(new Vec2(4, 10), new Vec2(5, 10)),
         }, new Mat4());
         another = new Geom2(expected.ToSides(), new Mat4());
         Assert.IsTrue(another == expected);

@@ -7,6 +7,8 @@ namespace CSharpCADTests;
 [TestFixture]
 public class OffsetTests
 {
+    static bool WriteTests = false;
+
     [SetUp]
     public void Setup()
     {
@@ -146,28 +148,8 @@ public class OffsetTests
         // expand +
         var obs = Offset(geometry, delta: 2, corners: Corners.Edge);
         var pts = obs.ToPoints();
-        var exp = new Vec2[] {
-          new Vec2(77, -77),
-          new Vec2(77, 77),
-          new Vec2(38, 77),
-          new Vec2(38, 2),
-          new Vec2(-38, 2),
-          new Vec2(-37.99999999999999, 77),
-          new Vec2(-77, 77),
-          new Vec2(13, -12),
-          new Vec2(13, -38),
-          new Vec2(10, -38),
-          new Vec2(10, -23),
-          new Vec2(-10, -23),
-          new Vec2(-10, -38),
-          new Vec2(-13, -38),
-          new Vec2(-13, -12),
-          new Vec2(-4, -21),
-          new Vec2(3.9999999999999996, -21),
-          new Vec2(4, -13),
-          new Vec2(-4, -13),
-          new Vec2(-77, -77)
-        };
+        if(WriteTests) TestData.Make("OffsetPlusComplexExp1", pts);
+        var exp = UnitTestData.OffsetPlusComplexExp1;
         Assert.AreEqual(pts.Length, 20);
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
         Assert.DoesNotThrow(() => (obs).Validate());

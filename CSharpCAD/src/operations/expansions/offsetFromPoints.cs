@@ -27,9 +27,9 @@ internal static partial class CSharpCADInternals
      * @param {Array} points - array of 2D points
      * @returns {Array} new set of offset points, plus points for each rounded corner
      */
-    internal static List<Vec2> OffsetFromPoints(List<Vec2> points, double delta, Corners corners, int segments, bool closed)
+    internal static List<Vec2> OffsetFromPoints(Vec2[] points, double delta, Corners corners, int segments, bool closed)
     {
-        if (Math.Abs(delta) < C.EPS) return points;
+        if (Math.Abs(delta) < C.EPS) return points.ToList();
 
         var rotation = closed ? AreaVec2(points) : 1.0; // + counter clockwise, - clockwise
         if (rotation == 0) rotation = 1.0;
@@ -42,7 +42,7 @@ internal static partial class CSharpCADInternals
         var newPoints = new List<Vec2>();
         var newCorners = new List<Corner>();
         var of = new Vec2();
-        var n = points.Count;
+        var n = points.Length;
         for (var i = 0; i < n; i++)
         {
             var j = (i + 1) % n;

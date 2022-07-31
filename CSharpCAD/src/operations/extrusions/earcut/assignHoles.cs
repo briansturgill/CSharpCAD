@@ -106,7 +106,7 @@ internal static partial class CSharpCADInternals
 
         internal static List<(List<Vec2>, List<List<Vec2>>)> AssignHoles(Geom2 geometry)
         {
-            var outlines = geometry.ToOutlines();
+            var outlines = geometry.ToOutlinesLLV();
             var solids = new List<int>(); // solid indices
             var holes = new List<int>(); // hole indices
             for (var i = 0; i < outlines.Count; i++)

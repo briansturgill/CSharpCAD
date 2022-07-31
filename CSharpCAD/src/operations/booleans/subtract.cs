@@ -2,6 +2,7 @@ namespace CSharpCAD;
 
 public static partial class CSCAD
 {
+#if LATER
     /**
      * <summary>Return a new geometry representing space in the first geometry but
      * not in all subsequent geometries.</summary>
@@ -26,6 +27,7 @@ public static partial class CSCAD
 
         return SubtractGeom2(gobjs);
     }
+#endif
 
     /**
      * <summary>Return a new geometry representing space in the first geometry but
