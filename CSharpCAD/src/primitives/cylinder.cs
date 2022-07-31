@@ -25,7 +25,7 @@ public static partial class CSCAD
             center_z = ((Vec3)center).Z;
         }
 
-        return InternalExtrudeSimple(InternalCircle(radius, segments, v2center), height: height, center_z: center_z);
+        return InternalExtrudeSimple(InternalCircle(radius, segments, v2center), height: height, center_z: center_z, v2center);
     }
 
     /**
@@ -55,6 +55,6 @@ public static partial class CSCAD
         }
 
         return InternalExtrudeSimple(InternalSemicircle(radius, segments, startAngle, endAngle, v2center),
-            height: height, center_z: center_z);
+            height: height, center_z: center_z, v2center);
     }
 }
