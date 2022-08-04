@@ -33,4 +33,6 @@ public static class GlobalParams
     public static string CADViewerUrl = "http://127.0.0.1:8037";
     ///<summary>Enables special (time consuming) debug checking like geometry validation.</summary>
     public static bool CheckingEnabled = false;
+    ///<summary>Enables debug output generally only useful to maintainers.</summary>
+    public static bool DebugOutput = false;
 }
