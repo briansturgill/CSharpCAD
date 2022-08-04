@@ -1,10 +1,10 @@
+#nullable disable
 namespace CSharpCAD;
 
 internal static partial class CSharpCADInternals
 {
     internal static partial class Earcut
     {
-#nullable disable
         /*
          * create a circular doubly linked list from polygon points in the specified winding order
          */
@@ -75,10 +75,6 @@ internal static partial class CSharpCADInternals
             var p = start;
             do
             {
-                if (p is null || p.next is null)
-                {
-                    return null;
-                }
                 var a = p.prev;
                 var b = p.next.next;
 
@@ -121,10 +117,10 @@ internal static partial class CSharpCADInternals
           ? AreaOfT(a, b, a.next) >= 0 && AreaOfT(a, a.prev, b) >= 0
           : AreaOfT(a, b, a.prev) < 0 || AreaOfT(a, a.next, b) < 0;
 
-/*
- * check if the middle point of a polygon diagonal is inside the polygon
- */
-internal static bool MiddleInside(Node a, Node b)
+        /*
+         * check if the middle point of a polygon diagonal is inside the polygon
+         */
+        internal static bool MiddleInside(Node a, Node b)
         {
             var p = a;
             var inside = false;
@@ -220,10 +216,9 @@ internal static bool MiddleInside(Node a, Node b)
         /*
          * check if two points are equal
          */
-        internal static bool Equals(Node p1, Node p2) {
-          if (p1 is null || p2 is null) return false;
-          return p1.X == p2.X && p1.Y == p2.Y;
+        internal static bool Equals(Node p1, Node p2)
+        {
+            return p1.X == p2.X && p1.Y == p2.Y;
         }
-#nullable enable
     }
 }

@@ -1,3 +1,4 @@
+#nullable disable
 namespace CSharpCAD;
 
 internal static partial class CSharpCADInternals
@@ -21,28 +22,26 @@ internal static partial class CSharpCADInternals
                 var start = holeIndices[i] * dim;
                 var end = i < len - 1 ? holeIndices[i + 1] * dim : data.Length;
                 var list = LinkedPolygon(data, start, end, dim, false);
-                if (list is not null && list == list.next) list.steiner = true;
-                if (list is not null) queue.Add(GetLeftmost(list));
+                if (list == list.next) list.steiner = true;
+                queue.Add(GetLeftmost(list));
             }
 
-            queue.Sort((Node a, Node b) => (int)(a.X - b.X)); // compare X
+            queue.Sort((Node a, Node b) => Math.Sign(a.X - b.X)); // compare X
 
             // process holes from left to right
             for (var i = 0; i < queue.Count; i++)
             {
-#nullable disable
                 outerNode = EliminateHole(queue[i], outerNode);
                 outerNode = FilterPoints(outerNode, outerNode.next);
             }
 
             return outerNode;
-#nullable enable
         }
 
         /*
          * find a bridge between vertices that connects hole with an outer ring and link it
          */
-        internal static Node? EliminateHole(Node hole, Node outerNode)
+        internal static Node EliminateHole(Node hole, Node outerNode)
         {
             var bridge = FindHoleBridge(hole, outerNode);
             if (bridge is null)
@@ -63,19 +62,18 @@ internal static partial class CSharpCADInternals
         /*
          * David Eberly's algorithm for finding a bridge between hole and outer polygon
          */
-        internal static Node? FindHoleBridge(Node hole, Node outerNode)
+        internal static Node FindHoleBridge(Node hole, Node outerNode)
         {
             var p = outerNode;
             var hx = hole.X;
             var hy = hole.Y;
             var qx = Double.NegativeInfinity;
-            Node? m = null;
+            Node m = null;
 
             // find a segment intersected by a ray from the hole's leftmost point to the left
             // segment's endpoint with lesser x will be potential connection point
             do
             {
-                if (p is null || p.next is null) break;
                 if (hy <= p.Y && hy >= p.next.Y && p.next.Y != p.Y)
                 {
                     var x = p.X + (hy - p.Y) * (p.next.X - p.X) / (p.next.Y - p.Y);
@@ -123,7 +121,7 @@ internal static partial class CSharpCADInternals
                 }
 
                 p = p.next;
-            } while (p is not null && p != stop);
+            } while (p != stop);
             return m;
         }
 
@@ -143,7 +141,7 @@ internal static partial class CSharpCADInternals
             {
                 if (p.X < leftmost.X || (p.X == leftmost.X && p.Y < leftmost.Y)) leftmost = p;
                 p = p.next;
-            } while (p is not null && p != start);
+            } while (p != start);
 
             return leftmost;
         }

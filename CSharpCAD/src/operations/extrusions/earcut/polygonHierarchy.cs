@@ -1,3 +1,4 @@
+#nullable disable
 namespace CSharpCAD;
 
 internal static partial class CSharpCADInternals
@@ -16,7 +17,7 @@ internal static partial class CSharpCADInternals
             private Vec3 v;
             private Vec3 u;
             private Dictionary<Vec2, Vec3> basisMap;
-            internal List<(List<Vec2>, List<List<Vec2>>)> roots;
+            internal List<(Vec2[], Vec2[][])> roots;
             internal PolygonHierarchy(Slice slice)
             {
                 this.plane = slice.CalculatePlane();

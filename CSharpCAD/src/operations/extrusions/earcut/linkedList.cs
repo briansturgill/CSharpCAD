@@ -1,3 +1,4 @@
+#nullable disable
 namespace CSharpCAD;
 
 internal static partial class CSharpCADInternals
@@ -8,14 +9,14 @@ internal static partial class CSharpCADInternals
 
         internal class Node
         {
-            internal Node? prev;
-            internal Node? next;
+            internal Node prev;
+            internal Node next;
             internal int i;
             internal double X;
             internal double Y;
-            internal int? Z;
-            internal Node? prevZ;
-            internal Node? nextZ;
+            internal int Z;
+            internal Node prevZ;
+            internal Node nextZ;
             internal bool steiner;
 
             internal Node(int i, double x, double y)
@@ -32,7 +33,7 @@ internal static partial class CSharpCADInternals
                 this.next = null;
 
                 // z-order curve value
-                this.Z = null;
+                this.Z = -1;
 
                 // previous and next nodes in z-order
                 this.prevZ = null;
@@ -46,7 +47,7 @@ internal static partial class CSharpCADInternals
         /*
          * create a node and optionally link it with previous one (in a circular doubly linked list)
          */
-        internal static Node InsertNode(int i, double x, double y, Node? last)
+        internal static Node InsertNode(int i, double x, double y, Node last)
         {
             var p = new Node(i, x, y);
 
@@ -59,7 +60,7 @@ internal static partial class CSharpCADInternals
             {
                 p.next = last.next;
                 p.prev = last;
-                if (last.next is not null) last.next.prev = p;
+                last.next.prev = p;
                 last.next = p;
             }
 
@@ -71,8 +72,8 @@ internal static partial class CSharpCADInternals
          */
         internal static void RemoveNode(Node p)
         {
-            if (p.next is not null) p.next.prev = p.prev;
-            if (p.prev is not null) p.prev.next = p.next;
+            p.next.prev = p.prev;
+            p.prev.next = p.next;
 
             if (p.prevZ is not null) p.prevZ.nextZ = p.nextZ;
             if (p.nextZ is not null) p.nextZ.prevZ = p.prevZ;

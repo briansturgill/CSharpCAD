@@ -1,3 +1,4 @@
+#nullable disable
 namespace CSharpCAD;
 
 internal static partial class CSharpCADInternals
@@ -6,7 +7,6 @@ internal static partial class CSharpCADInternals
     // Earcut contains a lot of junk names so will namespace it in its own class.
     internal static partial class Earcut
     {
-#nullable disable
         /*
          * An implementation of the earcut polygon triangulation algorithm.
          *
@@ -64,7 +64,7 @@ internal static partial class CSharpCADInternals
         {
             if (ear is null) return;
 
-            // interlink polygon nodes in z-order1G
+            // interlink polygon nodes in z-order
             if (pass == 0 && invSize != 0) IndexCurve(ear, minX, minY, invSize);
 
 
@@ -251,16 +251,16 @@ internal static partial class CSharpCADInternals
             var p = start;
             do
             {
-                if (p.Z == null) p.Z = ZOrder(p.X, p.Y, minX, minY, invSize);
+                if (p.Z == -1) p.Z = ZOrder(p.X, p.Y, minX, minY, invSize);
                 p.prevZ = p.prev;
                 p.nextZ = p.next;
                 p = p.next;
             } while (p != start);
 
-            if (p.prevZ is not null) p.prevZ.nextZ = null;
+            p.prevZ.nextZ = null;
             p.prevZ = null;
 
-            SortLinked(p, (p) => p.Z ?? 0);
+            SortLinked(p, (p) => p.Z);
         }
 
         /*
@@ -284,6 +284,5 @@ internal static partial class CSharpCADInternals
 
             return x | (y << 1);
         }
-#nullable enable
     }
 }
