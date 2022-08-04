@@ -20,6 +20,9 @@ public class Geom2 : Geometry
     /// <summary>Is this a 3D geometry object?</summary>
     public override bool Is3D => false;
 
+    /// <summary>Is this geometry empty?</summary>
+    public bool IsEmpty => nrtree.Root.Contained.Count == 0;
+
     /// <summary>Empty constructor.</summary>
     public Geom2()
     {
@@ -36,7 +39,7 @@ public class Geom2 : Geometry
         this.needsTransform = needsTransform;
         if (GlobalParams.CheckingEnabled)
         {
-            this.Validate();
+            this.CheckValid();
         }
     }
 
@@ -50,7 +53,7 @@ public class Geom2 : Geometry
         this.needsTransform = needsTransform;
         if (GlobalParams.CheckingEnabled)
         {
-            this.Validate();
+            this.CheckValid();
         }
     }
 
@@ -74,7 +77,7 @@ public class Geom2 : Geometry
         this.transforms = new Mat4();
         if (GlobalParams.CheckingEnabled)
         {
-            this.Validate();
+            this.CheckValid();
         }
     }
 
@@ -98,7 +101,7 @@ public class Geom2 : Geometry
         this.transforms = new Mat4();
         if (GlobalParams.CheckingEnabled)
         {
-            this.Validate();
+            this.CheckValid();
         }
     }
 
@@ -152,7 +155,7 @@ public class Geom2 : Geometry
         s.AppendLine("Geom2");
         s.Append(nrtree.ToString());
         s.Append($"{this.transforms}\n");
-        s.Append($"{this.Color}\n");
+        s.Append($"{(this.Color is not null ? this.Color.ToString() : "Color is null")}\n");
         return s.ToString();
     }
 
@@ -203,13 +206,33 @@ public class Geom2 : Geometry
         return C.EPS * total / 2; /*dimensions*/
     }
 
+    /// <summary>Create a special list for Triangulator, holes sorted by max X.</summary>
+    public List<(Vec2[], Vec2[][])> ToEarcutNesting()
+    {
+        ApplyTransforms();
+        return nrtree.ToEarcutNesting();
+    }
+
+    /// <summary>Create a list of list of lists of Vec2 where each middle list contains a shape, follow by its assigned holes.</summary>
+    public List<List<List<Vec2>>> ToMultiPolygon()
+    {
+        ApplyTransforms();
+        return nrtree.ToMultiPolygon();
+    }
+
+    /// <summary>Create a list of list of lists of Vec2 where each middle list contains a shape, follow by its assigned holes.</summary>
+    public Vec2[][][] ToShapesAndHoles()
+    {
+        ApplyTransforms();
+        return nrtree.ToShapesAndHoles();
+    }
+
     /// <summary>Create the outline(s) of the given geometry.</summary>
     /// <remarks>ToOutlines is more efficient that ToOutLinesLLV.</remarks>
     public List<List<Vec2>> ToOutlinesLLV()
     {
         ApplyTransforms();
-        var _outlines = nrtree.ToOutlinesLLV();
-        return _outlines;
+        return nrtree.ToOutlinesLLV();
     }
 
     /// <summary>Create the outline(s) of the given geometry.</summary>
@@ -548,9 +571,35 @@ public class Geom2 : Geometry
 
         internal bool HasOnlyOneConvexPath()
         {
-            bool hasOnlyOnePath = this.Root.Contained.Count == 1 && this.Root.Contained[0].Contained.Count == 0;
-            // LATER need to check convex;
-            return hasOnlyOnePath;
+            int turn(Vec2 v1, Vec2 v2, Vec2 v3)
+            {
+                var val = (v2.X - v1.X) * (v3.Y - v1.Y) - (v2.Y - v1.Y) * (v3.X - v1.X);
+                if (Math.Abs(val) <= C.EPSILON)
+                {
+                    return 0;
+                }
+                return Math.Sign(val);
+            }
+            // Does this geometry have only one path?
+            if (this.Root.Contained.Count != 1 || this.Root.Contained[0].Contained.Count != 0)
+            {
+                return false;
+            }
+
+            // Check if path is convex -- basically checks that all turns are in the same direction.
+            // Important: This algoritm can be fooled by some self-intersecting paths.
+            // However, as we don't allow self-intersecting paths...
+            // Alas, detecting self-intersecting paths is slow.
+            var s = 0;
+            var pts = this.Root.Contained[0].Points;
+            var len = pts.Length;
+            for (int i = 0; i < len; i++)
+            {
+                var t = turn(pts[i], pts[(i + 1) % len], pts[(i + 2) % len]);
+                if (s == 0) s = t;
+                if (t != 0 && t != s) return false;
+            }
+            return true;
         }
 
         internal (Vec2, Vec2) BoundingBox()
@@ -638,20 +687,22 @@ public class Geom2 : Geometry
         }
 
         // Only for use by Bridge.cs in polybool.net. MODIFIES existing data!
-        internal void ReverseShapes()
+        internal void CorrectWindings()
         {
-            _reverseShapes(this.Root);
+            _correctWindings(this.Root);
         }
 
-        private void _reverseShapes(NRTreeNode parent, int depth = 0)
+        private void _correctWindings(NRTreeNode parent, int depth = 0)
         {
             foreach (var n in parent.Contained)
             {
-                if (depth % 2 == 0)
+                var winding = Winding(n.Points);
+                if ((depth % 2 == 0 && winding == "cw") || (depth % 2 == 1 && winding == "ccw"))
                 {
+                    Console.WriteLine($"Correcting winding at depth: {depth}");
                     Array.Reverse(n.Points);
                 }
-                _reverseShapes(n, depth + 1);
+                _correctWindings(n, depth + 1);
             }
         }
 
@@ -694,6 +745,93 @@ public class Geom2 : Geometry
             }
         }
 
+        internal List<(Vec2[], Vec2[][])> ToEarcutNesting()
+        {
+            var l = new List<(Vec2[], Vec2[][])>();
+            _toEarcutNesting(this.Root, l);
+            return l;
+        }
+
+        private void _toEarcutNesting(NRTreeNode parent, List<(Vec2[], Vec2[][])> l, int depth = 0)
+        {
+            foreach (var n in parent.Contained)
+            {
+                if (depth % 2 == 0)
+                {
+                    var shape = n.Points;
+                    var holes = new Vec2[n.Contained.Count][];
+                    var tmp = n.Contained.ToArray();
+                    // Triangulator requires greatest Max.X first.
+                    int compareByMaxX(NRTreeNode a, NRTreeNode b)
+                    {
+                        var ret = Math.Sign(b.Max.X - a.Max.X);
+                        if (ret == 0) ret = Math.Sign(b.Max.Y - a.Max.Y);
+                        return ret;
+                    };
+                    Array.Sort(tmp, compareByMaxX);
+                    var tmplen = tmp.Length;
+                    for (var i = 0; i < tmplen; i++)
+                    {
+                        holes[i] = tmp[i].Points.ToArray();
+                    }
+                    l.Add((shape, holes));
+                }
+                _toEarcutNesting(n, l, depth + 1);
+            }
+        }
+
+        internal List<List<List<Vec2>>> ToMultiPolygon()
+        {
+            var lllv = new List<List<List<Vec2>>>();
+            _toMultiPolygon(this.Root, lllv);
+            return lllv;
+        }
+
+        private void _toMultiPolygon(NRTreeNode parent, List<List<List<Vec2>>> lllv, int depth = 0)
+        {
+            foreach (var n in parent.Contained)
+            {
+                if (depth % 2 == 0)
+                {
+                    var llv = new List<List<Vec2>>(n.Contained.Count + 1);
+                    llv.Add(n.Points.ToList());
+                    var contained = n.Contained;
+                    for (var i = 1; i < llv.Count; i++)
+                    {
+                        llv.Add(contained[i - 1].Points.ToList());
+                    }
+                    lllv.Add(llv);
+                }
+                _toMultiPolygon(n, lllv, depth + 1);
+            }
+        }
+
+        internal Vec2[][][] ToShapesAndHoles()
+        {
+            var lllv = new List<Vec2[][]>();
+            _toShapesAndHoles(this.Root, lllv);
+            return lllv.ToArray();
+        }
+
+        private void _toShapesAndHoles(NRTreeNode parent, List<Vec2[][]> lllv, int depth = 0)
+        {
+            foreach (var n in parent.Contained)
+            {
+                if (depth % 2 == 0)
+                {
+                    var llv = new Vec2[n.Contained.Count + 1][];
+                    llv[0] = n.Points;
+                    var contained = n.Contained;
+                    for (var i = 1; i < llv.Length; i++)
+                    {
+                        llv[i] = contained[i - 1].Points;
+                    }
+                    lllv.Add(llv);
+                }
+                _toShapesAndHoles(n, lllv, depth + 1);
+            }
+        }
+
         internal List<List<Vec2>> ToOutlinesLLV()
         {
             var llv = new List<List<Vec2>>(this.NodeCount);
@@ -723,7 +861,7 @@ public class Geom2 : Geometry
             _validate(this.Root);
         }
 
-        private void _validate(NRTreeNode parent)
+        private void _validate(NRTreeNode parent, int depth = 0)
         {
             // check for self-edges
             foreach (var child in parent.Contained)
@@ -736,8 +874,23 @@ public class Geom2 : Geometry
                     {
                         throw new ValidationException($"Geom2 self-edge {child.Points[i]}");
                     }
+                    var winding = Winding(child.Points);
+                    if (depth % 2 == 0)
+                    {
+                        if (winding != "ccw")
+                        {
+                            throw new ValidationException($"Improper winding for shape: {winding}");
+                        }
+                    }
+                    else
+                    {
+                        if (winding != "cw")
+                        {
+                            throw new ValidationException($"Improper winding for hole: {winding}");
+                        }
+                    }
                 }
-                _validate(child);
+                _validate(child, depth + 1);
             }
         }
 
@@ -797,4 +950,22 @@ public class Geom2 : Geometry
         // LATER: check for self-intersecting
     }
 
+    private void CheckValid()
+    {
+        try
+        {
+            this.Validate();
+        }
+        catch (ValidationException)
+        {
+            throw;
+            /*
+            Console.WriteLine($"Validation Exception: {e.Message}");
+            var st = new StackTrace(e, true);
+            var frame = st.GetFrame(st.FrameCount - 1);
+            var method = frame?.GetMethod()?.ToString() ?? "unknown";
+            Console.WriteLine($"  --At {frame.GetFileName()}:{frame.GetFileLineNumber()} {method}");
+            */
+        }
+    }
 }
