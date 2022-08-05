@@ -2,7 +2,6 @@ namespace CSharpCAD;
 
 public static partial class CSCAD
 {
-#if LATER
     /**
      * <summary>Return a new geometry representing the total space in the given geometries.</summary>
      * <returns>The new geometry formed the union of all the geometry objects.</returns>
@@ -21,7 +20,7 @@ public static partial class CSCAD
      * </example>
      * <group>Boolean Operations</group>
      */
-    public static Geom2 Union(params Geom2[] gobjs)
+    public static Geom2 Union2(params Geom2[] gobjs)
     {
         if (gobjs.Length < 1)
         {
@@ -30,7 +29,6 @@ public static partial class CSCAD
 
         return UnionGeom2(gobjs);
     }
-#endif
 
     /**
      * <summary>Return a new geometry representing the total space in the given geometries.</summary>

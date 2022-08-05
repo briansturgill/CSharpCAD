@@ -2,7 +2,6 @@ namespace CSharpCAD;
 
 public static partial class CSCAD
 {
-#if LATER
     /**
      * <summary>Return a new geometry representing space in the first geometry but
      * not in all subsequent geometries.</summary>
@@ -21,13 +20,12 @@ public static partial class CSCAD
      * </example>
      * <group>Boolean Operations</group>
      */
-    public static Geom2 Subtract(params Geom2[] gobjs)
+    public static Geom2 Subtract2(params Geom2[] gobjs)
     {
         if (gobjs.Length == 0) throw new ArgumentException("Must specify at least 1 geometry.");
 
         return SubtractGeom2(gobjs);
     }
-#endif
 
     /**
      * <summary>Return a new geometry representing space in the first geometry but
