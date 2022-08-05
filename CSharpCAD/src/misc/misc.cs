@@ -240,4 +240,24 @@ public static partial class CSCAD
         }
         return wstr(winding);
     }
+
+    /// <summary>String description of winding of a 2D polygon.</summary>
+    /// <group>Miscellaneous</group>
+    public static string Winding(Vec2[] av)
+    {
+        string wstr(double winding)
+        {
+            if (winding > 0) return "cw";
+            if (winding < 0) return "ccw";
+            return "zero";
+        }
+        var len = av.Length;
+        if (len < 3) return "too small";
+        var winding = 0.0;
+        for (var i = 0; i < len; i++)
+        {
+            winding += (av[(i + 1) % len].X - av[i].X) * (av[(i + 1) % len].Y + av[i].Y);
+        }
+        return wstr(winding);
+    }
 }
