@@ -76,7 +76,7 @@ public static partial class CSCAD
         {
             var shapesAndHoles = gobj.ToEarcutNesting();
             // top and bottom polys will be added here.
-            Triangulator.Triangulator.DoEarcutCaps(shapesAndHoles, polys, bottom_most_p, top_most_p);
+            Earcut.DoEarcutCaps(shapesAndHoles, polys, bottom_most_p, top_most_p);
         }
 
         return new Geom3(polys.ToArray());

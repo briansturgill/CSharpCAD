@@ -5,6 +5,7 @@ using Path = CSharpCAD.CSCAD.Path;
 
 using System.Diagnostics;
 
+//GlobalParams.CheckingEnabled = true;
 var loops = 100;
 var watch = new Stopwatch();
 loops++;
@@ -12,7 +13,6 @@ loops--;
 var g = new Geom3();
 var g2 = new Geom2();
 
-#if LATER
 /*
 static int vCount(Geom3 g)
 {
@@ -30,8 +30,8 @@ Geom3 TapPost(double h, double size, double post_wall = 2, bool add_taper = fals
 {
     var inner_d = size * 0.8; //Possibly snug, but with PLA I prefer that
     var outer_d = post_wall * 2 + size;
-    var a = ExtrudeLinear(height: h, gobj: Circle(outer_d / 2.0));
-    var b = Translate((0, 0, -1), ExtrudeLinear(height: h + 2, gobj: Circle(inner_d / 2.0)));
+    var a = ExtrudeLinear2(height: h, gobj: Circle(outer_d / 2.0));
+    var b = Translate((0, 0, -1), ExtrudeLinear2(height: h + 2, gobj: Circle(inner_d / 2.0)));
     //a = Cylinder(radius: outer_d / 2.0, height: h);
     //b = Translate((0, 0, -1), Cylinder(radius: inner_d / 2.0, height: h + 2));
     //a = Triangulate(a);
@@ -43,11 +43,11 @@ Geom3 TapPost(double h, double size, double post_wall = 2, bool add_taper = fals
     if (add_taper)
     {
         var cout = Circle(outer_d / 2.0);
-        var cylout = ExtrudeLinear(height: h * 2, gobj: cout);
-        cylout.Validate();
+        var cylout = ExtrudeLinear2(height: h * 2, gobj: cout);
+        //cylout.Validate();
         var cin = Circle(inner_d / 2.0);
-        var cylin = ExtrudeLinear(height: h * 2 + 2, gobj: cin);
-        cylin.Validate();
+        var cylin = ExtrudeLinear2(height: h * 2 + 2, gobj: cin);
+        //cylin.Validate();
         //cylout = Cylinder(radius: outer_d / 2.0, height: h * 2);
         //cylin = Translate((0, 0, -1), Cylinder(radius: inner_d / 2.0, height: h * 2 + 2));
         var cb = Cuboid((outer_d, outer_d, h * 3 + 2), center: (0, 0, 0));
@@ -83,29 +83,31 @@ View(g);
 //Save("/tmp/test.stl", g);
 
 
+//g2 = Subtract(Rectangle((8, 4)), Translate((2, 1), Rectangle((4, 2))));
+//g2.Validate();
+//g2 = Union(g2, Translate((7, 1), Rectangle((2, 2))), Translate((3, 1.5), Rectangle((1, 1))));
+g2 = Translate((3, 1.5), Rectangle((1, 1)));
+g2.Validate();
+g2 = Subtract(g2, Translate((3.15, 1.65), Rectangle((0.20, 0.20))));
+g2.Validate();
+g2 = Subtract(g2, Translate((3.4, 2.0), Rectangle((0.30, 0.40))));
+g2.Validate();
+g = ExtrudeLinear2(g2, 0.1);
+//g.Validate();
+Save("/tmp/test3.stl", g);
+g2 = Colorize("red", g2);
+Save("/tmp/test3.svg", g2);
+
 g2 = Subtract(Rectangle((8, 4)), Translate((2, 1), Rectangle((4, 2))));
 g2.Validate();
 g2 = Union(g2, Translate((7, 1), Rectangle((2, 2))), Translate((3, 1.5), Rectangle((1, 1))));
 g2.Validate();
 g2 = Subtract(g2, Translate((3.15, 1.65), Rectangle((0.20, 0.20))));
 g2.Validate();
-g2 = Subtract(g2, Translate((3.4, 2.0), Rectangle((0.30, 0.40))));
-g2.Validate();
-g2 = Colorize("red", g2);
-Save("/tmp/test3.svg", g2);
-g = ExtrudeLinear(g2, 0.1, repair: true);
-//g.Validate();
-Save("/tmp/test.stl", g);
-
-g2 = Subtract(Rectangle((8, 4)), Translate((2, 1), Rectangle((4, 2))));
-g2.Validate();
-g2 = Union(g2, Translate((7, 1), Rectangle((2, 2))), Translate((3, 1.5), Rectangle((1, 1))));
-g2.Validate();
-//g2 = Subtract(g2, Translate((3.15, 1.65), Rectangle((0.20, 0.20))));
-g2.Validate();
 g2 = Subtract(g2, Translate((3.6, 2.0), Rectangle((0.20, 0.40))));
-g = ExtrudeLinear(g2, 0.1, repair: true);
-Save("/tmp/test.stl", g);
+g = ExtrudeLinear2(g2, 0.1);
+//g.Validate();
+Save("/tmp/test2.stl", g);
 g2.Validate();
 g2 = Colorize("green", g2);
 Save("/tmp/test2.svg", g2);
@@ -157,8 +159,8 @@ foreach (var o in g2.ToOutlines())
 g2 = Star(5);
 g2.Validate();
 View(g2, "Star(5)");
-g = ExtrudeLinear(g2, 10, repair: false);
-g.Validate();
+g = ExtrudeLinear2(g2, 10);
+//g.Validate();
 View(g, "Star(5)@10");
 
 
@@ -199,8 +201,30 @@ View(Semicylinder(10, 25, 16, 115, 270), "Simple semicylinder");
 Save("/tmp/cyl.stl", Cylinder(10, 25));
 
 View(Cylinder(10, 25), "Simple Cylinder");
-#endif
 
-View(Cuboid(size: (6, 6, 6), center: (3, 5, 7)), "Failing Cuboid");
+g = ExtrudeLinear2(Subtract(Circle(10, 8), Circle(5, 8)), 20);
+Save("/tmp/test.stl", g);
+
+Console.WriteLine("here");
+var outer_rect = Rectangle((2, 2), center: (0, 0));
+var inner_rect1 = Rectangle((0.20, 0.20), center: (0, 0));
+var inner_rect2 = Translate((0.30, 0.50), Rectangle((0.30, 0.40), center: (0, 0)));
+Console.WriteLine("here1");
+g2 = Subtract(outer_rect, inner_rect2, inner_rect1);
+g2.Validate();
+Console.WriteLine("here2");
+g = ExtrudeLinear2(g2, 0.1);
+//g.Validate();
+Save("/tmp/test3.stl", g);
+Console.WriteLine(g2);
+
+//Save("/tmp/test4.stl", Subtract(Cuboid((2, 2, 0.1), center: (0, 0, 0)), Cuboid((0.2, 0.2, 0.1), center:(0,0,0)), Translate((0.3, 0.5, 0), Cuboid((0.3, 0.4, 0.1), center: (0, 0, 0)))));
+
+g2 = Subtract(Circle(10, 8), Translate((-2, -2), Circle(1, 8)), Translate((2,2), Circle(1, 8)));
+g2.Validate();
+Save("/tmp/cyl.svg", g2);
+g = ExtrudeLinear2(g2, 20);
+View(g);
+Save("/tmp/cyl.stl", g);
 
 WaitForViewerTransfers();

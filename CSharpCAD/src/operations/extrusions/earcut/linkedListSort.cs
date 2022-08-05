@@ -1,72 +1,68 @@
 #nullable disable
 namespace CSharpCAD;
 
-internal static partial class CSharpCADInternals
+internal static partial class Earcut
 {
 
-    internal static partial class Earcut
+    // Simon Tatham's linked list merge sort algorithm
+    // https://www.chiark.greenend.org.uk/~sgtatham/algorithms/listsort.html
+    internal static Node SortLinked(Node list, Func<Node, int> fn)
     {
+        int i;
+        Node p;
+        Node q;
+        Node e;
+        int numMerges;
+        int inSize = 1;
 
-        // Simon Tatham's linked list merge sort algorithm
-        // https://www.chiark.greenend.org.uk/~sgtatham/algorithms/listsort.html
-        internal static Node SortLinked(Node list, Func<Node, int> fn)
+        do
         {
-            int i;
-            Node p;
-            Node q;
-            Node e;
-            int numMerges;
-            int inSize = 1;
+            p = list;
+            list = null;
+            Node tail = null;
+            numMerges = 0;
 
-            do
+            while (p is not null)
             {
-                p = list;
-                list = null;
-                Node tail = null;
-                numMerges = 0;
-
-                while (p is not null)
+                numMerges++;
+                q = p;
+                var pSize = 0;
+                for (i = 0; i < inSize; i++)
                 {
-                    numMerges++;
-                    q = p;
-                    var pSize = 0;
-                    for (i = 0; i < inSize; i++)
-                    {
-                        pSize++;
-                        q = q.nextZ;
-                        if (q is null) break;
-                    }
-
-                    var qSize = inSize;
-
-
-                    while (pSize > 0 || (qSize > 0 && q is not null))
-                    {
-                        if (pSize != 0 && (qSize == 0 || q is null || fn(p) <= fn(q)))
-                        {
-                            e = p;
-                            p = p.nextZ;
-                            pSize--;
-                        }
-                        else
-                        {
-                            e = q;
-                            q = q.nextZ;
-                            qSize--;
-                        }
-                        if (tail is not null) tail.nextZ = e;
-                        else list = e;
-
-                        e.prevZ = tail;
-                        tail = e;
-                    }
-                    p = q;
+                    pSize++;
+                    q = q.nextZ;
+                    if (q is null) break;
                 }
-                tail.nextZ = null;
-                inSize *= 2;
-            } while (numMerges > 1);
 
-            return list;
-        }
+                var qSize = inSize;
+
+
+                while (pSize > 0 || (qSize > 0 && q is not null))
+                {
+                    if (pSize != 0 && (qSize == 0 || q is null || fn(p) <= fn(q)))
+                    {
+                        e = p;
+                        p = p.nextZ;
+                        pSize--;
+                    }
+                    else
+                    {
+                        e = q;
+                        q = q.nextZ;
+                        qSize--;
+                    }
+                    if (tail is not null) tail.nextZ = e;
+                    else list = e;
+
+                    e.prevZ = tail;
+                    tail = e;
+                }
+                p = q;
+            }
+            tail.nextZ = null;
+            inSize *= 2;
+        } while (numMerges > 1);
+
+        return list;
     }
 }
