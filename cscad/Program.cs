@@ -30,8 +30,8 @@ Geom3 TapPost(double h, double size, double post_wall = 2, bool add_taper = fals
 {
     var inner_d = size * 0.8; //Possibly snug, but with PLA I prefer that
     var outer_d = post_wall * 2 + size;
-    var a = ExtrudeLinear2(height: h, gobj: Circle(outer_d / 2.0));
-    var b = Translate((0, 0, -1), ExtrudeLinear2(height: h + 2, gobj: Circle(inner_d / 2.0)));
+    var a = ExtrudeLinear(height: h, gobj: Circle(outer_d / 2.0));
+    var b = Translate((0, 0, -1), ExtrudeLinear(height: h + 2, gobj: Circle(inner_d / 2.0)));
     //a = Cylinder(radius: outer_d / 2.0, height: h);
     //b = Translate((0, 0, -1), Cylinder(radius: inner_d / 2.0, height: h + 2));
     //a = Triangulate(a);
@@ -43,10 +43,10 @@ Geom3 TapPost(double h, double size, double post_wall = 2, bool add_taper = fals
     if (add_taper)
     {
         var cout = Circle(outer_d / 2.0);
-        var cylout = ExtrudeLinear2(height: h * 2, gobj: cout);
+        var cylout = ExtrudeLinear(height: h * 2, gobj: cout);
         //cylout.Validate();
         var cin = Circle(inner_d / 2.0);
-        var cylin = ExtrudeLinear2(height: h * 2 + 2, gobj: cin);
+        var cylin = ExtrudeLinear(height: h * 2 + 2, gobj: cin);
         //cylin.Validate();
         //cylout = Cylinder(radius: outer_d / 2.0, height: h * 2);
         //cylin = Translate((0, 0, -1), Cylinder(radius: inner_d / 2.0, height: h * 2 + 2));
@@ -92,7 +92,7 @@ g2 = Subtract(g2, Translate((3.15, 1.65), Rectangle((0.20, 0.20))));
 g2.Validate();
 g2 = Subtract(g2, Translate((3.4, 2.0), Rectangle((0.30, 0.40))));
 g2.Validate();
-g = ExtrudeLinear2(g2, 0.1);
+g = ExtrudeLinear(g2, 0.1);
 //g.Validate();
 Save("/tmp/test3.stl", g);
 g2 = Colorize("red", g2);
@@ -105,7 +105,7 @@ g2.Validate();
 g2 = Subtract(g2, Translate((3.15, 1.65), Rectangle((0.20, 0.20))));
 g2.Validate();
 g2 = Subtract(g2, Translate((3.6, 2.0), Rectangle((0.20, 0.40))));
-g = ExtrudeLinear2(g2, 0.1);
+g = ExtrudeLinear(g2, 0.1);
 //g.Validate();
 Save("/tmp/test2.stl", g);
 g2.Validate();
@@ -159,7 +159,7 @@ foreach (var o in g2.ToOutlines())
 g2 = Star(5);
 g2.Validate();
 View(g2, "Star(5)");
-g = ExtrudeLinear2(g2, 10);
+g = ExtrudeLinear(g2, 10);
 //g.Validate();
 View(g, "Star(5)@10");
 
@@ -168,14 +168,14 @@ g2 = Subtract(
     RoundedRectangle((40, 40), roundRadius: 10, center: (0, 0), segments:50),
     RoundedRectangle((36, 36), roundRadius: 8, center: (0, 0), segments:50));
 View(g2, "Twisty base");
-g = ExtrudeLinear(g2, 60, twistAngle: 90, twistSteps: 60);
+g = ExtrudeTwist(g2, 60, twistAngle: 90, twistSteps: 60);
 View(g, "Twisty");
 
 g2 = Offset(Square(20, center: (0, 0)), 10, Corners.Round, segments: 50);
 var g2a = Offset(Square(20, center: (0, 0)), 8, Corners.Round, segments: 50);
 g2 = Subtract(g2, g2a);
 View(g2, "Offset Square");
-g = ExtrudeLinear(g2, 60, twistAngle: 90, twistSteps: 60);
+g = ExtrudeTwist(g2, 60, twistAngle: 90, twistSteps: 60);
 Save("/tmp/twisty2.stl", g);
 
 g2 = Subtract(
@@ -202,7 +202,7 @@ Save("/tmp/cyl.stl", Cylinder(10, 25));
 
 View(Cylinder(10, 25), "Simple Cylinder");
 
-g = ExtrudeLinear2(Subtract(Circle(10, 8), Circle(5, 8)), 20);
+g = ExtrudeLinear(Subtract(Circle(10, 8), Circle(5, 8)), 20);
 Save("/tmp/test.stl", g);
 
 Console.WriteLine("here");
@@ -213,7 +213,7 @@ Console.WriteLine("here1");
 g2 = Subtract(outer_rect, inner_rect2, inner_rect1);
 g2.Validate();
 Console.WriteLine("here2");
-g = ExtrudeLinear2(g2, 0.1);
+g = ExtrudeLinear(g2, 0.1);
 //g.Validate();
 Save("/tmp/test3.stl", g);
 Console.WriteLine(g2);
@@ -223,7 +223,7 @@ Console.WriteLine(g2);
 g2 = Subtract(Circle(10, 8), Translate((-2, -2), Circle(1, 8)), Translate((2,2), Circle(1, 8)));
 g2.Validate();
 Save("/tmp/cyl.svg", g2);
-g = ExtrudeLinear2(g2, 20);
+g = ExtrudeLinear(g2, 20);
 View(g);
 Save("/tmp/cyl.stl", g);
 

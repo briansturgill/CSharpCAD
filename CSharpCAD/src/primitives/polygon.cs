@@ -31,6 +31,7 @@ public static partial class CSCAD
      */
     public static Geom2 Polygon(Points2 points, Paths? paths = null)
     {
+        var nrtree = new Geom2.NRTree();
         var listofpolys = points;
 
         if (paths is not null)
@@ -39,7 +40,18 @@ public static partial class CSCAD
             {
                 if (path.Count < 3) throw new ArgumentException("In the \"paths\" argument, each path must contain three or more points.");
             }
-        }
+            foreach (var path in paths)
+            {
+                var npath = new List<Vec2>(path.Count);
+                for (int i = 0; i < path.Count; i++)
+                {
+                    npath.Add(points[path[i]]);
+                }
+                nrtree.Insert(npath.ToArray());
+            }
+            return new Geom2(nrtree);
+        } // LATER
+
 
         Paths listofpaths;
         if (paths is null || paths.Count == 0)
