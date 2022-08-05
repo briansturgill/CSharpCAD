@@ -9,5 +9,5 @@ public static partial class CSCAD
 
     /// <summary>Returns version string for CSCAD</summary>
     /// <group>Miscellaneous</group>
-    public static string Version() { return "0.5.0"; }
+    public static string Version() { return "0.8.0"; }
 }

@@ -14,7 +14,7 @@ points = [
 ]
 paths = [[0, 1, 2], [3, 4, 5, 6]]
 g = polygon(points, paths)
-g.Validate()
+# LATER g.Validate()
 view(g, "Polygon")
 
 g = project(cube(10))
@@ -155,7 +155,7 @@ g = subtract(
     roundedRectangle((40, 40), roundRadius=10, center=(0, 0), segments=50),
     roundedRectangle((36, 36), roundRadius=8, center=(0, 0), segments=50))
 view(g, "Twisty base")
-g = extrudeLinear(g, 60, twistAngle=90, twistSteps=60)
+g = extrudeTwist(g, 60, twistAngle=90, twistSteps=60)
 view(g, "Twisty")
 
 g = extrudeRotate(circle(radius = 3, center = (4, 0)), segments = 8, angle = 180)

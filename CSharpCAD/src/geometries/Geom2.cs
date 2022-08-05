@@ -686,7 +686,7 @@ public class Geom2 : Geometry
             }
         }
 
-        // Only for use by Bridge.cs in polybool.net. MODIFIES existing data!
+        // Only for use by Bridge.cs in NPolyBool. MODIFIES existing data!
         internal void CorrectWindings()
         {
             _correctWindings(this.Root);
@@ -699,7 +699,7 @@ public class Geom2 : Geometry
                 var winding = Winding(n.Points);
                 if ((depth % 2 == 0 && winding == "cw") || (depth % 2 == 1 && winding == "ccw"))
                 {
-                    Console.WriteLine($"Correcting winding at depth: {depth}");
+                    if (GlobalParams.DebugOutput) Console.WriteLine($"Correcting winding at depth: {depth}");
                     Array.Reverse(n.Points);
                 }
                 _correctWindings(n, depth + 1);

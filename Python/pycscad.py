@@ -315,7 +315,7 @@ def ellipticCylinder(radius:tuple[float,float] = (1,1), height:float = 2, segmen
     cent = Vec3(float(center[0]), float(center[1]), float(center[2]))
     return CSCAD.EllipticCylinder(rad, height, segments, cent)
 
-def extrudeLinear(gobj:Geom2, height:float = 1, twistAngle:float = 0, twistSteps:int = 1, repair:bool = True) -> Geom3:
+def extrudeLinear(gobj:Geom2, height:float = 1) -> Geom3:
     """Extrude the given geometry in an upward linear direction using the given options.
 
     Returns: Geom3
@@ -323,7 +323,7 @@ def extrudeLinear(gobj:Geom2, height:float = 1, twistAngle:float = 0, twistSteps
     Group: 3D Primitives
     """
 
-    return CSCAD.ExtrudeLinear(gobj, height, twistAngle, twistSteps, repair)
+    return CSCAD.ExtrudeLinear(gobj, height)
 
 def extrudeRotate(gobj: Geom2, segments:int = 12, startAngle:float = 0, angle:float = 360) -> Geom3:
     """Rotate extrude the given geometry using the given options.
@@ -334,6 +334,17 @@ def extrudeRotate(gobj: Geom2, segments:int = 12, startAngle:float = 0, angle:fl
     """
 
     return CSCAD.ExtrudeRotate(gobj, segments, startAngle, angle)
+
+def extrudeTwist(gobj:Geom2, height:float = 1, twistAngle:float = 0, twistSteps:int = 1, repair:bool = True) -> Geom3:
+    """Extrude the given geometry in an upward linear direction using the given options.
+
+    Returns: Geom3
+
+    Group: 3D Primitives
+    """
+
+    return CSCAD.ExtrudeTwist(gobj, height, twistAngle, twistSteps, repair)
+
 
 def geodesicSphere(radius:float = 1, frequency:int = 6) -> Geom3:
     """Construct a geodesic sphere based on icosahedron symmetry.
