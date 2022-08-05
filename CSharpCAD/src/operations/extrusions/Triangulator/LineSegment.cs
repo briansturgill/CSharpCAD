@@ -44,7 +44,7 @@ struct LineSegment
         double ua = uaNum / denom;
         double ub = ubNum / denom;
 
-        if (Math.Clamp(ua, 0f, 1f) != ua || Math.Clamp(ub, 0f, 1f) != ub)
+        if (Math.Clamp(ua, 0.0, 1.0) != ua || Math.Clamp(ub, 0.0, 1.0) != ub)
             return null;
 
         return a.A.Position.Add(a.B.Position.Subtract(a.A.Position).Multiply(new Vec2(ua, ua)));

@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace CSharpCAD.Triangulator;
 // <summary>
 // A static class exposing methods for triangulating 2D polygons. This is the sole public
@@ -30,6 +32,36 @@ internal static class Triangulator
     #region Public Methods
 
     #region Triangulate
+    // Main entry point from CSharpCAD.
+    // Perform EarCut on each Shape/Holes set and then add the resulting triangles to polys.
+    internal static void DoEarcutCaps(List<(Vec2[], Vec2[][])> shapesAndHoles, List<Poly3> polys, double bottom_most_z, double top_most_z)
+    {
+        var bmz = bottom_most_z;
+        var tmz = top_most_z;
+        foreach (var shapeAndHoles in shapesAndHoles)
+        {
+            var (shape, holes) = shapeAndHoles;
+            // WARNING... this next only works because the holes were sorted by Max.X in Geom2.ToTriangulator()
+            foreach(var hole in holes)
+            {
+                shape = CutHoleInShape(shape, hole);
+            }
+            Vec2[] outputVertices;
+            int[] outputIndices;
+            Triangulate(shape, WindingOrder.CounterClockwise, out outputVertices, out outputIndices);
+            for (var i = 0; i < outputIndices.Length; i += 3)
+            {
+                var op = outputVertices;
+                var oi = outputIndices;
+                // bottom -- needs to be reversed
+                polys.Add(new Poly3(new Vec3[] { new Vec3(op[oi[i+2]], bmz), new Vec3(op[oi[i+1]], bmz), new Vec3(op[oi[i]], bmz) }));
+                //polys.Add(new Poly3(new Vec3[] { new Vec3(op[oi[i]], bmz), new Vec3(op[oi[i+1]], bmz), new Vec3(op[oi[i+2]], bmz) }));
+                // top
+                polys.Add(new Poly3(new Vec3[] { new Vec3(op[oi[i]], tmz), new Vec3(op[oi[i+1]], tmz), new Vec3(op[oi[i+2]], tmz) }));
+                //polys.Add(new Poly3(new Vec3[] { new Vec3(op[oi[i+2]], tmz), new Vec3(op[oi[i+1]], tmz), new Vec3(op[oi[i]], tmz) }));
+            }
+        }
+    }
 
     // <summary>
     // Triangulates a 2D polygon produced the indexes required to render the points as a triangle list.
@@ -44,7 +76,7 @@ internal static class Triangulator
         out Vec2[] outputVertices,
         out int[] indices)
     {
-        Log("\nBeginning triangulation...");
+        //Log("\nBeginning triangulation...");
 
         List<Triangle> triangles = new List<Triangle>();
 
@@ -111,12 +143,16 @@ internal static class Triangulator
     // <summary>
     // Cuts a hole into a shape.
     // </summary>
+    // <remarks>
+    // WARNING WARNING WARNING.
+    // You must sort the holes by Max.X before calling this routine for each of them.
+    // </remarks>
     // <param name="shapeVerts">An array of vertices for the primary shape.</param>
     // <param name="holeVerts">An array of vertices for the hole to be cut. It is assumed that these vertices lie completely within the shape verts.</param>
     // <returns>The new array of vertices that can be passed to Triangulate to properly triangulate the shape with the hole.</returns>
     internal static Vec2[] CutHoleInShape(Vec2[] shapeVerts, Vec2[] holeVerts)
     {
-        Log("\nCutting hole into shape...");
+        //Log("\nCutting hole into shape...");
 
         //make sure the shape vertices are wound counter clockwise and the hole vertices clockwise
         shapeVerts = EnsureWindingOrder(shapeVerts, WindingOrder.CounterClockwise);
@@ -136,17 +172,6 @@ internal static class Triangulator
         for (int i = 0; i < holeVerts.Length; i++)
             holePolygon.Add(new Vertex(holeVerts[i], i + polygonVertices.Count));
 
-#if DEBUG
-        StringBuilder vString = new StringBuilder();
-        foreach (Vertex v in polygonVertices)
-            vString.Append(string.Format("{0}, ", v));
-        Log("Shape Vertices: {0}", vString);
-
-        vString = new StringBuilder();
-        foreach (Vertex v in holePolygon)
-            vString.Append(string.Format("{0}, ", v));
-        Log("Hole Vertices: {0}", vString);
-#endif
 
         FindConvexAndReflexVertices();
         FindEarVertices();
@@ -192,7 +217,10 @@ internal static class Triangulator
         //if closestPoint is null, there were no collisions (likely from improper input data),
         //but we'll just return without doing anything else
         if (closestPoint is null)
-            return shapeVerts;
+        {
+            throw new ValidationException("There was no closest point.");
+            //return shapeVerts;
+        }
 
         //otherwise we can find our mutually visible vertex to split the polygon
         Vec2 I = rightMostHoleVertex.Position.Add(UnitX.Multiply(new Vec2(closestPoint.Value, closestPoint.Value)));
@@ -236,22 +264,14 @@ internal static class Triangulator
         int mIndex = holePolygon.IndexOf(rightMostHoleVertex);
         int injectPoint = polygonVertices.IndexOf(P);
 
-        Log("Inserting hole at injection point {0} starting at hole vertex {1}.",
-            P,
-            rightMostHoleVertex);
+        //Log("Inserting hole at injection point {0} starting at hole vertex {1}.", P, rightMostHoleVertex);
         for (int i = mIndex; i <= mIndex + holePolygon.Count; i++)
         {
-            Log("Inserting vertex {0} after vertex {1}.", holePolygon[i], polygonVertices[injectPoint].Value);
+            //Log("Inserting vertex {0} after vertex {1}.", holePolygon[i], polygonVertices[injectPoint].Value);
             polygonVertices.AddAfter(polygonVertices[injectPoint++], holePolygon[i]);
         }
         polygonVertices.AddAfter(polygonVertices[injectPoint], P);
 
-#if DEBUG
-        vString = new StringBuilder();
-        foreach (Vertex v in polygonVertices)
-            vString.Append(string.Format("{0}, ", v));
-        Log("New Shape Vertices: {0}\n", vString);
-#endif
 
         //finally we write out the new polygon vertices and return them out
         Vec2[] newShapeVerts = new Vec2[polygonVertices.Count];
@@ -273,14 +293,14 @@ internal static class Triangulator
     // <returns>A new set of vertices if the winding order didn't match; otherwise the original set.</returns>
     internal static Vec2[] EnsureWindingOrder(Vec2[] vertices, WindingOrder windingOrder)
     {
-        Log("\nEnsuring winding order of {0}...", windingOrder);
+        //Log("\nEnsuring winding order of {0}...", windingOrder);
         if (DetermineWindingOrder(vertices) != windingOrder)
         {
-            Log("Reversing vertices...");
+            //Log("Reversing vertices...");
             return ReverseWindingOrder(vertices);
         }
 
-        Log("No reversal needed.");
+        //Log("No reversal needed.");
         return vertices;
     }
 
@@ -295,26 +315,13 @@ internal static class Triangulator
     // <returns>The new vertices for the polygon with the opposite winding order.</returns>
     internal static Vec2[] ReverseWindingOrder(Vec2[] vertices)
     {
-        Log("\nReversing winding order...");
+        //Log("\nReversing winding order...");
         Vec2[] newVerts = new Vec2[vertices.Length];
-
-#if DEBUG
-        StringBuilder vString = new StringBuilder();
-        foreach (Vec2 v in vertices)
-            vString.Append(string.Format("{0}, ", v));
-        Log("Original Vertices: {0}", vString);
-#endif
 
         newVerts[0] = vertices[0];
         for (int i = 1; i < newVerts.Length; i++)
             newVerts[i] = vertices[vertices.Length - i];
 
-#if DEBUG
-        vString = new StringBuilder();
-        foreach (Vec2 v in newVerts)
-            vString.Append(string.Format("{0}, ", v));
-        Log("New Vertices After Reversal: {0}\n", vString);
-#endif
 
         return newVerts;
     }
@@ -374,29 +381,11 @@ internal static class Triangulator
         //remove the ear from the shape
         earVertices.RemoveAt(0);
         polygonVertices.RemoveAt(polygonVertices.IndexOf(ear));
-        Log("\nRemoved Ear: {0}", ear);
+        //Log("\nRemoved Ear: {0}", ear);
 
         //validate the neighboring vertices
         ValidateAdjacentVertex(prev);
         ValidateAdjacentVertex(next);
-
-        //write out the states of each of the lists
-#if DEBUG
-        StringBuilder rString = new StringBuilder();
-        foreach (Vertex v in reflexVertices)
-            rString.Append(string.Format("{0}, ", v.Index));
-        Log("Reflex Vertices: {0}", rString);
-
-        StringBuilder cString = new StringBuilder();
-        foreach (Vertex v in convexVertices)
-            cString.Append(string.Format("{0}, ", v.Index));
-        Log("Convex Vertices: {0}", cString);
-
-        StringBuilder eString = new StringBuilder();
-        foreach (Vertex v in earVertices)
-            eString.Append(string.Format("{0}, ", v.Index));
-        Log("Ear Vertices: {0}", eString);
-#endif
     }
 
     #endregion
@@ -405,7 +394,7 @@ internal static class Triangulator
 
     private static void ValidateAdjacentVertex(Vertex vertex)
     {
-        Log("Validating: {0}...", vertex);
+        //Log("Validating: {0}...", vertex);
 
         if (reflexVertices.Contains(vertex))
         {
@@ -413,11 +402,11 @@ internal static class Triangulator
             {
                 reflexVertices.Remove(vertex);
                 convexVertices.Add(vertex);
-                Log("Vertex: {0} now convex", vertex);
+                //Log("Vertex: {0} now convex", vertex);
             }
             else
             {
-                Log("Vertex: {0} still reflex", vertex);
+                //Log("Vertex: {0} still reflex", vertex);
             }
         }
 
@@ -429,16 +418,16 @@ internal static class Triangulator
             if (wasEar && !isEar)
             {
                 earVertices.Remove(vertex);
-                Log("Vertex: {0} no longer ear", vertex);
+                //Log("Vertex: {0} no longer ear", vertex);
             }
             else if (!wasEar && isEar)
             {
                 earVertices.AddFirst(vertex);
-                Log("Vertex: {0} now ear", vertex);
+                //Log("Vertex: {0} now ear", vertex);
             }
             else
             {
-                Log("Vertex: {0} still ear", vertex);
+                //Log("Vertex: {0} still ear", vertex);
             }
         }
     }
@@ -456,12 +445,12 @@ internal static class Triangulator
             if (IsConvex(v))
             {
                 convexVertices.Add(v);
-                Log("Convex: {0}", v);
+                //Log("Convex: {0}", v);
             }
             else
             {
                 reflexVertices.Add(v);
-                Log("Reflex: {0}", v);
+                //Log("Reflex: {0}", v);
             }
         }
     }
@@ -479,7 +468,7 @@ internal static class Triangulator
             if (IsEar(c))
             {
                 earVertices.AddLast(c);
-                Log("Ear: {0}", c);
+                //Log("Ear: {0}", c);
             }
         }
     }
@@ -493,7 +482,7 @@ internal static class Triangulator
         Vertex p = polygonVertices[polygonVertices.IndexOf(c) - 1].Value;
         Vertex n = polygonVertices[polygonVertices.IndexOf(c) + 1].Value;
 
-        Log("Testing vertex {0} as ear with triangle {1}, {0}, {2}...", c, p, n);
+        //Log("Testing vertex {0} as ear with triangle {1}, {0}, {2}...", c, p, n);
 
         foreach (Vertex t in reflexVertices)
         {
@@ -502,7 +491,7 @@ internal static class Triangulator
 
             if (Triangle.ContainsPoint(p, c, n, t))
             {
-                Log("\tTriangle contains vertex {0}...", t);
+                //Log("\tTriangle contains vertex {0}...", t);
                 return false;
             }
         }
