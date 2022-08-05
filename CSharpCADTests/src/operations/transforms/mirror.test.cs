@@ -11,13 +11,13 @@ public class MirroringTests
     [Test]
     public void TestMirroringGeom2()
     {
-        var geometry = new Geom2(new List<Vec2> { new Vec2(-5, -5), new Vec2(0, 5), new Vec2(10, -5) });
+        var geometry = new Geom2(new List<Vec2> { new Vec2(10, -5), new Vec2(0, 5), new Vec2(-5, -5) });
 
         // mirror about X
         Geom2 mirrored = Mirror(geometry, normal: new Vec3(1, 0, 0));
         Assert.DoesNotThrow(() => mirrored.Validate());
         var obs = mirrored.ToPoints();
-        var exp = new Vec2[] { new Vec2(5, -5), new Vec2(0, 5), new Vec2(-10, -5) };
+        var exp = new Vec2[] { new Vec2(-10, -5), new Vec2(0, 5), new Vec2(5, -5) };
         Assert.AreEqual(obs, exp);
 
         mirrored = MirrorX(geometry);
@@ -29,7 +29,7 @@ public class MirroringTests
         mirrored = Mirror(geometry, normal: new Vec3(0, 1, 0));
         Assert.DoesNotThrow(() => mirrored.Validate());
         obs = mirrored.ToPoints();
-        exp = new Vec2[] { new Vec2(-5, 5), new Vec2(0, -5), new Vec2(10, 5) };
+        exp = new Vec2[] { new Vec2(10, 5), new Vec2(0, -5), new Vec2(-5, 5) };
         Assert.AreEqual(obs, exp);
 
         mirrored = MirrorY(geometry);

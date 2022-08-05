@@ -118,13 +118,13 @@ public class RotateTests
     [Test]
     public void TestRotateMisc()
     {
-        var geometry2 = new Geom2(new List<Vec2> { new Vec2(-5, -5), new Vec2(0, 5), new Vec2(10, -5) });
+        var geometry2 = new Geom2(new List<Vec2> { new Vec2(10, -5), new Vec2(0, 5), new Vec2(-5, -5) });
 
         var rotated = Rotate(new Vec3(0, 0, 90), geometry2);
         Assert.DoesNotThrow(() => rotated.Validate());
 
         var obs2 = rotated.ToPoints();
-        var exp2 = new Vec2[] { new Vec2(5, -5), new Vec2(-5, 3.061616997868383e-16), new Vec2(5.000000000000001, 10) };
+        var exp2 = new Vec2[] { new Vec2(5.000000000000001, 10), new Vec2(-5, 3.061616997868383e-16), new Vec2(5, -5) };
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs2, exp2));
     }
 

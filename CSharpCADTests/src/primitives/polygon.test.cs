@@ -38,17 +38,17 @@ public class PolygonTests
     [Test]
     public void TestPolygonAndPaths()
     {
-        var geometry = Polygon(points: new Points2 { new Vec2(0, 0), new Vec2(100, 0), new Vec2(130, 50), new Vec2(30, 50) },
+        var geometry = Polygon(points: new Points2 { new Vec2(30, 50), new Vec2(130, 50), new Vec2(100, 0), new Vec2(0, 0) },
           paths: new Paths { new Path { 3, 2, 1, 0 } });
         Assert.DoesNotThrow(() => geometry.Validate());
 
         var obs = geometry.ToPoints();
-        var exp = new Vec2[] { new Vec2(30, 50), new Vec2(130, 50), new Vec2(100, 0), new Vec2(0, 0) };
+        var exp = new Vec2[] {  new Vec2(0, 0), new Vec2(100, 0), new Vec2(130, 50), new Vec2(30, 50) };
 
         Assert.IsTrue(Helpers.CompareArrays(obs, exp));
 
         // multiple paths
-        geometry = Polygon(points: new Points2 { new Vec2(0, 0), new Vec2(100, 0), new Vec2(0, 100), new Vec2(10, 10), new Vec2(80, 10), new Vec2(10, 80) },
+        geometry = Polygon(points: new Points2 { new Vec2(0, 0), new Vec2(100, 0), new Vec2(0, 100), new Vec2(10, 80), new Vec2(80, 10), new Vec2(10, 10) },
           paths: new Paths { new Path { 0, 1, 2 }, new Path { 3, 4, 5 } });
         Assert.DoesNotThrow(() => geometry.Validate());
 

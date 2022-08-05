@@ -51,14 +51,14 @@ public class TransformTests
     [Test]
     public void TestTransformMisc()
     {
-        var geometry2 = new Geom2(new List<Vec2> { new Vec2(-5, -5), new Vec2(0, 5), new Vec2(10, -5) });
+        var geometry2 = new Geom2(new List<Vec2> { new Vec2(10, -5), new Vec2(0, 5), new Vec2(-5, -5) });
 
         var matrix = Mat4.FromTranslation(new Vec3(2, 2, 0));
         var transformed = Transform(matrix, geometry2);
         Assert.DoesNotThrow(() => transformed.Validate());
 
         var obs = transformed.ToPoints();
-        var exp = new Vec2[] { new Vec2(-3, -3), new Vec2(2, 7), new Vec2(12, -3) };
+        var exp = new Vec2[] { new Vec2(12, -3), new Vec2(2, 7), new Vec2(-3, -3) };
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
     }
 }

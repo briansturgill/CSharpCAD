@@ -117,13 +117,13 @@ public class TestScale
     [Test]
     public void TestScaleMisc()
     {
-        var geometry2 = new Geom2(new List<Vec2> { new Vec2(-5, -5), new Vec2(0, 5), new Vec2(10, -5) });
+        var geometry2 = new Geom2(new List<Vec2> { new Vec2(10, -5), new Vec2(0, 5), new Vec2(-5, -5) });
 
         var scaled = Scale(new Vec2(3, 1), geometry2);
         Assert.DoesNotThrow(() => scaled.Validate());
 
         var obs2 = scaled.ToPoints();
-        var exp2 = new Vec2[] { new Vec2(-15, -5), new Vec2(0, 5), new Vec2(30, -5) };
+        var exp2 = new Vec2[] { new Vec2(30, -5), new Vec2(0, 5), new Vec2(-15, -5) };
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs2, exp2));
     }
 }

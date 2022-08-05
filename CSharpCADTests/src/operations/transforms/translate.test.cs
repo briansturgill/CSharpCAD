@@ -112,13 +112,13 @@ public class TranslateTests
     [Test]
     public void TestTranslateMisc()
     {
-        var geometry2 = new Geom2(new List<Vec2> { new Vec2(-5, -5), new Vec2(0, 5), new Vec2(10, -5) });
+        var geometry2 = new Geom2(new List<Vec2> { new Vec2(10, -5), new Vec2(0, 5), new Vec2(-5, -5) });
 
         var translated = Translate(new Vec2(3, 3), geometry2);
         Assert.DoesNotThrow(() => translated.Validate());
 
         var obs = translated.ToPoints();
-        var exp = new Vec2[] { new Vec2(-2, -2), new Vec2(3, 8), new Vec2(13, -2) };
+        var exp = new Vec2[] { new Vec2(13, -2), new Vec2(3, 8), new Vec2(-2, -2) };
         Assert.IsTrue(Helpers.CompareArraysNEVec2(obs, exp));
     }
 }

@@ -106,14 +106,14 @@ public class TestCenter
     [Test]
     public void TestMisc()
     {
-        var geometry2 = new Geom2(new List<Vec2> { new Vec2(-5, -5), new Vec2(0, 5), new Vec2(10, -5) });
+        var geometry2 = new Geom2(new List<Vec2> { new Vec2(10, -5), new Vec2(0, 5), new Vec2(-5, -5) });
 
         var centered2 = Center(geometry2, axisX: true, axisY: true, relativeTo: new Vec2(10, 15));
         Assert.DoesNotThrow(() => centered2.Validate());
 
         var pts2 = new List<Vec2>();
         pts2.AddRange(centered2.ToPoints());
-        var exp2 = new List<Vec2> { new Vec2(2.5, 10), new Vec2(7.5, 20), new Vec2(17.5, 10) };
+        var exp2 = new List<Vec2> { new Vec2(17.5, 10), new Vec2(7.5, 20), new Vec2(2.5, 10) };
         Assert.True(Helpers.CompareListsNEVec2(pts2, exp2));
     }
 }
