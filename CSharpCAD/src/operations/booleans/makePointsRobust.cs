@@ -120,8 +120,9 @@ public static partial class CSCAD
         }
     };
 
-    internal static void MakePointsRobust(Poly3[] polys)
+    internal static void MakePointsRobust(string tag, Poly3[] polys)
     {
+        var pointsCorrected = 0;
         var kdtree = new KdTree<double, List<PointsToFix>>(3, new KdTree.Math.DoubleMath());
         foreach (var poly in polys)
         {
@@ -157,7 +158,10 @@ public static partial class CSCAD
             {
                 var ptf = ptList[i];
                 ptf.polygon.Vertices[ptf.pidx] = avg;
+                pointsCorrected++;
             }
         }
+        if (GlobalParams.DebugOutput)
+            Console.WriteLine($"MakePointsRobust: {tag} {pointsCorrected} points corrected.");
     }
 }
