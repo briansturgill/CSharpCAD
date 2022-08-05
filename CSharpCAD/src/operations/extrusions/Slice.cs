@@ -222,19 +222,19 @@ public class Slice : IEquatable<Slice>
         foreach (var (solid, holes) in hierarchy.roots)
         {
             // hole indices
-            var index = solid.Count;
+            var index = solid.Length;
             var holesIndex = new List<int>();
             foreach (var hole in holes)
             {
                 holesIndex.Add(index);
-                index += hole.Count;
+                index += hole.Length;
             }
 
             // compute earcut triangulation for each solid
-            var len = solid.Count;
+            var len = solid.Length;
             foreach (var hole in holes)
             {
-                len += hole.Count;
+                len += hole.Length;
             }
 
             var vertices = new List<Vec2>(len);
@@ -272,7 +272,9 @@ public class Slice : IEquatable<Slice>
                 polygons.Add(new Poly3(new List<Vec3> { v1, v2, v3 }));
             }
         }
-        return polygons.ToArray();
+        var polygonsa = polygons.ToArray();
+        MakePointsRobust("Slice.ToPolygons", polygonsa);
+        return polygonsa;
     }
 
     /// <summary>Transform this slice using the given matrix.</summary>
