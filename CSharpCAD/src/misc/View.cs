@@ -34,7 +34,7 @@ public static partial class CSCAD
     {
         if (!GlobalParams.CADViewerEnabled) return (gobj);
         Geom3 g = new Geom3();
-        if (gobj.ToSides().Length > 0)
+        if (!gobj.IsEmpty)
         {
             g = ExtrudeLinear(gobj, height: 0.1);
             g.Color = gobj.Color;

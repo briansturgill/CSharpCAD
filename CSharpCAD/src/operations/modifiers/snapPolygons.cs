@@ -2,6 +2,7 @@ namespace CSharpCAD;
 
 internal static partial class Modifiers
 {
+    #if NOTUSED
     public static Geom2 snap(Geom2 geometry)
     {
         var epsilon = geometry.MeasureEpsilon();
@@ -22,6 +23,7 @@ internal static partial class Modifiers
         // snap can produce sides with zero (0) length, remove those
         return new Geom2(newsides.ToArray(), geometry.Transforms, geometry.Color);
     }
+    #endif
 
     public static Geom3 snap(Geom3 geometry)
     {

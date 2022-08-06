@@ -4,25 +4,22 @@ public static partial class CSCAD
 {
     internal static Geom2 OffsetGeom2(Geom2 gobj, double delta = 1, Corners corners = Corners.Edge, int segments = 16)
     {
-        var outlines = gobj.ToOutlines();
-        var allSides = new List<Geom2.Side>();
-        // convert the geometry to outlines, and generate offsets from each
-        foreach (var outline in outlines)
-        {
-            var level = 0;
-            foreach (var polygon in outlines)
-            {
-                level += ArePointsInside(outline, polygon);
-            }
-            var outside = (level % 2) == 0;
+        var nrtree = new Geom2.NRTree();
+        var shapesAndHoles = gobj.ToShapesAndHoles();
 
-            var newOutline = OffsetFromPoints(outline, delta: outside ? delta : -delta, corners: corners, segments: segments, closed: true);
-            var newSides = new Geom2(newOutline).ToSides();
-            allSides.AddRange(newSides);
+        foreach (var (shape, holes) in shapesAndHoles)
+        {
+            // Note - +delta
+            var newShape = OffsetFromPoints(shape, delta: delta, corners: corners, segments: segments, closed: true);
+            nrtree.Insert(newShape.ToArray());
+            foreach (var hole in holes)
+            { // Note -delta
+                var newHole = OffsetFromPoints(hole, delta: -delta, corners: corners, segments: segments, closed: true);
+                nrtree.Insert(newHole.ToArray());
+            }
         }
 
-        // create a composite geometry from the new outlines
-        return new Geom2(allSides.ToArray());
+        return new Geom2(nrtree);
     }
 
     /*

@@ -79,7 +79,23 @@ public class ExtrudeLinearTests
     [Test]
     public void TestExtrudeLinearHoles()
     {
-        var geometry2 = new Geom2(UnitTestData.ExtrudeLinearHolesSides);
+        var nrtree = new Geom2.NRTree();
+        nrtree.Insert(new Vec2[] {
+            new Vec2(-5, -5),
+            new Vec2(5, -5),
+            new Vec2(5, 5),
+            new Vec2(-5, 5)
+        });
+        nrtree.Insert(new Vec2[] {
+            new Vec2(-2, 2),
+            new Vec2(2, 2),
+            new Vec2(2, -2),
+            new Vec2(-2, -2)
+        });
+
+        //var geometry2 = new Geom2(UnitTestData.ExtrudeLinearHolesSides);
+        var geometry2 = new Geom2(nrtree);
+        Assert.DoesNotThrow(() => geometry2.Validate());
         var geometry3 = ExtrudeLinear(geometry2, height: 15);
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();

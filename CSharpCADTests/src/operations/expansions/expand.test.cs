@@ -44,28 +44,35 @@ public class ExpandTests
     [Test]
     public void TestExpandComplexGeom2()
     {
-        var geometry = new Geom2(new Geom2.Side[] {
-          new Geom2.Side(new Vec2(-75.00000, 75.00000), new Vec2(-75.00000, -75.00000)),
-          new Geom2.Side(new Vec2(-75.00000, -75.00000), new Vec2(75.00000, -75.00000)),
-          new Geom2.Side(new Vec2(75.00000, -75.00000), new Vec2(75.00000, 75.00000)),
-          new Geom2.Side(new Vec2(-40.00000, 75.00000), new Vec2(-75.00000, 75.00000)),
-          new Geom2.Side(new Vec2(75.00000, 75.00000), new Vec2(40.00000, 75.00000)),
-          new Geom2.Side(new Vec2(40.00000, 75.00000), new Vec2(40.00000, 0.00000)),
-          new Geom2.Side(new Vec2(40.00000, 0.00000), new Vec2(-40.00000, 0.00000)),
-          new Geom2.Side(new Vec2(-40.00000, 0.00000), new Vec2(-40.00000, 75.00000)),
-          new Geom2.Side(new Vec2(15.00000, -10.00000), new Vec2(15.00000, -40.00000)),
-          new Geom2.Side(new Vec2(-15.00000, -10.00000), new Vec2(15.00000, -10.00000)),
-          new Geom2.Side(new Vec2(-15.00000, -40.00000), new Vec2(-15.00000, -10.00000)),
-          new Geom2.Side(new Vec2(-8.00000, -40.00000), new Vec2(-15.00000, -40.00000)),
-          new Geom2.Side(new Vec2(15.00000, -40.00000), new Vec2(8.00000, -40.00000)),
-          new Geom2.Side(new Vec2(-8.00000, -25.00000), new Vec2(-8.00000, -40.00000)),
-          new Geom2.Side(new Vec2(8.00000, -25.00000), new Vec2(-8.00000, -25.00000)),
-          new Geom2.Side(new Vec2(8.00000, -40.00000), new Vec2(8.00000, -25.00000)),
-          new Geom2.Side(new Vec2(-2.00000, -15.00000), new Vec2(-2.00000, -19.00000)),
-          new Geom2.Side(new Vec2(-2.00000, -19.00000), new Vec2(2.00000, -19.00000)),
-          new Geom2.Side(new Vec2(2.00000, -19.00000), new Vec2(2.00000, -15.00000)),
-          new Geom2.Side(new Vec2(2.00000, -15.00000), new Vec2(-2.00000, -15.00000))
+        var nrtree = new Geom2.NRTree();
+        nrtree.Insert(new Vec2[] {
+          new Vec2(-75.00000, -75.00000),
+          new Vec2(75.00000, -75.00000),
+          new Vec2(75.00000, 75.00000),
+          new Vec2(-75.00000, 75.00000),
+          new Vec2(40.00000, 75.00000),
+          new Vec2(40.00000, 0.00000),
+          new Vec2(-40.00000, 0.00000),
+          new Vec2(-40.00000, 75.00000),
         });
+        nrtree.Insert(new Vec2[] {
+          new Vec2(15.00000, -40.00000),
+          new Vec2(15.00000, -10.00000),
+          new Vec2(-15.00000, -10.00000),
+          new Vec2(-15.00000, -40.00000),
+          new Vec2(8.00000, -40.00000),
+          new Vec2(-8.00000, -40.00000),
+          new Vec2(-8.00000, -25.00000),
+          new Vec2(8.00000, -25.00000),
+        });
+        nrtree.Insert(new Vec2[] {
+          new Vec2(-2.00000, -19.00000),
+          new Vec2(2.00000, -19.00000),
+          new Vec2(2.00000, -15.00000),
+          new Vec2(-2.00000, -15.00000)
+        });
+        nrtree.CorrectWindings();
+        var geometry = new Geom2(nrtree);
         Assert.DoesNotThrow(() => (geometry).Validate());
 
         // expand +

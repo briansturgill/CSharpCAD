@@ -26,14 +26,16 @@ public static partial class CSCAD
         var min = new Vec2(double.PositiveInfinity, double.PositiveInfinity);
         foreach (var g in geometries)
         {
-            var sides = g.ToSides();
-            foreach (var side in sides)
+            var outlines = g.ToOutlines();
+            foreach (var outline in outlines)
             {
-                var point = side.v0;
-                uniquePoints.Add(point);
-                if (point.Y < min.Y || (point.Y == min.Y && point.X < min.X))
+                foreach (var point in outline)
                 {
-                    min = point;
+                    uniquePoints.Add(point);
+                    if (point.Y < min.Y || (point.Y == min.Y && point.X < min.X))
+                    {
+                        min = point;
+                    }
                 }
             }
         }

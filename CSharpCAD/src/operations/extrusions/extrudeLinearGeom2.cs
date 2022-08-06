@@ -15,10 +15,10 @@ public static partial class CSCAD
         // convert to vector in order to perform transforms
         var offsetv = offset;
 
-        var baseSides = obj.ToSides();
-        if (baseSides.Length == 0) throw new ArgumentException("The given geometry object cannot be empty.");
+        var baseOutlines = obj.ToOutlines();
+        if (baseOutlines.Length == 0) throw new ArgumentException("The given geometry object cannot be empty.");
 
-        var baseSlice = new Slice(baseSides);
+        var baseSlice = new Slice(baseOutlines);
         if (offsetv.Z < 0) baseSlice = baseSlice.Reverse();
 
         Slice? createTwist(double progress, int index, Slice baseSlice)

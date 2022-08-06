@@ -38,7 +38,7 @@ public class OffsetTests
         Assert.DoesNotThrow(() => (obs).Validate());
 
         // expand +
-        obs = Offset(geometry, delta: 1, corners: Corners.Round, segments:0);
+        obs = Offset(geometry, delta: 1, corners: Corners.Round, segments: 0);
         pts = obs.ToPoints();
         exp = new Vec2[] {
           new Vec2(-5, -6),
@@ -60,7 +60,7 @@ public class OffsetTests
         Assert.DoesNotThrow(() => (obs).Validate());
 
         // contract -
-        obs = Offset(geometry, delta: -0.5, corners: Corners.Round, segments:0);
+        obs = Offset(geometry, delta: -0.5, corners: Corners.Round, segments: 0);
         pts = obs.ToPoints();
         exp = new Vec2[] {
           new Vec2(-4.5, -4.5),
@@ -121,34 +121,41 @@ public class OffsetTests
     [Test]
     public void TestOffsetOptionsOffsettingComplexGeom2()
     {
-        var geometry = new Geom2(new Geom2.Side[] {
-          new Geom2.Side(new Vec2(-75, 75), new Vec2(-75, -75)),
-          new Geom2.Side(new Vec2(-75, -75), new Vec2(75, -75)),
-          new Geom2.Side(new Vec2(75, -75), new Vec2(75, 75)),
-          new Geom2.Side(new Vec2(-40, 75), new Vec2(-75, 75)),
-          new Geom2.Side(new Vec2(75, 75), new Vec2(40, 75)),
-          new Geom2.Side(new Vec2(40, 75), new Vec2(40, 0)),
-          new Geom2.Side(new Vec2(40, 0), new Vec2(-40, 0)),
-          new Geom2.Side(new Vec2(-40, 0), new Vec2(-40, 75)),
-          new Geom2.Side(new Vec2(15, -10), new Vec2(15, -40)),
-          new Geom2.Side(new Vec2(-15, -10), new Vec2(15, -10)),
-          new Geom2.Side(new Vec2(-15, -40), new Vec2(-15, -10)),
-          new Geom2.Side(new Vec2(-8, -40), new Vec2(-15, -40)),
-          new Geom2.Side(new Vec2(15, -40), new Vec2(8, -40)),
-          new Geom2.Side(new Vec2(-8, -25), new Vec2(-8, -40)),
-          new Geom2.Side(new Vec2(8, -25), new Vec2(-8, -25)),
-          new Geom2.Side(new Vec2(8, -40), new Vec2(8, -25)),
-          new Geom2.Side(new Vec2(-2, -15), new Vec2(-2, -19)),
-          new Geom2.Side(new Vec2(-2, -19), new Vec2(2, -19)),
-          new Geom2.Side(new Vec2(2, -19), new Vec2(2, -15)),
-          new Geom2.Side(new Vec2(2, -15), new Vec2(-2, -15))
+        var nrtree = new Geom2.NRTree();
+        nrtree.Insert(new Vec2[] {
+          new Vec2(-75, -75),
+          new Vec2(75, -75),
+          new Vec2(75, 75),
+          new Vec2(-75, 75),
+          new Vec2(40, 75),
+          new Vec2(40, 0),
+          new Vec2(-40, 0),
+          new Vec2(-40, 75),
         });
+        nrtree.Insert(new Vec2[] {
+          new Vec2(15, -40),
+          new Vec2(15, -10),
+          new Vec2(-15, -10),
+          new Vec2(-15, -40),
+          new Vec2(8, -40),
+          new Vec2(-8, -40),
+          new Vec2(-8, -25),
+          new Vec2(8, -25),
+    });
+        nrtree.Insert(new Vec2[] {
+          new Vec2(-2, -19),
+          new Vec2(2, -19),
+          new Vec2(2, -15),
+          new Vec2(-2, -15)
+        });
+        nrtree.CorrectWindings();
+        var geometry = new Geom2(nrtree);
         Assert.DoesNotThrow(() => (geometry).Validate());
 
         // expand +
         var obs = Offset(geometry, delta: 2, corners: Corners.Edge);
         var pts = obs.ToPoints();
-        if(WriteTests) TestData.Make("OffsetPlusComplexExp1", pts);
+        if (WriteTests) TestData.Make("OffsetPlusComplexExp1", pts);
         var exp = UnitTestData.OffsetPlusComplexExp1;
         Assert.AreEqual(pts.Length, 20);
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));

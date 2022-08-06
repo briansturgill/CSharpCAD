@@ -12,14 +12,20 @@ public class Slice : IEquatable<Slice>
     }
 
     // Internal constructor.
-    internal Slice(Geom2.Side[] sides)
+    internal Slice(Vec2[][] outlines)
     {
-        edges = new List<Edge>(sides.Length);
+        edges = new List<Edge>();
         // create a list of edges from the sides
-        for (var i = 0; i < sides.Length; i++)
+        foreach (var outline in outlines)
         {
-            var side = sides[i];
-            edges.Add(new Edge(new Vec3(side.v0.X, side.v0.Y, 0), new Vec3(side.v1.X, side.v1.Y, 0)));
+            var len = outline.Length;
+            var prev = outline[len-1];
+            for (var i = 0; i < len; i++)
+            {
+                var cur = outline[i];
+                edges.Add(new Edge(new Vec3(prev.X, prev.Y, 0), new Vec3(cur.X, cur.Y, 0)));
+                prev = cur;
+            }
         }
     }
     /// <summary>Create a slice from the given points.</summary>
@@ -27,7 +33,7 @@ public class Slice : IEquatable<Slice>
     {
         if (points.Count < 3) throw new ArgumentException("The given points must contain THREE or more points.");
 
-        this.edges = new List <Edge>(points.Count);
+        this.edges = new List<Edge>(points.Count);
         var prevpoint = points[points.Count - 1];
         for (int i = 0; i < points.Count; i++)
         {

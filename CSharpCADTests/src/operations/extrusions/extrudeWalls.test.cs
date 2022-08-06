@@ -17,23 +17,23 @@ public class ExtrudeWalls
     {
         var matrix = Mat4.FromTranslation(new Vec3(0, 0, 10));
 
-        var shape0 = new Geom2.Side[] {new Geom2.Side()};
-        var shape1 = new Geom2.Side[] {
-            new Geom2.Side(new Vec2(-10.0, 10.0), new Vec2(-10.0, -10.0)),
-            new Geom2.Side(new Vec2(-10.0, -10.0), new Vec2(10.0, -10.0)),
-            new Geom2.Side(new Vec2(10.0, -10.0), new Vec2(10.0, 10.0)),
-            new Geom2.Side(new Vec2(10.0, 10.0), new Vec2(-10.0, 10.0))
-          };
-        var shape2 = new Geom2.Side[] { // hole
-          new Geom2.Side(new Vec2(-10.0, 10.0), new Vec2(-10.0, -10.0)),
-          new Geom2.Side(new Vec2(-10.0, -10.0), new Vec2(10.0, -10.0)),
-          new Geom2.Side(new Vec2(10.0, -10.0), new Vec2(10.0, 10.0)),
-          new Geom2.Side(new Vec2(10.0, 10.0), new Vec2(-10.0, 10.0)),
-          new Geom2.Side(new Vec2(-5.0, -5.0), new Vec2(-5.0, 5.0)),
-          new Geom2.Side(new Vec2(5.0, -5.0), new Vec2(-5.0, -5.0)),
-          new Geom2.Side(new Vec2(5.0, 5.0), new Vec2(5.0, -5.0)),
-          new Geom2.Side(new Vec2(-5.0, 5.0), new Vec2(5.0, 5.0))
-        };
+        var shape0 = new Vec2[][] {  };
+        var shape1 = new Vec2[][] { new Vec2[] {
+            new Vec2(-10.0, 10.0),
+            new Vec2(-10.0, -10.0),
+            new Vec2(10.0, -10.0),
+            new Vec2(10.0, 10.0),
+          }};
+        var shape2 = new Vec2[][] { new Vec2[] {// hole
+          new Vec2(-10.0, 10.0),
+          new Vec2(-10.0, -10.0),
+          new Vec2(10.0, -10.0),
+          new Vec2(10.0, 10.0),
+          new Vec2(-5.0, -5.0),
+          new Vec2(5.0, -5.0),
+          new Vec2(5.0, 5.0),
+          new Vec2(-5.0, 5.0),
+        }};
 
         var slice0 = new Slice(shape0);
         var slice1 = new Slice(shape1);
@@ -58,25 +58,25 @@ public class ExtrudeWalls
     {
         var matrix = Mat4.FromTranslation(new Vec3(0, 0, 10));
 
-        var shape1 = new Geom2.Side[] {
-          new Geom2.Side(new Vec2(-10.0, 10.0), new Vec2(-10.0, -10.0)),
-          new Geom2.Side(new Vec2(-10.0, -10.0), new Vec2(10.0, -10.0)),
-          new Geom2.Side(new Vec2(10.0, -10.0), new Vec2(10.0, 10.0))
-        };
-        var shape2 = new Geom2.Side[] {
-          new Geom2.Side(new Vec2(-10.0, 10.0), new Vec2(-10.0, -10.0)),
-          new Geom2.Side(new Vec2(-10.0, -10.0), new Vec2(10.0, -10.0)),
-          new Geom2.Side(new Vec2(10.0, -10.0), new Vec2(10.0, 10.0)),
-          new Geom2.Side(new Vec2(10.0, 10.0), new Vec2(-10.0, 10.0))
-        };
-        var shape3 = new Geom2.Side[] {
-          new Geom2.Side(new Vec2(2.50000, -4.33013), new Vec2(5.00000, 0.00000)),
-          new Geom2.Side(new Vec2(5.00000, 0.00000), new Vec2(2.50000, 4.33013)),
-          new Geom2.Side(new Vec2(2.50000, 4.33013), new Vec2(-2.50000, 4.33013)),
-          new Geom2.Side(new Vec2(-2.50000, 4.33013), new Vec2(-5.00000, 0.00000)),
-          new Geom2.Side(new Vec2(-5.00000, 0.00000), new Vec2(-2.50000, -4.33013)),
-          new Geom2.Side(new Vec2(-2.50000, -4.33013), new Vec2(2.50000, -4.33013))
-        };
+        var shape1 = new Vec2[][] { new Vec2[] {
+          new Vec2(-10.0, 10.0),
+          new Vec2(-10.0, -10.0),
+          new Vec2(10.0, -10.0),
+        }};
+        var shape2 = new Vec2[][] { new Vec2[] {
+          new Vec2(-10.0, 10.0),
+          new Vec2(-10.0, -10.0),
+          new Vec2(10.0, -10.0),
+          new Vec2(10.0, 10.0),
+        }};
+        var shape3 = new Vec2[][] { new Vec2[] {
+          new Vec2(2.50000, -4.33013),
+          new Vec2(5.00000, 0.00000),
+          new Vec2(2.50000, 4.33013),
+          new Vec2(-2.50000, 4.33013),
+          new Vec2(-5.00000, 0.00000),
+          new Vec2(-2.50000, -4.33013),
+        }};
 
         var slice1 = new Slice(shape1);
         var slice2 = new Slice(shape2);

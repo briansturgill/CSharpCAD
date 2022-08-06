@@ -8,22 +8,21 @@ public static partial class CSCAD
     {
         var shapesAndHoles = gobj.ToShapesAndHoles();
         Polygon poly = new Polygon(new Region[0], false);
-        if (shapesAndHoles.Length == 0)
+        if (shapesAndHoles.Count == 0)
         {
             return poly;
         }
         var empty = poly;
 
-        foreach (var shAndHoles in shapesAndHoles)
+        foreach (var (shape, holes) in shapesAndHoles)
         {
-            var len = shAndHoles.Length;
-            if (len < 1) continue;
-            var regions = new Region[len];
-            regions[0] = new Region(shAndHoles[0].ToArray()); // Shape
+            var len = holes.Length;
+            var regions = new Region[len+1];
+            regions[0] = new Region(shape.ToArray()); // Shape
             if (Winding(regions[0].Points) == "ccw") Array.Reverse(regions[0].Points);
-            for (var i = 1; i < len; i++) // Holes
+            for (var i = 0; i < len; i++) // Holes
             {
-                regions[i] = new Region(shAndHoles[i].ToArray());
+                regions[i+1] = new Region(holes[i].ToArray());
             }
             var newpoly = new Polygon(regions, false);
             if (Object.ReferenceEquals(poly, empty))

@@ -10,9 +10,9 @@ public static partial class UnitTestData {
       new Vec2(10, 10)
     },
     new Vec2[] {
-      new Vec2(6, -4),
       new Vec2(6, -5),
-      new Vec2(5, -5)
+      new Vec2(5, -5),
+      new Vec2(6, -4)
     },
   };
 }

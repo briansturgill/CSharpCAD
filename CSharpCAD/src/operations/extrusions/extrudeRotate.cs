@@ -116,7 +116,7 @@ public static partial class CSCAD
 
         var rotationPerSlice = totalRotation / (double)segments;
         var isCapped = Math.Abs(totalRotation) < (Math.PI * 2);
-        var baseSlice = new Slice(geometry.ToSides());
+        var baseSlice = new Slice(geometry.ToOutlines());
         baseSlice = baseSlice.Reverse();
 
         Slice createSlice(double progress, int index, object baseSlice)

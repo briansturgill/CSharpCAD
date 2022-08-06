@@ -32,7 +32,6 @@ public static partial class CSCAD
     public static Geom2 Polygon(Points2 points, Paths? paths = null)
     {
         var nrtree = new Geom2.NRTree();
-        var listofpolys = points;
 
         if (paths is not null)
         {
@@ -49,40 +48,12 @@ public static partial class CSCAD
                 }
                 nrtree.Insert(npath.ToArray());
             }
-            return new Geom2(nrtree);
-        } // LATER
-
-
-        Paths listofpaths;
-        if (paths is null || paths.Count == 0)
-        {
-            // create a list of paths based on the points
-            listofpaths = new Paths(1);
-            listofpaths.Add(new Path(listofpolys.Count));
-            for (int i = 0; i < listofpolys.Count; i++)
-            {
-                listofpaths[0].Add(i);
-            }
         }
         else
         {
-            listofpaths = paths;
+            nrtree.Insert(points.ToArray());
         }
-
-
-        var allpoints = listofpolys;
-
-        var sides = new List<Geom2.Side>();
-        foreach (var path in listofpaths)
-        {
-            var setofpoints = new List<Vec2>(path.Count);
-            for (var i = 0; i < path.Count; i++)
-            {
-                setofpoints.Add(allpoints[path[i]]);
-            }
-            var geometry = new Geom2(setofpoints);
-            sides.AddRange(geometry.ToSides());
-        }
-        return new Geom2(sides.ToArray());
+        // LATER we need to check windings and have good error messages.
+        return new Geom2(nrtree);
     }
 }

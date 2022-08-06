@@ -20,7 +20,6 @@ public static partial class CSCAD
 
         var midpoint = new Vec2();
 
-        useEarcut = true; // LATER resolve
         if (!useEarcut)
         {
             Vec2 calcMidpoint(Vec2[] v_in)

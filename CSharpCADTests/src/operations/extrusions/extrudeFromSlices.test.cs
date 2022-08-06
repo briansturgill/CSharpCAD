@@ -20,10 +20,10 @@ public class TestExtrudeFromSlices
         var geometry2 = new Geom2(new List<Vec2>{new Vec2(10, 10),
           new Vec2(-10, 10), new Vec2(-10, -10), new Vec2(10, -10)});
 
-        var geometry3 = ExtrudeFromSlices(new Slice(geometry2.ToSides()));
+        var geometry3 = ExtrudeFromSlices(new Slice(geometry2.ToOutlines()));
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
-        if(WriteTests) TestData.Make("ExtrudeFSDef1", pts);
+        if (WriteTests) TestData.Make("ExtrudeFSDef1", pts);
         var exp = UnitTestData.ExtrudeFSDef1;
         Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
@@ -88,11 +88,11 @@ public class TestExtrudeFromSlices
         Slice? callBack(double progress, int count, Slice baseSlice)
         {
             var newshape = Circle(radius: 5 + count, segments: 4 + count);
-            var newslice = new Slice(newshape.ToSides());
+            var newslice = new Slice(newshape.ToOutlines());
             newslice = newslice.Transform(Mat4.FromTranslation(new Vec3(0, 0, count * 10)));
             return newslice;
         }
-        var baseSlice = new Slice(Circle(radius: 4, segments: 4).ToSides());
+        var baseSlice = new Slice(Circle(radius: 4, segments: 4).ToOutlines());
         var geometry3 = ExtrudeFromSlices(baseSlice, callBack, numberOfSlices: 5);
         // LATER JSCAD Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
@@ -102,8 +102,22 @@ public class TestExtrudeFromSlices
     [Test]
     public void TestExtrudeFSHoles()
     {
-        var geometry2 = new Geom2(UnitTestData.ExtrudeFSHole1, new Mat4(), null);
-        var geometry3 = ExtrudeFromSlices(new Slice(geometry2.ToSides()));
+        var nrtree = new Geom2.NRTree();
+        nrtree.Insert(new Vec2[] {
+            new Vec2((double)(-10), (double)(-10)),
+            new Vec2((double)(10), (double)(-10)),
+            new Vec2((double)(10), (double)(10)),
+            new Vec2((double)(-10), (double)(10)),
+        });
+        nrtree.Insert(new Vec2[] {
+            new Vec2((double)(5), (double) (5)),
+            new Vec2((double)(5), (double) (-5)),
+            new Vec2((double)(-5), (double) (-5)),
+            new Vec2((double)(-5), (double) (5)),
+        });
+        var geometry2 = new Geom2(nrtree);
+        geometry2.Validate();
+        var geometry3 = ExtrudeFromSlices(new Slice(geometry2.ToOutlines()));
         Assert.DoesNotThrow(() => geometry3.Validate());
         var pts = geometry3.ToPoints();
         if(WriteTests) TestData.Make("ExtrudeFSHoleExp", pts);

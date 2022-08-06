@@ -302,6 +302,7 @@ public class ModifiersTests
         Assert.AreEqual(results[3].Vertices, exp3.Vertices);
     }
 
+#if NOTUSED
     [Test]
     public void TestSnapGeom2()
     {
@@ -338,6 +339,7 @@ public class ModifiersTests
         };
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
     }
+#endif
 
     [Test]
     public void TestSnapGeom3()

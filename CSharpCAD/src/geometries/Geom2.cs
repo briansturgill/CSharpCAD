@@ -21,7 +21,7 @@ public class Geom2 : Geometry
     public override bool Is3D => false;
 
     /// <summary>Is this geometry empty?</summary>
-    public bool IsEmpty => nrtree.Root.Contained.Count == 0;
+    public bool IsEmpty => nrtree.NodeCount == 0;
 
     /// <summary>Empty constructor.</summary>
     public Geom2()
@@ -221,7 +221,7 @@ public class Geom2 : Geometry
     }
 
     /// <summary>Create a list of list of lists of Vec2 where each middle list contains a shape, follow by its assigned holes.</summary>
-    public Vec2[][][] ToShapesAndHoles()
+    public List<(Vec2[], Vec2[][])> ToShapesAndHoles()
     {
         ApplyTransforms();
         return nrtree.ToShapesAndHoles();
@@ -352,6 +352,7 @@ public class Geom2 : Geometry
     /// <summary>Reverses the given geometry so that the sides are flipped in the opposite order.</summary>
     public Geom2 Reverse()
     {
+        // LATER does this ever make sense?
         return new Geom2(nrtree.Reverse(), transforms, Color, needsTransform);
     }
 
@@ -399,7 +400,8 @@ public class Geom2 : Geometry
      * <summary>Transform this geometry using the given matrix.</summary>
      * <remarks>
      * This is a lazy transform of the sides, as this function only adjusts the transforms.
-     * The transforms are applied when accessing the sides via ToSides().
+     * The transforms are applied when accessing the sides via ToOutlines() or other such retrieval.
+     * The retrieval method calls ApplyTransforms().
      * </remarks>
      */
     public Geom2 Transform(Mat4 matrix)
@@ -761,7 +763,7 @@ public class Geom2 : Geometry
                     var shape = n.Points;
                     var holes = new Vec2[n.Contained.Count][];
                     var tmp = n.Contained.ToArray();
-                    // Triangulator requires greatest Max.X first.
+                    // Earcut requires greatest Max.X first.
                     int compareByMaxX(NRTreeNode a, NRTreeNode b)
                     {
                         var ret = Math.Sign(b.Max.X - a.Max.X);
@@ -806,29 +808,30 @@ public class Geom2 : Geometry
             }
         }
 
-        internal Vec2[][][] ToShapesAndHoles()
+        internal List<(Vec2[], Vec2[][])> ToShapesAndHoles()
         {
-            var lllv = new List<Vec2[][]>();
-            _toShapesAndHoles(this.Root, lllv);
-            return lllv.ToArray();
+            var l = new List<(Vec2[], Vec2[][])>();
+            _toShapesAndHoles(this.Root, l);
+            return l;
         }
 
-        private void _toShapesAndHoles(NRTreeNode parent, List<Vec2[][]> lllv, int depth = 0)
+        private void _toShapesAndHoles(NRTreeNode parent, List<(Vec2[], Vec2[][])> l, int depth = 0)
         {
             foreach (var n in parent.Contained)
             {
                 if (depth % 2 == 0)
                 {
-                    var llv = new Vec2[n.Contained.Count + 1][];
-                    llv[0] = n.Points;
-                    var contained = n.Contained;
-                    for (var i = 1; i < llv.Length; i++)
+                    var shape = n.Points;
+                    var holes = new Vec2[n.Contained.Count][];
+                    var tmp = n.Contained;
+                    var tmplen = tmp.Count;
+                    for (var i = 0; i < tmplen; i++)
                     {
-                        llv[i] = contained[i - 1].Points;
+                        holes[i] = tmp[i].Points.ToArray();
                     }
-                    lllv.Add(llv);
+                    l.Add((shape, holes));
                 }
-                _toShapesAndHoles(n, lllv, depth + 1);
+                _toShapesAndHoles(n, l, depth + 1);
             }
         }
 
@@ -874,20 +877,20 @@ public class Geom2 : Geometry
                     {
                         throw new ValidationException($"Geom2 self-edge {child.Points[i]}");
                     }
-                    var winding = Winding(child.Points);
-                    if (depth % 2 == 0)
+                }
+                var winding = Winding(child.Points);
+                if (depth % 2 == 0)
+                {
+                    if (winding != "ccw")
                     {
-                        if (winding != "ccw")
-                        {
-                            throw new ValidationException($"Improper winding for shape: {winding}");
-                        }
+                        throw new ValidationException($"Improper winding for shape: {winding}");
                     }
-                    else
+                }
+                else
+                {
+                    if (winding != "cw")
                     {
-                        if (winding != "cw")
-                        {
-                            throw new ValidationException($"Improper winding for hole: {winding}");
-                        }
+                        throw new ValidationException($"Improper winding for hole: {winding}");
                     }
                 }
                 _validate(child, depth + 1);

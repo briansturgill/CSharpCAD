@@ -12,7 +12,7 @@ public class SliceTests
     public void TestSliceCalculatePlane()
     {
         // do not do this... it's an error
-        var slice1 = new Slice(new Geom2.Side[0]);
+        var slice1 = new Slice(new Vec2[0][]);
         Assert.Throws<ArgumentException>(() => { var plane1 = slice1.CalculatePlane(); });
 
         var slice2 = new Slice(new List<Vec2> { new Vec2(0, 0), new Vec2(1, 0), new Vec2(1, 1) });
@@ -52,15 +52,14 @@ public class SliceTests
     }
 
     [Test]
-    public void TestSliceConstructFromSides()
+    public void TestSliceConstructFromOutlines()
     {
         var exp1 = new Slice.Edge[] {
+          new Slice.Edge(new Vec3(1, 1, 0), new Vec3(0, 0, 0)),
           new Slice.Edge(new Vec3(0, 0, 0), new Vec3(1, 0, 0)),
           new Slice.Edge(new Vec3(1, 0, 0), new Vec3(1, 1, 0)),
-          new Slice.Edge(new Vec3(1, 1, 0), new Vec3(0, 0, 0))
       };
-        var obs1 = new Slice(new Geom2.Side[] { new Geom2.Side(new Vec2(0, 0), new Vec2(1, 0)),
-          new Geom2.Side(new Vec2(1, 0), new Vec2(1, 1)), new Geom2.Side(new Vec2(1, 1), new Vec2(0, 0))});
+        var obs1 = new Slice(new Vec2[][] { new Vec2[] { new Vec2(0, 0), new Vec2(1, 0), new Vec2(1, 1) } });
         Assert.AreEqual(obs1.ToEdges(), exp1);
     }
 
@@ -74,7 +73,7 @@ public class SliceTests
           0, 0, 0, 1
         );
 
-        var org1 = new Slice(new List<Vec2>{new Vec2(0, 0), new Vec2(1, 0), new Vec2(1, 1)});
+        var org1 = new Slice(new List<Vec2> { new Vec2(0, 0), new Vec2(1, 0), new Vec2(1, 1) });
         var ret1 = org1.Transform(identityMatrix);
         Assert.AreNotSame(org1, ret1);
 
@@ -96,7 +95,7 @@ public class SliceTests
           x, y, z, 1
         );
 
-        var org2 = new Slice(new List<Vec2>{new Vec2(0, 0), new Vec2(1, 0), new Vec2(1, 1)});
+        var org2 = new Slice(new List<Vec2> { new Vec2(0, 0), new Vec2(1, 0), new Vec2(1, 1) });
         var ret2 = org2.Transform(translationMatrix);
         Assert.AreNotSame(org2, ret2);
 
@@ -116,7 +115,7 @@ public class SliceTests
           0, 0, 0, 1
         );
 
-        var org3 = new Slice(new List<Vec2>{new Vec2(0, 0), new Vec2(1, 0), new Vec2(1, 1)});
+        var org3 = new Slice(new List<Vec2> { new Vec2(0, 0), new Vec2(1, 0), new Vec2(1, 1) });
         var ret3 = org3.Transform(rotateZMatrix);
         Assert.AreNotSame(org3, ret3);
 
