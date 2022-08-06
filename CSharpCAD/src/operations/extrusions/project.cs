@@ -66,7 +66,7 @@ public static partial class CSCAD
             projections2D.Add(new Geom2(toListVec2(polys3D[i].ToPoints())));
         }
         // union the 2D geometries to obtain the outline of the projection
-        var projection2D = UnionGeom2(projections2D.ToArray());
+        var projection2D = Union(projections2D.ToArray());
 
         return projection2D;
     }

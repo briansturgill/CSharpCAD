@@ -15,6 +15,16 @@ public static partial class UnitTestData {
         new Vec3(5, 5, 15)
     }, 
       new List<Vec3> {
+        new Vec3(5, 5, 0),
+        new Vec3(0, 0, 0),
+        new Vec3(-5, 5, 0)
+    }, 
+      new List<Vec3> {
+        new Vec3(5, 5, 15),
+        new Vec3(-5, 5, 15),
+        new Vec3(0, 0, 15)
+    }, 
+      new List<Vec3> {
         new Vec3(-5, 5, 0),
         new Vec3(-5, -5, 0),
         new Vec3(-5, -5, 15)
@@ -25,6 +35,16 @@ public static partial class UnitTestData {
         new Vec3(-5, 5, 15)
     }, 
       new List<Vec3> {
+        new Vec3(-5, 5, 0),
+        new Vec3(0, 0, 0),
+        new Vec3(-5, -5, 0)
+    }, 
+      new List<Vec3> {
+        new Vec3(-5, 5, 15),
+        new Vec3(-5, -5, 15),
+        new Vec3(0, 0, 15)
+    }, 
+      new List<Vec3> {
         new Vec3(-5, -5, 0),
         new Vec3(5, -5, 0),
         new Vec3(5, -5, 15)
@@ -35,34 +55,34 @@ public static partial class UnitTestData {
         new Vec3(-5, -5, 15)
     }, 
       new List<Vec3> {
-        new Vec3(5, -5, 0),
-        new Vec3(5, 5, 0),
-        new Vec3(5, 5, 15)
-    }, 
-      new List<Vec3> {
-        new Vec3(5, -5, 0),
-        new Vec3(5, 5, 15),
-        new Vec3(5, -5, 15)
-    }, 
-      new List<Vec3> {
-        new Vec3(5, 5, 0),
-        new Vec3(5, -5, 0),
-        new Vec3(-5, -5, 0)
+        new Vec3(-5, -5, 0),
+        new Vec3(0, 0, 0),
+        new Vec3(5, -5, 0)
     }, 
       new List<Vec3> {
         new Vec3(-5, -5, 15),
         new Vec3(5, -5, 15),
+        new Vec3(0, 0, 15)
+    }, 
+      new List<Vec3> {
+        new Vec3(5, -5, 0),
+        new Vec3(5, 5, 0),
         new Vec3(5, 5, 15)
     }, 
       new List<Vec3> {
-        new Vec3(-5, -5, 0),
-        new Vec3(-5, 5, 0),
+        new Vec3(5, -5, 0),
+        new Vec3(5, 5, 15),
+        new Vec3(5, -5, 15)
+    }, 
+      new List<Vec3> {
+        new Vec3(5, -5, 0),
+        new Vec3(0, 0, 0),
         new Vec3(5, 5, 0)
     }, 
       new List<Vec3> {
+        new Vec3(5, -5, 15),
         new Vec3(5, 5, 15),
-        new Vec3(-5, 5, 15),
-        new Vec3(-5, -5, 15)
+        new Vec3(0, 0, 15)
     }
   };
 }
