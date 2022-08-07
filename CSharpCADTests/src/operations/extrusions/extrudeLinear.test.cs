@@ -4,8 +4,6 @@ namespace CSharpCADTests;
 public class ExtrudeLinearTests
 {
     static bool WriteTests = false;
-
-    [SetUp]
     public void Setup()
     {
     }

@@ -279,7 +279,6 @@ public class Slice : IEquatable<Slice>
             }
         }
         var polygonsa = polygons.ToArray();
-        MakePointsRobust("Slice.ToPolygons", polygonsa);
         return polygonsa;
     }
 

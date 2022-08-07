@@ -32,8 +32,8 @@ public static partial class CSCAD
         if (nextLayer is not null && LessThanOrEqualish(bottom, 0.0)) throw new ArgumentException("If you provide a layer function, height must be greater than zero.");
         if (LessThanOrEqualish(height, 0.0)) throw new ArgumentException("Height must be greater than zero.");
         if (bottom < 0.0) throw new ArgumentException("Argument bottom must be positive.");
-        if (!gOuter.HasOnlyOneConvexPath) throw new ArgumentException("gOuter must be a 2D geometry object that has one path (no cutouts).");
-        if (!gInner.HasOnlyOneConvexPath) throw new ArgumentException("gInner must be a 2D geometry object that has one path (no cutouts).");
+        if (!gOuter.HasOnlyOneConvexPath()) throw new ArgumentException("gOuter must be a 2D geometry object that has one path (no cutouts).");
+        if (!gInner.HasOnlyOneConvexPath()) throw new ArgumentException("gInner must be a 2D geometry object that has one path (no cutouts).");
         var v2arrayOuter = gOuter.ToPoints();
         var v2arrayInner = gInner.ToPoints();
 

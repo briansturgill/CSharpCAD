@@ -54,5 +54,44 @@ public static class ExtrudeRotates
             div = "10000",
             func = () => { return ExtrudeRotate(circle_50, segments: 200); }
         });
+        Program.pTests.Add(new PTest
+        {
+            name = "extrudeRotateOld",
+            api = "extrudeRotateOld",
+            div = "100",
+            func = () => { return ExtrudeRotateOld(circle_10, segments: 10); }
+        });
+
+        Program.pTests.Add(new PTest
+        {
+            name = "extrudeRotateOld",
+            api = "extrudeRotateOld",
+            div = "500",
+            func = () => { return ExtrudeRotateOld(circle_10, segments: 50); }
+        });
+
+        Program.pTests.Add(new PTest
+        {
+            name = "extrudeRotateOld",
+            api = "extrudeRotateOld",
+            div = "1000",
+            func = () => { return ExtrudeRotateOld(circle_50, segments: 20); }
+        });
+
+        Program.pTests.Add(new PTest
+        {
+            name = "extrudeRotateOld",
+            api = "extrudeRotateOld",
+            div = "5000",
+            func = () => { return ExtrudeRotateOld(circle_50, segments: 100); }
+        });
+
+        Program.pTests.Add(new PTest
+        {
+            name = "extrudeRotateOld",
+            api = "extrudeRotateOld",
+            div = "10000",
+            func = () => { return ExtrudeRotateOld(circle_50, segments: 200); }
+        });
     }
 }

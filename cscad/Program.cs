@@ -5,7 +5,9 @@ using Path = CSharpCAD.CSCAD.Path;
 
 using System.Diagnostics;
 
-//GlobalParams.CheckingEnabled = true;
+GlobalParams.CheckingEnabled = true;
+GlobalParams.DebugOutput = true;
+
 var loops = 100;
 var watch = new Stopwatch();
 loops++;
@@ -13,6 +15,20 @@ loops--;
 var g = new Geom3();
 var g2 = new Geom2();
 
+g=Torus();
+Save("/tmp/torusdef.stl", g);
+g=ExtrudeRotate(Translate((20,20), Circle(10)), 32, 0, 270);
+Save("/tmp/torus.stl", g);
+try
+{
+    g.Validate();
+}
+catch (ValidationException e)
+{
+    Console.WriteLine($"Exception: {e.Message}");
+}
+
+#if LATER
 /*
 static int vCount(Geom3 g)
 {
@@ -226,5 +242,6 @@ Save("/tmp/cyl.svg", g2);
 g = ExtrudeLinear(g2, 20);
 View(g);
 Save("/tmp/cyl.stl", g);
+#endif
 
 WaitForViewerTransfers();

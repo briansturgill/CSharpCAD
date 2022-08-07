@@ -4,6 +4,9 @@ from time import sleep
 import vtk
 import sys
 import server as serv
+from pathlib import Path
+import tempfile
+from datetime import datetime
 
 serv.start_server()
 
@@ -102,17 +105,27 @@ def show_surface():
         style="surface"
         display()
 
-def show_points():
+def toggle_points():
     global style
     if style != "points":
         style="points"
-        display()
+    else:
+        style="surface"
+    display()
 
-def show_wireframe():
+def toggle_wireframe():
     global style
     if style != "wireframe":
         style="wireframe"
-        display()
+    else:
+        style="surface"
+    display()
+
+def screen_capture():
+    now = datetime.now().isoformat()
+    file=Path(tempfile.gettempdir(), f"CADViewer_snap{now}.png");
+    pl.screenshot(file)
+    print(f"Screen shot saved to: {file}")
 
 def show_help():
     print("Mouse left button held down and dragged meanings:")
@@ -127,6 +140,7 @@ def show_help():
     print("The left arrow and right arrows switch item being viewed.")
     print("a - toggle axes")
     print("b - toggle bounds")
+    print("c - capture image of current screen")
     print("e - exit")
     print("h - help")
     print("p - show points")
@@ -138,10 +152,11 @@ def show_help():
 while True:
     pl.add_key_event("a", toggle_axes)
     pl.add_key_event("b", toggle_bounds)
+    pl.add_key_event("c", screen_capture)
     pl.add_key_event("h", show_help)
     pl.add_key_event("minus", toggle_edges)
-    pl.add_key_event("p", show_points)
-    pl.add_key_event("w", show_wireframe)
+    pl.add_key_event("p", toggle_points)
+    pl.add_key_event("w", toggle_wireframe)
     pl.add_key_event("s", show_surface)
     pl.add_key_event("Left", do_left)
     pl.add_key_event("Right", do_right)

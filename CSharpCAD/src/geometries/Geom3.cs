@@ -287,8 +287,10 @@ public class Geom3 : Geometry
     public override void Validate()
     {
         // check polygons
-        foreach (var polygon in polygons)
+        var len = polygons.Length;
+        for (var i = 0; i < len; i++)
         {
+            var polygon = polygons[i];
             polygon.Validate();
         }
         this.ValidateManifold();

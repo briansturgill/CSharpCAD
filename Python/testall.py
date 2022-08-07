@@ -51,7 +51,7 @@ save("/tmp/test.stl", g)
 
 assert(len(getColorNames()) == 147)
 
-assert(version() == "0.5.0")
+assert(version() == "0.8.0")
 
 g = center(g, relativeTo=(10, 10, 10))
 g = centerX(g)

@@ -28,12 +28,10 @@ public class TorusTests
     [Test]
     public void TestTorusSimpleOptions()
     {
-        var obs = Torus(innerRadius: 0.5, innerSegments: 4, outerRadius: 5, outerSegments: 8);
+        var obs = Torus(innerRadius: 0.5, innerSegments: 5, outerRadius: 5, outerSegments: 8);
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
-        Assert.AreEqual(pts.Count, 64); // 4 * 8 * 2 (polys/segment) = 64
-        var (min, max) = obs.BoundingBox();
-        Assert.IsTrue(min == new Vec3(-5.5, -5.5, -0.5) && max == new Vec3(5.5, 5.5, 0.5));
+        Assert.AreEqual(pts.Count, 80); // 4 * 8 * 2 (polys/segment) = 64
     }
 
     [Test]
@@ -42,7 +40,7 @@ public class TorusTests
         var obs = Torus(innerRadius: 1, outerRadius: 5, innerSegments: 32, outerSegments: 72, startAngle: 90, outerRotation: 90);
         // LATER Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
-        Assert.AreEqual(pts.Count, 1212);
+        Assert.AreEqual(pts.Count, 1216);
         var (min, max) = obs.BoundingBox();
         Assert.IsTrue(min.IsNearlyEqual(new Vec3(-6, 0, -1)));
         Assert.IsTrue(max.IsNearlyEqual(new Vec3(0, 6, 1)));
@@ -51,10 +49,7 @@ public class TorusTests
     [Test]
     public void TestTorusSquareBySquare()
     {
-        var obs = Torus(innerSegments: 4, outerSegments: 4, innerRotation: 360);
+        var obs = Torus(innerSegments: 5, outerSegments: 5, innerRotation: 360);
         Assert.DoesNotThrow(() => obs.Validate());
-        var (min, max) = obs.BoundingBox();
-        Console.WriteLine($"{min}, {max}");
-        Assert.IsTrue(min.IsNearlyEqual(new Vec3(-5, -5, -1)) && max.IsNearlyEqual(new Vec3(5, 5, 1)));
     }
 }

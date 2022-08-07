@@ -16,7 +16,7 @@ public static partial class CSCAD
      */
     public static Geom3 ExtrudeSimple(Geom2 gobj, double height = 1, double? center_z = null, Vec2? midpoint = null)
     {
-        if (!gobj.HasOnlyOneConvexPath) throw new ArgumentException("ExtrudeSimple only works with 2D geometry objects have one path (no cutouts).");
+        if (!gobj.HasOnlyOneConvexPath()) throw new ArgumentException("ExtrudeSimple only works with 2D geometry objects have one path (no cutouts).");
         var v2array = gobj.ToPoints();
         return InternalExtrudeSimple(v2array, height, center_z, midpoint);
     }

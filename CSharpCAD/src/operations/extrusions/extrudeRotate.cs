@@ -5,136 +5,145 @@ public static partial class CSCAD
     /**
      * <summary>Rotate extrude the given geometry using the given options.</summary>
      * <param name="gobj">The 2D geometry to extrude.</param>
-     * <param name="angle">Angle of the extrusion (DEGREES).</param>
+     * <param name="angle">Angle of the extrusion (DEGREES in total extrusion).</param>
      * <param name="startAngle">Start angle of the extrusion (DEGREES).</param>
-     * <param name="segments">Number of segments of the extrusion.</param>
+     * <param name="segments">Number of segments in a full (360 degree) extrusion.</param>
+     * <remarks>
+     * All points in gobj must be positive (it must be located in the first quadrant).
+     * </remarks>
      * <returns>The extruded 3D geometry</returns>
      * <group>3D Primitives</group>
      */
-    public static Geom3 ExtrudeRotate(Geom2 gobj, int segments = 12, double startAngle = 0, double angle = 360)
+    public static Geom3 ExtrudeRotate(Geom2 gobj, int segments = 32, double startAngle = 0, double angle = 360)
     {
-        // @param {String} [options.overflow="cap"] - what to do with points outside of bounds (+ / - x) :
-        // defaults to capping those points to 0 (only supported behaviour for now)
-        // CBS C# translation notd: We are not bothering with this as an option at all.
-        // var overflow = opts.GetString("overflow", "cap");
+        if (segments < 5) throw new ArgumentException("Segments must be greater than or equal to 5.");
+        if (GreaterThanish(angle, 360)) throw new ArgumentException("Argument angle must be less than or equal to 360.");
+        if (LessThanOrEqualish(angle, 0)) throw new ArgumentException("Argument angle must be greater than 0.");
+        if (GreaterThanOrEqualish(startAngle, 360)) throw new ArgumentException("Argument startAngle must be less than 360.");
+        if (LessThanish(startAngle, 0)) throw new ArgumentException("Argument startAngle must be greater than or equal to 0.");
 
-        if (segments < 3) throw new ArgumentException("Segments must be greater than 3.");
-        var geometry = gobj;
+        //var (min, max) = gobj.BoundingBox();
+        //if (min.X < 0 || min.Y < 0) throw new ArgumentException("Negative points are present in argument gobj.");
+
+        var closed = Equalish(angle, 360);
 
         startAngle = DegToRad(startAngle);
         angle = DegToRad(angle);
-        var overflow = "cap";
 
-        startAngle = Math.Abs(startAngle) > (Math.PI * 2) ? startAngle % (Math.PI * 2) : startAngle;
-        angle = Math.Abs(angle) > (Math.PI * 2) ? angle % (Math.PI * 2) : angle;
+        var polys = new List<Poly3>();
 
-        var endAngle = startAngle + angle;
-        endAngle = Math.Abs(endAngle) > (Math.PI * 2) ? endAngle % (Math.PI * 2) : endAngle;
+        var slices = Math.Round(segments * (angle / (Math.PI * 2))) + 1;
 
-        if (endAngle < startAngle)
+        var first_slice = gobj;
+
+        var rotationPerSlice = angle / (slices - 1);
+
+        var prev_slice3d = make3dSlice(first_slice, startAngle);
+        var cur_slice = first_slice; // Need to initialize it to something
+        for (var i = 1; i < slices; i++) // Note starts on 1 because first_slice is prev.
         {
-            var x = startAngle;
-            startAngle = endAngle;
-            endAngle = x;
-        }
-        var totalRotation = endAngle - startAngle;
-        if (LessThanOrEqualish(totalRotation, 0.0)) totalRotation = (Math.PI * 2);
-
-        if (Math.Abs(totalRotation) < (Math.PI * 2))
-        {
-            // adjust the segments to achieve the total rotation requested
-            var anglePerSegment = (Math.PI * 2) / (double)segments;
-            segments = Floorish(Math.Abs(totalRotation) / anglePerSegment);
-            if (Math.Abs(totalRotation) > (segments * anglePerSegment)) segments++;
-        }
-
-        // convert geometry to an array of sides, easier to deal with
-        var shapeSides = geometry.ToSides();
-        if (shapeSides.Length == 0) throw new ArgumentException("The given geometry cannot be empty.");
-
-        // determine if the rotate extrude can be computed in the first place
-        // ie all the points have to be either x > 0 or x < 0
-
-        // generic solution to always have a valid solid, even if points go beyond x/ -x
-        // 1. split points up between all those on the "left" side of the axis (x<0) & those on the "righ" (x>0)
-        // 2. for each set of points do the extrusion operation IN OPOSITE DIRECTIONS
-        // 3. union the two resulting solids
-
-        // 1. alt : OR : just cap of points at the axis ?
-
-        var pointsWithNegativeX = new List<Geom2.Side>();
-        var pointsWithPositiveX = new List<Geom2.Side>();
-        for (var i = 0; i < shapeSides.Length; i++)
-        {
-            var s = shapeSides[i];
-            if (s.v0.X < 0)
+            var rot = 0.0;
+            if (i == slices - 1) // Making sure we end precisely
             {
-                pointsWithNegativeX.Add(s);
+                if (closed)
+                {
+                    rot = startAngle;
+                }
+                else
+                {
+                    rot = startAngle + angle;
+                }
             }
             else
             {
-                pointsWithPositiveX.Add(s);
+                rot = startAngle + rotationPerSlice * i;
             }
+            var cur_slice3d = make3dSlice(first_slice, rot);
+            connect3dSlices(prev_slice3d, cur_slice3d, polys);
+            prev_slice3d = cur_slice3d;
         }
-        var arePointsWithNegAndPosX = pointsWithNegativeX.Count > 0 && pointsWithPositiveX.Count > 0;
 
-        // FIXME actually there are cases where setting X=0 will change the basic shape
-        // - Alternative #1 : don"t allow shapes with both negative and positive X values
-        // - Alternative #2 : remove one half of the shape (costly)
-        if (arePointsWithNegAndPosX && overflow == "cap")
+        if (!closed)
         {
-            if (pointsWithNegativeX.Count > pointsWithPositiveX.Count)
+            // top and bottom polys will be added here.
+            var lastCapPolyList = CSharpCADInternals.TriangulateGeom2(first_slice);
+            var firstCapPolyList = new List<Vec2[]>(lastCapPolyList.Count);
+            var len = lastCapPolyList.Count;
+            for (var i = 0; i < len; i++)
             {
-                for (var i = 0; i < shapeSides.Length; i++)
-                {
-                    var side = shapeSides[i];
-                    var point0 = side.v0;
-                    var point1 = side.v1;
-                    point0 = new Vec2(Math.Min(point0.X, 0), point0.Y);
-                    point1 = new Vec2(Math.Min(point1.X, 0), point1.Y);
-                    shapeSides[i] = new Geom2.Side(point0, point1);
-                }
-                // recreate the geometry from the (-) capped points
-                geometry = new Geom2(shapeSides).Reverse();
-                geometry = MirrorX(geometry);
+                firstCapPolyList.Add(lastCapPolyList[i].ToArray());
+                Array.Reverse(firstCapPolyList[i]);
             }
-            else if (pointsWithPositiveX.Count >= pointsWithNegativeX.Count)
-            {
-                for (var i = 0; i < shapeSides.Length; i++)
-                {
-                    var side = shapeSides[i];
-                    var point0 = side.v0;
-                    var point1 = side.v1;
-                    point0 = new Vec2(Math.Max(point0.X, 0), point0.Y);
-                    point1 = new Vec2(Math.Max(point1.X, 0), point1.Y);
-                    shapeSides[i] = new Geom2.Side(point0, point1);
-                }
-                // recreate the geometry from the (+) capped points
-                geometry = new Geom2(shapeSides);
-            }
+
+            createCapFromPolys(lastCapPolyList, startAngle, polys);
+            createCapFromPolys(firstCapPolyList, angle + startAngle, polys);
+
+            return new Geom3(polys.ToArray());
         }
 
-        var rotationPerSlice = totalRotation / (double)segments;
-        var isCapped = Math.Abs(totalRotation) < (Math.PI * 2);
-        var baseSlice = new Slice(geometry.ToOutlines());
-        baseSlice = baseSlice.Reverse();
-
-        Slice createSlice(double progress, int index, object baseSlice)
-        {
-            var Zrotation = rotationPerSlice * index + startAngle;
-            // fix rounding error when rotating 2 * PI radians
-            if (totalRotation == Math.PI * 2 && index == segments)
-            {
-                Zrotation = startAngle;
-            }
-
-            var matrix = Mat4.FromZRotation(Zrotation).Multiply(Mat4.FromXRotation(Math.PI / 2));
-
-            return ((Slice)baseSlice).Transform(matrix);
-        }
-
-        return ExtrudeFromSlices(baseSlice, createSlice, numberOfSlices: segments + 1,
-            capStart: isCapped, capEnd: isCapped, close: !isCapped);
+        var apolys = polys.ToArray();
+        return new Geom3(apolys);
     }
 
+    private static void createCapFromPolys(List<Vec2[]> lv2, double rot, List<Poly3> polys)
+    {
+        var mat = Mat4.FromZRotation(rot).Multiply(rotateX90);
+        foreach (var poly in lv2)
+        {
+            int i = 0;
+            var av3 = new Vec3[3];
+            foreach (var pt in poly)
+            {
+                var pt3d = new Vec3(pt.X, pt.Y, 0);
+                pt3d = pt3d.Transform(mat);
+                av3[i++] = pt3d;
+            }
+            polys.Add(new Poly3(av3));
+        }
+    }
+
+    private static void connect3dSlices(List<List<Vec3>> prev, List<List<Vec3>> cur, List<Poly3> polys)
+    {
+        var olen = cur.Count;
+        for (var i = 0; i < olen; i++)
+        {
+            var pline = prev[i];
+            var cline = cur[i];
+            var ppt = pline[0];
+            var cpt = cline[0];
+            var len = pline.Count;
+            for (var j = 0; j < len; j++)
+            {
+                var idx = (j + 1) % len;
+                var next_cpt = cline[idx];
+                var next_ppt = pline[idx];
+                //polys.Add(new Poly3(new Vec3[] { bottom_p, next_bottom_p, next_top_p }));
+                ////polys.Add(new Poly3(new Vec3[] { bottom_p, next_top_p, top_p }));
+                polys.Add(new Poly3(new Vec3[] { next_cpt, next_ppt, ppt, }));
+                polys.Add(new Poly3(new Vec3[] { cpt, next_cpt, ppt }));
+                ppt = next_ppt;
+                cpt = next_cpt;
+            }
+        }
+    }
+
+    private static Mat4 rotateX90 = Mat4.FromXRotation(Math.PI / 2);
+    private static List<List<Vec3>> make3dSlice(Geom2 slice2d, double rot)
+    {
+        var outlines = slice2d.ToOutlines();
+        var slice3d = new List<List<Vec3>>(outlines.Length);
+        var mat = Mat4.FromZRotation(rot).Multiply(rotateX90);
+        foreach (var outline in outlines)
+        {
+            var l3d = new List<Vec3>(outline.Length);
+            foreach (var pt in outline)
+            {
+                var pt3d = new Vec3(pt.X, pt.Y, 0);
+                pt3d = pt3d.Transform(mat);
+                l3d.Add(pt3d);
+            }
+            slice3d.Add(l3d);
+        }
+        return slice3d;
+    }
 }

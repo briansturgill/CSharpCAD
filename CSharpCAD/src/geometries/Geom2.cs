@@ -194,7 +194,7 @@ public class Geom2 : Geometry
     }
 
     /// <summary>Check that this geometry has only one connected path. (No cutouts.)</summary> 
-    public bool HasOnlyOneConvexPath { get => this.nrtree.HasOnlyOneConvexPath(); }
+    public bool HasOnlyOneConvexPath() => this.nrtree.HasOnlyOneConvexPath();
 
     /// <summary>Measure the epsilon of this geometry object.</summary>
     public double MeasureEpsilon()

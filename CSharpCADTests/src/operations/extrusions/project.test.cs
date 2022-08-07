@@ -15,7 +15,7 @@ public class ProjectTests
     {
         var result = Project(new Geom3());
 
-        result = Project(Torus(outerSegments: 4));
+        result = Project(Torus(outerSegments: 5));
         Assert.DoesNotThrow(() => result.Validate());
         var pts = result.ToPoints();
         if(WriteTests) TestData.Make("ProjectDefExp1", pts);
@@ -26,14 +26,14 @@ public class ProjectTests
     [Test]
     public void TestProjectXandYAxis()
     {
-        var result = Project(Torus(outerSegments: 4), axis: new Vec3(1, 0, 0), origin: new Vec3(1, 0, 0));
+        var result = Project(Torus(outerSegments: 5), axis: new Vec3(1, 0, 0), origin: new Vec3(1, 0, 0));
         Assert.DoesNotThrow(() => result.Validate());
         var pts = result.ToPoints();
         if(WriteTests) TestData.Make("ProjectXandYAxisExp1", pts);
         var exp = UnitTestData.ProjectXandYAxisExp1;
         Assert.IsTrue(Helpers.CompareArraysNEVec2(pts, exp));
 
-        result = Project(Torus(outerSegments: 4), axis: new Vec3(0, 1, 0), origin: new Vec3(0, -1, 0));
+        result = Project(Torus(outerSegments: 5), axis: new Vec3(0, 1, 0), origin: new Vec3(0, -1, 0));
         Assert.DoesNotThrow(() => result.Validate());
         pts = result.ToPoints();
         if(WriteTests) TestData.Make("ProjectXandYAxisExp2", pts);
