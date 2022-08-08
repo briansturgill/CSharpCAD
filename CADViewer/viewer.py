@@ -10,6 +10,7 @@ from datetime import datetime
 
 serv.start_server()
 
+pyvista.global_theme.title = "CADViewer";
 pl = Plotter()
 current_mesh=-1
 axes_on = True
