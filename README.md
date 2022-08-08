@@ -31,3 +31,27 @@ Documentation:
 
 Remember the API WILL CHANGE!
 
+## CREDITS
+
+CSharpCAD contains integrated code from numerous places, if you want the originals see the web addresses below. We are grateful that the following have contributed code under liberal licensing (See [LICENSE](https://github.com/briansturgill/CSharpCAD/blob/main/LICENSE.md) for the list of licenses.)
+
+First and foremost: [JSCAD](https://github.com/jscad/OpenJSCAD.org) JSCAD Organization
+
+The origin of JSCAD: [CSG](https://github.com/evanw/csg.js) Joost Nieuwenhuijse and Evan Wallace.
+
+Portions of glMatrix Library: [glMatrix](https://github.com/toji/gl-matrix) Brandon Jones and Colin MacKenzie IV
+
+Quickhull Library: [QuickHull3D](https://github.com/mauriciopoppe/quickhull3dopyright) Mauricio Poppe
+Earcut Triangulation: [Earcut](https://github.com/mapbox/earcut) Mapbox
+
+2D Boolean Operations [NPolyBool](https://github.com/pchalamet/NPolyBool) Pierre Chalamet
+
+2D Boolean Operations [PolyBool.Net](https://github.com/idormenco/PolyBool.Net) idormenco
+
+2D Boolean Operations [polybooljs](https://github.com/velipso/polybooljs) Sean Connelly
+
+KdTree (for robustness): [KdTree](https://github.com/codeandcats/KdTree) codeandcats
+
+While not code from them was directly used, Microsoft Corporation provided the wonderful open source .Net tools that underly the development of CSharpCAD. Amazingly, it too is under the MIT license.
+
+Finally I'd like to point out three special members of the JSCAD team, @hrgdavor, @platypii, and @z3dev for their assistance, comments and discussions.
