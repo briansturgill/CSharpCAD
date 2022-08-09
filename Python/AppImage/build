@@ -1,0 +1,11 @@
+python-appimage build app -p 3.10 recipe
+rm -rf squashfs-root
+chmod +x com.codersnext.pycscad-x86_64.AppImage
+com.codersnext.pycscad-x86_64.AppImage --appimage-extract
+mkdir squashfs-root/opt/pycscad
+(cd ../../CSharpCAD; dotnet publish -c Release -r linux-x64)
+cp ../runtimeconfig.json ../../CSharpCAD/bin/Release/net6.0/linux-x64/publish/* squashfs-root/opt/python3.10/lib/python3.10/lib-dynload
+cp ../pycscad.py /opt/pycscad/.venv/lib/python3.10/site-packages/
+cp -r /opt/pycscad/.venv squashfs-root/opt/pycscad/.venv
+./appimagetool squashfs-root pycscad.AppImage
+cp pycscad.AppImage ../../LinuxAppImages

@@ -17,6 +17,7 @@ axes_on = True
 show_bounds = False
 show_edges = True
 style="surface"
+force_surface = 0
 
 def do_nothing():
     pass
@@ -25,7 +26,11 @@ def exit_now():
     sys.exit(0)
 
 def on_timer(iren, event_id):
-    global current_mesh
+    global current_mesh, force_surface
+
+    if force_surface > 0:
+        force_surface -= 1
+        display()
 
     if serv.display_needed:
         current_mesh = -1
@@ -110,17 +115,18 @@ def toggle_points():
     global style
     if style != "points":
         style="points"
+        display()
     else:
-        style="surface"
-    display()
+        show_surface()
 
 def toggle_wireframe():
-    global style
+    global style, force_surface
     if style != "wireframe":
         style="wireframe"
+        display()
     else:
-        style="surface"
-    display()
+        show_surface()
+        force_surface = 1
 
 def screen_capture():
     now = datetime.now().isoformat()
@@ -144,10 +150,10 @@ def show_help():
     print("c - capture image of current screen")
     print("e - exit")
     print("h - help")
-    print("p - show points")
+    print("p - toggle points")
     print("q - exit")
     print("s - show surfaces (default)")
-    print("w - show wireframe")
+    print("w - toggle wireframe")
     print("minus (-) - toggle edges")
 
 while True:
@@ -157,8 +163,8 @@ while True:
     pl.add_key_event("h", show_help)
     pl.add_key_event("minus", toggle_edges)
     pl.add_key_event("p", toggle_points)
-    pl.add_key_event("w", toggle_wireframe)
     pl.add_key_event("s", show_surface)
+    pl.add_key_event("w", toggle_wireframe)
     pl.add_key_event("Left", do_left)
     pl.add_key_event("Right", do_right)
 

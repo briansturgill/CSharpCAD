@@ -1,6 +1,19 @@
+from os.path import exists, join
+import sys
+for p in sys.path:
+    if p == "": p = "."
+    rtpath = join(p, "runtimeconfig.json")
+    if exists(rtpath):
+        break
+    rtpath = None
+
+if rtpath == None:
+    print("Unable to find runtimeconfig.json")
+    sys.exit(1)
+
 from clr_loader import get_coreclr
 from pythonnet import set_runtime
-rt = get_coreclr("./runtimeconfig.json")
+rt = get_coreclr(rtpath)
 set_runtime(rt)
 
 import clr

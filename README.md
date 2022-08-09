@@ -8,17 +8,21 @@ We are deeply grateful to the JSCAD team for creating such a great package.
 
 (But it is getting closer.)
 
+[WAIT! github said my AppImages were too large! So the quick way doesn't work yet.]
+Here is a [quick way for Linux users to get started](https://github.com/briansturgill/CSharpCAD/tree/main/LinuxAppImages) with the Python API.
+
 If you want to poke around, I suggest you start in the CADViewer and Python
 directories. The READMEs there will help you quickly get started.
-You of course need to have the "dotnet" sdk installed on your system:
-	https://docs.microsoft.com/en-us/dotnet/core/install/
+You of course need to have the "dotnet" sdk installed on your system: [DotNet Install](https://docs.microsoft.com/en-us/dotnet/core/install/)
 
-The API is still in flux, so please don't use it yet.
+The API is still in flux, so please don't use it for major projects.
 
 I have placed it here to facility cooperation with the JSCAD team for
 when I'm point to improvements or bugs (amazingly few) out to them.
 
-If you just want to play with it, it has mostly be created on Linux.
+If you just want to play with it, it has mostly been created on Linux.
+I have done profiling of it under Windows (using Visual Studio).
+I have not tried it on a Mac yet, but it is expect to work there.
 I would advise VSCode with the C# extension from Microsoft installed.
 You must have .NET 6.0 installed!
 Later, I'll have instructions for all of that, but if you know how to
@@ -42,6 +46,7 @@ The origin of JSCAD: [CSG](https://github.com/evanw/csg.js) Joost Nieuwenhuijse 
 Portions of glMatrix Library: [glMatrix](https://github.com/toji/gl-matrix) Brandon Jones and Colin MacKenzie IV
 
 Quickhull Library: [QuickHull3D](https://github.com/mauriciopoppe/quickhull3dopyright) Mauricio Poppe
+
 Earcut Triangulation: [Earcut](https://github.com/mapbox/earcut) Mapbox
 
 2D Boolean Operations [NPolyBool](https://github.com/pchalamet/NPolyBool) Pierre Chalamet
@@ -52,6 +57,6 @@ Earcut Triangulation: [Earcut](https://github.com/mapbox/earcut) Mapbox
 
 KdTree (for robustness): [KdTree](https://github.com/codeandcats/KdTree) codeandcats
 
-While not code from them was directly used, Microsoft Corporation provided the wonderful open source .Net tools that underly the development of CSharpCAD. Amazingly, it too is under the MIT license.
+While no code from them was directly used, Microsoft Corporation provided the wonderful open source .Net tools that underly the development of CSharpCAD. Amazingly, it too is under the MIT license.
 
 Finally I'd like to point out three special members of the JSCAD team, @hrgdavor, @platypii, and @z3dev for their assistance, comments and discussions.

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+    <id>com.codersnext.pycscad</id>
+    <metadata_license>MIT</metadata_license>
+    <project_license>MIT</project_license>
+    <name>CADViewer</name>
+    <summary>Python-based CAD</summary>
+    <description>
+        <p>  Run pyton on a file using the Python API for CSharpCAD.
+        </p>
+    </description>
+    <launchable type="desktop-id">com.codersnext.pycscad.desktop</launchable>
+    <url type="homepage">https://github.com/briansturgill/CSharpCAD</url>
+    <provides>
+        <binary>python{{ python-version }}</binary>
+    </provides>
+</component>

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=com.codersnext.cadviewer
+Exec=cadviewer
+Comment=A viewer for command-line CAD programs.
+Icon=python
+Categories=Science;Graphics;
+Terminal=true

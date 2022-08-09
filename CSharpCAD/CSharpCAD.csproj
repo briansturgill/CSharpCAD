@@ -9,6 +9,13 @@
     <CSFile Include="src/**/*.cs" />
   </ItemGroup>
 	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<SelfContained>true</SelfContained>
+		<RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+		<PublishReadyToRun>true</PublishReadyToRun>
+	</PropertyGroup>
+	<PropertyGroup>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<DocumentationFile>../../gh-pages/documentation.xml</DocumentationFile>
 	</PropertyGroup>

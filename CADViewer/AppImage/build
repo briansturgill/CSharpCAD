@@ -1,0 +1,8 @@
+python-appimage build app -p 3.10 recipe
+rm -rf squashfs-root
+chmod +x com.codersnext.cadviewer-x86_64.AppImage
+com.codersnext.cadviewer-x86_64.AppImage --appimage-extract
+mkdir squashfs-root/opt/cadviewer
+cp ../*.py squashfs-root/opt/cadviewer
+./appimagetool squashfs-root cadviewer.AppImage
+cp cadviewer.AppImage ../../LinuxAppImages
