@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=com.codersnext.pycscad
-Exec=pycscad
-Comment=Run a python script using CSharpCAD.
-Icon=python
-Categories=Science;Graphics;
-Terminal=true

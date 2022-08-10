@@ -8,9 +8,6 @@ We are deeply grateful to the JSCAD team for creating such a great package.
 
 (But it is getting closer.)
 
-[WAIT! github said my AppImages were too large! So the quick way doesn't work yet.]
-Here is a [quick way for Linux users to get started](https://github.com/briansturgill/CSharpCAD/tree/main/LinuxAppImages) with the Python API.
-
 If you want to poke around, I suggest you start in the CADViewer and Python
 directories. The READMEs there will help you quickly get started.
 You of course need to have the "dotnet" sdk installed on your system: [DotNet Install](https://docs.microsoft.com/en-us/dotnet/core/install/)

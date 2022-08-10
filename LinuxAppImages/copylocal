@@ -1,5 +1,0 @@
-cp cadviewer.AppImage /usr/local/bin/cadviewer
-chmod +x /usr/local/bin/cadviewer
-cp pycscad.AppImage /usr/local/bin/pycscad
-chmod +x /usr/local/bin/pycscad
-chown root.root /usr/local/bin/pycscad /usr/local/bin/cadviewer
