@@ -475,7 +475,7 @@ public class Geom2 : Geometry
         internal NRTreeNode(Vec2[] points)
         {
             Points = points;
-            bbox(points);
+            updateBbox();
             Contained = new List<NRTreeNode>();
         }
 
@@ -508,8 +508,20 @@ public class Geom2 : Geometry
             return new NRTreeNode(Points.ToArray(), Min, Max, Contained);
         }
 
-        private void bbox(Vec2[] poly)
+        internal void Transform(Mat4 mat)
         {
+            var pts = Points;
+            var len = pts.Length;
+            for (var i = 0; i < len; i++)
+            {
+                pts[i] = pts[i].Transform(mat);
+            }
+            updateBbox();
+        }
+
+        private void updateBbox()
+        {
+            var poly = this.Points;
             if (poly.Length == 0) return;
             var min = poly[0];
             var max = poly[0];
@@ -678,12 +690,7 @@ public class Geom2 : Geometry
         {
             foreach (var n in parent.Contained)
             {
-                var pts = n.Points;
-                var len = pts.Length;
-                for (var i = 0; i < len; i++)
-                {
-                    pts[i] = pts[i].Transform(mat);
-                }
+                n.Transform(mat);
                 _transform(n, mat);
             }
         }
