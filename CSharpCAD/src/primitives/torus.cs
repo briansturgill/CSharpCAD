@@ -33,7 +33,6 @@ public static partial class CSCAD
 
         if (innerRotation != 0)
         {
-            // LATER innerRotation was the z argument, but that isn't used on a Geom2.
             innerCircle = Rotate(new Vec3(0, 0, innerRotation), innerCircle);
         }
 

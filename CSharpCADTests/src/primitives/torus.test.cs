@@ -45,11 +45,4 @@ public class TorusTests
         Assert.IsTrue(min.IsNearlyEqual(new Vec3(-6, 0, -1)));
         Assert.IsTrue(max.IsNearlyEqual(new Vec3(0, 6, 1)));
     }
-
-    [Test]
-    public void TestTorusSquareBySquare()
-    {
-        var obs = Torus(innerSegments: 5, outerSegments: 5, innerRotation: 360);
-        Assert.DoesNotThrow(() => obs.Validate());
-    }
 }

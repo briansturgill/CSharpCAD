@@ -107,31 +107,4 @@ public class ExtrudeRotateTests
         pts = geometry3.ToPoints();
         Assert.AreEqual(pts.Count, 144);
     }
-
-    [Test]
-    public void TestExtrudeRotateOverlap()
-    {
-        // overlap of Y axis; even number of + and - points
-        var geometry = new Geom2(new List<Vec2> { new Vec2(-1, 8), new Vec2(-1, -8), new Vec2(7, -8), new Vec2(7, 8) });
-
-        var obs = ExtrudeRotate(geometry, segments: 5, angle: 90);
-        Assert.DoesNotThrow(() => geometry.Validate());
-        var pts = obs.ToPoints();
-        if(WriteTests) TestData.Make("ExtrudeRotateOverlapExp", pts);
-        var exp = UnitTestData.ExtrudeRotateOverlapExp;
-        Assert.AreEqual(pts.Count, exp.Count);
-        //Helpers.PrintListOfLists("pts,exp", pts, exp);
-        Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
-
-        // overlap of Y axis; larger number of - points
-        geometry = new Geom2(new List<Vec2> { new Vec2(-1, 8), new Vec2(-2, 4), new Vec2(-1, -8), new Vec2(7, -8), new Vec2(7, 8) });
-
-        obs = ExtrudeRotate(geometry, segments: 8, angle: 90);
-        Assert.DoesNotThrow(() => geometry.Validate());
-        pts = obs.ToPoints();
-        if(WriteTests) TestData.Make("ExtrudeRotateOverlapExp2", pts);
-        exp = UnitTestData.ExtrudeRotateOverlapExp2;
-        Assert.AreEqual(pts.Count, exp.Count);
-        Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
-    }
 }

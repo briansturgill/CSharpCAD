@@ -9,7 +9,7 @@ public static partial class CSCAD
      * <param name="startAngle">Start angle of the extrusion (DEGREES).</param>
      * <param name="segments">Number of segments in a full (360 degree) extrusion.</param>
      * <remarks>
-     * All points in gobj must be positive (it must be located in the first quadrant).
+     * All X points in gobj must be positive (it must be located in the first and fourth quadrants).
      * </remarks>
      * <returns>The extruded 3D geometry</returns>
      * <group>3D Primitives</group>
@@ -22,8 +22,8 @@ public static partial class CSCAD
         if (GreaterThanOrEqualish(startAngle, 360)) throw new ArgumentException("Argument startAngle must be less than 360.");
         if (LessThanish(startAngle, 0)) throw new ArgumentException("Argument startAngle must be greater than or equal to 0.");
 
-        //var (min, max) = gobj.BoundingBox();
-        //if (min.X < 0 || min.Y < 0) throw new ArgumentException("Negative points are present in argument gobj.");
+        var (min, max) = gobj.BoundingBox();
+        if (LessThanish(min.X, 0)) throw new ArgumentException("Negative points are present in argument gobj.");
 
         var closed = Equalish(angle, 360);
 
