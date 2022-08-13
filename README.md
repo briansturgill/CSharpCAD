@@ -52,7 +52,7 @@ Earcut Triangulation: [Earcut](https://github.com/mapbox/earcut) Mapbox
 
 2D Boolean Operations [polybooljs](https://github.com/velipso/polybooljs) Sean Connelly
 
-KdTree (for robustness): [KdTree](https://github.com/codeandcats/KdTree) codeandcats
+AVLTree (for stability): [AVLTree](https://github.com/justcoding121/advanced-algorithms) Jehonathan
 
 While no code from them was directly used, Microsoft Corporation provided the wonderful open source .Net tools that underly the development of CSharpCAD. Amazingly, it too is under the MIT license.
 
