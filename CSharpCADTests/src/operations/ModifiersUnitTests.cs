@@ -26,6 +26,7 @@ public class ModifiersTests
         Assert.IsTrue(Helpers.CompareListOfLists(pts, exp));
         Assert.AreEqual(pts, exp);
 
+#if LATER
         // apply snap only
         result = generalize(geometry1, snap: true);
         Assert.DoesNotThrow(() => result.Validate());
@@ -33,6 +34,7 @@ public class ModifiersTests
         if(WriteTests) TestData.Make("GeneralizeExp2", pts);
         exp = UnitTestData.GeneralizeExp2;
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
+#endif
 
         // apply triangulate only
         result = generalize(geometry1, triangulate: true);

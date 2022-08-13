@@ -177,7 +177,7 @@ public class Geom3 : Geometry
         }
         if (this.needsMakeRobust)
         {
-            MakePointsRobust("Geom3.ApplyTransforms", polygons);
+            MakePointsStable("Geom3.ApplyTransforms", polygons);
         }
 
         this.transforms = new Mat4();

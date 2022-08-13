@@ -2,7 +2,7 @@ namespace CSharpCAD;
 
 /// <summary>A vector of 3 coordinates.</summary>
 
-public readonly struct Vec3 : IEquatable<Vec3>
+public readonly struct Vec3 : IEquatable<Vec3>, IComparable
 {
     /// <summary>Coordinate.</summary>
     public readonly double X;
@@ -30,6 +30,22 @@ public readonly struct Vec3 : IEquatable<Vec3>
         this.X = scalar; this.Y = scalar; this.Z = scalar;
     }
 
+    /// <summary>Compare this vector to another allowing IsNearlyEqual to mean equal.</summary>
+    public int CompareTo(object? obj)
+    {
+        if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+        {
+            return -1;
+        }
+        Vec3 gv = (Vec3)obj;
+        if (this.IsNearlyEqual(gv))
+        {
+            return 0;
+        }
+        if (this.X < gv.X || this.Y < gv.Y || this.Z < gv.Z) return -1;
+        return 1;
+    }
+
     /// <summary>Check if this vector is equal to the given vector.</summary>
     public bool Equals(Vec3 gv)
     {
@@ -46,7 +62,8 @@ public readonly struct Vec3 : IEquatable<Vec3>
     public static bool operator !=(Vec3 a, Vec3 b) => !(a == b);
 
     /// <summary>Automatically convert a tuple of 3 doubles to a Vec3.</summary>
-    public static implicit operator Vec3((double, double, double ) tuple) {
+    public static implicit operator Vec3((double, double, double) tuple)
+    {
         var (x, y, z) = tuple;
         return new Vec3(x, y, z);
     }

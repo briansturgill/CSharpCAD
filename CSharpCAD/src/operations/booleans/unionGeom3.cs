@@ -22,7 +22,7 @@ public static partial class CSCAD
         }
         var newgeometry = geometries[i - 1];
         newgeometry = Retessellate(newgeometry);
-        MakePointsRobust("UnionGeom3", newgeometry.ToPolygons());
+        MakePointsStable("UnionGeom3", newgeometry.ToPolygons());
         return newgeometry;
     }
 }

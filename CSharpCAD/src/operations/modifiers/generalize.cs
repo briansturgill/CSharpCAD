@@ -11,7 +11,11 @@ internal static partial class Modifiers
         // snap the given geometry if requested
         if (snap)
         {
-            polygons = snapPolygons(epsilon, polygons);
+            //LATERpolygons = snapPolygons(epsilon, polygons);
+            var save = GlobalParams.DebugOutput;
+            GlobalParams.DebugOutput = true;
+            MakePointsStable("Snap", polygons);
+            GlobalParams.DebugOutput = save;
         }
 
         // simplify the polygons if requested
