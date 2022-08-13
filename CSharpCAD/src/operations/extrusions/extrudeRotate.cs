@@ -8,22 +8,56 @@ public static partial class CSCAD
      * <param name="angle">Angle of the extrusion (DEGREES in total extrusion).</param>
      * <param name="startAngle">Start angle of the extrusion (DEGREES).</param>
      * <param name="segments">Number of segments in a full (360 degree) extrusion.</param>
+     * <param name="makeZeroCap" default="false">Set to true if you don't want the inner hole.</param>
      * <remarks>
      * All X points in gobj must be positive (it must be located in the first and fourth quadrants).
+     * The best way to make things work at X==0 is make sure that the first and last points of the outer path of gobj both equal 0.
+     * We set makeZeroCap automatically if the first and last point have X==0.
      * </remarks>
      * <returns>The extruded 3D geometry</returns>
      * <group>3D Primitives</group>
      */
-    public static Geom3 ExtrudeRotate(Geom2 gobj, int segments = 32, double startAngle = 0, double angle = 360)
+    public static Geom3 ExtrudeRotate(Geom2 gobj, int segments = 32, double startAngle = 0, double angle = 360, bool? makeZeroCap = null)
     {
         if (segments < 5) throw new ArgumentException("Segments must be greater than or equal to 5.");
         if (GreaterThanish(angle, 360)) throw new ArgumentException("Argument angle must be less than or equal to 360.");
         if (LessThanOrEqualish(angle, 0)) throw new ArgumentException("Argument angle must be greater than 0.");
         if (GreaterThanOrEqualish(startAngle, 360)) throw new ArgumentException("Argument startAngle must be less than 360.");
         if (LessThanish(startAngle, 0)) throw new ArgumentException("Argument startAngle must be greater than or equal to 0.");
+        if (gobj.IsEmpty) throw new ArgumentException("Argument gobj cannot be empty.");
 
         var (min, max) = gobj.BoundingBox();
-        if (LessThanish(min.X, 0)) throw new ArgumentException("Negative points are present in argument gobj.");
+        if (LessThanish(min.X, 0)) throw new ArgumentException("Negative X points are present in argument gobj.");
+
+        if ((makeZeroCap is null || (bool)makeZeroCap) && Equalish(min.X, 0))
+        {
+            var nrtree = new Geom2.NRTree();
+            var outlines = gobj.ToOutlines();
+            if (Equalish(outlines[0][0].X, 0) && Equalish(outlines[0][outlines[0].Length - 1].X, 0))
+            {
+                //outlines[0][outlines[0].Length - 1] = new Vec2(0.001, outlines[0][outlines[0].Length - 1].Y);
+                //outlines[0][0] = new Vec2(0.001, outlines[0][0].Y);
+                makeZeroCap = true;
+            }
+            foreach (var outline in outlines)
+            {
+                var olen = outline.Length;
+                var newo = new Vec2[olen];
+                for (var i = 0; i < olen; i++)
+                {
+                    var pt = outline[i];
+                    var x = pt.X;
+                    if (Equalish(x, 0)) x = 0.001;
+                    var y = pt.Y;
+                    if (Equalish(y, 0)) y = 0;
+                    newo[i] = new Vec2(x, y);
+                }
+                nrtree.Insert(newo);
+            }
+            gobj = new Geom2(nrtree);
+        }
+
+        if (makeZeroCap is null) makeZeroCap = false;
 
         var closed = Equalish(angle, 360);
 
@@ -59,7 +93,7 @@ public static partial class CSCAD
                 rot = startAngle + rotationPerSlice * i;
             }
             var cur_slice3d = make3dSlice(first_slice, rot);
-            connect3dSlices(prev_slice3d, cur_slice3d, polys);
+            connect3dSlices(prev_slice3d, cur_slice3d, polys, (bool)makeZeroCap);
             prev_slice3d = cur_slice3d;
         }
 
@@ -102,7 +136,7 @@ public static partial class CSCAD
         }
     }
 
-    private static void connect3dSlices(List<List<Vec3>> prev, List<List<Vec3>> cur, List<Poly3> polys)
+    private static void connect3dSlices(List<List<Vec3>> prev, List<List<Vec3>> cur, List<Poly3> polys, bool makeZeroCap)
     {
         var olen = cur.Count;
         for (var i = 0; i < olen; i++)
@@ -117,8 +151,15 @@ public static partial class CSCAD
                 var idx = (j + 1) % len;
                 var next_cpt = cline[idx];
                 var next_ppt = pline[idx];
-                //polys.Add(new Poly3(new Vec3[] { bottom_p, next_bottom_p, next_top_p }));
-                ////polys.Add(new Poly3(new Vec3[] { bottom_p, next_top_p, top_p }));
+                if (makeZeroCap && idx == 0)
+                {
+                    Console.WriteLine($"{ppt}, {cpt}, {next_ppt}, {next_cpt}");
+                    polys.Add(new Poly3(new Vec3[] { ppt, cpt, new Vec3(0, 0, ppt.Z) }));
+                    polys.Add(new Poly3(new Vec3[] { next_cpt, next_ppt, new Vec3(0, 0, next_cpt.Z) }));
+                    Console.WriteLine(polys[polys.Count - 1]);
+                    Console.WriteLine(polys[polys.Count - 2]);
+                    break; // Supresses polys below so that X=0 triangle is not made.
+                }
                 polys.Add(new Poly3(new Vec3[] { next_cpt, next_ppt, ppt, }));
                 polys.Add(new Poly3(new Vec3[] { cpt, next_cpt, ppt }));
                 ppt = next_ppt;

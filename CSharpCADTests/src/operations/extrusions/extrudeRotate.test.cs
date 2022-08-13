@@ -71,7 +71,7 @@ public class ExtrudeRotateTests
         pts = geometry3.ToPoints();
         if(WriteTests) TestData.Make("ExtrudeRotateStartAngleExp2", pts);
         exp = UnitTestData.ExtrudeRotateStartAngleExp2;
-        Assert.AreEqual(pts.Count, 40);
+        Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
     }
 

@@ -17,8 +17,9 @@ var g2 = new Geom2();
 
 //g=ExtrudeRotate(Translate((20,20), Circle(10)), 32, 0, 270);
 //g=ExtrudeRotate(Translate((20,20), Circle(10)), 32, 0, 360);
-g=ExtrudeRotate(Semicircle(10, center:(0, 10), startAngle:270, endAngle: 90), 32, 0, 360);
+g=ExtrudeRotate(Semicircle(10, segments: 64, center:(0, 10), startAngle:270, endAngle: 90), 64, 0, 360);
 View(g);
+//g.Validate();
 //g = ExtrudeRotate(Semiellipse((7, 5), center:(0, 5), startAngle: 270, endAngle:90), 32, 0, 360);
 //g = Torus();
 Save("/tmp/torus.stl", g);
@@ -31,6 +32,7 @@ catch (ValidationException e)
     Console.WriteLine($"Exception: {e.Message}");
 }
 
+#if LATER
 /*
 static int vCount(Geom3 g)
 {
@@ -243,5 +245,6 @@ Save("/tmp/cyl.svg", g2);
 g = ExtrudeLinear(g2, 20);
 View(g);
 Save("/tmp/cyl.stl", g);
+#endif
 
 WaitForViewerTransfers();

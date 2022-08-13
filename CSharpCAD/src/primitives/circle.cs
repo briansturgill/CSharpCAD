@@ -80,7 +80,7 @@ public static partial class CSCAD
 
         var step = rotation / (double)(segments - 1); // radians per segment
 
-        var points = new Vec2[segments + 1];
+        var points = new Vec2[segments + (Equalish(rotation, Math.PI)?0:1)];
         int i;
         for (i = 0; i < segments; i++)
         {
@@ -95,7 +95,10 @@ public static partial class CSCAD
                 points[i] = ((Vec2)center).Add(points[i]);
             }
         }
-        points[i] = center ?? new Vec2();
+        if (!Equalish(rotation, Math.PI))
+        {
+            points[i] = center ?? new Vec2();
+        }
         return points;
     }
 }
