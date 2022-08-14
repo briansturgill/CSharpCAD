@@ -206,6 +206,11 @@ public class Geom2 : Geometry
         return C.EPS * total / 2; /*dimensions*/
     }
 
+    internal Vec2[] ToSinglePath()
+    {
+        return nrtree.Root.Contained[0].Points;
+    }
+
     /// <summary>Create a special list for Triangulator, holes sorted by max X.</summary>
     public List<(Vec2[], Vec2[][])> ToEarcutNesting()
     {
