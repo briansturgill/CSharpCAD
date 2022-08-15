@@ -25,18 +25,18 @@ public static partial class CSCAD
         if (center is not null)
         {
             v2center = new Vec2(((Vec3)center).X, ((Vec3)center).Y);
-            center_z = ((Vec3)center).Z;
+            center_z = ((Vec3)center).Z - (height/2.0);
         }
 
+        var iZ = center_z ?? 0.0;
+        var se = new SegmentedExtruder(InternalCircle(bottom, segments: segments, v2center), initialZ: iZ);
         if (Equalish(top, 0)) // It's natural to want a cone to stop at zero, but Circle doesn't like that.
         {
-            top = 0.001;
+            se.AddZeroTopCap(height);
+            return se.Finished();
         }
 
-        return InternalExtrudeSimpleBetween(
-            InternalCircle(top, segments, v2center),
-            InternalCircle(bottom, segments, v2center),
-            height: height,
-            center_z: center_z);
+        se.AddPath(InternalCircle(top, segments, v2center), height);
+        return se.Finished();
     }
 }
