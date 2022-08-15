@@ -193,8 +193,11 @@ public class Geom2 : Geometry
         return new Geom2(this.nrtree.Clone(), this.transforms, this.Color, this.needsTransform);
     }
 
-    /// <summary>Check that this geometry has only one connected path. (No cutouts.)</summary> 
+    /// <summary>Check that this geometry has only one connected path (no cutouts) and is convex.</summary> 
     public bool HasOnlyOneConvexPath() => this.nrtree.HasOnlyOneConvexPath();
+
+    /// <summary>Check that this geometry has only one connected path. (No cutouts.)</summary> 
+    public bool HasOnlyOnePath() => this.nrtree.HasOnlyOnePath();
 
     /// <summary>Measure the epsilon of this geometry object.</summary>
     public double MeasureEpsilon()
@@ -584,6 +587,15 @@ public class Geom2 : Geometry
                     if (!an.Equals(bn)) return false;
                     if (!_equals(an, bn)) return false;
                 }
+            }
+            return true;
+        }
+
+        internal bool HasOnlyOnePath()
+        {
+            if (this.Root.Contained.Count != 1 || this.Root.Contained[0].Contained.Count != 0)
+            {
+                return false;
             }
             return true;
         }
