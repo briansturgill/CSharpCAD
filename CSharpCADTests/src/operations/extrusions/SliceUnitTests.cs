@@ -109,8 +109,8 @@ public class SliceTests
 
         var r = (90 * 0.017453292519943295);
         var rotateZMatrix = new Mat4(
-          Math.Cos(r), -Math.Sin(r), 0, 0,
-          Math.Sin(r), Math.Cos(r), 0, 0,
+          CosR(r), -SinR(r), 0, 0,
+          SinR(r), CosR(r), 0, 0,
           0, 0, 1, 0,
           0, 0, 0, 1
         );
@@ -121,9 +121,9 @@ public class SliceTests
 
         var edges3 = ret3.ToEdges();
         var exp3 = new Slice.Edge[] {
-          new Slice.Edge(new Vec3(1, -0.9999999999999999, 0), new Vec3(0, 0, 0)),
-          new Slice.Edge(new Vec3(0, 0, 0), new Vec3(6.123233995736766e-17, -1, 0)),
-          new Slice.Edge(new Vec3(6.123233995736766e-17, -1, 0), new Vec3(1, -0.9999999999999999, 0))
+          new Slice.Edge(new Vec3(1, -1, 0), new Vec3(0, 0, 0)),
+          new Slice.Edge(new Vec3(0, 0, 0), new Vec3(0, -1, 0)),
+          new Slice.Edge(new Vec3(0, -1, 0), new Vec3(1, -1, 0))
         };
         Assert.AreEqual(edges3, exp3);
     }

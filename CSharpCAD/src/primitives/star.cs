@@ -7,7 +7,7 @@ public static partial class CSCAD
     {
         if (vertices > 0 && density > 1 && density < vertices / 2.0)
         {
-            return Math.Cos(Math.PI * density / (double)vertices) / Math.Cos(Math.PI * (density - 1) / vertices);
+            return CosR(Math.PI * density / (double)vertices) / CosR(Math.PI * (density - 1) / vertices);
         }
         return 0;
     }

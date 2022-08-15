@@ -252,8 +252,8 @@ public readonly struct Vec3 : IEquatable<Vec3>, IComparable
 
         // perform rotation
         var r = new Vec3(p.X,
-            p.Y * Math.Cos(radians) - p.Z * Math.Sin(radians),
-            p.Y * Math.Sin(radians) + p.Z * Math.Cos(radians)
+            p.Y * CosR(radians) - p.Z * SinR(radians),
+            p.Y * SinR(radians) + p.Z * CosR(radians)
         );
 
         // translate to correct position
@@ -274,9 +274,9 @@ public readonly struct Vec3 : IEquatable<Vec3>, IComparable
         );
 
         // perform rotation
-        var r = new Vec3(p.Z * Math.Sin(radians) + p.X * Math.Cos(radians),
+        var r = new Vec3(p.Z * SinR(radians) + p.X * CosR(radians),
             p.Y,
-            p.Z * Math.Cos(radians) - p.X * Math.Sin(radians)
+            p.Z * CosR(radians) - p.X * SinR(radians)
         );
 
         // translate to correct position
@@ -295,8 +295,8 @@ public readonly struct Vec3 : IEquatable<Vec3>, IComparable
         );
 
         // perform rotation
-        var r = new Vec2((p.X * Math.Cos(radians)) - (p.Y * Math.Sin(radians)),
-            (p.X * Math.Sin(radians)) + (p.Y * Math.Cos(radians))
+        var r = new Vec2((p.X * CosR(radians)) - (p.Y * SinR(radians)),
+            (p.X * SinR(radians)) + (p.Y * CosR(radians))
         );
 
         // translate to correct position

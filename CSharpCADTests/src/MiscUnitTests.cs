@@ -66,10 +66,10 @@ public class MiscTests
         bool fail = false;
         for (int i = 0; i <= 180; i++)
         {
-            if (Math.Round(RadToDeg(Math.Acos(Math.Cos(DegToRad(i)))), 12) != i)
+            if (Math.Round(RadToDeg(Math.Acos(CosR(DegToRad(i)))), 12) != i)
             {
                 fail = true;
-                Console.WriteLine($"{i}, {Math.Cos(i)}, {Math.Acos(Math.Cos(i))}");
+                Console.WriteLine($"{i}, {CosR(i)}, {Math.Acos(CosR(i))}");
             }
         }
         if (fail) Assert.Fail("Failure in TestMathAcosCosDegree");
@@ -96,10 +96,10 @@ public class MiscTests
         bool fail = false;
         for (int i = 0; i <= 90; i++)
         {
-            if (Math.Round(RadToDeg(Math.Asin(Math.Sin(DegToRad(i)))), 12) != i)
+            if (Math.Round(RadToDeg(Math.Asin(SinR(DegToRad(i)))), 12) != i)
             {
                 fail = true;
-                Console.WriteLine($"{i}, {Math.Sin(i)}, {Math.Asin(Math.Sin(i))}");
+                Console.WriteLine($"{i}, {SinR(i)}, {Math.Asin(SinR(i))}");
             }
         }
         if (fail) Assert.Fail("Failure in TestMathAsinSinDegree");
@@ -126,10 +126,10 @@ public class MiscTests
         bool fail = false;
         for (int i = 0; i <= 90; i++)
         {
-            if (Math.Round(RadToDeg(Math.Atan(Math.Tan(DegToRad(i)))), 12) != i)
+            if (Math.Round(RadToDeg(Math.Atan(TanR(DegToRad(i)))), 12) != i)
             {
                 fail = true;
-                Console.WriteLine($"{i}, {Math.Tan(i)}, {Math.Atan(Math.Tan(i))}");
+                Console.WriteLine($"{i}, {TanR(i)}, {Math.Atan(TanR(i))}");
             }
         }
         if (fail) Assert.Fail("Failure in TestMathAtanTanDegree");

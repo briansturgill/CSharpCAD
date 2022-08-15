@@ -337,6 +337,9 @@ public static partial class CSCAD
         cssColors.Add("wheat", (245, 222, 179));
         cssColors.Add("whitesmoke", (245, 245, 245));
         cssColors.Add("yellowgreen", (154, 205, 50));
+
+        // A class can only have one static initializer
+        initMisc();
     }
 
     // <summary>Converts CSS color notations (string of hex values) to RGB values.</summary>

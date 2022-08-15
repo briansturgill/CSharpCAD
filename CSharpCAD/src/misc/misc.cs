@@ -116,25 +116,119 @@ public static partial class CSCAD
         public Face(int s) : base(s) { }
     }
 
+    private static Dictionary<double, double> quickSin = new Dictionary<double, double>();
+    private static Dictionary<double, double> quickCos = new Dictionary<double, double>();
+    private static Dictionary<double, double> quickTan = new Dictionary<double, double>();
+    private static void addVal(Dictionary<double, double> dict, double dtor, double rad, double trig)
+    {
+        if (dtor == rad)
+        {
+            dict[dtor] = trig;
+        }
+        else
+        {
+            dict[dtor] = trig;
+            dict[rad] = trig;
+        }
+    }
+
+    static void initMisc()
+    {
+        addVal(quickSin, DegToRad(0),   0,            0);
+        addVal(quickSin, DegToRad(30),  Math.PI/6,    0.5);
+        addVal(quickSin, DegToRad(45),  Math.PI/4,    Math.Sin(Math.PI/4));
+        addVal(quickSin, DegToRad(60),  Math.PI/3,    Math.Sin(Math.PI/3));
+        addVal(quickSin, DegToRad(90),  Math.PI/2,    1);
+        addVal(quickSin, DegToRad(120), 2*Math.PI/3,  Math.Sin(2*Math.PI/3));
+        addVal(quickSin, DegToRad(135), 3*Math.PI/4,  Math.Sin(3*Math.PI/4));
+        addVal(quickSin, DegToRad(150), 5*Math.PI/6,  0.5);
+        addVal(quickSin, DegToRad(180), Math.PI,      0);
+        addVal(quickSin, DegToRad(210), 7*Math.PI/6,  -0.5);
+        addVal(quickSin, DegToRad(225), 5*Math.PI/4,  Math.Sin(5*Math.PI/4));
+        addVal(quickSin, DegToRad(240), 4*Math.PI/3,  Math.Sin(4*Math.PI/3));
+        addVal(quickSin, DegToRad(270), 3*Math.PI/2,  -1);
+        addVal(quickSin, DegToRad(300), 5*Math.PI/3,  Math.Sin(5*Math.PI/3));
+        addVal(quickSin, DegToRad(315), 7*Math.PI/4,  Math.Sin(7*Math.PI/4));
+        addVal(quickSin, DegToRad(330), 11*Math.PI/6, -0.5);
+        addVal(quickSin, DegToRad(360), 2*Math.PI,    0);
+
+        addVal(quickCos, DegToRad(0),   0,            1);
+        addVal(quickCos, DegToRad(30),  Math.PI/6,    Math.Cos(Math.PI/6));
+        addVal(quickCos, DegToRad(45),  Math.PI/4,    Math.Cos(Math.PI/4));
+        addVal(quickCos, DegToRad(60),  Math.PI/3,    0.5);
+        addVal(quickCos, DegToRad(90),  Math.PI/2,    0);
+        addVal(quickCos, DegToRad(120), 2*Math.PI/3,  -0.5);
+        addVal(quickCos, DegToRad(135), 3*Math.PI/4,  Math.Cos(3*Math.PI/4));
+        addVal(quickCos, DegToRad(150), 5*Math.PI/6,  Math.Cos(5*Math.PI/6));
+        addVal(quickCos, DegToRad(180), Math.PI,      -1);
+        addVal(quickCos, DegToRad(210), 7*Math.PI/6,  Math.Cos(7*Math.PI/6));
+        addVal(quickCos, DegToRad(225), 5*Math.PI/4,  Math.Cos(5*Math.PI/4));
+        addVal(quickCos, DegToRad(240), 4*Math.PI/3,  -0.5);
+        addVal(quickCos, DegToRad(270), 3*Math.PI/2,  0);
+        addVal(quickCos, DegToRad(300), 5*Math.PI/3,  0.5);
+        addVal(quickCos, DegToRad(315), 7*Math.PI/4,  Math.Cos(7*Math.PI/4));
+        addVal(quickCos, DegToRad(330), 11*Math.PI/6, Math.Cos(11*Math.PI/6));
+        addVal(quickCos, DegToRad(360), 2*Math.PI,    1);
+
+        addVal(quickTan, DegToRad(0),   0,            0);
+        addVal(quickTan, DegToRad(30),  Math.PI/6,    Math.Tan(Math.PI/6));
+        addVal(quickTan, DegToRad(45),  Math.PI/4,    1);
+        addVal(quickTan, DegToRad(60),  Math.PI/3,    Math.Tan(Math.PI/3));
+        // Undefined addVal(quickTan, DegToRad(90),  Math.PI/2,    Math.Tan(Math.PI/2));
+        addVal(quickTan, DegToRad(120), 2*Math.PI/3,  Math.Tan(2*Math.PI/3));
+        addVal(quickTan, DegToRad(135), 3*Math.PI/4,  -1);
+        addVal(quickTan, DegToRad(150), 5*Math.PI/6,  Math.Tan(5*Math.PI/6));
+        addVal(quickTan, DegToRad(180), Math.PI,      0);
+        addVal(quickTan, DegToRad(210), 7*Math.PI/6,  Math.Tan(7*Math.PI/6));
+        addVal(quickTan, DegToRad(225), 5*Math.PI/4,  1);
+        addVal(quickTan, DegToRad(240), 4*Math.PI/3,  Math.Tan(4*Math.PI/3));
+        // Undefined addVal(quickTan, DegToRad(270), 3*Math.PI/2,  Math.Tan(3*Math.PI/2));
+        addVal(quickTan, DegToRad(300), 5*Math.PI/3,  Math.Tan(5*Math.PI/3));
+        addVal(quickTan, DegToRad(315), 7*Math.PI/4,  -1);
+        addVal(quickTan, DegToRad(330), 11*Math.PI/6, Math.Tan(11*Math.PI/6));
+        addVal(quickTan, DegToRad(360), 2*Math.PI,    0);
+    }
+
+    internal static double SinR(double angleInRadians)
+    {
+        var sin = 0.0;
+        if(quickSin.TryGetValue(angleInRadians, out sin)) return sin;
+        return Math.Sin(angleInRadians);
+    }
+
+    internal static double CosR(double angleInRadians)
+    {
+        var cos = 0.0;
+        if(quickCos.TryGetValue(angleInRadians, out cos)) return cos;
+        return Math.Cos(angleInRadians);
+    }
+
+    internal static double TanR(double angleInRadians)
+    {
+        var tan = 0.0;
+        if(quickTan.TryGetValue(angleInRadians, out tan)) return tan;
+        return Math.Tan(angleInRadians);
+    }
+
     /// <summary>Cosine of angle in degrees.</summary>
     /// <group>Trigonometry</group>
     public static double Cos(double angleInDegrees)
     {
-        return Math.Cos(DegToRad(angleInDegrees));
+        return CosR(DegToRad(angleInDegrees));
     }
 
     /// <summary>Sine of angle in degrees.</summary>
     /// <group>Trigonometry</group>
     public static double Sin(double angleInDegrees)
     {
-        return Math.Sin(DegToRad(angleInDegrees));
+        return SinR(DegToRad(angleInDegrees));
     }
 
     /// <summary>Tangent of angle in degrees.</summary>
     /// <group>Trigonometry</group>
     public static double Tan(double angleInDegrees)
     {
-        return Math.Tan(DegToRad(angleInDegrees));
+        return TanR(DegToRad(angleInDegrees));
     }
 
     /// <summary>Hyperbolic cosine of angle in degrees.</summary>
@@ -218,7 +312,7 @@ public static partial class CSCAD
     /// <group>Trigonometry</group>
     public static double RadToDeg(double angleInRadians)
     {
-        return angleInRadians * (180/Math.PI);
+        return angleInRadians * (180 / Math.PI);
     }
 
     /// <summary>String description of winding of a 2D polygon.</summary>

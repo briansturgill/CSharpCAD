@@ -43,12 +43,12 @@ public static partial class CSCAD
         void addPoint(double x, double y) => points.Add(_center.Add(new Vec2(x, y)));
 
 
-        addPoint(radius * Math.Cos(startAngle), radius * Math.Sin(startAngle));
+        addPoint(radius * CosR(startAngle), radius * SinR(startAngle));
         for (var pointAngle = Math.PI / 2 + startAngle; LessThanish(pointAngle, endAngle); pointAngle += Math.PI / 2)
         {
-            addPoint(radius * Math.Cos(pointAngle), radius * Math.Sin(pointAngle));
+            addPoint(radius * CosR(pointAngle), radius * SinR(pointAngle));
         }
-        addPoint(radius * Math.Cos(endAngle), radius * Math.Sin(endAngle));
+        addPoint(radius * CosR(endAngle), radius * SinR(endAngle));
 
         var cutter2D = new Geom2(points);
         return cutter2D;

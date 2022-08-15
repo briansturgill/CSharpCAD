@@ -415,8 +415,8 @@ public class Poly3Tests
 
         var r = (90 * 0.017453292519943295);
         var rotateZMatrix = new Mat4(
-          Math.Cos(r), -Math.Sin(r), 0, 0,
-          Math.Sin(r), Math.Cos(r), 0, 0,
+          CosR(r), -SinR(r), 0, 0,
+          SinR(r), CosR(r), 0, 0,
           0, 0, 1, 0,
           0, 0, 0, 1
         );

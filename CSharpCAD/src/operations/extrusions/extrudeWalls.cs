@@ -46,7 +46,7 @@ public static partial class CSCAD
         return newEdges;
     }
 
-    private static readonly double EPSAREA = (C.EPS * C.EPS / 2) * Math.Sin(Math.PI / 3);
+    private static readonly double EPSAREA = (C.EPS * C.EPS / 2) * SinR(Math.PI / 3);
 
     /*
      * Extrude (build) walls between the given slices.

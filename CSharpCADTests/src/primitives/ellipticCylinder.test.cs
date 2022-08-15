@@ -43,12 +43,22 @@ public class EllipticCylinderTests
         Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
 
-        // test startRadius and endRadius
+        // test Cone
         obs = Cone(top: 2, bottom: 20, segments: 12);
         Assert.DoesNotThrow(() => obs.Validate());
         pts = obs.ToPoints();
         if (WriteTests) TestData.Make("ConeOptsExp1", pts);
         exp = UnitTestData.ConeOptsExp1;
+
+        Assert.AreEqual(pts.Count, exp.Count);
+        Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
+
+        // test Cone with zero point top
+        obs = Cone(top: 0, bottom: 20, segments: 12);
+        Assert.DoesNotThrow(() => obs.Validate());
+        pts = obs.ToPoints();
+        if (WriteTests) TestData.Make("ConeOptsExp2", pts);
+        exp = UnitTestData.ConeOptsExp2;
 
         Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));

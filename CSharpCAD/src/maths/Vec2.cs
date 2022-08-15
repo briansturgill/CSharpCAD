@@ -150,8 +150,8 @@ public readonly struct Vec2 : IEquatable<Vec2>
     public static Vec2 FromAngleRadians(double radians)
     {
         return new Vec2(
-          Math.Cos(radians),
-          Math.Sin(radians)
+          CosR(radians),
+          SinR(radians)
         );
     }
 
@@ -231,8 +231,8 @@ public readonly struct Vec2 : IEquatable<Vec2>
     {
         var x = this.X - origin.X;
         var y = this.Y - origin.Y;
-        var c = Math.Cos(radians);
-        var s = Math.Sin(radians);
+        var c = CosR(radians);
+        var s = SinR(radians);
 
         return new Vec2(
           x * c - y * s + origin.X,

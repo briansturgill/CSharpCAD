@@ -179,8 +179,8 @@ public class Mat4 : IEquatable<Mat4>
         y *= len;
         z *= len;
 
-        var s = Math.Sin(rad);
-        var c = Math.Cos(rad);
+        var s = SinR(rad);
+        var c = CosR(rad);
         var t = 1 - c;
 
         // Perform rotation-specific matrix multiplication
@@ -257,12 +257,12 @@ public class Mat4 : IEquatable<Mat4>
     public static Mat4 FromTaitBryanRotation(double yaw, double pitch, double roll)
     {
         // precompute sines and cosines of Euler angles
-        var sy = Math.Sin(yaw);
-        var cy = Math.Cos(yaw);
-        var sp = Math.Sin(pitch);
-        var cp = Math.Cos(pitch);
-        var sr = Math.Sin(roll);
-        var cr = Math.Cos(roll);
+        var sy = SinR(yaw);
+        var cy = CosR(yaw);
+        var sp = SinR(pitch);
+        var cp = CosR(pitch);
+        var sr = SinR(roll);
+        var cr = CosR(roll);
 
         // create and populate rotation matrix
         // left-hand-rule rotation
@@ -381,8 +381,8 @@ public class Mat4 : IEquatable<Mat4>
       **/
     public static Mat4 FromXRotation(double radians)
     {
-        var s = Math.Sin(radians);
-        var c = Math.Cos(radians);
+        var s = SinR(radians);
+        var c = CosR(radians);
         return new Mat4(
             1,
             0,
@@ -418,8 +418,8 @@ public class Mat4 : IEquatable<Mat4>
       **/
     public static Mat4 FromYRotation(double radians)
     {
-        var s = Math.Sin(radians);
-        var c = Math.Cos(radians);
+        var s = SinR(radians);
+        var c = CosR(radians);
 
         return new Mat4(
           c,
@@ -456,8 +456,8 @@ public class Mat4 : IEquatable<Mat4>
       **/
     public static Mat4 FromZRotation(double radians)
     {
-        var s = Math.Sin(radians);
-        var c = Math.Cos(radians);
+        var s = SinR(radians);
+        var c = CosR(radians);
 
         return new Mat4(
           c, s, 0, 0,
@@ -784,8 +784,8 @@ public class Mat4 : IEquatable<Mat4>
         y *= len;
         z *= len;
 
-        var s = Math.Sin(radians);
-        var c = Math.Cos(radians);
+        var s = SinR(radians);
+        var c = CosR(radians);
         var t = 1 - c;
 
 
@@ -838,8 +838,8 @@ public class Mat4 : IEquatable<Mat4>
     /// <summary>Rotates a matrix by the given angle around the X axis.</summary>
     public Mat4 RotateX(double radians)
     {
-        var s = Math.Sin(radians);
-        var c = Math.Cos(radians);
+        var s = SinR(radians);
+        var c = CosR(radians);
         var ret = new Mat4();
 
         var a10 = this.d[4];
@@ -877,8 +877,8 @@ public class Mat4 : IEquatable<Mat4>
     /// <summary>Rotates this matrix by the given angle around the Y axis.</summary>
     public Mat4 RotateY(double radians)
     {
-        var s = Math.Sin(radians);
-        var c = Math.Cos(radians);
+        var s = SinR(radians);
+        var c = CosR(radians);
         var ret = new Mat4();
 
         var a00 = this.d[0];
@@ -915,8 +915,8 @@ public class Mat4 : IEquatable<Mat4>
     /// <summary>Rotates this matrix by the given angle around the Z axis.</summary>
     public Mat4 RotateZ(double radians)
     {
-        var s = Math.Sin(radians);
-        var c = Math.Cos(radians);
+        var s = SinR(radians);
+        var c = CosR(radians);
         var ret = new Mat4();
 
         var a00 = this.d[0];

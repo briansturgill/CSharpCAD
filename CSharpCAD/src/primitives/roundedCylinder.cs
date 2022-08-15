@@ -70,7 +70,7 @@ public static partial class CSCAD
         for (var slice1 = 0; slice1 <= segments; slice1++)
         {
             var angle = (Math.PI * 2.0 * slice1) / segments;
-            var cylinderpoint = xvector.Scale(Rezero(Math.Cos(angle))).Add(yvector.Scale(Rezero(Math.Sin(angle))));
+            var cylinderpoint = xvector.Scale(Rezero(CosR(angle))).Add(yvector.Scale(Rezero(SinR(angle))));
             if (slice1 > 0)
             {
                 // cylinder wall
@@ -85,8 +85,8 @@ public static partial class CSCAD
                 for (var slice2 = 0; slice2 <= qsegments; slice2++)
                 {
                     var pitch = 0.5 * Math.PI * slice2 / (double)qsegments;
-                    var cospitch = Rezero(Math.Cos(pitch));
-                    var sinpitch = Rezero(Math.Sin(pitch));
+                    var cospitch = Rezero(CosR(pitch));
+                    var sinpitch = Rezero(SinR(pitch));
                     if (slice2 > 0)
                     {
                         // cylinder rounding, start

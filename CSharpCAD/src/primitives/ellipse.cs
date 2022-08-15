@@ -33,7 +33,7 @@ public static partial class CSCAD
         for (var i = 0; i < segments; i++)
         {
             var angle = step * i;
-            points[i] = new Vec2(_radius.X * Math.Cos(angle), _radius.Y * Math.Sin(angle));
+            points[i] = new Vec2(_radius.X * CosR(angle), _radius.Y * SinR(angle));
         }
 
         if (center is not null && !(((Vec2)center).X == 0 && ((Vec2)center).Y == 0))
@@ -98,7 +98,7 @@ public static partial class CSCAD
         for (i = 0; i < segments; i++)
         {
             var angle = (step * i) + startAngle;
-            points[i] = new Vec2(_radius.X * Math.Cos(angle), _radius.Y * Math.Sin(angle));
+            points[i] = new Vec2(_radius.X * CosR(angle), _radius.Y * SinR(angle));
         }
 
         if (center is not null && !(((Vec2)center).X == 0 && ((Vec2)center).Y == 0))

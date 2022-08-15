@@ -35,7 +35,7 @@ public static partial class CSCAD
         for (i = 1; i < ticks - 1; i++)
         {
             angle += radsPerTick;
-            rr[rr_i++] = new Vec2(xOff + (roundRadius * Math.Cos(angle)), yOff + (roundRadius * Math.Sin(angle)));
+            rr[rr_i++] = new Vec2(xOff + (roundRadius * CosR(angle)), yOff + (roundRadius * SinR(angle)));
         }
         rr[rr_i++] = new Vec2(xOff, yOff - roundRadius);
 
@@ -47,7 +47,7 @@ public static partial class CSCAD
         for (i = 1; i < ticks - 1; i++)
         {
             angle += radsPerTick;
-            rr[rr_i++] = new Vec2(xOff + (roundRadius * Math.Cos(angle)), yOff + (roundRadius * Math.Sin(angle)));
+            rr[rr_i++] = new Vec2(xOff + (roundRadius * CosR(angle)), yOff + (roundRadius * SinR(angle)));
         }
         rr[rr_i++] = new Vec2(xOff + roundRadius, yOff);
 
@@ -59,7 +59,7 @@ public static partial class CSCAD
         for (i = 1; i < ticks - 1; i++)
         {
             angle += radsPerTick;
-            rr[rr_i++] = new Vec2(xOff + (roundRadius * Math.Cos(angle)), yOff + (roundRadius * Math.Sin(angle)));
+            rr[rr_i++] = new Vec2(xOff + (roundRadius * CosR(angle)), yOff + (roundRadius * SinR(angle)));
         }
         rr[rr_i++] = new Vec2(xOff, yOff + roundRadius);
 
@@ -71,7 +71,7 @@ public static partial class CSCAD
         for (i = 1; i < ticks - 1; i++)
         {
             angle += radsPerTick;
-            rr[rr_i++] = new Vec2(xOff + (roundRadius * Math.Cos(angle)), yOff + (roundRadius * Math.Sin(angle)));
+            rr[rr_i++] = new Vec2(xOff + (roundRadius * CosR(angle)), yOff + (roundRadius * SinR(angle)));
         }
         rr[rr_i++] = new Vec2(xOff - roundRadius, yOff);
 
