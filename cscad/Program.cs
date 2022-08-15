@@ -8,13 +8,71 @@ using System.Diagnostics;
 GlobalParams.CheckingEnabled = true;
 GlobalParams.DebugOutput = true;
 
-var loops = 100;
+var loops = 100000000;
 var watch = new Stopwatch();
 loops++;
 loops--;
 var g = new Geom3();
 var g2 = new Geom2();
 
+Debug.Assert(DegToRad(0) == 0);
+Debug.Assert(DegToRad(30) == Math.PI/6);
+Debug.Assert(DegToRad(45) == Math.PI/4);
+Debug.Assert(DegToRad(60) == Math.PI/3);
+Debug.Assert(DegToRad(90) == Math.PI/2);
+Debug.Assert(DegToRad(120) == 2*Math.PI/3);
+Debug.Assert(DegToRad(135) == 3*Math.PI/4);
+Debug.Assert(DegToRad(150) == 5*Math.PI/6);
+Debug.Assert(DegToRad(180) == Math.PI);
+//Debug.Assert(DegToRad(210) == 7*Math.PI/6);
+Console.WriteLine($"{DegToRad(210)}, {7*Math.PI/6}");
+Debug.Assert(DegToRad(225) == 5*Math.PI/4);
+Debug.Assert(DegToRad(240) == 4*Math.PI/3);
+Debug.Assert(DegToRad(270) == 3*Math.PI/2);
+Debug.Assert(DegToRad(300) == 5*Math.PI/3);
+Debug.Assert(DegToRad(315) == 7*Math.PI/4);
+Debug.Assert(DegToRad(330) == 11*Math.PI/6);
+Debug.Assert(DegToRad(360) == 2*Math.PI);
+Debug.Assert(DegToRad(360) == Math.Tau);
+
+#if LATER
+var se = new SegmentedExtruder(Circle(20));
+//se.AddSegment(Circle(10), 100);
+se.AddZeroTopCap(50);
+g = se.Finished();
+g.Validate();
+Save("/tmp/se.stl", g);
+
+g=Cone(top: 2, bottom: 20, segments: 12);
+Save("/tmp/cone.stl", g);
+g=Cone(top: 0, bottom: 20, segments: 12);
+Save("/tmp/cone2.stl", g);
+
+var rr = RoundedRectangle((10, 10));
+#endif
+
+watch.Reset();
+watch.Start();
+var sum = 0.0;
+for (var i = 0; i < loops; i++)
+{
+    var v = Cos(i);
+    sum += v;
+}
+watch.Stop();
+Console.WriteLine($"New RoundRect: {watch.ElapsedMilliseconds}");
+watch.Reset();
+watch.Start();
+sum = 0.0;
+for (var i = 0; i < loops; i++)
+{
+    var v = Math.Round(Cos(i), 15);
+    sum += v;
+}
+watch.Stop();
+Console.WriteLine($"Offset RoundRect: {watch.ElapsedMilliseconds}");
+
+#if LATER
 //g=ExtrudeRotate(Translate((20,20), Circle(10)), 32, 0, 270);
 //g=ExtrudeRotate(Translate((20,20), Circle(10)), 32, 0, 360);
 g=ExtrudeRotate(Semicircle(10, segments: 64, center:(0, 10), startAngle:270, endAngle: 90), 64, 0, 360);
@@ -31,8 +89,6 @@ catch (ValidationException e)
 {
     Console.WriteLine($"Exception: {e.Message}");
 }
-
-#if LATER
 /*
 static int vCount(Geom3 g)
 {

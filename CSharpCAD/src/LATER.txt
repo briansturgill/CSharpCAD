@@ -27,3 +27,5 @@ polygon and polyhedron need CCW checking and help.
 
 
 Text? FreeType outlines? Extrude Rectangle revamp?
+
+Pyglet uses something that makes excellent (even prinatable) documentation.
