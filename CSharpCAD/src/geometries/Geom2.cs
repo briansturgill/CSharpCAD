@@ -5,7 +5,6 @@ public class Geom2 : Geometry
 {
     private NRTree nrtree;
     private Vec2[][]? outlines = null;
-    private Side[]? sides = null;
     private Mat4 transforms;
     private (Vec2, Vec2)? boundingBox = null;
     private bool needsTransform = false;
@@ -34,20 +33,6 @@ public class Geom2 : Geometry
     internal Geom2(NRTree nrtree, Mat4? transforms = null, Color? Color = null, bool needsTransform = false)
     {
         this.nrtree = nrtree;
-        this.transforms = transforms ?? new Mat4();
-        this.Color = Color;
-        this.needsTransform = needsTransform;
-        if (GlobalParams.CheckingEnabled)
-        {
-            this.CheckValid();
-        }
-    }
-
-    // Internal constructor.
-    // Will hopefully become obsolete.
-    internal Geom2(Side[] sides, Mat4? transforms = null, Color? Color = null, bool needsTransform = false)
-    {
-        this.nrtree = SidesToNRTree(sides);
         this.transforms = transforms ?? new Mat4();
         this.Color = Color;
         this.needsTransform = needsTransform;
@@ -254,116 +239,6 @@ public class Geom2 : Geometry
         return outlines;
     }
 
-    /// <summary>Create the outline(s) of the given geometry.</summary>
-    internal NRTree SidesToNRTree(Side[] sides)
-    {
-        var vertexMap = new Dictionary<Vec2, List<Side>>();
-        var edges = sides;
-        foreach (var edge in edges)
-        {
-            List<Side>? sideslist;
-            var v0 = edge.v0;
-            var v1 = edge.v1;
-            if (!(vertexMap.TryGetValue(v0, out sideslist)))
-            {
-                vertexMap[v0] = new List<Side>();
-            }
-            sideslist = vertexMap[v0];
-            sideslist.Add(edge);
-        }
-
-        var outlines = new List<List<Vec2>>();
-        while (true)
-        {
-            Vec2 startside_0 = new Vec2();
-            Vec2 startside_1 = new Vec2();
-            foreach (var vertex in vertexMap.Keys)
-            {
-                var edge_list = vertexMap[vertex];
-                if (edge_list.Count == 0)
-                {
-                    vertexMap.Remove(vertex);
-                    continue;
-                }
-                startside_0 = edge_list[0].v0;
-                startside_1 = edge_list[0].v1;
-                edge_list.RemoveAt(0);
-                break;
-            }
-            if (vertexMap.Count == 0) break; // all starting sides have been visited
-
-            var connectedVertexPoints = new List<Vec2>();
-            var startvertex = startside_0;
-            while (true)
-            {
-                connectedVertexPoints.Add(startside_0);
-                var nextvertex = startside_1;
-                if (nextvertex == startvertex) break; // the outline has been closed
-                List<Side>? nextpossiblesides;
-                var valuefound = vertexMap.TryGetValue(nextvertex, out nextpossiblesides);
-                if (!valuefound)
-                {
-                    throw new ValidationException("The given geometry is not closed. verify proper construction");
-                }
-                var nextsideindex = -1;
-                if (nextpossiblesides!.Count == 1)
-                {
-                    nextsideindex = 0;
-                }
-                else
-                {
-                    // more than one side starting at the same vertex
-                    double bestangle = 0.0;
-                    var startangle = startside_1.Subtract(startside_0).AngleDegrees();
-                    for (var sideindex = 0; sideindex < nextpossiblesides.Count; sideindex++)
-                    {
-                        var nextpossibleside_0 = nextpossiblesides[sideindex].v0;
-                        var nextpossibleside_1 = nextpossiblesides[sideindex].v1;
-                        var nextangle = nextpossibleside_1.Subtract(nextpossibleside_0).AngleDegrees();
-                        var angledif = nextangle - startangle;
-                        if (angledif < -180) angledif += 360;
-                        if (angledif >= 180) angledif -= 360;
-                        if ((nextsideindex < 0) || (angledif > bestangle))
-                        {
-                            nextsideindex = sideindex;
-                            bestangle = angledif;
-                        }
-                    }
-                }
-                var nextside = nextpossiblesides[nextsideindex];
-                nextpossiblesides.RemoveAt(nextsideindex); // remove side from list
-                if (nextpossiblesides.Count == 0)
-                {
-                    vertexMap.Remove(nextvertex);
-                }
-                startside_0 = nextside.v0;
-                startside_1 = nextside.v1;
-            } // inner loop
-
-            // due to the logic of fromPoints()
-            // move the first point to the last
-            if (connectedVertexPoints.Count > 0)
-            {
-                connectedVertexPoints.Add(connectedVertexPoints[0]);
-                connectedVertexPoints.RemoveAt(0);
-            }
-            outlines.Add(connectedVertexPoints);
-        } // outer loop
-        var nrt = new Geom2.NRTree();
-        foreach (var outline in outlines)
-        {
-            nrt.Insert(outline.ToArray());
-        }
-        return nrt;
-    }
-
-    /// <summary>Reverses the given geometry so that the sides are flipped in the opposite order.</summary>
-    public Geom2 Reverse()
-    {
-        // LATER does this ever make sense?
-        return new Geom2(nrtree.Reverse(), transforms, Color, needsTransform);
-    }
-
     /**
      * <summary>Produces an array of points from the given geometry.</summary>
      * <remarks>
@@ -374,34 +249,6 @@ public class Geom2 : Geometry
     {
         this.ApplyTransforms();
         return nrtree.ToPoints();
-    }
-
-    /*
-     * Produces an array of sides from the given geometry.
-     *
-     * The returned array should not be modified as the data is shared with the geometry.
-     * NOTE: The sides returned do NOT define an order. Use toOutlines() for ordered points.
-     *
-     */
-    internal Side[] ToSides()
-    {
-        if (this.sides is not null) return sides;
-        var ls = new List<Side>();
-        var outlines = ToOutlines();
-        foreach (var outline in outlines)
-        {
-            var len = outline.Length;
-            if (len > 1 && outline[0] == outline[len - 1]) len--;
-            var prevpoint = outline[len - 1];
-            for (var i = 0; i < len; i++)
-            {
-                var point = outline[i];
-                ls.Add(new Side(prevpoint, point));
-                prevpoint = point;
-            }
-        }
-        sides = ls.ToArray();
-        return sides;
     }
 
     /**
@@ -417,62 +264,6 @@ public class Geom2 : Geometry
         var transforms = matrix.Multiply(this.transforms);
         return new Geom2(this.nrtree.Clone(), transforms, this.Color, needsTransform: true);
     }
-
-    // Internal class.
-    internal class Side : IEquatable<Side>
-    {
-        public readonly Vec2 v0;
-        public readonly Vec2 v1;
-
-        public Side()
-        {
-            this.v0 = new Vec2();
-            this.v1 = new Vec2();
-        }
-
-        public Side(Vec2 v0, Vec2 v1)
-        {
-            this.v0 = v0;
-            this.v1 = v1;
-        }
-
-        public bool Equals(Side? gs)
-        {
-            if (gs is null)
-            {
-                return false;
-            }
-            return this.v0 == gs.v0 && this.v1 == gs.v1;
-        }
-
-        public static bool operator ==(Side a, Side b)
-        {
-            return a.Equals(b);
-        }
-
-        public static bool operator !=(Side a, Side b) => !(a == b);
-
-        public override bool Equals(object? obj)
-        {
-            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
-            {
-                return false;
-            }
-            else
-            {
-                Side s = (Side)obj;
-                return Equals(s);
-            }
-        }
-
-        public override int GetHashCode()
-        {
-            return v0.GetHashCode() ^ v1.GetHashCode();
-        }
-
-        public override string ToString() => $"Side({this.v0},{this.v1})";
-    }
-
     internal class NRTreeNode
     {
         internal Vec2[] Points;

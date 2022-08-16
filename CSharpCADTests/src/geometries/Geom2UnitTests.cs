@@ -237,22 +237,6 @@ public class PrimitivesTests
         Assert.IsTrue(Helpers.CompareListOfLists<Vec2>(ret1, exp1));
     }
 
-
-    [Test]
-    public void TestReverse()
-    {
-        var points = new List<Vec2> { new Vec2(0, 0), new Vec2(1, 0), new Vec2(0, 1) };
-        var geometry = new Geom2(points);
-        Assert.DoesNotThrow(() => geometry.Validate());
-        points.Reverse();
-        var geometry2 = new Geom2(points);
-        // LATER surely this failure should happen! Assert.DoesNotThrow(() => geometry2.Validate());
-        // LATER does a reverse of the geometry EVER make sense?
-        var another = geometry.Reverse();
-        Assert.AreNotSame(geometry, another);
-        Assert.AreEqual(another.ToPoints(), geometry2.ToPoints());
-    }
-
     [Test]
     public void TestToPoints()
     {

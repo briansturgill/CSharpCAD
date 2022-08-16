@@ -132,9 +132,9 @@ public class Geom3 : Geometry
     {
         var s = new StringBuilder();
         s.Append("Geom3(\n");
-        foreach (var side in this.polygons)
+        foreach (var poly in this.polygons)
         {
-            s.Append($"{side}\n");
+            s.Append($"{poly}\n");
         }
         s.Append($"{this.transforms}\n");
         s.Append($"{this.Color}");
