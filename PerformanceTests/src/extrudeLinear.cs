@@ -55,44 +55,5 @@ public static class ExtrudeLinears
             div = "10000",
             func = () => { return ExtrudeLinear(circle_100, height: 100); }
         });
-        Program.pTests.Add(new PTest
-        {
-            name = "extrudeLinearOld",
-            api = "extrudeLinearOld",
-            div = "100",
-            func = () => { return ExtrudeTwist(circle_10, height: 100); }
-        });
-
-        Program.pTests.Add(new PTest
-        {
-            name = "extrudeLinearOld",
-            api = "extrudeLinearOld",
-            div = "500",
-            func = () => { return ExtrudeTwist(circle_50, height: 100); }
-        });
-
-        Program.pTests.Add(new PTest
-        {
-            name = "extrudeLinearOld",
-            api = "extrudeLinearOld",
-            div = "1000",
-            func = () => { return ExtrudeTwist(circle_100, height: 100); }
-        });
-
-        Program.pTests.Add(new PTest
-        {
-            name = "extrudeLinearOld",
-            api = "extrudeLinearOld",
-            div = "5000",
-            func = () => { return ExtrudeTwist(circle_100, height: 100); }
-        });
-
-        Program.pTests.Add(new PTest
-        {
-            name = "extrudeLinearOld",
-            api = "extrudeLinearOld",
-            div = "10000",
-            func = () => { return ExtrudeTwist(circle_100, height: 100); }
-        });
     }
 }
