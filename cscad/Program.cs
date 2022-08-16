@@ -15,27 +15,6 @@ loops--;
 var g = new Geom3();
 var g2 = new Geom2();
 
-Debug.Assert(DegToRad(0) == 0);
-Debug.Assert(DegToRad(30) == Math.PI/6);
-Debug.Assert(DegToRad(45) == Math.PI/4);
-Debug.Assert(DegToRad(60) == Math.PI/3);
-Debug.Assert(DegToRad(90) == Math.PI/2);
-Debug.Assert(DegToRad(120) == 2*Math.PI/3);
-Debug.Assert(DegToRad(135) == 3*Math.PI/4);
-Debug.Assert(DegToRad(150) == 5*Math.PI/6);
-Debug.Assert(DegToRad(180) == Math.PI);
-//Debug.Assert(DegToRad(210) == 7*Math.PI/6);
-Console.WriteLine($"{DegToRad(210)}, {7*Math.PI/6}");
-Debug.Assert(DegToRad(225) == 5*Math.PI/4);
-Debug.Assert(DegToRad(240) == 4*Math.PI/3);
-Debug.Assert(DegToRad(270) == 3*Math.PI/2);
-Debug.Assert(DegToRad(300) == 5*Math.PI/3);
-Debug.Assert(DegToRad(315) == 7*Math.PI/4);
-Debug.Assert(DegToRad(330) == 11*Math.PI/6);
-Debug.Assert(DegToRad(360) == 2*Math.PI);
-Debug.Assert(DegToRad(360) == Math.Tau);
-
-#if LATER
 var se = new SegmentedExtruder(Circle(20));
 //se.AddSegment(Circle(10), 100);
 se.AddZeroTopCap(50);
@@ -49,8 +28,8 @@ g=Cone(top: 0, bottom: 20, segments: 12);
 Save("/tmp/cone2.stl", g);
 
 var rr = RoundedRectangle((10, 10));
-#endif
 
+#if LATER
 watch.Reset();
 watch.Start();
 var sum = 0.0;
@@ -71,6 +50,7 @@ for (var i = 0; i < loops; i++)
 }
 watch.Stop();
 Console.WriteLine($"Offset RoundRect: {watch.ElapsedMilliseconds}");
+#endif
 
 #if LATER
 //g=ExtrudeRotate(Translate((20,20), Circle(10)), 32, 0, 270);
@@ -238,14 +218,17 @@ g = ExtrudeLinear(g2, 10);
 //g.Validate();
 View(g, "Star(5)@10");
 
+#endif
 
 g2 = Subtract(
     RoundedRectangle((40, 40), roundRadius: 10, center: (0, 0), segments:50),
     RoundedRectangle((36, 36), roundRadius: 8, center: (0, 0), segments:50));
 View(g2, "Twisty base");
 g = ExtrudeTwist(g2, 60, twistAngle: 90, twistSteps: 60);
-View(g, "Twisty");
+Save("/tmp/twisty2.stl", g);
+g.Validate();
 
+#if LATER
 g2 = Offset(Square(20, center: (0, 0)), 10, Corners.Round, segments: 50);
 var g2a = Offset(Square(20, center: (0, 0)), 8, Corners.Round, segments: 50);
 g2 = Subtract(g2, g2a);

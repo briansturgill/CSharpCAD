@@ -55,5 +55,44 @@ public static class ExtrudeTwists
             div = "10000",
             func = () => { return ExtrudeTwist(circle_100, height: 100, twistAngle: RadToDeg(5), twistSteps: 100); }
         });
+        Program.pTests.Add(new PTest
+        {
+            name = "extrudeTwistOld",
+            api = "extrudeTwistOld",
+            div = "100",
+            func = () => { return ExtrudeTwistOld(circle_10, height: 100, twistAngle: RadToDeg(5), twistSteps: 10); }
+        });
+
+        Program.pTests.Add(new PTest
+        {
+            name = "extrudeTwistOld",
+            api = "extrudeTwistOld",
+            div = "500",
+            func = () => { return ExtrudeTwistOld(circle_50, height: 100, twistAngle: RadToDeg(5), twistSteps: 10); }
+        });
+
+        Program.pTests.Add(new PTest
+        {
+            name = "extrudeTwistOld",
+            api = "extrudeTwistOld",
+            div = "1000",
+            func = () => { return ExtrudeTwistOld(circle_100, height: 100, twistAngle: RadToDeg(5), twistSteps: 10); }
+        });
+
+        Program.pTests.Add(new PTest
+        {
+            name = "extrudeTwistOld",
+            api = "extrudeTwistOld",
+            div = "5000",
+            func = () => { return ExtrudeTwistOld(circle_100, height: 100, twistAngle: RadToDeg(5), twistSteps: 50); }
+        });
+
+        Program.pTests.Add(new PTest
+        {
+            name = "extrudeTwistOld",
+            api = "extrudeTwistOld",
+            div = "10000",
+            func = () => { return ExtrudeTwistOld(circle_100, height: 100, twistAngle: RadToDeg(5), twistSteps: 100); }
+        });
     }
 }

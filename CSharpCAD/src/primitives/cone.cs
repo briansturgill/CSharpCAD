@@ -29,14 +29,14 @@ public static partial class CSCAD
         }
 
         var iZ = center_z ?? 0.0;
-        var se = new SegmentedExtruder(InternalCircle(bottom, segments: segments, v2center), initialZ: iZ);
+        var se = new SegmentedExtruder(Circle(bottom, segments: segments, v2center), initialZ: iZ);
         if (Equalish(top, 0)) // It's natural to want a cone to stop at zero, but Circle doesn't like that.
         {
             se.AddZeroTopCap(height);
             return se.Finished();
         }
 
-        se.AddPath(InternalCircle(top, segments, v2center), height);
+        se.AddSegment(Circle(top, segments, v2center), height);
         return se.Finished();
     }
 }

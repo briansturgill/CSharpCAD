@@ -71,7 +71,7 @@ public class ExtrudeLinearTests
         geometry3 = ExtrudeTwist(geometry2, height: 15, twistAngle: 90, twistSteps: 30);
         Assert.DoesNotThrow(() => geometry3.Validate());
         pts = geometry3.ToPoints();
-        Assert.AreEqual(pts.Count, 244);
+        Assert.AreEqual(pts.Count, 248);
     }
 
     [Test]

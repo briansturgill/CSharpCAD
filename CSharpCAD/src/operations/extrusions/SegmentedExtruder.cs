@@ -57,25 +57,34 @@ public class SegmentedExtruder
         this.currentGeom2 = new Geom2(initialPath);
     }
 
-    private void addPath(Vec2[] top, double height)
+    private void addSegment(Geom2 seg, double height)
     {
-        var bottom = currentGeom2.ToSinglePath();
-        var v0_top = top[0];
-        var v0_bottom = bottom[0];
-        var bottom_p = new Vec3(v0_bottom, currentZ);
-        var top_p = new Vec3(v0_top, currentZ + height);
-        var len = top.Length;
-        for (var i = 0; i < len; i++)
+        var topOutlines = seg.ToOutlines();
+        var bottomOutlines = currentGeom2.ToOutlines();
+        var olen = topOutlines.Length;
+        for (var idx = 0; idx < olen; idx++)
         {
-            var next_top_v = top[(i + 1) % len];
-            var next_bottom_v = bottom[(i + 1) % len];
-            var next_bottom_p = new Vec3(next_bottom_v, currentZ);
-            var next_top_p = new Vec3(next_top_v, currentZ + height);
-            polys.Add(new Poly3(new Vec3[] { bottom_p, next_bottom_p, next_top_p }));
-            polys.Add(new Poly3(new Vec3[] { bottom_p, next_top_p, top_p }));
-            bottom_p = next_bottom_p;
-            top_p = next_top_p;
+            var top = topOutlines[idx];
+            var bottom = bottomOutlines[idx];
+            var v0_top = top[0];
+            var v0_bottom = bottom[0];
+            var bottom_p = new Vec3(v0_bottom, currentZ);
+            var top_p = new Vec3(v0_top, currentZ + height);
+            var len = top.Length;
+            for (var i = 0; i < len; i++)
+            {
+                var next_top_v = top[(i + 1) % len];
+                var next_bottom_v = bottom[(i + 1) % len];
+                var next_bottom_p = new Vec3(next_bottom_v, currentZ);
+                var next_top_p = new Vec3(next_top_v, currentZ + height);
+                polys.Add(new Poly3(new Vec3[] { bottom_p, next_bottom_p, next_top_p }));
+                polys.Add(new Poly3(new Vec3[] { bottom_p, next_top_p, top_p }));
+                bottom_p = next_bottom_p;
+                top_p = next_top_p;
+            }
         }
+        currentGeom2 = seg;
+        currentZ += height;
     }
 
     private void addBottomCap()
@@ -139,17 +148,6 @@ public class SegmentedExtruder
         }
     }
 
-    internal void AddPath(Vec2[] path, double height)
-    {
-        if (!alreadyHasBottomCap)
-        {
-            addBottomCap();
-        }
-        addPath(path, height);
-        currentGeom2 = new Geom2(path);
-        currentZ += height;
-    }
-
     /**
         <summary>Add a segment, a solid shape, to the extrusion.</summary>
         <remarks>
@@ -169,20 +167,13 @@ public class SegmentedExtruder
         {
             addBottomCap();
         }
-        var outlines = shape.ToOutlines();
-        foreach (var outline in outlines)
-        {
-            addPath(outline, height);
-        }
-        currentGeom2 = shape;
-        currentZ += height;
+        addSegment(shape, height);
     }
 
     internal void AddCappedWall(Vec2[] outerShape, Vec2[] innerShape, double height, Vec2[]? insetShape, double insetHeight)
     {
         // Need to handle bottom cap
         // Must have top cap.
-        currentZ += height;
     }
 
     /**

@@ -9,9 +9,9 @@ public static class ExtrudeRotates
 
     static ExtrudeRotates()
     {
-        circle_10 = Translate((0, 500), Circle(radius: 100, segments: 10));
-        circle_50 = Translate((0, 500), Circle(radius: 100, segments: 50));
-        circle_100 = Translate((0, 500), Circle(radius: 100, segments: 100));
+        circle_10 = Translate((0, 500), Semicircle(radius: 100, segments: 10, startAngle: 270, endAngle:90)); 
+        circle_50 = Translate((0, 500), Semicircle(radius: 100, segments: 50, startAngle: 270, endAngle: 90));
+        circle_100 = Translate((0, 500), Semicircle(radius: 100, segments: 100, startAngle: 270, endAngle: 90));
     }
     public static void Init()
     {

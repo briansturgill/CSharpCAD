@@ -153,11 +153,8 @@ public static partial class CSCAD
                 var next_ppt = pline[idx];
                 if (makeZeroCap && idx == 0)
                 {
-                    Console.WriteLine($"{ppt}, {cpt}, {next_ppt}, {next_cpt}");
                     polys.Add(new Poly3(new Vec3[] { ppt, cpt, new Vec3(0, 0, ppt.Z) }));
                     polys.Add(new Poly3(new Vec3[] { next_cpt, next_ppt, new Vec3(0, 0, next_cpt.Z) }));
-                    Console.WriteLine(polys[polys.Count - 1]);
-                    Console.WriteLine(polys[polys.Count - 2]);
                     break; // Supresses polys below so that X=0 triangle is not made.
                 }
                 polys.Add(new Poly3(new Vec3[] { next_cpt, next_ppt, ppt, }));

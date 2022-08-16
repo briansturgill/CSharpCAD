@@ -224,4 +224,24 @@ public class MiscTests
         }
         if (fail) Assert.Fail("Failure in TestMathAtanhTanhDegree");
     }
+
+    [Test]
+    public void TestSpecialCachedTrigValues()
+    {
+        var dvals = new double[] { 0, 30, 45, 60, 90, 120, 135, 150, 180, 210, 225, 240, 270, 300, 315, 330, 360 };
+        var rvals = new double[] { 0, Math.PI/6, Math.PI/4, Math.PI/3, Math.PI/2, 2*Math.PI/3, 3*Math.PI/4, 5*Math.PI/6,
+            Math.PI, 7*Math.PI/6, 5*Math.PI/4, 4*Math.PI/3, 3*Math.PI/2, 5*Math.PI/3, 7*Math.PI/4, 11*Math.PI/6, 2*Math.PI };
+        Assert.AreEqual(dvals.Length, rvals.Length, 0.0);
+        var len = dvals.Length;
+        for (int i = 0; i < len; i++)
+        {
+            Assert.AreEqual(DegToRad(dvals[i]), rvals[i], 1e-15);
+            Assert.AreEqual(Cos(dvals[i]), CosR(rvals[i]), 0.0);
+            Assert.AreEqual(Sin(dvals[i]), SinR(rvals[i]), 0.0);
+            Assert.AreEqual(Tan(dvals[i]), TanR(rvals[i]), 0.0);
+            Assert.AreEqual(Math.Cos(rvals[i]), CosR(rvals[i]), 1e-15);
+            Assert.AreEqual(Math.Sin(rvals[i]), SinR(rvals[i]), 1e-15);
+            Assert.AreEqual(Math.Tan(rvals[i]), TanR(rvals[i]), 1e-15);
+        }
+    }
 }
