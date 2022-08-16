@@ -359,16 +359,6 @@ def extrudeTwist(gobj:Geom2, height:float = 1, twistAngle:float = 0, twistSteps:
     return CSCAD.ExtrudeTwist(gobj, height, twistAngle, twistSteps, repair)
 
 
-def geodesicSphere(radius:float = 1, frequency:int = 6) -> Geom3:
-    """Construct a geodesic sphere based on icosahedron symmetry.
-
-    Returns: Geom3
-
-    Group: 3D Primitives
-    """
-
-    return CSCAD.GeodesicSphere(radius, frequency)
-
 def polyhedron(points:list[list[float]],faces:list[list[list[int]]], orientationOutward:bool = True) -> Geom3:
     """Construct a polyhedron in 3D space from the given set of 3D points and faces.
 

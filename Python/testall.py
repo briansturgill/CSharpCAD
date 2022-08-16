@@ -161,9 +161,6 @@ view(g, "Twisty")
 g = extrudeRotate(circle(radius = 3, center = (4, 0)), segments = 8, angle = 180)
 view(g, "ExtrudeRotate(Circle)")
     
-g = geodesicSphere()
-view(g, "Geodesic Sphere")
-
 points = [(10, 10, 0), (10, -10, 0), (-10, -10, 0), (-10, 10, 0), (0, 0, 10)]
 faces = [[0, 1, 4],  [1, 2, 4 ], [2, 3, 4], [3, 0, 4], [1, 0, 3], [2, 1, 3]]
 g = polyhedron(points, faces, False)
