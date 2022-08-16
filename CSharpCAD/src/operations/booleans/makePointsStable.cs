@@ -23,7 +23,12 @@ public static partial class CSCAD
             }
             totalPoints += plen;
         }
-        if (GlobalParams.DebugOutput)
-            Console.WriteLine($"MakePointsRobust({tag}): {pointsCorrected} of {totalPoints} points corrected.");
+        if (pointsCorrected > 0 && GlobalParams.DebugOutput)
+        {
+            var traceLines = Environment.StackTrace.Split('\n', '\r');
+            var last = traceLines[traceLines.Length - 1].Trim();
+            last = Regex.Replace(last, @":line ", ":") + ":1";
+            Console.WriteLine($"MakePointsStable({tag}): {pointsCorrected} of {totalPoints} points corrected {last}");
+        }
     }
 }

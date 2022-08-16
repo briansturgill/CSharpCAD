@@ -516,7 +516,13 @@ public class Geom2 : Geometry
                 var winding = Winding(n.Points);
                 if ((depth % 2 == 0 && winding == "cw") || (depth % 2 == 1 && winding == "ccw"))
                 {
-                    if (GlobalParams.DebugOutput) Console.WriteLine($"Correcting winding at depth: {depth}");
+                    if (GlobalParams.DebugOutput && (depth % 2) == 1)
+                    {
+                        var traceLines = Environment.StackTrace.Split('\n', '\r');
+                        var last = traceLines[traceLines.Length - 1].Trim();
+                        last = Regex.Replace(last, @":line ", ":") + ":1";
+                        Console.WriteLine($"Correcting winding at depth: {depth} {last}");
+                    }
                     Array.Reverse(n.Points);
                 }
                 _correctWindings(n, depth + 1);
@@ -774,16 +780,12 @@ public class Geom2 : Geometry
         {
             this.Validate();
         }
-        catch (ValidationException)
+        catch (ValidationException e)
         {
-            throw;
-            /*
-            Console.WriteLine($"Validation Exception: {e.Message}");
-            var st = new StackTrace(e, true);
-            var frame = st.GetFrame(st.FrameCount - 1);
-            var method = frame?.GetMethod()?.ToString() ?? "unknown";
-            Console.WriteLine($"  --At {frame.GetFileName()}:{frame.GetFileLineNumber()} {method}");
-            */
+            var traceLines = Environment.StackTrace.Split('\n', '\r');
+            var last = traceLines[traceLines.Length - 1].Trim();
+            last = Regex.Replace(last, @":line ", ":") + ":1";
+            Console.WriteLine($"Validation Exception: ({e.Message}) {last}");
         }
     }
 }

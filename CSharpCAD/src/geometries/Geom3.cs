@@ -341,7 +341,7 @@ public class Geom3 : Geometry
         }
         if (nonManifold.Count > 0)
         {
-            throw new ValidationException($"Non-manifold edge count: {nonManifold.Count}\n");
+            throw new ValidationException($"Non-manifold edge count: {nonManifold.Count}");
         }
     }
     private void CheckValid()
@@ -352,12 +352,10 @@ public class Geom3 : Geometry
         }
         catch (ValidationException e)
         {
-            Console.WriteLine($"Validation Exception: {e.Message}");
-            var st = new StackTrace(e, true);
-            var frames = st.GetFrames();
-            var frame = frames[frames.Length-1];
-            var method = frame.GetMethod()?.ToString() ?? "unknown";
-            Console.WriteLine($"  --At {frame.GetFileName()}:{frame.GetFileLineNumber()} {method}");
+            var traceLines = Environment.StackTrace.Split('\n', '\r');
+            var last = traceLines[traceLines.Length - 1].Trim();
+            last = Regex.Replace(last, @":line ", ":") + ":1";
+            Console.WriteLine($"Validation Exception: ({e.Message}) {last}");
         }
     }
 }

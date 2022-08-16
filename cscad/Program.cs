@@ -8,7 +8,7 @@ using System.Diagnostics;
 GlobalParams.CheckingEnabled = true;
 GlobalParams.DebugOutput = true;
 
-var loops = 100000000;
+var loops = 100000;
 var watch = new Stopwatch();
 loops++;
 loops--;
@@ -29,7 +29,6 @@ Save("/tmp/cone2.stl", g);
 
 var rr = RoundedRectangle((10, 10));
 
-#if LATER
 watch.Reset();
 watch.Start();
 var sum = 0.0;
@@ -50,9 +49,7 @@ for (var i = 0; i < loops; i++)
 }
 watch.Stop();
 Console.WriteLine($"Offset RoundRect: {watch.ElapsedMilliseconds}");
-#endif
 
-#if LATER
 //g=ExtrudeRotate(Translate((20,20), Circle(10)), 32, 0, 270);
 //g=ExtrudeRotate(Translate((20,20), Circle(10)), 32, 0, 360);
 g=ExtrudeRotate(Semicircle(10, segments: 64, center:(0, 10), startAngle:270, endAngle: 90), 64, 0, 360);
@@ -195,30 +192,12 @@ g2 = Union(g2, Translate((3, 6), Rectangle((4, 1))));
 g2 = Union(g2, Translate((6, 3), Rectangle((1, 4))));
 View(g2, "Test of SVG2 Union");
 
-/*
-Console.WriteLine("---");
-
-foreach (var o in g2.ToOutlines())
-{
-
-    Console.Write($"{Winding(o)} ");
-    foreach (var v2 in o)
-    {
-        Console.Write($"{v2}, ");
-    }
-    Console.WriteLine("");
-}
-*/
-//g.Validate();
-
 g2 = Star(5);
 g2.Validate();
 View(g2, "Star(5)");
 g = ExtrudeLinear(g2, 10);
 //g.Validate();
 View(g, "Star(5)@10");
-
-#endif
 
 g2 = Subtract(
     RoundedRectangle((40, 40), roundRadius: 10, center: (0, 0), segments:50),
@@ -228,7 +207,6 @@ g = ExtrudeTwist(g2, 60, twistAngle: 90, twistSteps: 60);
 Save("/tmp/twisty2.stl", g);
 g.Validate();
 
-#if LATER
 g2 = Offset(Square(20, center: (0, 0)), 10, Corners.Round, segments: 50);
 var g2a = Offset(Square(20, center: (0, 0)), 8, Corners.Round, segments: 50);
 g2 = Subtract(g2, g2a);
@@ -263,18 +241,14 @@ View(Cylinder(10, 25), "Simple Cylinder");
 g = ExtrudeLinear(Subtract(Circle(10, 8), Circle(5, 8)), 20);
 Save("/tmp/test.stl", g);
 
-Console.WriteLine("here");
 var outer_rect = Rectangle((2, 2), center: (0, 0));
 var inner_rect1 = Rectangle((0.20, 0.20), center: (0, 0));
 var inner_rect2 = Translate((0.30, 0.50), Rectangle((0.30, 0.40), center: (0, 0)));
-Console.WriteLine("here1");
 g2 = Subtract(outer_rect, inner_rect2, inner_rect1);
 g2.Validate();
-Console.WriteLine("here2");
 g = ExtrudeLinear(g2, 0.1);
-//g.Validate();
+g.Validate();
 Save("/tmp/test3.stl", g);
-Console.WriteLine(g2);
 
 //Save("/tmp/test4.stl", Subtract(Cuboid((2, 2, 0.1), center: (0, 0, 0)), Cuboid((0.2, 0.2, 0.1), center:(0,0,0)), Translate((0.3, 0.5, 0), Cuboid((0.3, 0.4, 0.1), center: (0, 0, 0)))));
 
@@ -284,6 +258,5 @@ Save("/tmp/cyl.svg", g2);
 g = ExtrudeLinear(g2, 20);
 View(g);
 Save("/tmp/cyl.stl", g);
-#endif
 
 WaitForViewerTransfers();
