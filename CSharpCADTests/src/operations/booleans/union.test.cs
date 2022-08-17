@@ -104,7 +104,7 @@ public class UnionTests
         var result2 = Union(geometry1, geometry2);
         obs = result2.ToPoints();
         Assert.DoesNotThrow(() => result2.Validate());
-        Assert.AreEqual(obs.Count, 38);
+        Assert.AreEqual(obs.Count, 48);
 
         // union of two partially overlapping objects
         var geometry3 = Cuboid(size: (18, 18, 18), center: (0,0,0));
@@ -115,7 +115,7 @@ public class UnionTests
         obs = result3.ToPoints();
         if(WriteTests) TestData.Make("UnionGeom3Exp2", obs);
         exp = UnitTestData.UnionGeom3Exp2;
-        Assert.AreEqual(obs.Count, 18);
+        Assert.AreEqual(obs.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
         // union of two completely overlapping objects
@@ -124,7 +124,7 @@ public class UnionTests
         obs = result4.ToPoints();
         if(WriteTests) TestData.Make("UnionGeom3Exp3", obs);
         exp = UnitTestData.UnionGeom3Exp3;
-        Assert.AreEqual(obs.Count, 6);
+        Assert.AreEqual(obs.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
     }
 
@@ -142,6 +142,6 @@ public class UnionTests
         var obs = Union(geometry1, geometry2);
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
-        Assert.AreEqual(pts.Count, 6); // number of polygons in union
+        Assert.AreEqual(pts.Count, 24); // number of polygons in union
     }
 }

@@ -91,7 +91,7 @@ public class SubtractTests
         obs = result3.ToPoints();
         if(WriteTests) TestData.Make("SubtractTransformGeom3Exp2", obs);
         exp = UnitTestData.SubtractTransformGeom3Exp2;
-        Assert.AreEqual(obs.Count, 12);
+        Assert.AreEqual(obs.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(obs, exp));
 
         // subtract of two completely overlapping objects
