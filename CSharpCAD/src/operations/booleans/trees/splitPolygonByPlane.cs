@@ -100,14 +100,13 @@ public static partial class CSCAD
                     isback = nextisback;
                 } // for vertexindex
                   // remove duplicate vertices:
-                var EPS_SQUARED = C.EPS * C.EPS;
                 if (backvertices.Count >= 3)
                 {
                     var prevvertex = backvertices[backvertices.Count - 1];
                     for (var vertexindex = 0; vertexindex < backvertices.Count; vertexindex++)
                     {
                         var vertex = backvertices[vertexindex];
-                        if (vertex.SquaredDistance(prevvertex) < EPS_SQUARED)
+                        if (vertex.IsNearlyEqual(prevvertex))
                         {
                             backvertices.RemoveAt(vertexindex);
                             vertexindex--;
@@ -121,7 +120,7 @@ public static partial class CSCAD
                     for (var vertexindex = 0; vertexindex < frontvertices.Count; vertexindex++)
                     {
                         var vertex = frontvertices[vertexindex];
-                        if (vertex.SquaredDistance(prevvertex) < EPS_SQUARED)
+                        if (vertex.IsNearlyEqual(prevvertex))
                         {
                             frontvertices.RemoveAt(vertexindex);
                             vertexindex--;
