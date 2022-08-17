@@ -81,12 +81,11 @@ public class Poly3 : IEquatable<Poly3>
 	public override string ToString()
     {
         var s = new StringBuilder();
-        s.Append("Poly3(\n");
+        s.Append("Poly3 ");
         foreach (var vertex in this.vertices)
         {
-            s.Append($"{vertex}\n");
+            s.Append($"{vertex} ");
         }
-        s.Append($"{this.Color}");
         return s.ToString();
     }
 
