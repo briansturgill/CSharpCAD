@@ -21,8 +21,6 @@ public static partial class CSCAD
             geometries.Add(UnionGeom3Sub(geometries[i - 1], geometries[i]));
         }
         var newgeometry = geometries[i - 1];
-        newgeometry = Retessellate(newgeometry);
-        MakePointsStable("UnionGeom3", newgeometry.ToPolygons());
         return newgeometry;
     }
 }

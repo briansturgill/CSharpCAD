@@ -25,12 +25,10 @@ public static partial class CSCAD
         b.ClipTo(a);
         b.Invert();
 
-        var ap = a.AllPolygons();
-        var bp = b.AllPolygons();
-        var newpolygons = new Poly3[ap.Count + bp.Count];
-        ap.CopyTo(0, newpolygons, 0, ap.Count);
-        bp.CopyTo(0, newpolygons, ap.Count, bp.Count);
-        return new Geom3(newpolygons, new Mat4(), geometry1.Color);
+        List<Poly3> polys = a.AllPolygons();
+        polys.AddRange(b.AllPolygons());
+        Fix3DBooBoos("UnionGeom3", polys);
+        return new Geom3(polys.ToArray(), new Mat4(), geometry1.Color);
     }
 
     // Like union, but when we know that the two solids are not intersecting

@@ -26,7 +26,8 @@ public static partial class CSCAD
         a.AddPolygons(b.AllPolygons().ToArray());
         a.Invert();
 
-        var newpolygons = a.AllPolygons();
-        return new Geom3(newpolygons.ToArray());
+        var polys = a.AllPolygons();
+        Fix3DBooBoos("SubtractGeom3", polys);
+        return new Geom3(polys.ToArray());
     }
 }

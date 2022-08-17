@@ -16,8 +16,6 @@ public static partial class CSCAD
         {
             newgobj = SubtractGeom3Sub(newgobj, gobjs[i]);
         }
-        newgobj = Retessellate(newgobj);
-        MakePointsStable("SubtractGeom3", newgobj.ToPolygons());
         return newgobj;
     }
 }
