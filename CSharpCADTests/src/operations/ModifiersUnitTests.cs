@@ -194,15 +194,15 @@ public class ModifiersTests
           }
         );
 
-        var result1 = insertTjunctions(geometry1.ToPolygons());
+        var result1 = InsertTjunctions(geometry1.ToPolygons());
         Assert.AreSame(result1, geometry1.ToPolygons()); // no T junctions
 
-        var result2 = insertTjunctions(geometry2.ToPolygons());
+        var result2 = InsertTjunctions(geometry2.ToPolygons());
         Assert.AreSame(result2, geometry2.ToPolygons());// no T junctions;
 
         // NOTE: insertTjunctions does NOT split the polygon, it just adds a new point at each T
 
-        var result3 = insertTjunctions(geometry3.ToPolygons());
+        var result3 = InsertTjunctions(geometry3.ToPolygons());
         var exp = new Poly3[] {
     new Poly3(new Vec3[] {new Vec3(-1, -1, -1), new Vec3(-1, -1, 1), new Vec3(-1, 1, 1), new Vec3(-1, 1, -1)}),
     new Poly3(new Vec3[] {new Vec3(1, -1, -1), new Vec3(1, 1, -1), new Vec3(1, 1, 1), new Vec3(1, -1, 1)}),
@@ -216,7 +216,7 @@ public class ModifiersTests
         Assert.AreNotSame(result3, geometry3.ToPolygons());
         Assert.AreEqual(result3, exp);
 
-        var result4 = insertTjunctions(geometry4.ToPolygons());
+        var result4 = InsertTjunctions(geometry4.ToPolygons());
         exp = new Poly3[] {
     new Poly3(new Vec3[] {new Vec3(-1, -1, -1), new Vec3(-1, -1, 1), new Vec3(-1, 0, 1), new Vec3(-1, 1, 1), new Vec3(-1, 1, -1)}),
     new Poly3(new Vec3[] {new Vec3(1, -1, -1), new Vec3(1, 1, -1), new Vec3(1, 1, 1), new Vec3(1, 0, 1), new Vec3(1, -1, 1)}),

@@ -98,7 +98,7 @@ public class IntersectTests
         var result4 = Intersect(geometry1, geometry3);
         Assert.DoesNotThrow(() => result4.Validate());
         obs = result4.ToPoints();
-        Assert.AreEqual(obs.Count, 32);
+        Assert.AreEqual(obs.Count, 48);
     }
 
 }

@@ -27,6 +27,10 @@ public static partial class UnitTestData {
       new List<Vec3> {
         new Vec3(8, 9, 9),
         new Vec3(9, 9, 9),
+        new Vec3(9, 9, 8)
+    }, 
+      new List<Vec3> {
+        new Vec3(8, 9, 9),
         new Vec3(9, 9, 8),
         new Vec3(8, 9, 8)
     }, 
@@ -53,6 +57,10 @@ public static partial class UnitTestData {
       new List<Vec3> {
         new Vec3(8, 9, 9),
         new Vec3(8, 9, 8),
+        new Vec3(8, 8, 8)
+    }, 
+      new List<Vec3> {
+        new Vec3(8, 9, 9),
         new Vec3(8, 8, 8),
         new Vec3(8, 8, 9)
     }

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿#define LATER
+using System.Text;
 using CSharpCAD;
 using static CSharpCAD.CSCAD;
 using Path = CSharpCAD.CSCAD.Path;
@@ -15,6 +16,7 @@ loops--;
 var g = new Geom3();
 var g2 = new Geom2();
 
+#if LATER
 var se = new SegmentedExtruder(Circle(20));
 //se.AddSegment(Circle(10), 100);
 se.AddZeroTopCap(50);
@@ -85,6 +87,8 @@ Geom3 TapPost(double h, double size, double post_wall = 2, bool add_taper = fals
     var outer_d = post_wall * 2 + size;
     var a = ExtrudeLinear(height: h, gobj: Circle(outer_d / 2.0));
     var b = Translate((0, 0, -1), ExtrudeLinear(height: h + 2, gobj: Circle(inner_d / 2.0)));
+    a.Validate();
+    b.Validate();
     //a = Cylinder(radius: outer_d / 2.0, height: h);
     //b = Translate((0, 0, -1), Cylinder(radius: inner_d / 2.0, height: h + 2));
     //a = Triangulate(a);
@@ -97,10 +101,10 @@ Geom3 TapPost(double h, double size, double post_wall = 2, bool add_taper = fals
     {
         var cout = Circle(outer_d / 2.0);
         var cylout = ExtrudeLinear(height: h * 2, gobj: cout);
-        //cylout.Validate();
+        cylout.Validate();
         var cin = Circle(inner_d / 2.0);
         var cylin = ExtrudeLinear(height: h * 2 + 2, gobj: cin);
-        //cylin.Validate();
+        cylin.Validate();
         //cylout = Cylinder(radius: outer_d / 2.0, height: h * 2);
         //cylin = Translate((0, 0, -1), Cylinder(radius: inner_d / 2.0, height: h * 2 + 2));
         var cb = Cuboid((outer_d, outer_d, h * 3 + 2), center: (0, 0, 0));
@@ -131,9 +135,14 @@ g = Subtract(g, Rotate((45, 0, 0), Cuboid((5, 5, 50), center: (0, 0, 0))));
 g = Intersect(g, Translate((10, 10, 10), Torus(outerRadius: 30, innerRadius: 15)));
 g = Union(g, Cuboid(size: (10, 10, 10)), Translate((7, 7, 7), Cuboid((10, 10, 10))));
 Save("/tmp/test.stl", g);
-g = Union(Cube(size: 8, center: (0, 0, 0)), RotateZ(0, Cube(center: (0, 0, 4))));
+#endif
+
+var c1 = Cube(size: 8, center: (0, 0, 0));
+var c2 = Cube(center: (0, 0, 4));
+g = Union(c1, c2);
 Save("/tmp/badcube.stl", g);
 
+#if LATER
 
 //g2 = Subtract(Rectangle((8, 4)), Translate((2, 1), Rectangle((4, 2))));
 //g2.Validate();
@@ -258,5 +267,6 @@ Save("/tmp/cyl.svg", g2);
 g = ExtrudeLinear(g2, 20);
 View(g);
 Save("/tmp/cyl.stl", g);
+#endif
 
 WaitForViewerTransfers();

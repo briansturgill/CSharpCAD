@@ -40,7 +40,7 @@ internal static partial class Modifiers
      * Convert the given polygons into a list of triangles (polygons with 3 vertices).
      * NOTE: this is possible because poly3 is CONVEX by definition
      */
-    public static Poly3[] triangulatePolygons(double epsilon, Poly3[] polygons)
+    public static Poly3[] TriangulatePolygons(double epsilon, Poly3[] polygons)
     {
         var triangles = new List<Poly3>(polygons.Length);
         foreach (var polygon in polygons)

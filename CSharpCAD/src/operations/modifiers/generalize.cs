@@ -28,8 +28,8 @@ internal static partial class Modifiers
         // triangulate the polygons if requested
         if (triangulate)
         {
-            polygons = insertTjunctions(polygons);
-            polygons = triangulatePolygons(epsilon, polygons);
+            polygons = InsertTjunctions(polygons);
+            polygons = TriangulatePolygons(epsilon, polygons);
         }
 
         // repair the polygons (possibly triangles) if requested
