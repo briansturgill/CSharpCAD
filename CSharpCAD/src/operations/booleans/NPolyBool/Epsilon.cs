@@ -27,7 +27,7 @@ namespace CSharpCAD.PolyBool
             this.eps = eps;
         }
 
-        public static Epsilon Default = new Epsilon(0.0000000001);
+        public static Epsilon Default = new Epsilon(C.EPS);
 
         public bool PointAboveOrOnLine(Vec2 pt, Vec2 left, Vec2 right)
         {

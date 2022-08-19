@@ -11,8 +11,23 @@ public static partial class CSCAD
      * <param name="makeZeroCap" default="false">Set to true if you don't want the inner hole.</param>
      * <remarks>
      * All X points in gobj must be positive (it must be located in the first and fourth quadrants).
+     *
      * The best way to make things work at X==0 is make sure that the first and last points of the outer path of gobj both equal 0.
+     *
      * We set makeZeroCap automatically if the first and last point have X==0.
+     *
+     * If you set makeZeroCap yourself, you are responsible to make sure there is an adequate gap from the X axis.
+     *
+     * If you have points too close to X=0, then zero area triangles will result.
+     *
+     * Using "Translate" is the easiest way to fix this, though you'll likely need to adjust the outer size.
+     *
+     * Using makeZeroCap will then cause the hole in the center to go away.
+     *
+     * Internally we move all X=0 points to X=0.001.
+     * 
+     * Admittedly this could lead to a small deformation, but it does leave the outer size at the correct value.
+     * This works well in most situations.
      * </remarks>
      * <returns>The extruded 3D geometry</returns>
      * <group>3D Primitives</group>
@@ -35,8 +50,6 @@ public static partial class CSCAD
             var outlines = gobj.ToOutlines();
             if (Equalish(outlines[0][0].X, 0) && Equalish(outlines[0][outlines[0].Length - 1].X, 0))
             {
-                //outlines[0][outlines[0].Length - 1] = new Vec2(0.001, outlines[0][outlines[0].Length - 1].Y);
-                //outlines[0][0] = new Vec2(0.001, outlines[0][0].Y);
                 makeZeroCap = true;
             }
             foreach (var outline in outlines)
@@ -47,6 +60,11 @@ public static partial class CSCAD
                 {
                     var pt = outline[i];
                     var x = pt.X;
+                    // Why 0.001? It's big enough that resulting triangles are not too small, but still smaller than
+                    // the common (at this writing) manufacturing resolution of 0.1.
+                    // It's a heuristic. Thus the ability for user override using makeZeroCap.
+                    // If the user uses that, then they are responsible to see that there is an adequate distance
+                    // from the X axis.
                     if (Equalish(x, 0)) x = 0.001;
                     var y = pt.Y;
                     if (Equalish(y, 0)) y = 0;
