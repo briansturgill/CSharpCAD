@@ -37,7 +37,7 @@ public static partial class CSCAD
         for (var slice1 = 0; slice1 <= segments; slice1++)
         {
             var angle = Math.PI * 2.0 * slice1 / segments;
-            var cylinderpoint = xvector.Scale(Rezero(CosR(angle))).Add(yvector.Scale(Rezero(SinR(angle))));
+            var cylinderpoint = xvector.Scale(CosR(angle)).Add(yvector.Scale(SinR(angle)));
             if (slice1 > 0)
             {
                 double prevcospitch = 0.0;
@@ -45,8 +45,8 @@ public static partial class CSCAD
                 for (var slice2 = 0; slice2 <= qsegments; slice2++)
                 {
                     var pitch = 0.5 * Math.PI * slice2 / (double)qsegments;
-                    var cospitch = Rezero(CosR(pitch));
-                    var sinpitch = Rezero(SinR(pitch));
+                    var cospitch = CosR(pitch);
+                    var sinpitch = SinR(pitch);
                     if (slice2 > 0)
                     {
                         var points = new List<Vec3>();

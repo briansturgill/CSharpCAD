@@ -5,8 +5,8 @@ public static partial class CSCAD
     private static List<List<Vec3>> createCorners(Vec3 center, Vec3 size, double radius, int segments, int slice, bool positive)
     {
         var pitch = (Math.PI / 2) * slice / segments;
-        var cospitch = Rezero(CosR(pitch));
-        var sinpitch = Rezero(SinR(pitch));
+        var cospitch = CosR(pitch);
+        var sinpitch = SinR(pitch);
 
         var layersegments = segments - slice;
         var layerradius = radius * cospitch;
