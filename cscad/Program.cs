@@ -1,5 +1,4 @@
-﻿#define LATER
-using System.Text;
+﻿using System.Text;
 using CSharpCAD;
 using static CSharpCAD.CSCAD;
 using Path = CSharpCAD.CSCAD.Path;
@@ -112,7 +111,9 @@ Geom3 TapPost(double h, double size, double post_wall = 2, bool add_taper = fals
         cb.Validate();
         var g3 = Subtract(cylout, Translate((0, 0, -1), cylin));
         //g3.Validate();
-        g3 = Subtract(g3, Rotate((45, 0, z_rot), Translate((0, 0, h), cb)));
+        var g3a = Translate((0, 0, h), cb);
+        var g3b = Rotate((45, 0, z_rot), g3a);
+        g3 = Subtract(g3, g3b);
         //g3.Validate();
         gobj = Union(gobj, Translate((0, 0, -h * 2), g3));
     }
