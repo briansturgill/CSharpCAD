@@ -58,6 +58,18 @@ public readonly struct Vec3 : IEquatable<Vec3>, IComparable
         return a.Equals(b);
     }
 
+    ///
+    public double this[int idx]
+    {
+        get
+        {
+            if (idx == 0) return this.X;
+            else if (idx == 1) return this.Y;
+            else if (idx == 2) return this.Z;
+            throw new IndexOutOfRangeException();
+        }
+    }
+
     /// <summary>Check if this vector is not equal to the given vector.</summary>
     public static bool operator !=(Vec3 a, Vec3 b) => !(a == b);
 
@@ -90,7 +102,7 @@ public readonly struct Vec3 : IEquatable<Vec3>, IComparable
     }
 
     /// <summary>Standard C# override.</summary>
-	public override string ToString() => $"Vec3({this.X},{this.Y},{this.Z})";
+	public override string ToString() => $"Vec3({this.X:F6},{this.Y:F6},{this.Z:F6})";
 
     /// <summary>Used mostly for testing.</summary>
     public bool IsNearlyEqual(Vec3 b)

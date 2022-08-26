@@ -28,6 +28,17 @@ public readonly struct Vec2 : IEquatable<Vec2>
         return a.Equals(b);
     }
 
+    ///
+    public double this[int idx]
+    {
+        get
+        {
+            if (idx == 0) return this.X;
+            else if (idx == 1) return this.Y;
+            throw new IndexOutOfRangeException();
+        }
+    }
+
     /// <summary>Check if this vector is not equal to the given vector.</summary>
     public static bool operator !=(Vec2 a, Vec2 b) => !(a == b);
 
@@ -59,7 +70,7 @@ public readonly struct Vec2 : IEquatable<Vec2>
     }
 
     /// <summary>Standard C# override.</summary>
-    public override string ToString() => $"Vec2({this.X},{this.Y})";
+    public override string ToString() => $"Vec2({this.X:F6},{this.Y:F6})";
 
     /// <summary>Used mostly for testing.</summary>
     public bool IsNearlyEqual(Vec2 b)
