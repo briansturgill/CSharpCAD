@@ -54,6 +54,8 @@ Earcut Triangulation: [Earcut](https://github.com/mapbox/earcut) Mapbox
 
 AVLTree (for stability): [AVLTree](https://github.com/justcoding121/advanced-algorithms) Jehonathan
 
+Triangle Intersection: [Möller](https://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/code/tritri_isectline.txt)
+
 While no code from them was directly used, Microsoft Corporation provided the wonderful open source .Net tools that underly the development of CSharpCAD. Amazingly, it too is under the MIT license.
 
 Finally I'd like to point out three special members of the JSCAD team, @hrgdavor, @platypii, and @z3dev for their assistance, comments and discussions.
