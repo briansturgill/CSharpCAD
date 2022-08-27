@@ -142,6 +142,6 @@ public class UnionTests
         var obs = Union(geometry1, geometry2);
         Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
-        Assert.AreEqual(pts.Count, 24); // number of polygons in union
+        Assert.AreEqual(pts.Count, 6); // number of polygons in union
     }
 }

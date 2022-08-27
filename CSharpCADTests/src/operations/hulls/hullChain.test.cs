@@ -93,12 +93,12 @@ public class HullChainTests
         var obs = HullChain(geometry1, geometry2, geometry3);
         var pts = obs.ToPoints();
         // LATER JSCAD Assert.DoesNotThrow(() => obs.Validate());
-        Assert.AreEqual(pts.Count, 62);
+        Assert.AreEqual(pts.Count, 23);
 
         // closed
         obs = HullChain(geometry1, geometry2, geometry3, geometry1);
         pts = obs.ToPoints();
         // LATER JSCAD Assert.DoesNotThrow(() => obs.Validate());
-        Assert.AreEqual(pts.Count, 122);
+        Assert.AreEqual(pts.Count, 28);
     }
 }
