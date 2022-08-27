@@ -473,22 +473,6 @@ public class Geom2 : Geometry
             parent.Contained.Add(child);
         }
 
-        internal NRTree Reverse()
-        {
-            var clone = this.Clone();
-            _reverse(clone.Root);
-            return clone;
-        }
-
-        private void _reverse(NRTreeNode parent)
-        {
-            foreach (var n in parent.Contained)
-            {
-                Array.Reverse(n.Points);
-                _reverse(n);
-            }
-        }
-
         internal void Transform(Mat4 mat)
         {
             _transform(this.Root, mat);
