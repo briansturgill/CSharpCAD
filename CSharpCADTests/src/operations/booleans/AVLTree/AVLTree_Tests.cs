@@ -339,4 +339,83 @@ public class AvlTreeTests
 
         Assert.IsTrue(tree.Count == 0);
     }
+
+    [Test]
+    public void AVLTree_InsertFuzzy_Test()
+    {
+        var vals = new double[] { 1, 2, 3.2, Math.PI, 0.001 };
+
+        var tiny = C.EPS / 10;
+
+        for (int i = 0; i < 3; i++)
+        {
+            var offset = 0.0;
+            switch (i)
+            {
+                case 0:
+                    offset = -tiny;
+                    break;
+                case 1:
+                    offset = 0;
+                    break;
+                case 2:
+                    offset = tiny;
+                    break;
+            }
+            for (int j = 0; j < vals.Length; j++)
+            {
+                var x = vals[j];
+                var y = vals[j];
+                var z = vals[j];
+                for (int k = 0; k < 3; k++)
+                {
+                    var testVal = new Vec3();
+                    var tree = new AVLTree<Vec3>();
+                    switch (k)
+                    {
+                        case 0:
+                            testVal = new Vec3(x + offset, y, z);
+                            break;
+                        case 1:
+                            testVal = new Vec3(x, y + offset, z);
+                            break;
+                        case 2:
+                            testVal = new Vec3(x, y, z + offset);
+                            break;
+                    }
+                    tree.Insert(testVal);
+                    var retVal = tree.Insert(new Vec3(x + tiny, y, z));
+                    Assert.IsTrue(retVal == testVal);
+                    retVal = tree.Insert(new Vec3(x + tiny, y, z + tiny));
+                    Assert.IsTrue(retVal == testVal);
+                    retVal = tree.Insert(new Vec3(x + tiny, y + tiny, z));
+                    Assert.IsTrue(retVal == testVal);
+                    retVal = tree.Insert(new Vec3(x + tiny, y + tiny, z + tiny));
+                    Assert.IsTrue(retVal == testVal);
+                    retVal = tree.Insert(new Vec3(x, y + tiny, z + tiny));
+                    Assert.IsTrue(retVal == testVal);
+                    retVal = tree.Insert(new Vec3(x, y + tiny, z));
+                    Assert.IsTrue(retVal == testVal);
+                    retVal = tree.Insert(new Vec3(x, y, z + tiny));
+                    Assert.IsTrue(retVal == testVal);
+                    retVal = tree.Insert(new Vec3(x, y, z));
+                    Assert.IsTrue(retVal == testVal);
+                    retVal = tree.Insert(new Vec3(x - tiny, y, z));
+                    Assert.IsTrue(retVal == testVal);
+                    retVal = tree.Insert(new Vec3(x - tiny, y, z - tiny));
+                    Assert.IsTrue(retVal == testVal);
+                    retVal = tree.Insert(new Vec3(x - tiny, y - tiny, z));
+                    Assert.IsTrue(retVal == testVal);
+                    retVal = tree.Insert(new Vec3(x - tiny, y - tiny, z - tiny));
+                    Assert.IsTrue(retVal == testVal);
+                    retVal = tree.Insert(new Vec3(x, y - tiny, z - tiny));
+                    Assert.IsTrue(retVal == testVal);
+                    retVal = tree.Insert(new Vec3(x, y - tiny, z));
+                    Assert.IsTrue(retVal == testVal);
+                    retVal = tree.Insert(new Vec3(x, y, z - tiny));
+                    Assert.IsTrue(retVal == testVal);
+                }
+            }
+        }
+    }
 }
