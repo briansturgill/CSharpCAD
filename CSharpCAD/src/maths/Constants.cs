@@ -9,6 +9,8 @@ public static class C
 
     /// <summary>Epsilon used during determination of near zero distances (1/spatialResolution)</summary>
     public const double EPS = 1e-5;
+    /// <summary>Epsilon used during determination of near zero distances when comparing against a SquaredDistance.</summary>
+    public const double EPS_SQUARED = C.EPS * C.EPS;
 
     /// <summary>Like Number.EPSILON in Javascript.</summary>
     public const double EPSILON = 2.220446049250313e-16; // double 2**-52

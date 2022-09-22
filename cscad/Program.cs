@@ -79,6 +79,7 @@ static int vCount(Geom3 g)
     return sum;
 }
 */
+#endif
 
 Geom3 TapPost(double h, double size, double post_wall = 2, bool add_taper = false, double z_rot = 0)
 {
@@ -129,6 +130,8 @@ var g = Subtract(a, b);// TapPost(8, 5, add_taper: false);
 */
 g = TapPost(8, 5, add_taper: true);
 Save("/tmp/testtp.stl", g);
+
+#if LATER
 //g.Validate();
 g = Union(Sphere(radius: 20), Translate((10, 10, 10), Sphere(radius: 20)));
 g = Subtract(g, Cuboid((5, 5, 50), center: (0, 0, 0)));

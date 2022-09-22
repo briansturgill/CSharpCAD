@@ -117,9 +117,7 @@ public readonly struct Vec3 : IEquatable<Vec3>, IComparable
         {
             return false;
         }
-        if (Math.Abs(this.X - b.X) >= C.EPS ||
-            Math.Abs(this.Y - b.Y) >= C.EPS ||
-            Math.Abs(this.Z - b.Z) >= C.EPS)
+        if (this.SquaredDistance(b) >= C.EPS_SQUARED)
         {
             return false;
         }
