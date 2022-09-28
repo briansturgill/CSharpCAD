@@ -27,14 +27,13 @@ public static partial class CSCAD
       Polygons are split at each sweep line, and the fragments are joined horizontally and vertically into larger polygons
       (making sure that we will end up with convex polygons).
     */
-    internal static Geom3 Retessellate(Geom3 geometry)
+    internal static List<Poly3> Retessellate(List<Poly3> polygons)
     {
-        if (geometry.IsRetesselated || geometry.polygons.Length == 0)
+        if (polygons.Count == 0)
         {
-            return geometry;
+            return polygons;
         }
 
-        var polygons = geometry.ToPolygons();
         var polygonsPerPlane = new List<(Plane, List<Poly3>)>();  // elements: [plane, [poly3...]]
         foreach (var polygon in polygons)
         {
@@ -59,8 +58,6 @@ public static partial class CSCAD
             destpolygons.AddRange(retesselayedpolygons);
         }
 
-        var result = new Geom3(destpolygons.ToArray(), new Mat4(), geometry.Color, isRetesselated: true);
-
-        return result;
+        return destpolygons;
     }
 }

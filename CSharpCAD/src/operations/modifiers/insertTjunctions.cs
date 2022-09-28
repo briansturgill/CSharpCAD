@@ -2,123 +2,108 @@ namespace CSharpCAD;
 
 internal static partial class Modifiers
 {
-    /*
-     * All shapes (primitives or the results of operations) can be modified to correct issues, etc.
-     * In all cases, these functions returns the results, and never changes the original geometry.
-     * @module modeling/modifiers
-     * @example
-     * var { snap } = require('@jscad/modeling').modifiers
-     */
-    private static string getTag(Vec3 vertex) => $"{vertex}";
-
-    public class Side
+    private class Side
     {
         public readonly Vec3 vertex0;
         public readonly Vec3 vertex1;
-        public readonly int polygonindex;
-        public Side(Vec3 vertex0, Vec3 vertex1, int polygonindex)
+        public readonly int polygonIndex;
+        public Side(Vec3 vertex0, Vec3 vertex1, int polygonIndex)
         {
             this.vertex0 = vertex0;
             this.vertex1 = vertex1;
-            this.polygonindex = polygonindex;
+            this.polygonIndex = polygonIndex;
         }
     }
 
-    private static string? addSide(Dictionary<string, List<Side>> sidemap, Dictionary<string, List<string>> vertextag2sidestart,
-      Dictionary<string, List<string>> vertextag2sideend, Vec3 vertex0, Vec3 vertex1, int polygonindex)
+    private static (Vec3, Vec3)? addSide(Dictionary<(Vec3, Vec3), List<Side>> sideMap, Dictionary<Vec3, List<(Vec3, Vec3)>> vertexToSideStart,
+      Dictionary<Vec3, List<(Vec3, Vec3)>> vertexToSideEnd, Vec3 start, Vec3 end, int polygonIndex)
     {
-        var starttag = getTag(vertex0);
-        var endtag = getTag(vertex1);
-        //Debug.Assert(starttag == endtag);
-        var newsidetag = $"{starttag}/{endtag}";
-        var reversesidetag = $"{endtag}/{starttag}";
-        if (sidemap.ContainsKey(reversesidetag))
+        Debug.Assert(start != end);
+        var newSide = (start, end);
+        var reverseSide = (end, start);
+        if (sideMap.ContainsKey(reverseSide))
         {
             // remove the opposing side from mappings
-            deleteSide(sidemap, vertextag2sidestart, vertextag2sideend, vertex1, vertex0, null);
+            deleteSide(sideMap, vertexToSideStart, vertexToSideEnd, end, start, null);
             return null;
         }
         // add the side to the mappings
-        var newsideobj = new Side(vertex0, vertex1, polygonindex);
-        if (!(sidemap.ContainsKey(newsidetag)))
+        var newSideObj = new Side(start, end, polygonIndex);
+        if (!(sideMap.ContainsKey(newSide)))
         {
-            sidemap[newsidetag] = new List<Side> { newsideobj };
+            sideMap[newSide] = new List<Side> { newSideObj };
         }
         else
         {
-            sidemap[newsidetag].Add(newsideobj);
+            sideMap[newSide].Add(newSideObj);
         }
-        if (vertextag2sidestart.ContainsKey(starttag))
+        if (vertexToSideStart.ContainsKey(start))
         {
-            vertextag2sidestart[starttag].Add(newsidetag);
+            vertexToSideStart[start].Add(newSide);
         }
         else
         {
-            vertextag2sidestart[starttag] = new List<string> { newsidetag };
+            vertexToSideStart[start] = new List<(Vec3, Vec3)> { newSide };
         }
-        if (vertextag2sideend.ContainsKey(endtag))
+        if (vertexToSideEnd.ContainsKey(end))
         {
-            vertextag2sideend[endtag].Add(newsidetag);
+            vertexToSideEnd[end].Add(newSide);
         }
         else
         {
-            vertextag2sideend[endtag] = new List<string> { newsidetag };
+            vertexToSideEnd[end] = new List<(Vec3, Vec3)> { newSide };
         }
-        return newsidetag;
+        return newSide;
     }
 
-    public static void deleteSide(Dictionary<string, List<Side>> sidemap, Dictionary<string, List<string>> vertextag2sidestart,
-      Dictionary<string, List<string>> vertextag2sideend, Vec3 vertex0, Vec3 vertex1, int? polygonindex)
+    private static void deleteSide(Dictionary<(Vec3, Vec3), List<Side>> sideMap, Dictionary<Vec3, List<(Vec3, Vec3)>> vertexToSideStart,
+      Dictionary<Vec3, List<(Vec3, Vec3)>> vertexToSideEnd, Vec3 start, Vec3 end, int? polygonIndex)
     {
-        var starttag = getTag(vertex0);
-
-        var endtag = getTag(vertex1);
-
-        var sidetag = $"{starttag}/{endtag}";
-        //Debug.Assert(!sidemap.ContainsKey(sidetag));
+        var side = (start, end);
+        Debug.Assert(sideMap.ContainsKey(side));
         var idx = -1;
 
-        var sideobjs = sidemap[sidetag];
+        var sideObjs = sideMap[side];
 
-        for (var i = 0; i < sideobjs.Count; i++)
+        for (var i = 0; i < sideObjs.Count; i++)
         {
-            var sideobj = sideobjs[i];
-            var sidetag_ = getTag(sideobj.vertex0);
+            var sideObj = sideObjs[i];
+            var side_ = sideObj.vertex0;
 
-            if (sidetag_ != starttag) continue;
+            if (side_ != start) continue;
 
-            sidetag_ = getTag(sideobj.vertex1);
+            side_ = sideObj.vertex1;
 
-            if (sidetag_ != endtag) continue;
+            if (side_ != end) continue;
 
 
-            if (polygonindex is not null)
+            if (polygonIndex is not null)
             {
-                if (sideobj.polygonindex != polygonindex) continue;
+                if (sideObj.polygonIndex != polygonIndex) continue;
             }
             idx = i;
             break;
         }
-        //Debug.Assert(idx < 0);
+        Debug.Assert(idx >= 0);
 
-        sideobjs.RemoveAt(sideobjs.Count - 1);
+        sideObjs.RemoveAt(sideObjs.Count - 1);
 
-        if (sideobjs.Count == 0)
+        if (sideObjs.Count == 0)
         {
-            sidemap.Remove(sidetag);
+            sideMap.Remove(side);
         }
 
         // adjust start and end lists
-        vertextag2sidestart[starttag].Remove(sidetag);
-        if (vertextag2sidestart[starttag].Count == 0)
+        vertexToSideStart[start].Remove(side);
+        if (vertexToSideStart[start].Count == 0)
         {
-            vertextag2sidestart.Remove(starttag);
+            vertexToSideStart.Remove(start);
         }
 
-        vertextag2sideend[endtag].Remove(sidetag);
-        if (vertextag2sideend[endtag].Count == 0)
+        vertexToSideEnd[end].Remove(side);
+        if (vertexToSideEnd[end].Count == 0)
         {
-            vertextag2sideend.Remove(endtag);
+            vertexToSideEnd.Remove(end);
         }
     }
 
@@ -153,51 +138,52 @@ internal static partial class Modifiers
     {
         // STEP 1 : build a map of 'unmatched' sides from the polygons
         // i.e. side AB in one polygon does not have a matching side BA in another polygon
-        var sidemap = new Dictionary<string, List<Side>>();
-        for (var polygonindex = 0; polygonindex < polygons.Length; polygonindex++)
+        var sideMap = new Dictionary<(Vec3, Vec3), List<Side>>();
+        for (var polygonIndex = 0; polygonIndex < polygons.Length; polygonIndex++)
         {
-            var polygon = polygons[polygonindex];
-            var numvertices = polygon.Vertices.Length;
-            if (numvertices >= 3)
+            var polygon = polygons[polygonIndex];
+            var numVertices = polygon.Vertices.Length;
+            if (numVertices >= 3)
             {
                 var vertex = polygon.Vertices[0];
-                var vertextag = getTag(vertex);
-                for (var vertexindex = 0; vertexindex < numvertices; vertexindex++)
+                for (var vertexIndex = 0; vertexIndex < numVertices; vertexIndex++)
                 {
-                    var nextvertexindex = vertexindex + 1;
-                    if (nextvertexindex == numvertices) nextvertexindex = 0;
+                    var nextVertexIndex = vertexIndex + 1;
+                    if (nextVertexIndex == numVertices) nextVertexIndex = 0;
 
-                    var nextvertex = polygon.Vertices[nextvertexindex];
-                    var nextvertextag = getTag(nextvertex);
+                    var nextVertex = polygon.Vertices[nextVertexIndex];
 
-                    var sidetag = $"{vertextag}/{nextvertextag}";
-                    var reversesidetag = $"{nextvertextag}/{vertextag}";
-                    if (sidemap.ContainsKey(reversesidetag))
+                    var side = (vertex, nextVertex);
+                    var reverseSide = (nextVertex, vertex);
+                    if (sideMap.ContainsKey(reverseSide))
                     {
-                        // this side matches the same side in another polygon. Remove from sidemap
+                        // this side matches the same side in another polygon. Remove from sideMap
                         // FIXME is this check necessary? there should only be ONE(1) opposing side
                         // FIXME assert ?
-                        var ar = sidemap[reversesidetag];
+                        var ar = sideMap[reverseSide];
                         ar.RemoveAt(ar.Count - 1);
                         if (ar.Count == 0)
                         {
-                            sidemap.Remove(reversesidetag);
+                            sideMap.Remove(reverseSide);
+                        }
+                        else
+                        {
+                            Debug.Fail("Should only be one reverseSide.");
                         }
                     }
                     else
                     {
-                        var sideobj = new Side(vertex, nextvertex, polygonindex);
-                        if (!(sidemap.ContainsKey(sidetag)))
+                        var sideObj = new Side(vertex, nextVertex, polygonIndex);
+                        if (!(sideMap.ContainsKey(side)))
                         {
-                            sidemap[sidetag] = new List<Side> { sideobj };
+                            sideMap[side] = new List<Side> { sideObj };
                         }
                         else
                         {
-                            sidemap[sidetag].Add(sideobj);
+                            sideMap[side].Add(sideObj);
                         }
                     }
-                    vertex = nextvertex;
-                    vertextag = nextvertextag;
+                    vertex = nextVertex;
                 }
             }
             else
@@ -206,168 +192,162 @@ internal static partial class Modifiers
             }
         }
 
-        if (sidemap.Count > 0)
+        if (sideMap.Count > 0)
         {
-            // console.log('insertTjunctions',sidemap.size)
             // STEP 2 : create a list of starting sides and ending sides
-            var vertextag2sidestart = new Dictionary<string, List<string>>();
-            var vertextag2sideend = new Dictionary<string, List<string>>();
-            var sidestocheck = new HashSet<string>();
-            foreach (var (sidetag, sideobjs) in sidemap)
+            var vertexToSideStart = new Dictionary<Vec3, List<(Vec3, Vec3)>>();
+            var vertexToSideEnd = new Dictionary<Vec3, List<(Vec3, Vec3)>>();
+            var sidesToCheck = new HashSet<(Vec3, Vec3)>();
+            foreach (var (side, sideObjs) in sideMap)
             {
-                sidestocheck.Add(sidetag);
-                foreach (var sideobj in sideobjs)
+                sidesToCheck.Add(side);
+                foreach (var sideObj in sideObjs)
                 {
-                    var starttag = getTag(sideobj.vertex0);
+                    var start = sideObj.vertex0;
 
-                    var endtag = getTag(sideobj.vertex1);
+                    var end = sideObj.vertex1;
 
-                    if (vertextag2sidestart.ContainsKey(starttag))
+                    if (vertexToSideStart.ContainsKey(start))
                     {
-                        vertextag2sidestart[starttag].Add(sidetag);
+                        vertexToSideStart[start].Add(side);
                     }
                     else
                     {
-                        vertextag2sidestart[starttag] = new List<string> { sidetag };
+                        vertexToSideStart[start] = new List<(Vec3, Vec3)> { side };
                     }
-                    if (vertextag2sideend.ContainsKey(endtag))
+                    if (vertexToSideEnd.ContainsKey(end))
                     {
-                        vertextag2sideend[endtag].Add(sidetag);
+                        vertexToSideEnd[end].Add(side);
                     }
                     else
                     {
-                        vertextag2sideend[endtag] = new List<string> { sidetag };
+                        vertexToSideEnd[end] = new List<(Vec3, Vec3)> { side };
                     }
                 }
             }
 
-            // STEP 3 : if sidemap is not empty
-            var newpolygons = polygons.ToArray(); // make a copy in order to replace polygons inline
+            // STEP 3 : if sideMap is not empty
+            var newPolygons = polygons.ToArray(); // make a copy in order to replace polygons inline
             while (true)
             {
-                if (sidemap.Count == 0) break;
+                if (sideMap.Count == 0) break;
 
-                foreach (var sidetag in sidemap.Keys)
+                foreach (var side in sideMap.Keys)
                 {
-                    sidestocheck.Add(sidetag);
+                    sidesToCheck.Add(side);
                 }
 
-                var donesomething = false;
+                var doneSomething = false;
                 while (true)
                 {
-                    var sidetags = sidestocheck.ToArray();
-                    if (sidetags.Length == 0) break; // sidestocheck is empty, we're done!
-                    var sidetagtocheck = sidetags[0];
-                    var donewithside = true;
-                    if (sidemap.ContainsKey(sidetagtocheck))
+                    var sides = sidesToCheck.ToArray();
+                    if (sides.Length == 0) break; // sidesToCheck is empty, we're done!
+                    var sideToCheck = sides[0];
+                    var doneWithSide = true;
+                    if (sideMap.ContainsKey(sideToCheck))
                     {
-                        var sideobjs = sidemap[sidetagtocheck];
-                        //Debug.Assert(sideobjs is null || sideobjs.Count == 0);
-                        var sideobj = sideobjs[0];
-                        for (var directionindex = 0; directionindex < 2; directionindex++)
+                        var sideObjs = sideMap[sideToCheck];
+                        Debug.Assert(sideObjs is not null && sideObjs.Count != 0);
+                        var sideObj = sideObjs[0];
+                        for (var directionIndex = 0; directionIndex < 2; directionIndex++)
                         {
-                            var startvertex = (directionindex == 0) ? sideobj.vertex0 : sideobj.vertex1;
-                            var endvertex = (directionindex == 0) ? sideobj.vertex1 : sideobj.vertex0;
-                            var startvertextag = getTag(startvertex);
-                            var endvertextag = getTag(endvertex);
-                            var matchingsides = new List<string>();
-                            if (directionindex == 0)
+                            var startVertex = (directionIndex == 0) ? sideObj.vertex0 : sideObj.vertex1;
+                            var endVertex = (directionIndex == 0) ? sideObj.vertex1 : sideObj.vertex0;
+                            var matchingSides = new List<(Vec3, Vec3)>();
+                            if (directionIndex == 0)
                             {
-                                if (vertextag2sideend.ContainsKey(startvertextag))
+                                if (vertexToSideEnd.ContainsKey(startVertex))
                                 {
-                                    matchingsides = vertextag2sideend[startvertextag];
+                                    matchingSides = vertexToSideEnd[startVertex];
                                 }
                             }
                             else
                             {
-                                if (vertextag2sidestart.ContainsKey(startvertextag))
+                                if (vertexToSideStart.ContainsKey(startVertex))
                                 {
-                                    matchingsides = vertextag2sidestart[startvertextag];
+                                    matchingSides = vertexToSideStart[startVertex];
                                 }
                             }
-                            for (var matchingsideindex = 0; matchingsideindex < matchingsides.Count; matchingsideindex++)
+                            for (var matchingSideIndex = 0; matchingSideIndex < matchingSides.Count; matchingSideIndex++)
                             {
-                                var matchingsidetag = matchingsides[matchingsideindex];
-                                var matchingside = sidemap[matchingsidetag][0];
-                                var matchingsidestartvertex = (directionindex == 0) ? matchingside.vertex0 : matchingside.vertex1;
-                                var matchingsideendvertex = (directionindex == 0) ? matchingside.vertex1 : matchingside.vertex0;
-                                var matchingsidestartvertextag = getTag(matchingsidestartvertex);
-                                var matchingsideendvertextag = getTag(matchingsideendvertex);
-                                //Debug.Assert(matchingsideendvertextag != startvertextag);
-                                if (matchingsidestartvertextag == endvertextag)
+                                var matchingSide = sideMap[matchingSides[matchingSideIndex]][0];
+                                var matchingSideStartVertex = (directionIndex == 0) ? matchingSide.vertex0 : matchingSide.vertex1;
+                                var matchingSideEndVertex = (directionIndex == 0) ? matchingSide.vertex1 : matchingSide.vertex0;
+                                Debug.Assert(matchingSideEndVertex == startVertex);
+                                if (matchingSideStartVertex == endVertex)
                                 {
-                                    // matchingside cancels sidetagtocheck
-                                    deleteSide(sidemap, vertextag2sidestart, vertextag2sideend, startvertex, endvertex, null);
-                                    deleteSide(sidemap, vertextag2sidestart, vertextag2sideend, endvertex, startvertex, null);
-                                    donewithside = false;
-                                    directionindex = 2; // skip reverse direction check
-                                    donesomething = true;
+                                    // matchingSide cancels sideToCheck
+                                    deleteSide(sideMap, vertexToSideStart, vertexToSideEnd, startVertex, endVertex, null);
+                                    deleteSide(sideMap, vertexToSideStart, vertexToSideEnd, endVertex, startVertex, null);
+                                    doneWithSide = false;
+                                    directionIndex = 2; // skip reverse direction check
+                                    doneSomething = true;
                                     break;
                                 }
                                 else
                                 {
-                                    var startpos = startvertex;
-                                    var endpos = endvertex;
-                                    var checkpos = matchingsidestartvertex;
+                                    var startpos = startVertex;
+                                    var endpos = endVertex;
+                                    var checkpos = matchingSideStartVertex;
                                     var direction = checkpos.Subtract(startpos);
                                     // Now we need to check if endpos is on the line startpos-checkpos:
                                     var t = endpos.Subtract(startpos).Dot(direction) / direction.Dot(direction);
                                     if ((t > 0) && (t < 1))
                                     {
-                                        var closestpoint = direction.Scale(t);
-                                        closestpoint = closestpoint.Add(startpos);
-                                        var distancesquared = closestpoint.SquaredDistance(endpos);
-                                        if (distancesquared < C.EPS*0.1) // Was (C.EPS * C.EPS)
+                                        var closestPoint = direction.Scale(t);
+                                        closestPoint = closestPoint.Add(startpos);
+                                        var distancesquared = closestPoint.SquaredDistance(endpos);
+                                        if (distancesquared < C.EPS * 0.1) // Was (C.EPS * C.EPS)
                                         {
-                                            // Yes it's a t-junction! We need to split matchingside in two:
-                                            var polygonindex = matchingside.polygonindex;
-                                            var polygon = newpolygons[polygonindex];
-                                            // find the index of startvertextag in polygon:
-                                            var insertionvertextag = getTag(matchingside.vertex1);
-                                            var insertionvertextagindex = -1;
+                                            // Yes it's a t-junction! We need to split matchingSide in two:
+                                            var polygonIndex = matchingSide.polygonIndex;
+                                            var polygon = newPolygons[polygonIndex];
+                                            // find the index of startVertextag in polygon:
+                                            var insertionVertex = matchingSide.vertex1;
+                                            var insertionVertexIndex = -1;
                                             for (var i = 0; i < polygon.Vertices.Length; i++)
                                             {
-                                                if (getTag(polygon.Vertices[i]) == insertionvertextag)
+                                                if (polygon.Vertices[i] == insertionVertex)
                                                 {
-                                                    insertionvertextagindex = i;
+                                                    insertionVertexIndex = i;
                                                     break;
                                                 }
                                             }
-                                            //Debug.Assert(insertionvertextagindex < 0);
+                                            Debug.Assert(insertionVertexIndex >= 0);
                                             // split the side by inserting the vertex:
-                                            var newvertices = new List<Vec3>(polygon.Vertices.Length+1);
-                                            newvertices.AddRange(polygon.Vertices.ToArray());
-                                            newvertices.Insert(insertionvertextagindex, endvertex);
-                                            var newpolygon = new Poly3(newvertices.ToArray(), polygon.Color);
+                                            var newVertices = new List<Vec3>(polygon.Vertices.Length + 1);
+                                            newVertices.AddRange(polygon.Vertices.ToArray());
+                                            newVertices.Insert(insertionVertexIndex, endVertex);
+                                            var newPolygon = new Poly3(newVertices.ToArray(), polygon.Color);
 
-                                            newpolygons[polygonindex] = newpolygon;
+                                            newPolygons[polygonIndex] = newPolygon;
 
                                             // remove the original sides from our maps
-                                            deleteSide(sidemap, vertextag2sidestart, vertextag2sideend, matchingside.vertex0, matchingside.vertex1, polygonindex);
-                                            var newsidetag1 = addSide(sidemap, vertextag2sidestart, vertextag2sideend, matchingside.vertex0, endvertex, polygonindex);
-                                            var newsidetag2 = addSide(sidemap, vertextag2sidestart, vertextag2sideend, endvertex, matchingside.vertex1, polygonindex);
-                                            if (newsidetag1 is not null) sidestocheck.Add(newsidetag1);
-                                            if (newsidetag2 is not null) sidestocheck.Add(newsidetag2);
-                                            donewithside = false;
-                                            directionindex = 2; // skip reverse direction check
-                                            donesomething = true;
+                                            deleteSide(sideMap, vertexToSideStart, vertexToSideEnd, matchingSide.vertex0, matchingSide.vertex1, polygonIndex);
+                                            var newSide1 = addSide(sideMap, vertexToSideStart, vertexToSideEnd, matchingSide.vertex0, endVertex, polygonIndex);
+                                            var newSide2 = addSide(sideMap, vertexToSideStart, vertexToSideEnd, endVertex, matchingSide.vertex1, polygonIndex);
+                                            if (newSide1 is not null) sidesToCheck.Add(((Vec3, Vec3))newSide1);
+                                            if (newSide2 is not null) sidesToCheck.Add(((Vec3, Vec3))newSide2);
+                                            doneWithSide = false;
+                                            directionIndex = 2; // skip reverse direction check
+                                            doneSomething = true;
                                             break;
                                         } // if(distancesquared < 1e-10)
                                     } // if( (t > 0) && (t < 1) )
-                                } // if(endingstidestartvertextag == endvertextag)
-                            } // for matchingsideindex
-                        } // for directionindex
-                    } // if(sidetagtocheck in sidemap)
-                    if (donewithside)
+                                } // if(endingstidestartVertex == endVertex)
+                            } // for matchingSideIndex
+                        } // for directionIndex
+                    } // if(sideToCheck in sideMap)
+                    if (doneWithSide)
                     {
-                        sidestocheck.Remove(sidetagtocheck);
+                        sidesToCheck.Remove(sideToCheck);
                     }
                 }
-                if (!donesomething) break;
+                if (!doneSomething) break;
             }
-            polygons = newpolygons;
+            polygons = newPolygons;
         }
-        sidemap.Clear();
+        sideMap.Clear();
 
         return polygons;
     }

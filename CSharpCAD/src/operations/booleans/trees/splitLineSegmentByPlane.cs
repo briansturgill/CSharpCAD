@@ -3,6 +3,7 @@ namespace CSharpCAD;
 public static partial class CSCAD
 {
     // I really hate making this a static, but the existing design makes it hard to do anything otherwise.
+    // Cleaned up in Fix3DBooBoos.
     internal static Dictionary<(Vec3, Vec3), List<Vec3>> SplitAddedPoints = new Dictionary<(Vec3, Vec3), List<Vec3>>();
 
     private static Vec3 SplitLineSegmentByPlane(Plane plane, Vec3 p1, Vec3 p2)
@@ -58,81 +59,5 @@ public static partial class CSCAD
         }
 
         return intersectionPoint;
-    }
-
-    internal static Poly3[] Fix3DBooBoos(string tag, List<Poly3> _polys)
-    {
-        var polys = _polys.ToArray();
-
-        MakePointsStable(tag, polys);
-
-        polys = Retessellate(new Geom3(polys)).ToPolygons();
-
-        //polys = Modifiers.InsertTjunctions(polys);
-
-        //polys = triangulate(polys);
-
-        SplitAddedPoints.Clear();
-
-        return polys;
-    }
-
-    private static bool triangleIsTooSmall(Vec3[] pts)
-    {
-        bool isTooSmall(Vec3 p1, Vec3 p2)
-        {
-            return Math.Abs(p1.X - p2.X) <= C.EPS &&
-                Math.Abs(p1.Y - p2.Y) <= C.EPS &&
-                Math.Abs(p1.Z - p2.Z) <= C.EPS;
-    }
-        var pt0 = pts[0];
-        var pt1 = pts[1];
-        var pt2 = pts[2];
-
-        return isTooSmall(pt0, pt1) || isTooSmall(pt1, pt2) || isTooSmall(pt2, pt0);
-    }
-
-    private static Poly3[] triangulate(Poly3[] polys)
-    {
-        var triangles = new List<Poly3>();
-        foreach (var poly in polys)
-        {
-            var pts = poly.Vertices;
-            var ptsLen = pts.Length;
-            if (ptsLen < 3)
-            {
-                throw new Exception("Should not happen");
-            }
-                if (triangleIsTooSmall(pts))
-                {
-                    if (GlobalParams.DebugOutput)
-                    {
-                        Console.WriteLine("WARNING: Zero area triangle discarded (poly)");
-                    }
-                    continue;
-                }
-            if (ptsLen == 3)
-            {
-                triangles.Add(poly);
-            }
-            else
-            {
-                var p0 = pts[0];
-                for (var i = 1; i < ptsLen - 1; i++)
-                {
-                    var newpoly = new Poly3(new Vec3[] { p0, pts[i], pts[i + 1] });
-                    if (triangleIsTooSmall(newpoly.Vertices))
-                    {
-                        if (GlobalParams.DebugOutput)
-                        {
-                            Console.WriteLine("WARNING: Zero area triangle discarded (newpoly)");
-                        }
-                        continue;
-                    }
-                    triangles.Add(newpoly);
-                }
-            }
-        }
-        return triangles.ToArray();
     }
 }

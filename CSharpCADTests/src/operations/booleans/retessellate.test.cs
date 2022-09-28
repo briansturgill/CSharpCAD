@@ -87,8 +87,8 @@ public class RetessallateTests
         var obj5 = new Geom3(box5);
 
         // one solid geometry
-        var ret1 = Retessellate(obj1);
-        var pts1 = ret1.ToPoints();
+        var ret1 = Retessellate(obj1.ToPolygons().ToList());
+        var pts1 = new Geom3(ret1.ToArray()).ToPoints();
         var exp1 = new List<List<Vec3>> {
           new List<Vec3>{new Vec3(-5, -5, -5), new Vec3(-5, -5, 5), new Vec3(-5, 5, 5), new Vec3(-5, 5, -5)},
           new List<Vec3>{new Vec3(5, -5, -5), new Vec3(5, 5, -5), new Vec3(5, 5, 5), new Vec3(5, -5, 5)},
@@ -100,8 +100,8 @@ public class RetessallateTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts1, exp1));
 
         // two non-overlapping geometries
-        var ret2 = Retessellate(obj2);
-        var pts2 = ret2.ToPoints();
+        var ret2 = Retessellate(obj2.ToPolygons().ToList());
+        var pts2 = new Geom3(ret2.ToArray()).ToPoints();
         var exp2 = new List<List<Vec3>> {
           new List<Vec3>{new Vec3(-5, -5, -5), new Vec3(-5, -5, 5), new Vec3(-5, 5, 5), new Vec3(-5, 5, -5)},
           new List<Vec3>{new Vec3(5, -5, -5), new Vec3(5, 5, -5), new Vec3(5, 5, 5), new Vec3(5, -5, 5)},
@@ -119,8 +119,8 @@ public class RetessallateTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts2, exp2));
 
         // two touching geometries (faces)
-        var ret3 = Retessellate(obj3);
-        var pts3 = ret3.ToPoints();
+        var ret3 = Retessellate(obj3.ToPolygons().ToList());
+        var pts3 = new Geom3(ret3.ToArray()).ToPoints();
         var exp3 = new List<List<Vec3>> {
           new List<Vec3>{new Vec3(-5, 5, 15), new Vec3(-5, 5, -5), new Vec3(-5, -5, -5), new Vec3(-5, -5, 15)},
           new List<Vec3>{new Vec3(5, -5, 15), new Vec3(5, -5, -5), new Vec3(5, 5, -5), new Vec3(5, 5, 15)},
@@ -132,8 +132,8 @@ public class RetessallateTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts3, exp3));
 
         // two overlapping geometries
-        var ret4 = Retessellate(obj4);
-        var pts4 = ret4.ToPoints();
+        var ret4 = Retessellate(obj4.ToPolygons().ToList());
+        var pts4 = new Geom3(ret4.ToArray()).ToPoints();
         var exp4 = new List<List<Vec3>> {
           new List<Vec3>{new Vec3(-5, -5, -5), new Vec3(-5, -5, 5), new Vec3(-5, 5, 5), new Vec3(-5, 5, -5)},
           new List<Vec3>{new Vec3(-5, -5, -5), new Vec3(5, -5, -5), new Vec3(5, -5, 5), new Vec3(-5, -5, 5)},
@@ -157,8 +157,8 @@ public class RetessallateTests
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts4, exp4));
 
         // coplanar polygons
-        var ret5 = Retessellate(obj5);
-        var pts5 = ret5.ToPoints();
+        var ret5 = Retessellate(obj5.ToPolygons().ToList());
+        var pts5 = new Geom3(ret5.ToArray()).ToPoints();
         var exp5 = new List<List<Vec3>> {
           new List<Vec3>{new Vec3(-5, -5, -5), new Vec3(-5, -5, 5), new Vec3(-5, 5, 5), new Vec3(-5, 5, -5)},
           new List<Vec3>{new Vec3(10, -5, -5), new Vec3(10, -5, 5), new Vec3(-5, -5, 5), new Vec3(-5, -5, -5)},
