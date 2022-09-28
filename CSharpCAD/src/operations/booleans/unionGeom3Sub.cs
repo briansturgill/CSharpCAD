@@ -28,7 +28,7 @@ public static partial class CSCAD
         List<Poly3> polys = a.AllPolygons();
         polys.AddRange(b.AllPolygons());
         var newpolys = Fix3DBooBoos("UnionGeom3", polys);
-        return new Geom3(newpolys, new Mat4(), geometry1.Color);
+        return new Geom3(newpolys, new Mat4(), geometry1.Color, isRetesselated: true);
     }
 
     // Like union, but when we know that the two solids are not intersecting

@@ -6,10 +6,6 @@ public static partial class CSCAD
     internal static Poly3[] Fix3DBooBoos(string tag, List<Poly3> _polys)
     {
         _polys = Retessellate(_polys);
-        //var epsilon = new Geom3(_polys.ToArray()).MeasureEpsilon();
-        //_polys = Modifiers.snapPolygons(epsilon, _polys.ToArray()).ToList();
-        //_polys = Modifiers.InsertTjunctions(_polys.ToArray()).ToList();
-        //_polys = Modifiers.TriangulatePolygons(epsilon, _polys.ToArray()).ToList();
 
         var ret = _polys.ToArray();
 
@@ -18,6 +14,8 @@ public static partial class CSCAD
         return ret;
     }
 
+// The code below is dead code and was an attempt to fix the Tjunction issue.
+// Not quite ready to delete it yet, keep hoping to find an answer.
     internal static Geom3 DoGeneralize(Geom3 geometry)
     {
         var epsilon = geometry.MeasureEpsilon();
