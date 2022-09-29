@@ -95,7 +95,7 @@ public class ExtrudeRotateTests
         geometry2 = new Geom2(new List<Vec2> { new Vec2(0, 0), new Vec2(2, 1), new Vec2(1, 2), new Vec2(1, 3), new Vec2(3, 4), new Vec2(0, 5) });
         Assert.DoesNotThrow(() => geometry2.Validate());
         geometry3 = ExtrudeRotate(geometry2, segments: 8);
-        // JSCAD Assert.DoesNotThrow(() => geometry3.Validate());
+        Assert.DoesNotThrow(() => geometry3.Validate());
         pts = geometry3.ToPoints();
         Assert.AreEqual(pts.Count, 96);
 
@@ -103,7 +103,7 @@ public class ExtrudeRotateTests
         geometry2 = new Geom2(new List<Vec2>{ new Vec2(30, 0), new Vec2(30, 60), new Vec2(0, 60), new Vec2(0, 50),
           new Vec2(10, 40), new Vec2(10, 30), new Vec2(0, 20), new Vec2(0, 10), new Vec2(10, 0)});
         geometry3 = ExtrudeRotate(geometry2, segments: 8);
-        // LATER JSCAD Assert.DoesNotThrow(() => geometry3.Validate());
+        Assert.DoesNotThrow(() => geometry3.Validate());
         pts = geometry3.ToPoints();
         Assert.AreEqual(pts.Count, 144);
     }

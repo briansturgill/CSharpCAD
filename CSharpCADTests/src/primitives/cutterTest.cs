@@ -78,7 +78,7 @@ public class CutterTests
         Assert.DoesNotThrow(() => cut2.Validate());
 
         var obs1 = Subtract(sphere1, cut1);
-        // LATER JSCAD Assert.DoesNotThrow(() => obs1.Validate());
+        Assert.DoesNotThrow(() => obs1.Validate());
         var pts = obs1.ToPoints();
         if (WriteTests) TestData.Make("Cutter3DOptsExp1", pts);
         var exp = UnitTestData.Cutter3DOptsExp1;
@@ -88,13 +88,12 @@ public class CutterTests
 
         // test center
         var obs2 = Subtract(sphere2, cut2);
-        // LATER JSCAD Assert.DoesNotThrow(() => obs2.Validate());
+        Assert.DoesNotThrow(() => obs2.Validate());
         pts = obs2.ToPoints();
         if (WriteTests) TestData.Make("Cutter3DOptsExp2", pts);
         exp = UnitTestData.Cutter3DOptsExp2;
 
         Assert.AreEqual(pts.Count, exp.Count);
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
-        //Save("/tmp/a.stl", Union(obs1, Translate((50, 0, 0), obs2)));
     }
 }

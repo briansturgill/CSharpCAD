@@ -111,7 +111,7 @@ public class UnionTests
         Assert.DoesNotThrow(() => geometry3.Validate());
 
         var result3 = Union(geometry2, geometry3);
-        // LATER JSCAD Assert.DoesNotThrow(() => result3.Validate());
+        Assert.DoesNotThrow(() => result3.Validate());
         obs = result3.ToPoints();
         if(WriteTests) TestData.Make("UnionGeom3Exp2", obs);
         exp = UnitTestData.UnionGeom3Exp2;

@@ -87,7 +87,7 @@ public class SubtractTests
         Assert.DoesNotThrow(() => geometry3.Validate());
 
         var result3 = Subtract(geometry2, geometry3);
-        // LATER JSCAD Assert.DoesNotThrow(() => result3.Validate());
+        Assert.DoesNotThrow(() => result3.Validate());
         obs = result3.ToPoints();
         if(WriteTests) TestData.Make("SubtractTransformGeom3Exp2", obs);
         exp = UnitTestData.SubtractTransformGeom3Exp2;

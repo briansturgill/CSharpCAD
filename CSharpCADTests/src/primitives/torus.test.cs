@@ -38,7 +38,7 @@ public class TorusTests
     public void TestTorusComplexOptions()
     {
         var obs = Torus(innerRadius: 1, outerRadius: 5, innerSegments: 32, outerSegments: 72, startAngle: 90, outerRotation: 90);
-        // LATER Assert.DoesNotThrow(() => obs.Validate());
+        Assert.DoesNotThrow(() => obs.Validate());
         var pts = obs.ToPoints();
         Assert.AreEqual(pts.Count, 1216);
         var (min, max) = obs.BoundingBox();
