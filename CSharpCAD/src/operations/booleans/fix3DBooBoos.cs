@@ -14,6 +14,7 @@ public static partial class CSCAD
         return ret;
     }
 
+#if DEAD_CODE
 // The code below is dead code and was an attempt to fix the Tjunction issue.
 // Not quite ready to delete it yet, keep hoping to find an answer.
     internal static Geom3 DoGeneralize(Geom3 geometry)
@@ -231,4 +232,5 @@ public static partial class CSCAD
         }
         return triangles.ToArray();
     }
+#endif
 }

@@ -177,7 +177,7 @@ public class Geom3 : Geometry
         }
         if (this.needsMakeRobust)
         {
-            MakePointsStable("Geom3.ApplyTransforms", polygons);
+            MakePointsStable("ApplyTransforms", polygons);
         }
 
         this.transforms = new Mat4();
@@ -200,7 +200,7 @@ public class Geom3 : Geometry
     public Geom3 Clone()
     {
         // There is no need to copy the transform matrix or Color as they are immutable.
-        return new Geom3(this.polygons.ToArray(), this.transforms, this.Color, this.IsRetesselated, this.needsTransform);
+        return new Geom3(this.polygons.ToArray(), this.transforms, this.Color, this.IsRetesselated, this.needsTransform, this.needsMakeRobust);
     }
 
     /// <summary>Invert this geometry, transposing solid and empty space.</summary>
@@ -213,7 +213,7 @@ public class Geom3 : Geometry
         {
             newpolygons[i] = polygons[i].Invert();
         }
-        return new Geom3(newpolygons, this.transforms, this.Color);
+        return new Geom3(newpolygons, this.transforms, this.Color, this.IsRetesselated, this.needsTransform, this.needsMakeRobust);
     }
 
     /// <summary>Return the (min, max) BoundingBox of this geometry.</summary>
@@ -273,7 +273,7 @@ public class Geom3 : Geometry
     public Geom3 Transform(Mat4 matrix, bool makeRobust = false)
     {
         var transforms = matrix.Multiply(this.transforms);
-        return new Geom3(this.polygons.ToArray(), transforms, Color, needsTransform: true, needsMakeRobust: makeRobust);
+        return new Geom3(this.polygons.ToArray(), transforms, Color, needsTransform: true, needsMakeRobust: makeRobust, isRetesselated: IsRetesselated);
     }
 
     /**
@@ -293,7 +293,7 @@ public class Geom3 : Geometry
             var polygon = polygons[i];
             polygon.Validate();
         }
-        this.ValidateManifold();
+        if (!this.IsRetesselated) this.ValidateManifold();
 
         // check transforms
         this.transforms.Validate();
@@ -344,6 +344,7 @@ public class Geom3 : Geometry
             throw new ValidationException($"Non-manifold edge count: {nonManifold.Count}");
         }
     }
+
     private void CheckValid()
     {
         try
@@ -352,10 +353,7 @@ public class Geom3 : Geometry
         }
         catch (ValidationException e)
         {
-            var traceLines = Environment.StackTrace.Split('\n', '\r');
-            var last = traceLines[traceLines.Length - 1].Trim();
-            last = Regex.Replace(last, @":line ", ":") + ":1";
-            Console.WriteLine($"Validation Exception: ({e.Message}) {last}");
+            Log($"Validation Exception: {e.Message}");
         }
     }
 }

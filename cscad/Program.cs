@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿#define LATER
+using System.Text;
 using CSharpCAD;
 using static CSharpCAD.CSCAD;
 using Path = CSharpCAD.CSCAD.Path;
@@ -138,7 +139,7 @@ g = Subtract(g, Cuboid((5, 5, 50), center: (0, 0, 0)));
 g = Subtract(g, Rotate((45, 0, 0), Cuboid((5, 5, 50), center: (0, 0, 0))));
 g = Intersect(g, Translate((10, 10, 10), Torus(outerRadius: 30, innerRadius: 15)));
 g = Union(g, Cuboid(size: (10, 10, 10)), Translate((7, 7, 7), Cuboid((10, 10, 10))));
-Save("/tmp/test.stl", g);
+Save("/tmp/testw.stl", g);
 #endif
 
 var c1 = Cube(size: 8, center: (0, 0, 0));

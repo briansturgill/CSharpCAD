@@ -27,7 +27,7 @@ public static partial class CSCAD
 
         List<Poly3> polys = a.AllPolygons();
         polys.AddRange(b.AllPolygons());
-        var newpolys = Fix3DBooBoos("UnionGeom3", polys);
+        var newpolys = Fix3DBooBoos("Union", polys);
         return new Geom3(newpolys, new Mat4(), geometry1.Color, isRetesselated: true);
     }
 

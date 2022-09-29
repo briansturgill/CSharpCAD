@@ -29,7 +29,7 @@ public static partial class CSCAD
         a.Invert();
 
         var polys = a.AllPolygons();
-        var newpolys = Fix3DBooBoos("IntersectGeom3", polys);
+        var newpolys = Fix3DBooBoos("Intersect", polys);
         return new Geom3(newpolys, new Mat4(), geometry1.Color, isRetesselated: true);
     }
 }

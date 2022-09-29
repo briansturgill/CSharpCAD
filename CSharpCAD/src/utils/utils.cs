@@ -77,4 +77,33 @@ internal static partial class CSharpCADInternals
         }
         return (area / 2.0);
     }
+
+    internal const int LOG_INFO = 1;
+    internal static void Log(string message, int level = LOG_INFO)
+    {
+        var traceLines = Environment.StackTrace.Split('\n', '\r');
+        var first = 0;
+        for (var i = 0; i < traceLines.Length; i++)
+        {
+            traceLines[i] = traceLines[i].Trim();
+            traceLines[i] = Regex.Replace(traceLines[i], @":line ", ":") + ":1";
+            if (traceLines[i].Contains("at CSharpCAD.CSCAD.")) first = i;
+        }
+        var call = "";
+        if (first != 0)
+        {
+            call = traceLines[first];
+            var idx = call.IndexOf("(");
+            if (idx != -1) call = call.Remove(idx);
+            idx = call.LastIndexOf(".");
+            if (idx != -1) call = call.Remove(0, idx+1);
+            first++;
+        }
+
+        Console.WriteLine($"{message}: calling {call}");
+        for (int i = first; i < traceLines.Length; i++)
+        {
+            Console.WriteLine($"    {traceLines[i]}");
+        }
+    }
 }
