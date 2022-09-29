@@ -29,36 +29,13 @@ Save("/tmp/cone.stl", g);
 g=Cone(top: 0, bottom: 20, segments: 12);
 Save("/tmp/cone2.stl", g);
 
-var rr = RoundedRectangle((10, 10));
-
-watch.Reset();
-watch.Start();
-var sum = 0.0;
-for (var i = 0; i < loops; i++)
-{
-    var v = Cos(i);
-    sum += v;
-}
-watch.Stop();
-Console.WriteLine($"New RoundRect: {watch.ElapsedMilliseconds}");
-watch.Reset();
-watch.Start();
-sum = 0.0;
-for (var i = 0; i < loops; i++)
-{
-    var v = Math.Round(Cos(i), 15);
-    sum += v;
-}
-watch.Stop();
-Console.WriteLine($"Offset RoundRect: {watch.ElapsedMilliseconds}");
-
 //g=ExtrudeRotate(Translate((20,20), Circle(10)), 32, 0, 270);
 //g=ExtrudeRotate(Translate((20,20), Circle(10)), 32, 0, 360);
 g=ExtrudeRotate(Semicircle(10, segments: 64, center:(0, 10), startAngle:270, endAngle: 90), 64, 0, 360);
 View(g);
 //g.Validate();
 //g = ExtrudeRotate(Semiellipse((7, 5), center:(0, 5), startAngle: 270, endAngle:90), 32, 0, 360);
-//g = Torus();
+g = Torus();
 Save("/tmp/torus.stl", g);
 try
 {

@@ -502,10 +502,7 @@ public class Geom2 : Geometry
                 {
                     if (GlobalParams.DebugOutput && (depth % 2) == 1)
                     {
-                        var traceLines = Environment.StackTrace.Split('\n', '\r');
-                        var last = traceLines[traceLines.Length - 1].Trim();
-                        last = Regex.Replace(last, @":line ", ":") + ":1";
-                        Console.WriteLine($"Correcting winding at depth: {depth} {last}");
+                        //Log($"Correcting winding at depth: {depth}");
                     }
                     Array.Reverse(n.Points);
                 }

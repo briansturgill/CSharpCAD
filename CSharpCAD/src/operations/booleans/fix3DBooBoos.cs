@@ -9,6 +9,7 @@ public static partial class CSCAD
 
         var ret = _polys.ToArray();
 
+        tag = ""; // Suppresses logging.
         MakePointsStable(tag, ret);
 
         return ret;

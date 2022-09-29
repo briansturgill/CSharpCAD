@@ -23,7 +23,7 @@ public static partial class CSCAD
             }
             totalPoints += plen;
         }
-        if (pointsCorrected > 0 && GlobalParams.DebugOutput)
+        if (pointsCorrected > 0 && GlobalParams.DebugOutput && tag != "")
         {
             Log($"MakePointsStable({tag}): {pointsCorrected} of {totalPoints} points corrected");
         }
