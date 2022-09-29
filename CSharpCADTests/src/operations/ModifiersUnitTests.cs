@@ -26,7 +26,6 @@ public class ModifiersTests
         Assert.IsTrue(Helpers.CompareListOfLists(pts, exp));
         Assert.AreEqual(pts, exp);
 
-#if LATER
         // apply snap only
         result = generalize(geometry1, snap: true);
         Assert.DoesNotThrow(() => result.Validate());
@@ -34,7 +33,6 @@ public class ModifiersTests
         if(WriteTests) TestData.Make("GeneralizeExp2", pts);
         exp = UnitTestData.GeneralizeExp2;
         Assert.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
-#endif
 
         // apply triangulate only
         result = generalize(geometry1, triangulate: true);
@@ -61,36 +59,6 @@ public class ModifiersTests
         if(WriteTests) TestData.Make("GeneralizeExp5", pts);
         exp = UnitTestData.GeneralizeExp5;
         Assert.IsTrue(Helpers.CompareListOfLists(pts, exp));
-    }
-
-    [Test]
-    public void TestGeneralizeNewCaseFixedErrorCBSFound()
-    {
-        var geometry1 = Union(
-          Cuboid(size: (8, 8, 8), center: (0, 0, 0)),
-          Cuboid(center: (0, 0, 4))
-        );
-        geometry1.ApplyTransforms();
-        var result = generalize(geometry1, repair: true);
-        // LATER JSCAD Assert.DoesNotThrow(() => result.Validate());
-        var pts = result.ToPoints();
-        var exp = new List<List<Vec3>> {
-          new List<Vec3>{new Vec3(-4, -4, -4), new Vec3(-4, -4, 4), new Vec3(-4, 4, 4), new Vec3(-4, 4, -4)},
-          new List<Vec3>{new Vec3(-4, -4, -4), new Vec3(-4, 4, -4), new Vec3(4, 4, -4), new Vec3(4, -4, -4)},
-          new List<Vec3>{new Vec3(-4, -4, -4), new Vec3(4, -4, -4), new Vec3(4, -4, 4), new Vec3(-4, -4, 4)},
-          new List<Vec3>{new Vec3(-4, 4, -4), new Vec3(-4, 4, 4), new Vec3(4, 4, 4), new Vec3(4, 4, -4)},
-          new List<Vec3>{new Vec3(4, -4, -4), new Vec3(4, 4, -4), new Vec3(4, 4, 4), new Vec3(4, -4, 4)},
-          new List<Vec3>{new Vec3(-4, -1, 4), new Vec3(-4, -4, 4), new Vec3(4, -4, 4), new Vec3(4, -1, 4)},
-          new List<Vec3>{new Vec3(-4, 4, 4), new Vec3(-4, 1, 4), new Vec3(4, 1, 4), new Vec3(4, 4, 4)},
-          new List<Vec3>{new Vec3(1, 1, 4), new Vec3(1, -1, 4), new Vec3(4, -1, 4), new Vec3(4, 1, 4)},
-          new List<Vec3>{new Vec3(1, 1, 4), new Vec3(1, 1, 5), new Vec3(1, -1, 5), new Vec3(1, -1, 4)},
-          new List<Vec3>{new Vec3(-4, 1, 4), new Vec3(-4, -1, 4), new Vec3(-1, -1, 4), new Vec3(-1, 1, 4)},
-          new List<Vec3>{new Vec3(-1, -1, 4), new Vec3(-1, -1, 5), new Vec3(-1, 1, 5), new Vec3(-1, 1, 4)},
-          new List<Vec3>{new Vec3(-1, -1, 5), new Vec3(1, -1, 5), new Vec3(1, 1, 5), new Vec3(-1, 1, 5)},
-          new List<Vec3>{new Vec3(1, -1, 4), new Vec3(1, -1, 5), new Vec3(-1, -1, 5), new Vec3(-1, -1, 4)},
-          new List<Vec3>{new Vec3(-1, 1, 4), new Vec3(-1, 1, 5), new Vec3(1, 1, 5), new Vec3(1, 1, 4)}
-        };
-        //LATER JSCAD - waiting for a fix.IsTrue(Helpers.CompareListOfListsNEVec3(pts, exp));
     }
 
     [Test]

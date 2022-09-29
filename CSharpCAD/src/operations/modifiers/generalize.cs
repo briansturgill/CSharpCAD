@@ -11,12 +11,7 @@ internal static partial class Modifiers
         // snap the given geometry if requested
         if (snap)
         {
-            // LATER
             polygons = snapPolygons(epsilon, polygons);
-            //var save = GlobalParams.DebugOutput;
-            //GlobalParams.DebugOutput = true;
-            //MakePointsStable("Snap", polygons);
-            //GlobalParams.DebugOutput = save;
         }
 
         // simplify the polygons if requested
@@ -31,14 +26,6 @@ internal static partial class Modifiers
         {
             polygons = InsertTjunctions(polygons);
             polygons = TriangulatePolygons(epsilon, polygons);
-        }
-
-        // repair the polygons (possibly triangles) if requested
-        if (repair)
-        {
-            // fix T junctions
-            polygons = repairTjunctions(epsilon, polygons);
-            // TODO fill holes
         }
 
         return new Geom3(polygons, geometry.Transforms, geometry.Color);
