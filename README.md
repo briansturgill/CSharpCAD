@@ -2,7 +2,7 @@
 
 # THIS PACKAGE IS NO LONGER BEING DEVELOPED.
 
-See {Piecad](https://github.com/briansturgill/piecad) for a replacement, written as a python wrapper on https://github.com/elalish/manifold).
+See [Piecad](https://github.com/briansturgill/piecad) for a replacement, written as a python wrapper on https://github.com/elalish/manifold).
 
 This source code is left in case someone else wants to try to make a C#-based 3D package.  The union/difference/intersect in this package is faulty,
 which is the reason **Piecad* uses **Manifold3d**. I was also not happy with the overhead of C# syntax. (It is not as compact to write a 3D model in C# as in Python.)
