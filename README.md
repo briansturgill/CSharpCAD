@@ -1,12 +1,17 @@
 # CSharpCAD
 
+# THIS PACKAGE IS NO LONGER BEING DEVELOPED.
+
+See {Piecad](https://github.com/briansturgill/piecad) for a replacement, written as a python wrapper on https://github.com/elalish/manifold).
+
+This source code is left in case someone else wants to try to make a C#-based 3D package.  The union/difference/intersect in this package is faulty,
+which is the reason **Piecad* uses **Manifold3d**. I was also not happy with the overhead of C# syntax. (It is not as compact to write a 3D model in C# as in Python.)
+
+# Original README follows
+
 This is a port (with a somewhat different API) from [JSCAD](https://github.com/jscad/OpenJSCAD.org) to C#.
 
 We are deeply grateful to the JSCAD team for creating such a great package.
-
-# THIS PACKAGE IS NOT READY FOR USE YET!!!
-
-(But it is getting closer.)
 
 If you want to poke around, I suggest you start in the CADViewer and Python
 directories. The READMEs there will help you quickly get started.
